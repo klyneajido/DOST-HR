@@ -19,7 +19,6 @@
 		<![endif]-->
 </head>
 <body>
-
 <div class="main-wrapper">
 
 <div class="header">
