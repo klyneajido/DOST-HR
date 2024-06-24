@@ -4,9 +4,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>Dleohr - Bootstrap Admin HTML Template</title>
+	<title>HRMO Admin</title>
 
-	<link rel="shortcut icon" href="assets/img/favicon.png">
+	<link rel="shortcut icon" href="assets/img/dost_logo.png">
 
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
@@ -48,9 +48,6 @@
 					</span>
 				</a>
 			</div>
-
-
-
 
 			<div class="top-nav-search">
 				<form>
@@ -174,7 +171,7 @@
 							<img src="assets/img/profile.jpg" alt="">
 							<span class="status online"></span>
 						</span>
-						<span>Kavin Hansen</span>
+						<span>Admin</span>
 					</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
@@ -227,7 +224,7 @@
 						</div>
 						<ul>
 							<li class="active">
-								<a href="index.html"><img src="assets/img/home.svg" alt="sidebar_img">
+								<a href="index.php"><img src="assets/img/home.svg" alt="sidebar_img">
 									<span>Dashboard</span></a>
 							</li>
 							<li>
@@ -289,7 +286,7 @@
 					<div class="col-xl-6 col-sm-12 col-12">
 						<div class="breadcrumb-path ">
 							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.html"><img src="assets/img/dash.png"
+								<li class="breadcrumb-item"><a href="index.php"><img src="assets/img/dash.png"
 											class="mr-3" alt="breadcrumb" />Home</a>
 								</li>
 								<li class="breadcrumb-item active">Dashboard</li>
