@@ -1884,6 +1884,10 @@ button.bg-danger:hover {
 	max-height: 45px;
 	width: auto;
 }
+.header .header-left .logo-text{
+	font-size: 25px;
+	font-weight: bold;
+}
 .header-left .logo.logo-small {
 	display: none;
 }
