@@ -1,3 +1,17 @@
+<?php
+// Start session
+	session_start();
+
+	// Check if user is logged in
+	if (!isset($_SESSION['username'])) {
+		// Redirect to login page if not logged in
+		header('Location: login.php');
+		exit();
+	}
+
+	// Get user's name from session
+	$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -171,14 +185,14 @@
 							<img src="assets/img/profile.jpg" alt="">
 							<span class="status online"></span>
 						</span>
-						<span>Admin</span>
+						<span><?php echo htmlspecialchars($user_name); ?></span>
 					</a>
 					<div class="dropdown-menu">
 						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
-						<a class="dropdown-item" href="login.html"><i data-feather="log-out" class="mr-1"></i>
+						<a class="dropdown-item" href="login.php"><i data-feather="log-out" class="mr-1"></i>
 							Logout</a>
 					</div>
 				</li>
@@ -190,7 +204,7 @@
 				<div class="dropdown-menu dropdown-menu-right ">
 					<a class="dropdown-item" href="profile.html">My Profile</a>
 					<a class="dropdown-item" href="settings.html">Settings</a>
-					<a class="dropdown-item" href="login.html">Logout</a>
+					<a class="dropdown-item" href="login.php">Logout</a>
 				</div>
 			</div>
 
