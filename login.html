@@ -38,15 +38,25 @@
               <div class="login-right-wrap">
                 <h1>Login</h1>
                 <p class="account-subtitle">Access to our dashboard</p>
-                <form action="index.html">
+
+                <!-- FORM -->
+                <form
+                  action="login.php"
+                  method="POST"
+                  onsubmit="return validation()"
+                >
                   <div class="form-group">
-                    <label class="form-control-label">Email Address</label>
-                    <input type="email" class="form-control" />
+                    <label class="form-control-label">Username</label>
+                    <input class="form-control" name="username" />
                   </div>
                   <div class="form-group">
                     <label class="form-control-label">Password</label>
                     <div class="pass-group">
-                      <input type="password" class="form-control pass-input" />
+                      <input
+                        type="password"
+                        class="form-control pass-input"
+                        name="password"
+                      />
                       <span class="fas fa-eye toggle-password"></span>
                     </div>
                   </div>
@@ -96,13 +106,32 @@
                     <a href="register.html">Register</a>
                   </div>
                 </form>
+                <!-- END FORM -->
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+    <script>
+      function validation() {
+        var id = document.f1.user.value;
+        var ps = document.f1.pass.value;
+        if (id.length == "" && ps.length == "") {
+          alert("User Name and Password fields are empty");
+          return false;
+        } else {
+          if (id.length == "") {
+            alert("User Name is empty");
+            return false;
+          }
+          if (ps.length == "") {
+            alert("Password field is empty");
+            return false;
+          }
+        }
+      }
+    </script>
     <script src="assets/js/jquery-3.5.1.min.js"></script>
 
     <script src="assets/js/popper.min.js"></script>
