@@ -16,10 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Validate username and password (You can add more validation as per your requirement)
-
-    // Query to check if the username and password exist in the database
-    $query = "SELECT * FROM admins WHERE username = ? AND password = ?";
+    // Query to retrieve hashed password from the database
+    $query = "SELECT * FROM admins WHERE username = ?";
 
     // Prepare the query
     $stmt = $mysqli->prepare($query);
@@ -28,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         die('MySQL prepare error: ' . htmlspecialchars($mysqli->error));
     }
 
-    // Bind parameters
-    $stmt->bind_param('ss', $username, $password);
+    // Bind parameter
+    $stmt->bind_param('s', $username);
 
     // Execute the query
     if (!$stmt->execute()) {
@@ -41,12 +39,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if the user exists in the database
     if ($result->num_rows == 1) {
-        // Authentication successful, set session variables
-        $_SESSION['username'] = $username;
+        // Fetch the row
+        $row = $result->fetch_assoc();
+        
+        // Verify the password
+        if (password_verify($password, $row['password'])) {
+            // Authentication successful, set session variables
+            $_SESSION['username'] = $username;
 
-        // Redirect to dashboard or any other page
-        header('Location: index.php');
-        exit();
+            // Redirect to dashboard or any other page
+            header('Location: index.php');
+            exit();
+        } else {
+            // Authentication failed, redirect back to login page with error message
+            header('Location: login.html?error=login_failed');
+            exit();
+        }
     } else {
         // Authentication failed, redirect back to login page with error message
         header('Location: login.html?error=login_failed');
@@ -57,4 +65,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: login.html');
     exit();
 }
-
+?>
