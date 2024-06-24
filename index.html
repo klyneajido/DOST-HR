@@ -26,7 +26,7 @@
 
 <div class="header-left">
 <a href="index.html" class="logo">
-<img src="assets/img/logo.png" alt="Logo">
+<img src="assets/img/dost_logo.png" alt="Logo">
 </a>
 <a href="index.html" class="logo logo-small">
 <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
