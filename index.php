@@ -30,7 +30,7 @@
 				<a href="index.php" class="logo">
 					<img src="assets/img/dost_logo.png" alt="Logo">
 				</a>
-				<a class="logo logo-text" href="index.php">
+				<a class="logo logo-text align-middle" href="index.php">
 					<p>
 						HRMO
 					</p>
