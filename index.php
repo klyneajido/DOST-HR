@@ -26,7 +26,7 @@ if ($result) {
 
 $sql = "SELECT COUNT(*) as count FROM job";
 $result = $mysqli->query($sql);
-$employee_count = 0;
+$job_count = 0;
 
 if ($result) {
     $row = $result->fetch_assoc();
@@ -35,6 +35,11 @@ if ($result) {
     echo "Error retrieving job count: " . $mysqli->error;
 }
 
+
+
+?>
+<?php
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
