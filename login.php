@@ -8,7 +8,7 @@ $passwordError = '';
 $loginError = '';
 
 // Include database connection file
-include_once 'PHP_Connections/db_connection.php'; // Ensure this file exists and contains the MySQL connection code
+include_once 'PHP_Connections\db_connection.php'; // Ensure this file exists and contains the MySQL connection code
 
 // Debugging: Check if $mysqli is set
 if (!isset($mysqli)) {
