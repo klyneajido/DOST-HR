@@ -111,12 +111,21 @@ if ($result) {
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
-						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
+						<a class="dropdown-item" href="PHP_Connections/logout.php" id="logout-link"><i data-feather="log-out" class="mr-1" ></i>
 							Logout</a>
 					</div>
 				</li>
 
 			</ul>
+			<script>
+				document.getElementById('logout-link').addEventListener('click', function(event) {
+					event.preventDefault();
+					var confirmLogout = confirm("Are you sure you want to logout?");
+					if (confirmLogout) {
+						window.location.href = this.href;
+					}
+				});
+			</script>
 			<div class="dropdown mobile-user-menu show">
 				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 				<div class="dropdown-menu dropdown-menu-right ">
@@ -238,7 +247,7 @@ if ($result) {
 								</div>
 								<div class="form-group">
 									<label for="department_id">Department</label>
-									<input type="number" name="department_id" id="department_id" class="form-control" value="<?php echo isset($_POST['department_id']) ? htmlspecialchars($_POST['department_id']) : ''; ?>">
+									<input type="number" name="department" id="department" class="form-control" value="<?php echo isset($_POST['department_id']) ? htmlspecialchars($_POST['department_id']) : ''; ?>">
 								</div>
 								<div class="form-group">
 									<label for="monthly_salary">Monthly Salary</label>
