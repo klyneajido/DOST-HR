@@ -450,6 +450,7 @@ a.action_label4 svg {
 .page-name h4 img {
     width: 50px;
     border-radius: 50%;
+	
 }
 .img-table {
 	width: 45px;
@@ -4575,18 +4576,18 @@ a.delete {
     font-size: 12px;
 }
 .board1.fill1 {
-    background: #2F47BA;
+    background: #1A2130;
 }
 .card.board1.fill2 {
-    background: #FF8D07;
+    background: #83B4FF;
 }
 
 .card.board1.fill3 {
-    background: #DC3545;
+    background: #5A72A0;
 }
 
 .card.board1.fill4 {
-    background: #00882E;
+    background: #088395;
 }
 .card_widget_img {
     background: #fff;
@@ -6941,3 +6942,7 @@ label.logo-upload {
 		font-size: 12px;
 	}
 }
+
+
+
+
