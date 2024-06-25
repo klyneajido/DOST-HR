@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-
+include_once 'PHP_Connections\db_connection.php';
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
 	// Redirect to login page if not logged in
@@ -12,6 +12,29 @@ if (!isset($_SESSION['username'])) {
 // Get user's name from session
 $user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
+
+$sql = "SELECT COUNT(*) as count FROM employee";
+$result = $mysqli->query($sql);
+$employee_count = 0;
+
+if ($result) {
+    $row = $result->fetch_assoc();
+    $employee_count = $row['count'];
+} else {
+    echo "Error retrieving employee count: " . $mysqli->error;
+}
+
+$sql = "SELECT COUNT(*) as count FROM job";
+$result = $mysqli->query($sql);
+$employee_count = 0;
+
+if ($result) {
+    $row = $result->fetch_assoc();
+    $job_count = $row['count'];
+} else {
+    echo "Error retrieving job count: " . $mysqli->error;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,8 +115,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 
 			</ul>
 			<div class="dropdown mobile-user-menu show">
-				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
-						class="fa fa-ellipsis-v"></i></a>
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 				<div class="dropdown-menu dropdown-menu-right ">
 					<a class="dropdown-item" href="profile.php">My Profile</a>
 					<a class="dropdown-item" href="settings.html">Settings</a>
@@ -114,8 +136,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 									<span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
 									<a href="javascript:void(0)" class="d-block menu-style text-white">
 										<div class="user-avatar d-inline-block mr-3">
-											<img src="assets/img/profiles/avatar-18.jpg" alt="user avatar"
-												class="rounded-circle" width="50">
+											<img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="user avatar" class="rounded-circle" width="50">
 										</div>
 									</a>
 								</div>
@@ -151,20 +172,17 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 									<span>Leave</span></a>
 							</li>
 							<li>
-								<a href="review.html"><img src="assets/img/review.svg"
-										alt="sidebar_img"><span>Review</span></a>
+								<a href="review.html"><img src="assets/img/review.svg" alt="sidebar_img"><span>Review</span></a>
 							</li>
 							<li>
-								<a href="report.html"><img src="assets/img/report.svg"
-										alt="sidebar_img"><span>Report</span></a>
+								<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
 							</li>
 							<li>
 								<a href="manage.html"><img src="assets/img/manage.svg" alt="sidebar_img">
 									<span>Manage</span></a>
 							</li>
 							<li>
-								<a href="settings.html"><img src="assets/img/settings.svg"
-										alt="sidebar_img"><span>Settings</span></a>
+								<a href="settings.html"><img src="assets/img/settings.svg" alt="sidebar_img"><span>Settings</span></a>
 							</li>
 							<li>
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
@@ -186,15 +204,14 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 		<div class="page-wrapper">
 			<div class="content container-fluid">
 				<div class="page-name 	mb-4">
-					<h4 class="m-0"><img src="assets/img/profile.jpg" class="mr-1" alt="profile" /> Welcome Admin</h4>
+					<h4 class="m-0"><img src="<?php echo htmlspecialchars($profile_image_path); ?>" class="mr-1" alt="profile" /> Welcome <span><?php echo htmlspecialchars($user_name); ?></span></h4>
 					<label id="current-date"></label>
 				</div>
 				<div class="row mb-4">
 					<div class="col-xl-6 col-sm-12 col-12">
 						<div class="breadcrumb-path ">
 							<ul class="breadcrumb">
-								<li class="breadcrumb-item"><a href="index.php"><img src="assets/img/dash.png"
-											class="mr-3" alt="breadcrumb" />Home</a>
+								<li class="breadcrumb-item"><a href="index.php"><img src="assets/img/dash.png" class="mr-3" alt="breadcrumb" />Home</a>
 								</li>
 								<li class="breadcrumb-item active">Dashboard</li>
 							</ul>
@@ -219,7 +236,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 							<div class="card-body">
 								<div class="card_widget_header">
 									<label>Employees</label>
-									<h4>700</h4>
+									<h4><?php echo $employee_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash1.png" alt="card-img" />
@@ -232,7 +249,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 							<div class="card-body">
 								<div class="card_widget_header">
 									<label>Job Listed</label>
-									<h4>30</h4>
+									<h4><?php echo $employee_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash2.png" alt="card-img" />
@@ -281,26 +298,22 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 									<div class="row">
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:#071952;"></i> Cashier</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#071952;"></i> Cashier</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:#088395"></i> ITSM</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#088395"></i> ITSM</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:#37B7C3"></i> RSTL</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#37B7C3"></i> RSTL</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:black"></i> Supply Office</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:black"></i> Supply Office</p>
 											</div>
 										</div>
 									</div>
@@ -492,8 +505,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 							<div class="card-header ">
 								<h4 class="card-title-dash">Your Upcoming Leave</h4>
 								<div class="dropdown">
-									<button class="btn btn-action " type="button" id="roomsBtn" data-toggle="dropdown"
-										aria-haspopup="true" aria-expanded="false">
+									<button class="btn btn-action " type="button" id="roomsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
 									<div class="dropdown-menu" aria-labelledby="roomsBtn">
@@ -533,8 +545,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 									<label>Tue, 31 Dec 2021</label>
 								</div>
 								<div class="leave-viewall">
-									<a href="leave.html">View all <img src="assets/img/right-arrow.png" class="ml-2"
-											alt="arrow" /></a>
+									<a href="leave.html">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
 								</div>
 							</div>
 						</div>
