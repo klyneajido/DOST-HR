@@ -1,37 +1,67 @@
 <?php
-// Start session
 session_start();
 
-// Include database connection file
-include_once 'db_connection.php'; // Ensure this file exists and contains the MySQL connection code
+$username = "";
+$password = "";
+$errors = array();
+$input_data = array();
 
-// Debugging: Check if $mysqli is set
-if (!isset($mysqli)) {
-    die('Database connection failed. $mysqli is not set.');
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Sanitize input data
+    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $password = isset($_POST['password']) ? $_POST['password'] : '';
+
+    // Validate username
+    if (empty($username)) {
+        $errors['username'] = "Username cannot be empty.";
+    }
+
+    // Validate password
+    if (empty($password)) {
+        $errors['password'] = "Password cannot be empty.";
+    }
+
+    // If no errors, proceed to authenticate user
+    if (empty($errors)) {
+        $response = validateUser($username, $password);
+
+        if ($response['success']) {
+            $_SESSION['username'] = $username;
+            $_SESSION['name'] = $response['name']; // Store user's name in the session
+            header('Location: ../index.php');
+            exit();
+        } else {
+            $errors['general'] = $response['error'];
+        }
+    }
+
+    // Store errors and input data in query string for login.php
+    $query_string = http_build_query(
+        array(
+            'errors' => $errors,
+            'input_data' => array('username' => $username) // Only username needs to be repopulated
+        )
+    );
+    header("Location: ../login.php?" . $query_string);
+    exit();
 }
 
-// Check if form is submitted
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get username and password from form POST data
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+function validateUser($username, $password) {
+    include_once 'db_connection.php';
 
     // Query to retrieve hashed password from the database
     $query = "SELECT * FROM admins WHERE username = ?";
-
-    // Prepare the query
     $stmt = $mysqli->prepare($query);
 
     if ($stmt === false) {
-        die('MySQL prepare error: ' . htmlspecialchars($mysqli->error));
+        return array('success' => false, 'error' => 'MySQL prepare error: ' . htmlspecialchars($mysqli->error));
     }
 
-    // Bind parameter
     $stmt->bind_param('s', $username);
 
     // Execute the query
     if (!$stmt->execute()) {
-        die('Execute failed: ' . htmlspecialchars($stmt->error));
+        return array('success' => false, 'error' => 'Execute failed: ' . htmlspecialchars($stmt->error));
     }
 
     // Store the result
@@ -39,31 +69,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Check if the user exists in the database
     if ($result->num_rows == 1) {
-        // Fetch the row
         $row = $result->fetch_assoc();
-        
+
         // Verify the password
         if (password_verify($password, $row['password'])) {
-            // Authentication successful, set session variables
-            $_SESSION['username'] = $username;
-            $_SESSION['name'] = $row['name']; // Store user's name in the session
-
-            // Redirect to dashboard or any other page
-            header('Location: ../index.php');
-            exit();
+            // Return success and user's name
+            return array('success' => true, 'name' => $row['name']);
         } else {
-            // Authentication failed, redirect back to login page with error message
-            header('Location: ../login.php?error=login_failed');
-            exit();
+            // Return login error
+            return array('success' => false, 'error' => 'Invalid username or password.');
         }
     } else {
-        // Authentication failed, redirect back to login page with error message
-        header('Location: ../login.php?error=login_failed');
-        exit();
+        // Return login error
+        return array('success' => false, 'error' => 'Invalid username or password.');
     }
-} else {
-    // Redirect back to login page if accessed directly
-    header('Location: ../login.php');
-    exit();
 }
-?>
+

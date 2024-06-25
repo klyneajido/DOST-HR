@@ -103,10 +103,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mysqli->close();
     } else {
         // Store errors and input data in query string for register.php
-        $query_string = http_build_query(array(
-            'errors' => $errors,
-            'input_data' => $input_data
-        ));
+        $query_string = http_build_query(
+            array(
+                'errors' => $errors,
+                'input_data' => $input_data
+            )
+        );
         header("Location: ../register.php?" . $query_string);
         exit();
     }

@@ -1,16 +1,16 @@
 <?php
 // Start session
-	session_start();
+session_start();
 
-	// Check if user is logged in
-	if (!isset($_SESSION['username'])) {
-		// Redirect to login page if not logged in
-		header('Location: login.php');
-		exit();
-	}
+// Check if user is logged in
+if (!isset($_SESSION['username'])) {
+	// Redirect to login page if not logged in
+	header('Location: login.php');
+	exit();
+}
 
-	// Get user's name from session
-	$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+// Get user's name from session
+$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,12 +40,12 @@
 
 			<div class="header-left">
 				<div class="logo-wrapper">
-				<a href="index.php" class="logo">
-					<img src="assets/img/DOST.png" alt="Logo">
-				</a>
+					<a href="index.php" class="logo">
+						<img src="assets/img/DOST.png" alt="Logo">
+					</a>
 
 				</div>
-				
+
 				<a href="index.php" class="logo logo-small">
 					<img src="assets/img/dost_logo.png" alt="Logo" width="30" height="30">
 				</a>
@@ -280,26 +280,26 @@
 									<div class="row">
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle" style="color:black"></i> Cashier</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle"
+														style="color:black"></i> Cashier</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle" style="color:black"></i> ITSM</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle"
+														style="color:black"></i> ITSM</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle" style="color:black"></i> RSTL</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle"
+														style="color:black"></i> RSTL</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle" style="color:black"></i> Supply Office</p>
+												<p class="mb-2 text-truncate"><i class="fas fa-circle"
+														style="color:black"></i> Supply Office</p>
 											</div>
 										</div>
 									</div>
@@ -557,7 +557,7 @@
 	<script src="assets/plugins/apexchart/chart-data.js"></script>
 	<script src="assets/js/script.js"></script>
 
-	
+
 </body>
 
 </html>

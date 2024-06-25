@@ -659,8 +659,7 @@ button.bg-danger:hover {
 	color: #757575 !important;
 }
 .btn-primary {
-	background-color: #00882E;
-    border: 1px solid #00882E;
+	background-color: #088395;
 	padding: 15px 0;
 }
 .btn-primary:hover,
@@ -668,8 +667,7 @@ button.bg-danger:hover {
 .btn-primary.active,
 .btn-primary:active,
 .open > .dropdown-toggle.btn-primary {
-	background-color: #036123;
-	border: 1px solid #036123;
+	background-color: #071952;
 }
 .btn-primary.active.focus,
 .btn-primary.active:focus,
@@ -3545,7 +3543,7 @@ table.table-inbox tbody tr.checked {
 	min-height: 100vh;
 }
 .logo-dark{
-	max-width: 180px;
+	max-width: 120px;
 	margin: auto;
     display: block;
 }
