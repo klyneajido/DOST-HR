@@ -3832,60 +3832,6 @@ table.table-inbox tbody tr.checked {
 .login-wrapper .loginbox .login-right .dont-have a:hover {
   text-decoration: underline;
 }
-.social-login {
-  text-align: center;
-}
-.social-login > span {
-  color: #757575;
-  margin-right: 8px;
-}
-.social-login > a {
-  background-color: #ccc;
-  border-radius: 4px;
-  color: #fff;
-  display: inline-block;
-  font-size: 18px;
-  height: 32px;
-  line-height: 32px;
-  margin-right: 6px;
-  text-align: center;
-  width: 32px;
-}
-.social-login > a:last-child {
-  margin-right: 0;
-}
-.social-login > a.facebook {
-  background-color: #4b75bd;
-}
-.social-login > a.google {
-  background-color: #fe5240;
-}
-.login-or {
-  color: #757575;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  position: relative;
-}
-.or-line {
-  background-color: #e5e5e5;
-  height: 1px;
-  margin-bottom: 0;
-  margin-top: 0;
-  display: block;
-}
-.span-or {
-  background-color: #fff;
-  display: block;
-  left: 50%;
-  margin-left: -20px;
-  position: absolute;
-  text-align: center;
-  text-transform: uppercase;
-  top: 0;
-  width: 42px;
-}
 .lock-user {
   margin-bottom: 20px;
   text-align: center;
@@ -3894,17 +3840,22 @@ table.table-inbox tbody tr.checked {
   margin-bottom: 15px;
   width: 100px;
 }
-.toggle-password {
-  position: absolute;
-  right: 17px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #757575;
-  cursor: pointer;
+
+.pass-input {
+    padding-right: 30px; /* Add space for the icon */
+    width: 100%; /* Ensure the input width is 100% */
+    box-sizing: border-box; /* Include padding in width */
 }
-.toggle-password.fa-eye {
-  margin-right: 1px;
+
+.pass-group .fa-eye, .pass-group .fa-eye-slash {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    padding: 5px; 
 }
+
 .pass-group {
   position: relative;
 }

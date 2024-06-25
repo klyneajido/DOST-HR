@@ -55,7 +55,8 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
               <form action="PHP_Connections/loginConn.php" method="POST">
                 <div class="form-group">
                   <label class="form-control-label">Username</label>
-                  <input class="form-control <?php echo !empty($username_error) ? 'is-invalid' : ''; ?>" name="username" value="<?php echo $username; ?>" />
+                  <input class="form-control <?php echo !empty($username_error) ? 'is-invalid' : ''; ?>" name="username"
+                    value="<?php echo $username; ?>" autocomplete="off" />
                   <?php if (!empty($username_error)): ?>
                     <small class="form-text text-danger"><?php echo $username_error; ?></small>
                   <?php endif; ?>
@@ -63,7 +64,10 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
                 <div class="form-group">
                   <label class="form-control-label">Password</label>
                   <div class="pass-group">
-                    <input type="password" class="form-control pass-input <?php echo !empty($password_error) ? 'is-invalid' : ''; ?>" name="password" />
+                    <input type="password"
+                      class="form-control pass-input <?php echo !empty($password_error) ? 'is-invalid' : ''; ?>"
+                      name="password" autocomplete="off" id="password" />
+                    <i id="icon" class="far fa-eye"></i>
                     <?php if (!empty($password_error)): ?>
                       <small class="form-text text-danger"><?php echo $password_error; ?></small>
                     <?php endif; ?>
@@ -102,6 +106,23 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
       </div>
     </div>
   </div>
+  <script>
+    var myInput = document.getElementById('password'),
+      myIcon = document.getElementById('icon');
+
+    myIcon.onclick = function () {
+      if (myIcon.classList.contains('fa-eye')) {
+        myIcon.classList.toggle('fa-eye-slash');
+        myIcon.classList.toggle('fa-eye');
+        myInput.setAttribute('type', 'text');
+      } else {
+        myInput.setAttribute('type', 'password');
+        myIcon.classList.toggle('fa-eye');
+        myIcon.classList.toggle('fa-eye-slash');
+      }
+    };
+
+  </script>
   <script src="assets/js/jquery-3.5.1.min.js"></script>
 
   <script src="assets/js/popper.min.js"></script>
