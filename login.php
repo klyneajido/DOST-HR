@@ -8,7 +8,7 @@ $passwordError = '';
 $loginError = '';
 
 // Include database connection file
-include_once 'db_connection.php'; // Ensure this file exists and contains the MySQL connection code
+include_once 'PHP_Connections/db_connection.php'; // Ensure this file exists and contains the MySQL connection code
 
 // Debugging: Check if $mysqli is set
 if (!isset($mysqli)) {
@@ -120,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <!-- FORM -->
                 <form
-                  action=""
+                  action="PHP_Connections/loginConn.php"
                   method="POST"
                   onsubmit="return validation()"
                 >
