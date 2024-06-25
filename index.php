@@ -254,7 +254,7 @@ if ($result) {
 							<div class="card-body">
 								<div class="card_widget_header">
 									<label>Job Listed</label>
-									<h4><?php echo $employee_count; ?></h4>
+									<h4><?php echo $job_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash2.png" alt="card-img" />

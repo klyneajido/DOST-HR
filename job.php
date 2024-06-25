@@ -24,17 +24,48 @@ if ($result) {
 	echo "Error retrieving employee count: " . $mysqli->error;
 }
 
-$sql = "SELECT COUNT(*) as count FROM job";
+$sql = "SELECT department_id, name FROM department";
 $result = $mysqli->query($sql);
-$employee_count = 0;
 
+$departments = [];
 if ($result) {
-	$row = $result->fetch_assoc();
-	$job_count = $row['count'];
+    while ($row = $result->fetch_assoc()) {
+        $departments[] = $row;
+    }
 } else {
-	echo "Error retrieving job count: " . $mysqli->error;
+    echo "Error retrieving departments: " . $mysqli->error;
 }
+$errors = [];
 
+// Check if form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $position = $_POST['position'];
+    $department_id = $_POST['department_id'];
+    $monthly_salary = $_POST['monthlysalary'];
+    $status = $_POST['status'];
+
+    // Validate form data
+    if (empty($position)) {
+        $errors['position'] = "Position is required";
+    }
+    if (empty($department_id)) {
+        $errors['department_id'] = "Department is required";
+    }
+    if (empty($monthly_salary)) {
+        $errors['monthlysalary'] = "Monthly Salary is required";
+    }
+    if (empty($status)) {
+        $errors['status'] = "Status is required";
+    }
+
+    // If no errors, proceed with data insertion
+    if (empty($errors)) {
+        // Send data to insert_job.php
+        header('Location: insertJob.php?'.http_build_query($_POST));
+        exit();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -227,36 +258,46 @@ if ($result) {
 								</div>
 							<?php endif; ?>
 
-							<form method="POST" action="">
-								<div class="form-group">
-									<label for="position">Position</label>
-									<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="description">Description</label>
-									<textarea name="description" id="description" class="form-control"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
-								</div>
-								<div class="form-group">
-									<label for="department_id">Department</label>
-									<input type="number" name="department_id" id="department_id" class="form-control" value="<?php echo isset($_POST['department_id']) ? htmlspecialchars($_POST['department_id']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="monthly_salary">Monthly Salary</label>
-									<input type="number" step="0.01" name="monthly_salary" id="monthly_salary" class="form-control" value="<?php echo isset($_POST['monthly_salary']) ? htmlspecialchars($_POST['monthly_salary']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="daily_salary">Daily Salary</label>
-									<input type="number" step="0.01" name="daily_salary" id="daily_salary" class="form-control" value="<?php echo isset($_POST['daily_salary']) ? htmlspecialchars($_POST['daily_salary']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="status">Status</label>
-									<select name="status" id="status" class="form-control">
-										<option value="permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'permanent') ? 'selected' : ''; ?>>Permanent</option>
-										<option value="cos" <?php echo (isset($_POST['status']) && $_POST['status'] == 'cos') ? 'selected' : ''; ?>>COS</option>
-									</select>
-								</div>
-								<button type="submit" class="btn btn-primary w-25">Add Job</button>
-							</form>
+							<form method="POST" action="job.php" onsubmit="return confirm('Are you sure you want to add this job?');">
+                                <div class="form-group">
+                                    <label for="position">Position</label>
+                                    <input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
+                                    <?php if (isset($errors['position'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['position']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="department_id">Department</label>
+                                    <select name="department_id" id="department_id" class="form-control">
+                                        <?php foreach ($departments as $department) : ?>
+                                            <option value="<?php echo htmlspecialchars($department['department_id']); ?>" <?php echo (isset($_POST['department_id']) && $_POST['department_id'] == $department['department_id']) ? 'selected' : ''; ?>>
+                                                <?php echo htmlspecialchars($department['name']); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <?php if (isset($errors['department_id'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['department_id']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="monthly_salary">Monthly Salary</label>
+                                    <input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo isset($_POST['monthlysalary']) ? htmlspecialchars($_POST['monthlysalary']) : ''; ?>">
+                                    <?php if (isset($errors['monthlysalary'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['monthlysalary']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'permanent') ? 'selected' : ''; ?>>Permanent</option>
+                                        <option value="cos" <?php echo (isset($_POST['status']) && $_POST['status'] == 'cos') ? 'selected' : ''; ?>>COS</option>
+                                    </select>
+                                    <?php if (isset($errors['status'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['status']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-25">Add Job</button>
+                            </form>
 						</div>
 					</div>
 				</div>
