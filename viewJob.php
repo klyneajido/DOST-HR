@@ -10,59 +10,50 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Get user's name from session
-$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-$sql = "SELECT COUNT(*) as count FROM employee";
+
+$sql = "SELECT j.job_id, j.position, d.name as department_name, j.monthlysalary, j.status 
+        FROM job j
+        INNER JOIN department d ON j.department_id = d.department_id";
 $result = $mysqli->query($sql);
-$employee_count = 0;
 
-if ($result) {
-	$row = $result->fetch_assoc();
-	$employee_count = $row['count'];
+// Initialize an empty array to store jobs data
+$jobs = [];
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $jobs[] = $row;
+    }
 } else {
-	echo "Error retrieving employee count: " . $mysqli->error;
+    $errors['database'] = "No jobs found.";
 }
-
-$sql = "SELECT COUNT(*) as count FROM job";
-$result = $mysqli->query($sql);
-$employee_count = 0;
-
-if ($result) {
-	$row = $result->fetch_assoc();
-	$job_count = $row['count'];
-} else {
-	echo "Error retrieving job count: " . $mysqli->error;
-}
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-	<title>DOST-HRMO</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+	<title>HRMO Admin</title>
 
-	<link rel="shortcut icon" href="assets/img/dost_logo.png" />
+	<link rel="shortcut icon" href="assets/img/dost_logo.png">
 
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
-	<link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
-
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
-	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
-
-	<link rel="stylesheet" href="assets/css/style.css" />
-	<!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.min.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
+	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<!-- [if lt IE 9]>
+			<script src="assets/js/html5shiv.min.js"></script>
+			<script src="assets/js/respond.min.js"></script>
+		<![endif] -->
 </head>
 
 <body>
 	<div class="main-wrapper">
+
 		<div class="header">
 
 			<div class="header-left">
@@ -111,21 +102,12 @@ if ($result) {
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
-						<a class="dropdown-item" href="PHP_Connections/logout.php" id="logout-link"><i data-feather="log-out" class="mr-1" ></i>
+						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
 							Logout</a>
 					</div>
 				</li>
 
 			</ul>
-			<script>
-				document.getElementById('logout-link').addEventListener('click', function(event) {
-					event.preventDefault();
-					var confirmLogout = confirm("Are you sure you want to logout?");
-					if (confirmLogout) {
-						window.location.href = this.href;
-					}
-				});
-			</script>
 			<div class="dropdown mobile-user-menu show">
 				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 				<div class="dropdown-menu dropdown-menu-right ">
@@ -171,13 +153,13 @@ if ($result) {
 								<a href="employee.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Employees</span></a>
 							</li>
-							<li>
-								<a href="company.html"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-										Applicants</span></a>
-							</li>
 							<li class="active">
-								<a href="job.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Jobs</span></a>
+								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
+										View Job</span></a>
+							</li>
+							<li>
+								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
+									<span>Add Jobs</span></a>
 							</li>
 							<li>
 								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
@@ -211,72 +193,38 @@ if ($result) {
 				</div>
 			</div>
 		</div>
+        <div class="page-wrapper">
+            <div class="container">
+        <h2 class="mb-4 py-3">Job Listings</h2>
+        
+        <?php if (!empty($errors)) : ?>
+            <div class="alert alert-danger">
+                <?php foreach ($errors as $error) : ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
-		<div class="page-wrapper">
-			<div class="row">
-				<div class="col-md-9 mx-auto my-5">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Add New Job</h4>
-						</div>
-						<div class="card-body">
-							<?php if (!empty($success)) : ?>
-								<div class="alert alert-success">
-									<?php echo htmlspecialchars($success); ?>
-								</div>
-							<?php endif; ?>
+        <div class="row">
+            <?php foreach ($jobs as $job) : ?>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body shadow p-3">
+                            <h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
+                            <p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
+                            <p class="card-text"><strong>Monthly Salary:</strong> <?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+                            <p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
+                            <a href="#" class="btn btn-primary w-25">Edit</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+        </div>
 
-							<?php if (!empty($errors)) : ?>
-								<div class="alert alert-danger">
-									<ul>
-										<?php foreach ($errors as $error) : ?>
-											<li><?php echo htmlspecialchars($error); ?></li>
-										<?php endforeach; ?>
-									</ul>
-								</div>
-							<?php endif; ?>
-
-							<form method="POST" action="">
-								<div class="form-group">
-									<label for="position">Position</label>
-									<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="description">Description</label>
-									<textarea name="description" id="description" class="form-control"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
-								</div>
-								<div class="form-group">
-									<label for="department_id">Department</label>
-									<input type="number" name="department" id="department" class="form-control" value="<?php echo isset($_POST['department_id']) ? htmlspecialchars($_POST['department_id']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="monthly_salary">Monthly Salary</label>
-									<input type="number" step="0.01" name="monthly_salary" id="monthly_salary" class="form-control" value="<?php echo isset($_POST['monthly_salary']) ? htmlspecialchars($_POST['monthly_salary']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="daily_salary">Daily Salary</label>
-									<input type="number" step="0.01" name="daily_salary" id="daily_salary" class="form-control" value="<?php echo isset($_POST['daily_salary']) ? htmlspecialchars($_POST['daily_salary']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="status">Status</label>
-									<select name="status" id="status" class="form-control">
-										<option value="permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'permanent') ? 'selected' : ''; ?>>Permanent</option>
-										<option value="cos" <?php echo (isset($_POST['status']) && $_POST['status'] == 'cos') ? 'selected' : ''; ?>>COS</option>
-									</select>
-								</div>
-								<button type="submit" class="btn btn-primary w-25">Add Job</button>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			</form>
-		</div>
 	</div>
-	<script>
-
-	</script>
+	<script src="assets/js/date.js"></script>
 	<script src="assets/js/jquery-3.6.0.min.js"></script>
 
 	<script src="assets/js/popper.min.js"></script>
@@ -286,9 +234,12 @@ if ($result) {
 
 	<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-	<script src="assets/plugins/select2/js/select2.min.js"></script>
-
+	<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+	<script src="assets/plugins/apexchart/chart-data.js"></script>
 	<script src="assets/js/script.js"></script>
+<!-- sdsadasdasd -->
+
 </body>
 
 </html>
+

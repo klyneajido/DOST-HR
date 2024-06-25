@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Get user's name from session
-$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
 $sql = "SELECT COUNT(*) as count FROM employee";
@@ -26,7 +26,7 @@ if ($result) {
 
 $sql = "SELECT COUNT(*) as count FROM job";
 $result = $mysqli->query($sql);
-$employee_count = 0;
+$job_count = 0;
 
 if ($result) {
     $row = $result->fetch_assoc();
@@ -35,6 +35,11 @@ if ($result) {
     echo "Error retrieving job count: " . $mysqli->error;
 }
 
+
+
+?>
+<?php
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -160,12 +165,12 @@ if ($result) {
 										Employees</span></a>
 							</li>
 							<li>
-								<a href="company.html"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-										Applicants</span></a>
+								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
+										View Job</span></a>
 							</li>
 							<li>
-								<a href="job.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Jobs</span></a>
+								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
+									<span>Add Jobs</span></a>
 							</li>
 							<li>
 								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
@@ -249,7 +254,7 @@ if ($result) {
 							<div class="card-body">
 								<div class="card_widget_header">
 									<label>Job Listed</label>
-									<h4><?php echo $employee_count; ?></h4>
+									<h4><?php echo $job_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash2.png" alt="card-img" />
