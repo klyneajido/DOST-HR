@@ -68,8 +68,9 @@ $(document).ready(function () {
   columnChart.render();
   var pieCtx = document.getElementById("invoice_chart"),
     pieConfig = {
-      colors: ["#7638ff", "#ff737b", "#fda600", "#1ec1b0"],
-      series: [55, 40, 20, 10],
+      colors: ["#071952", "#088395", "#37B7C3", "#EBF4F6"],
+      series: [25, 40, 20, 10],
+
       chart: { fontFamily: "Poppins, sans-serif", height: 350, type: "donut" },
       labels: ["Paid", "Unpaid", "Overdue", "Draft"],
       legend: { show: false },

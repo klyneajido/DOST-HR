@@ -278,22 +278,28 @@
 								<div id="invoice_chart"></div>
 								<div class="text-center text-muted">
 									<div class="row">
-										<div class="col-4">
-											<div class="mt-4">
+										<div class="col-3">
+											<div class="mt-3">
 												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle text-primary mr-1"></i> Business</p>
+														class="fas fa-circle" style="color:black"></i> Cashier</p>
 											</div>
 										</div>
-										<div class="col-4">
-											<div class="mt-4">
+										<div class="col-3">
+											<div class="mt-3">
 												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle text-success mr-1"></i> Testing</p>
+														class="fas fa-circle" style="color:black"></i> ITSM</p>
 											</div>
 										</div>
-										<div class="col-4">
-											<div class="mt-4">
+										<div class="col-3">
+											<div class="mt-3">
 												<p class="mb-2 text-truncate"><i
-														class="fas fa-circle text-danger mr-1"></i> Development</p>
+														class="fas fa-circle" style="color:black"></i> RSTL</p>
+											</div>
+										</div>
+										<div class="col-3">
+											<div class="mt-3">
+												<p class="mb-2 text-truncate"><i
+														class="fas fa-circle" style="color:black"></i> Supply Office</p>
 											</div>
 										</div>
 									</div>
