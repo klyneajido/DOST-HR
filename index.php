@@ -108,7 +108,7 @@ if ($result) {
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
-						<a class="dropdown-item" href="logout.php"><i data-feather="log-out" class="mr-1"></i>
+						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
 							Logout</a>
 					</div>
 				</li>
@@ -119,7 +119,7 @@ if ($result) {
 				<div class="dropdown-menu dropdown-menu-right ">
 					<a class="dropdown-item" href="profile.php">My Profile</a>
 					<a class="dropdown-item" href="settings.html">Settings</a>
-					<a class="dropdown-item" href="login.php">Logout</a>
+					<a class="dropdown-item" href="PHP_Connections/logout.php">Logout</a>
 				</div>
 			</div>
 
@@ -161,21 +161,26 @@ if ($result) {
 							</li>
 							<li>
 								<a href="company.html"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-										Company</span></a>
+										Applicants</span></a>
 							</li>
 							<li>
 								<a href="calendar.html"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Calendar</span></a>
+									<span>Jobs</span></a>
 							</li>
 							<li>
 								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
-									<span>Leave</span></a>
+									<span>Departments</span></a>
 							</li>
 							<li>
 								<a href="review.html"><img src="assets/img/review.svg" alt="sidebar_img"><span>Review</span></a>
 							</li>
 							<li>
+<<<<<<< HEAD
 								<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
+=======
+								<a href="report.html"><img src="assets/img/report.svg"
+										alt="sidebar_img"><span>Announcements</span></a>
+>>>>>>> 2717014036aa079038c823b2786137d3c95b6859
 							</li>
 							<li>
 								<a href="manage.html"><img src="assets/img/manage.svg" alt="sidebar_img">
@@ -191,7 +196,7 @@ if ($result) {
 						</ul>
 						<ul class="logout">
 							<li>
-								<a href="profile.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
+								<a href="PHP_Connections/logout.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
 										out</span></a>
 							</li>
 						</ul>
