@@ -205,7 +205,7 @@ if ($result) {
 
     <div class="page-wrapper">
       <form action="post">
-		<input type="text">
+		
 	  </form>
     </div>
   </div>
