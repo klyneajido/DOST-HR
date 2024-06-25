@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Get user's name from session
-$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
 $sql = "SELECT COUNT(*) as count FROM employee";
@@ -90,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <script src="assets/js/html5shiv.min.js"></script>
       <script src="assets/js/respond.min.js"></script>
     <![endif]-->
+	
 </head>
 
 <body>
@@ -194,12 +195,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										Employees</span></a>
 							</li>
 							<li>
-								<a href="company.html"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-										Applicants</span></a>
+								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
+										View Job</span></a>
 							</li>
 							<li class="active">
-								<a href="job.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Jobs</span></a>
+								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
+									<span>Add Jobs</span></a>
 							</li>
 							<li>
 								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
@@ -233,7 +234,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 				</div>
 			</div>
 		</div>
-
 		<div class="page-wrapper">
 			<div class="row">
 				<div class="col-md-9 mx-auto my-5">
@@ -258,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								</div>
 							<?php endif; ?>
 
-							<form method="POST" action="job.php" onsubmit="return confirm('Are you sure you want to add this job?');">
+							<form method="POST" action="addJob.php" onsubmit="return confirm('Are you sure you want to add this job?');">
                                 <div class="form-group">
                                     <label for="position">Position</label>
                                     <input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">

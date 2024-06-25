@@ -10,7 +10,7 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Get user's name from session
-$user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
 $sql = "SELECT COUNT(*) as count FROM employee";
@@ -165,12 +165,12 @@ if ($result) {
 										Employees</span></a>
 							</li>
 							<li>
-								<a href="company.html"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-										Applicants</span></a>
+								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
+										View Job</span></a>
 							</li>
 							<li>
-								<a href="job.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Jobs</span></a>
+								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
+									<span>Add Jobs</span></a>
 							</li>
 							<li>
 								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
