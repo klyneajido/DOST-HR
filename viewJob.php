@@ -214,7 +214,7 @@ if ($result && $result->num_rows > 0) {
                             <p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
                             <p class="card-text"><strong>Monthly Salary:</strong> <?php echo htmlspecialchars($job['monthlysalary']); ?></p>
                             <p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-                            <a href="#" class="btn btn-primary w-25">View Details</a>
+                            <a href="#" class="btn btn-primary w-25">Edit</a>
                         </div>
                     </div>
                 </div>
