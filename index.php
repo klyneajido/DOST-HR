@@ -80,7 +80,7 @@
 						<span><?php echo htmlspecialchars($user_name); ?></span>
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
+						<a class="dropdown-item" href="profile.php"><i data-feather="user" class="mr-1"></i>
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
@@ -94,7 +94,7 @@
 				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
 						class="fa fa-ellipsis-v"></i></a>
 				<div class="dropdown-menu dropdown-menu-right ">
-					<a class="dropdown-item" href="profile.html">My Profile</a>
+					<a class="dropdown-item" href="profile.php">My Profile</a>
 					<a class="dropdown-item" href="settings.html">Settings</a>
 					<a class="dropdown-item" href="login.php">Logout</a>
 				</div>
@@ -166,13 +166,13 @@
 										alt="sidebar_img"><span>Settings</span></a>
 							</li>
 							<li>
-								<a href="profile.html"><img src="assets/img/profile.svg" alt="sidebar_img">
+								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
 							</li>
 						</ul>
 						<ul class="logout">
 							<li>
-								<a href="profile.html"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
+								<a href="profile.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
 										out</span></a>
 							</li>
 						</ul>
