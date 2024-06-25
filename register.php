@@ -2,7 +2,7 @@
 $errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include_once 'db_connection.php';
+    include_once 'PHP_Connections/db_connection.php';
 
     // Validate and sanitize input
     $name = isset($_POST['name']) ? trim($_POST['name']) : '';

@@ -6,9 +6,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=0"
     />
-    <title>Dleohr - Bootstrap Admin HTML Template</title>
+    <title>DOST-HRMO</title>
 
-    <link rel="shortcut icon" href="assets/img/favicon.png" />
+    <link rel="shortcut icon" href="assets/img/dost_logo.png" />
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 
@@ -42,7 +42,7 @@
 
                 <!-- FORM -->
                 <form
-                  action="login.php"
+                  action="PHP_Connections/loginConn.php"
                   method="POST"
                   onsubmit="return validation()"
                 >
@@ -53,7 +53,7 @@
                     // PHP logic to handle login submission
                     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         // Include database connection file
-                        include_once 'db_connection.php'; // Ensure this file exists and contains the MySQL connection code
+                        include_once 'PHP_Connections/db_connection.php'; // Ensure this file exists and contains the MySQL connection code
 
                         // Debugging: Check if $mysqli is set
                         if (!isset($mysqli)) {

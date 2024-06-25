@@ -26,12 +26,11 @@
 
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-
 	<link rel="stylesheet" href="assets/css/style.css">
-	<!--[if lt IE 9]>
+	<!-- [if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
-		<![endif]-->
+		<![endif] -->
 </head>
 
 <body>
@@ -42,13 +41,9 @@
 			<div class="header-left">
 				<div class="logo-wrapper">
 				<a href="index.php" class="logo">
-					<img src="assets/img/dost_logo.png" alt="Logo">
+					<img src="assets/img/DOST.png" alt="Logo">
 				</a>
-				<a class="logo logo-text align-middle" href="index.php">
-					<p>
-						HRMO
-					</p>
-				</a>
+
 				</div>
 				
 				<a href="index.php" class="logo logo-small">
@@ -191,7 +186,7 @@
 			<div class="content container-fluid">
 				<div class="page-name 	mb-4">
 					<h4 class="m-0"><img src="assets/img/profile.jpg" class="mr-1" alt="profile" /> Welcome Admin</h4>
-					<label>Sun, 29 Nov 2019</label>
+					<label id="current-date"></label>
 				</div>
 				<div class="row mb-4">
 					<div class="col-xl-6 col-sm-12 col-12">
@@ -542,8 +537,7 @@
 		</div>
 
 	</div>
-
-
+	<script src="assets/js/date.js"></script>
 	<script src="assets/js/jquery-3.6.0.min.js"></script>
 
 	<script src="assets/js/popper.min.js"></script>
@@ -555,8 +549,9 @@
 
 	<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
 	<script src="assets/plugins/apexchart/chart-data.js"></script>
-
 	<script src="assets/js/script.js"></script>
+
+	
 </body>
 
 </html>
