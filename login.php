@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+// Check if user is already logged in
+if (isset($_SESSION['username'])) {
+  header('Location: index.php');
+  exit();
+}
 $errors = isset($_GET['errors']) ? $_GET['errors'] : array();
 $input_data = isset($_GET['input_data']) ? $_GET['input_data'] : array();
 
@@ -6,6 +13,8 @@ $username = isset($input_data['username']) ? htmlspecialchars($input_data['usern
 
 $username_error = isset($errors['username']) ? $errors['username'] : '';
 $password_error = isset($errors['password']) ? $errors['password'] : '';
+
+
 ?>
 
 <!DOCTYPE html>

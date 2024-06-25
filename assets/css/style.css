@@ -3541,7 +3541,7 @@ table.table-inbox tbody tr.checked {
 	display: table;
 	height: 100vh;
 	min-height: 100vh;
-	background-color: #37B7C3;
+	/* background-color: #37B7C3; */
 }
 .logo-dark{
 	max-width: 120px;

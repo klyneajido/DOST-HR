@@ -80,11 +80,11 @@ $user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
 						<span><?php echo htmlspecialchars($user_name); ?></span>
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.php"><i data-feather="user" class="mr-1"></i>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
-						<a class="dropdown-item" href="login.php"><i data-feather="log-out" class="mr-1"></i>
+						<a class="dropdown-item" href="logout.php"><i data-feather="log-out" class="mr-1"></i>
 							Logout</a>
 					</div>
 				</li>
