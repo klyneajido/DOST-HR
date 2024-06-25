@@ -70,6 +70,7 @@ $(document).ready(function () {
     pieConfig = {
       colors: ["#071952", "#088395", "#37B7C3", "#EBF4F6"],
       series: [25, 40, 20, 10],
+
       chart: { fontFamily: "Poppins, sans-serif", height: 350, type: "donut" },
       labels: ["Paid", "Unpaid", "Overdue", "Draft"],
       legend: { show: false },
