@@ -11,6 +11,7 @@ if (!isset($_SESSION['username'])) {
 
 // Get user's name from session
 $user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
+$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +75,7 @@ $user_name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
 				<li class="nav-item dropdown has-arrow main-drop">
 					<a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
 						<span class="user-img">
-							<img src="assets/img/profile.jpg" alt="">
+							<img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Avatar" style="border-radius: 50%; width: 45px; height: 45px;">
 							<span class="status online"></span>
 						</span>
 						<span><?php echo htmlspecialchars($user_name); ?></span>

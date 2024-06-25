@@ -77,15 +77,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors['confirmPassword'] = "Passwords do not match.";
     }
 
+    // Handle profile picture upload (if submitted)
+    if (!empty($_FILES['profilePicture']['tmp_name'])) {
+        $file_name = $_FILES['profilePicture']['name'];
+        $file_tmp = $_FILES['profilePicture']['tmp_name'];
+        $file_size = $_FILES['profilePicture']['size'];
+        $file_type = $_FILES['profilePicture']['type'];
+        $file_error = $_FILES['profilePicture']['error'];
+
+        // Example directory where images are stored
+        $upload_dir = 'uploads/';
+
+        // Check file type and size, handle errors
+        // Example: Move uploaded file to destination directory
+        if (move_uploaded_file($file_tmp, $upload_dir . $file_name)) {
+            $profile_image_path = $upload_dir . $file_name;
+        } else {
+            $errors['general'] = "Failed to upload file.";
+        }
+    } else {
+        // Default profile image path
+        $profile_image_path = 'assets/img/profiles/default-profile.png';
+    }
+
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Insert new user into database
-        $sql = "INSERT INTO admins (name, username, password, email) VALUES (?, ?, ?, ?)";
+        // Insert new user into database with profile image path
+        $sql = "INSERT INTO admins (name, username, password, email, profile_image) VALUES (?, ?, ?, ?, ?)";
         $stmt = $mysqli->prepare($sql);
 
         if ($stmt) {
-            $stmt->bind_param("ssss", $name, $username, $hashed_password, $email);
+            $stmt->bind_param("sssss", $name, $username, $hashed_password, $email, $profile_image_path);
 
             if ($stmt->execute()) {
                 // Registration successful, redirect to login page
