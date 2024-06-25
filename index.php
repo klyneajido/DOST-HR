@@ -282,19 +282,19 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 										<div class="col-3">
 											<div class="mt-3">
 												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:black"></i> Cashier</p>
+														style="color:#071952;"></i> Cashier</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
 												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:black"></i> ITSM</p>
+														style="color:#088395"></i> ITSM</p>
 											</div>
 										</div>
 										<div class="col-3">
 											<div class="mt-3">
 												<p class="mb-2 text-truncate"><i class="fas fa-circle"
-														style="color:black"></i> RSTL</p>
+														style="color:#37B7C3"></i> RSTL</p>
 											</div>
 										</div>
 										<div class="col-3">

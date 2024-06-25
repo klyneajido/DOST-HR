@@ -3541,7 +3541,8 @@ table.table-inbox tbody tr.checked {
 	display: table;
 	height: 100vh;
 	min-height: 100vh;
-	/* background-color: #37B7C3; */
+	background: rgb(7,25,82);
+background: radial-gradient(circle, rgba(7,25,82,1) 0%, rgba(235,244,246,1) 0%, rgba(55,183,195,1) 100%);
 }
 .logo-dark{
 	max-width: 120px;
@@ -4571,18 +4572,18 @@ a.delete {
     font-size: 12px;
 }
 .board1.fill1 {
-    background: #1A2130;
+    background: #088395;
 }
 .card.board1.fill2 {
-    background: #83B4FF;
-}
-
-.card.board1.fill3 {
     background: #5A72A0;
 }
 
+.card.board1.fill3 {
+    background: #83B4FF;
+}
+
 .card.board1.fill4 {
-    background: #088395;
+    background: #071952;
 }
 .card_widget_img {
     background: #fff;
