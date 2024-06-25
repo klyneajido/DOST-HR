@@ -156,7 +156,7 @@ if ($result) {
 									<span>Dashboard</span></a>
 							</li>
 							<li>
-								<a href="employee.html"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+								<a href="employee.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Employees</span></a>
 							</li>
 							<li>
@@ -164,7 +164,7 @@ if ($result) {
 										Applicants</span></a>
 							</li>
 							<li>
-								<a href="calendar.html"><img src="assets/img/calendar.svg" alt="sidebar_img">
+								<a href="job.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
 									<span>Jobs</span></a>
 							</li>
 							<li>
@@ -175,12 +175,7 @@ if ($result) {
 								<a href="review.html"><img src="assets/img/review.svg" alt="sidebar_img"><span>Review</span></a>
 							</li>
 							<li>
-<<<<<<< HEAD
 								<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
-=======
-								<a href="report.html"><img src="assets/img/report.svg"
-										alt="sidebar_img"><span>Announcements</span></a>
->>>>>>> 2717014036aa079038c823b2786137d3c95b6859
 							</li>
 							<li>
 								<a href="manage.html"><img src="assets/img/manage.svg" alt="sidebar_img">
@@ -229,7 +224,7 @@ if ($result) {
 								<a class="btn-dash" href="#"> Admin Dashboard</a>
 							</div>
 							<div class="col-xl-6 col-sm-6 col-12">
-								<a class="btn-emp" href="index-employee.html">Employee Dashboard</a>
+								<a class="btn-emp" href="index-employee.php">Employee Dashboard</a>
 							</div>
 						</div>
 					</div>
