@@ -13,6 +13,22 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+
+$sql = "SELECT j.job_id, j.position, d.name as department_name, j.monthlysalary, j.status 
+        FROM job j
+        INNER JOIN department d ON j.department_id = d.department_id";
+$result = $mysqli->query($sql);
+
+// Initialize an empty array to store jobs data
+$jobs = [];
+
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $jobs[] = $row;
+    }
+} else {
+    $errors['database'] = "No jobs found.";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,11 +153,11 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 								<a href="employee.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Employees</span></a>
 							</li>
-							<li>
+							<li class="active">
 								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
 										View Job</span></a>
 							</li>
-							<li  class="active">
+							<li>
 								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
 									<span>Add Jobs</span></a>
 							</li>
@@ -177,6 +193,35 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 				</div>
 			</div>
 		</div>
+        <div class="page-wrapper">
+            <div class="container">
+        <h2 class="mb-4 py-3">Job Listings</h2>
+        
+        <?php if (!empty($errors)) : ?>
+            <div class="alert alert-danger">
+                <?php foreach ($errors as $error) : ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="row">
+            <?php foreach ($jobs as $job) : ?>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body shadow p-3">
+                            <h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
+                            <p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
+                            <p class="card-text"><strong>Monthly Salary:</strong> <?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+                            <p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
+                            <a href="#" class="btn btn-primary w-25">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+        </div>
 
 	</div>
 	<script src="assets/js/date.js"></script>
