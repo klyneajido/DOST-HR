@@ -13,7 +13,7 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-$sql = "SELECT COUNT(*) as count FROM employee";
+$sql = "SELECT COUNT(*) as count FROM applicant";
 $result = $mysqli->query($sql);
 $employee_count = 0;
 
@@ -21,7 +21,7 @@ if ($result) {
 	$row = $result->fetch_assoc();
 	$employee_count = $row['count'];
 } else {
-	echo "Error retrieving employee count: " . $mysqli->error;
+	echo "Error retrieving applicant count: " . $mysqli->error;
 }
 
 $sql = "SELECT department_id, name FROM department";
