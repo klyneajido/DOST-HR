@@ -204,40 +204,7 @@ if ($result && $result->num_rows > 0) {
 		</div>
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				<div class="breadcrumb-path mb-4 my-4">
-					<ul class="breadcrumb">
-						<li class="breadcrumb-item">
-							<a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
-						</li>
-						<li class="breadcrumb-item active">Applicants</li>
-					</ul>
-					<h3>Job Listing</h3>
-				</div>
-
-				<?php if (!empty($errors)) : ?>
-					<div class="alert alert-danger">
-						<?php foreach ($errors as $error) : ?>
-							<p><?php echo htmlspecialchars($error); ?></p>
-						<?php endforeach; ?>
-					</div>
-				<?php endif; ?>
-
-				<div class="row">
-					<?php foreach ($jobs as $job) : ?>
-						<div class="col-md-6">
-							<div class="card">
-								<div class="card-body shadow p-3">
-									<h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
-									<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-									<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
-									<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-									<a href="#" class="btn btn-primary py-3 w-25">Edit</a>
-									<a href="detailJob.php" class="btn btn-success py-3 w-25">Details</a>
-								</div>
-							</div>
-						</div>
-					<?php endforeach; ?>
-				</div>
+				
 			</div>
 		</div>
 
