@@ -250,7 +250,7 @@ if ($uploadStatus === 'failed') {
                         </li>
                         <li class="breadcrumb-item active">Documents</li>
                     </ul>
-                    <form action="uploadDocument.php" method="post" enctype="multipart/form-data">
+                    <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                         <div class="form-group d-flex flex-column">
                             <div class="custom-file mb-3 flex-grow-1">
                                 <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf,application/msword">
