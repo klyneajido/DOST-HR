@@ -5,9 +5,9 @@ include_once 'PHP_Connections\db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
-    header('Location: login.php');
-    exit();
+	// Redirect to login page if not logged in
+	header('Location: login.php');
+	exit();
 }
 
 // Get user's name from session
@@ -18,12 +18,12 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
 // Prepare SQL query
-$sql = "SELECT j.job_id, j.position, d.name as department_name, j.monthlysalary, j.status 
+$sql = "SELECT j.job_id, j.position, d.name as department_name, d.abbrev, j.monthlysalary, j.status 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
 
 if (!empty($search)) {
-    $sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%'";
+	$sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
 }
 
 $result = $mysqli->query($sql);
@@ -32,11 +32,11 @@ $result = $mysqli->query($sql);
 $jobs = [];
 
 if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $jobs[] = $row;
-    }
+	while ($row = $result->fetch_assoc()) {
+		$jobs[] = $row;
+	}
 } else {
-    $errors['database'] = "No jobs found.";
+	$errors['database'] = "No jobs found.";
 }
 ?>
 <!DOCTYPE html>
@@ -202,36 +202,44 @@ if ($result && $result->num_rows > 0) {
 				</div>
 			</div>
 		</div>
-        <div class="page-wrapper">
-            <div class="container">
-        <h2 class="mb-4 py-3">Job Listings</h2>
-        
-        <?php if (!empty($errors)) : ?>
-            <div class="alert alert-danger">
-                <?php foreach ($errors as $error) : ?>
-                    <p><?php echo htmlspecialchars($error); ?></p>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+		<div class="page-wrapper">
+			<div class="container-fluid">
+				<div class="breadcrumb-path mb-4 my-4">
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
+						</li>
+						<li class="breadcrumb-item active">Applicants</li>
+					</ul>
+					<h3>Job Listing</h3>
+				</div>
 
-        <div class="row">
-            <?php foreach ($jobs as $job) : ?>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body shadow p-3">
-                            <h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
-                            <p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-                            <p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
-                            <p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-                            <a href="#" class="btn btn-primary py-3 w-25">Edit</a>
-							<a href="#" class="btn btn-success py-3 w-25">Details</a>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-        </div>
+				<?php if (!empty($errors)) : ?>
+					<div class="alert alert-danger">
+						<?php foreach ($errors as $error) : ?>
+							<p><?php echo htmlspecialchars($error); ?></p>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+
+				<div class="row">
+					<?php foreach ($jobs as $job) : ?>
+						<div class="col-md-6">
+							<div class="card">
+								<div class="card-body shadow p-3">
+									<h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
+									<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
+									<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+									<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
+									<a href="#" class="btn btn-primary py-3 w-25">Edit</a>
+									<a href="#" class="btn btn-success py-3 w-25">Details</a>
+								</div>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		</div>
 
 	</div>
 	<script src="assets/js/date.js"></script>
@@ -247,9 +255,8 @@ if ($result && $result->num_rows > 0) {
 	<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
 	<script src="assets/plugins/apexchart/chart-data.js"></script>
 	<script src="assets/js/script.js"></script>
-<!-- sdsadasdasd -->
+	<!-- sdsadasdasd -->
 
 </body>
 
 </html>
-
