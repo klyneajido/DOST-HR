@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-include_once 'PHP_Connections\db_connection.php';
+include_once 'PHP_Connections/db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
@@ -14,6 +14,37 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+// Fetch uploaded documents
+$sql = "SELECT * FROM documents";
+$result = $mysqli->query($sql);
+
+// Array to store document cards HTML
+$documentCards = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $documentId = $row['doc_id']; // Assuming your table has an ID field
+        $documentName = $row['name'];
+        // Assuming documents are stored as PDFs or Word files
+        $icon = 'assets/img/pdf.png'; // Change this based on file type if needed
+
+        // Generate HTML for document card
+        $documentCard = '<div class="card m-2">
+                         
+                            <div class="card-body d-flex justify-content-between align-items-center">
+                                <h6 class="card-title mb-0">' . $documentName . '</h6>
+                                <a href="download_document.php?id=' . $documentId . '" class="btn btn-primary px-5">Download</a>
+                            </div>
+                        </div>';
+
+        // Append card HTML to array
+        $documentCards[] = $documentCard;
+    }
+}
+$uploadStatus = isset($_GET['upload_status']) ? $_GET['upload_status'] : '';
+if ($uploadStatus === 'failed') {
+    $errorMsg = isset($_GET['error']) ? urldecode($_GET['error']) : 'Unknown error occurred.';
+    echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +68,25 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 </head>
 
 <body>
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-wrapper">
 
         <div class="header">
@@ -83,13 +133,23 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                         <span><?php echo htmlspecialchars($user_name); ?></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
-                            Profile</a>
-                        <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
-                            Settings</a>
-                        <a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
-                            Logout</a>
-                    </div>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+					</div>
+					
+
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
+
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
+				</li>
                 </li>
 
             </ul>
@@ -154,15 +214,31 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                         </ul>
                         <ul class="logout">
                             <li>
-                                <a href="PHP_Connections/logout.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
-                                        out</span></a>
+                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+                                        
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#logoutModal').modal('show');
+            });
+
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                window.location.href = 'PHP_Connections/logout.php';
+            });
+        </script>
         <div class="page-wrapper">
+                        <?php
+            // Place the error message display here
+            if ($uploadStatus === 'failed') {
+                echo '<div class="alert alert-danger mt-3 mb-3" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
+            }
+            ?>
             <div class="container-fluid">
                 <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
@@ -171,15 +247,42 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                         </li>
                         <li class="breadcrumb-item active">Documents</li>
                     </ul>
-                    <div class="upload-file">
-                        <label class="form-label" for="customFile">
-                            <h3>Upload File</h3>
-                        </label>
-                        <input type="file" class="form-control" id="customFile" accept="application/pdf,application/msword">
+                    <form action="uploadDocument.php" method="post" enctype="multipart/form-data">
+                        <div class="form-group d-flex flex-column">
+                            <div class="custom-file mb-3 flex-grow-1">
+                                <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf,application/msword">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary flex-grow-1">Upload</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <h3 class="d-flex justify-content-center">Documents</h3>
+            <div class="display-documents">
+                <div class="container-fluid">
+                    <div class="row">
+                        <?php
+                        
+                        foreach ($documentCards as $card) {
+                            
+                            echo '<div class="col-md-12">' 
+                            
+                            . $card . '</div>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+                var fileName = document.getElementById("customFile").files[0].name;
+                var nextSibling = e.target.nextElementSibling;
+                nextSibling.innerText = fileName;
+            });
+        </script>
 
     </div>
     <script src="assets/js/date.js"></script>

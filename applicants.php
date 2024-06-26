@@ -37,6 +37,25 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 </head>
 
 <body>
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-wrapper">
 
         <div class="header">
@@ -83,13 +102,23 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                         <span><?php echo htmlspecialchars($user_name); ?></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
-                            Profile</a>
-                        <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
-                            Settings</a>
-                        <a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
-                            Logout</a>
-                    </div>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+					</div>
+					
+
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
+
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
+				</li>
                 </li>
 
             </ul>
@@ -154,14 +183,24 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                         </ul>
                         <ul class="logout">
                             <li>
-                                <a href="PHP_Connections/logout.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
-                                        out</span></a>
+                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+                                
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#logoutModal').modal('show');
+            });
+
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                window.location.href = 'PHP_Connections/logout.php';
+            });
+        </script>
         <div class="page-wrapper">
             <div class="container-fluid">
 
