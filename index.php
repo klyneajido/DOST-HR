@@ -18,10 +18,10 @@ $result = $mysqli->query($sql);
 $applicant_count = 0;
 
 if ($result) {
-    $row = $result->fetch_assoc();
-    $employee_count = $row['count'];
+	$row = $result->fetch_assoc();
+	$employee_count = $row['count'];
 } else {
-    echo "Error retrieving applicant count: " . $mysqli->error;
+	echo "Error retrieving applicant count: " . $mysqli->error;
 }
 
 $sql = "SELECT COUNT(*) as count FROM job";
@@ -29,17 +29,17 @@ $result = $mysqli->query($sql);
 $job_count = 0;
 
 if ($result) {
-    $row = $result->fetch_assoc();
-    $job_count = $row['count'];
+	$row = $result->fetch_assoc();
+	$job_count = $row['count'];
 } else {
-    echo "Error retrieving job count: " . $mysqli->error;
+	echo "Error retrieving job count: " . $mysqli->error;
 }
 
 
 
 ?>
 <?php
-	
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,13 +109,11 @@ if ($result) {
 						<span><?php echo htmlspecialchars($user_name); ?></span>
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
-							Profile</a>
-						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
-							Settings</a>
-						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
-							Logout</a>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
 					</div>
+c
 				</li>
 
 			</ul>
