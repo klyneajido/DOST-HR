@@ -17,9 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $file = $_FILES['document']['tmp_name'];
         $fileName = $_FILES['document']['name'];
 
+        // Read file content as binary
+        $fileContent = file_get_contents($file);
+
         // Prepare and execute SQL statement
-        $stmt = $mysqli->prepare("INSERT INTO documents (name) VALUES (?)");
-        $stmt->bind_param("s", $fileName);
+        $stmt = $mysqli->prepare("INSERT INTO documents (name, content) VALUES (?, ?)");
+        $stmt->bind_param("sb", $fileName, $fileContent);
 
         if ($stmt->execute()) {
             // File uploaded successfully
