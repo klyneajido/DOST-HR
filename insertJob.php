@@ -9,7 +9,8 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
-
+$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 // Initialize variables for error messages
 $errors = [];
 

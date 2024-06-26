@@ -85,7 +85,7 @@ if ($result && $result->num_rows > 0) {
 				</a>
 			</div>
 
-			<div class="top-nav-search">
+			<div class="top-nav-search" style="width:46.5%; margin-left:8%; min-width:20%;">
 				<form method="GET" action="viewJob.php">
 					<input type="text" class="form-control" name="search" placeholder="Search...">
 					<button class="btn" type="submit"><i class="fas fa-search"></i></button>
@@ -147,20 +147,22 @@ if ($result && $result->num_rows > 0) {
 							<div class="sidebar-input">
 								<div class="top-nav-search">
 									<form>
-										<input type="text" class="form-control" placeholder="Search here">
-										<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+										<form method="GET" action="viewJob.php">
+											<input type="text" class="form-control" name="search" placeholder="Search...">
+											<button class="btn" type="submit"><i class="fas fa-search"></i></button>
+										</form>
 									</form>
 								</div>
 							</div>
 						</div>
 						<ul>
-							<li>
-								<a href="index.php"><img src="assets/img/home.svg" alt="sidebar_img">
+						<li>
+							<a href="index.php"><img src="assets/img/home.svg" alt="sidebar_img">
 									<span>Dashboard</span></a>
 							</li>
 							<li>
-								<a href="employee.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
-										Employees</span></a>
+								<a href="applicants.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+										Applicants</span></a>
 							</li>
 							<li class="active">
 								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
@@ -171,22 +173,10 @@ if ($result && $result->num_rows > 0) {
 									<span>Add Jobs</span></a>
 							</li>
 							<li>
-								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
-									<span>Departments</span></a>
+								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+										Transparency</span></a>
 							</li>
-							<li>
-								<a href="review.html"><img src="assets/img/review.svg" alt="sidebar_img"><span>Review</span></a>
-							</li>
-							<li>
-								<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
-							</li>
-							<li>
-								<a href="manage.html"><img src="assets/img/manage.svg" alt="sidebar_img">
-									<span>Manage</span></a>
-							</li>
-							<li>
-								<a href="settings.html"><img src="assets/img/settings.svg" alt="sidebar_img"><span>Settings</span></a>
-							</li>
+
 							<li>
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
@@ -231,7 +221,7 @@ if ($result && $result->num_rows > 0) {
 									<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
 									<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
 									<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-									<a href="#" class="btn btn-primary py-3 w-25">Edit</a>
+									<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
 									<a href="detailJob.php" class="btn btn-success py-3 w-25">Details</a>
 								</div>
 							</div>

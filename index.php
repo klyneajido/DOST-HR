@@ -161,8 +161,8 @@ if ($result) {
 									<span>Dashboard</span></a>
 							</li>
 							<li>
-								<a href="employee.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
-										Employees</span></a>
+								<a href="applicants.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+										Applicants</span></a>
 							</li>
 							<li>
 								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
@@ -173,22 +173,10 @@ if ($result) {
 									<span>Add Jobs</span></a>
 							</li>
 							<li>
-								<a href="leave.html"><img src="assets/img/leave.svg" alt="sidebar_img">
-									<span>Departments</span></a>
+								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+										Transparency</span></a>
 							</li>
-							<li>
-								<a href="review.html"><img src="assets/img/review.svg" alt="sidebar_img"><span>Review</span></a>
-							</li>
-							<li>
-								<a href="report.html"><img src="assets/img/report.svg" alt="sidebar_img"><span>Report</span></a>
-							</li>
-							<li>
-								<a href="manage.html"><img src="assets/img/manage.svg" alt="sidebar_img">
-									<span>Manage</span></a>
-							</li>
-							<li>
-								<a href="settings.html"><img src="assets/img/settings.svg" alt="sidebar_img"><span>Settings</span></a>
-							</li>
+
 							<li>
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
@@ -229,7 +217,7 @@ if ($result) {
 								<a class="btn-dash" href="#"> Admin Dashboard</a>
 							</div>
 							<div class="col-xl-6 col-sm-6 col-12">
-								<a class="btn-emp" href="index-employee.php">Employee Dashboard</a>
+								<a class="btn-emp" href="index-applicants.php">Employee Dashboard</a>
 							</div>
 						</div>
 					</div>
