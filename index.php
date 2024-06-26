@@ -113,7 +113,36 @@ if ($result) {
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
 						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
 					</div>
-c
+					<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									Are you sure you want to logout?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
+
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
 				</li>
 
 			</ul>
