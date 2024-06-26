@@ -202,6 +202,7 @@ if ($result && $result->num_rows > 0) {
 						<li class="breadcrumb-item active">Applicants</li>
 					</ul>
 					<h3>Job Listing</h3>
+					
 				</div>
 
 				<?php if (!empty($errors)) : ?>
