@@ -87,7 +87,7 @@ if ($result) {
 				</a>
 			</div>
 
-			<div class="top-nav-search">
+			<div class="top-nav-search" style="width:46.5%; margin-left:8%; min-width:20%;">
 				<form>
 					<input type="text" class="form-control" placeholder="">
 					<button class="btn" type="submit"><i class="fas fa-search"></i></button>
