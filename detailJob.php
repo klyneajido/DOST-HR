@@ -169,10 +169,6 @@ if ($result && $result->num_rows > 0) {
 										View Job</span></a>
 							</li>
 							<li>
-								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Add Jobs</span></a>
-							</li>
-							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
 							</li>

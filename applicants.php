@@ -143,10 +143,6 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                                         View Job</span></a>
                             </li>
                             <li>
-                                <a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-                                    <span>Add Jobs</span></a>
-                            </li>
-                            <li>
                                 <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                         Transparency</span></a>
                             </li>

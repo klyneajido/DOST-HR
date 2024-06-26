@@ -194,13 +194,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								<a href="applicants.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Applicants</span></a>
 							</li>
-							<li>
+							<li class="active">
 								<a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
 										View Job</span></a>
-							</li>
-							<li class="active">
-								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Add Jobs</span></a>
 							</li>
 							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img">
@@ -301,6 +297,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									<?php endif; ?>
 								</div>
 								<button type="submit" class="btn btn-primary w-25">Add Job</button>
+								<a href="viewJob.php" class="btn btn-danger py-3 w-25">Cancel</a>
 							</form>
 						</div>
 					</div>

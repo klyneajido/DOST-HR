@@ -15,7 +15,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 
 $sql = "SELECT COUNT(*) as count FROM applicant";
 $result = $mysqli->query($sql);
-$employee_count = 0;
+$applicant_count = 0;
 
 if ($result) {
     $row = $result->fetch_assoc();
@@ -169,10 +169,6 @@ if ($result) {
 										View Job</span></a>
 							</li>
 							<li>
-								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Add Jobs</span></a>
-							</li>
-							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
 							</li>
@@ -201,7 +197,7 @@ if ($result) {
 					<label id="current-date"></label>
 				</div>
 				<div class="row mb-4">
-					<div class="col-xl-6 col-sm-12 col-12">
+					<div class="col-xl-12 col-sm-12 col-12">
 						<div class="breadcrumb-path ">
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a href="index.php"><img src="assets/img/dash.png" class="mr-3" alt="breadcrumb" />Home</a>
@@ -211,7 +207,7 @@ if ($result) {
 							<h3>Admin Dashboard</h3>
 						</div>
 					</div>
-					<div class="col-xl-6 col-sm-12 col-12">
+					<!-- <div class="col-xl-6 col-sm-12 col-12">
 						<div class="row">
 							<div class="col-xl-6 col-sm-6 col-12">
 								<a class="btn-dash" href="#"> Admin Dashboard</a>
@@ -220,7 +216,7 @@ if ($result) {
 								<a class="btn-emp" href="index-applicants.php">Employee Dashboard</a>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 				<div class="row mb-4">
 
@@ -228,8 +224,8 @@ if ($result) {
 						<div class="card board1 fill1 ">
 							<div class="card-body">
 								<div class="card_widget_header">
-									<label>Employees</label>
-									<h4><?php echo $employee_count; ?></h4>
+									<label>Announcements</label>
+									<h4>6</h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash1.png" alt="card-img" />
@@ -255,7 +251,7 @@ if ($result) {
 							<div class="card-body">
 								<div class="card_widget_header">
 									<label>Applicants</label>
-									<h4>9</h4>
+									<h4><?php echo $applicant_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash3.png" alt="card-img" />

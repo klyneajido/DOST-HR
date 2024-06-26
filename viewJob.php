@@ -169,10 +169,6 @@ if ($result && $result->num_rows > 0) {
 										View Job</span></a>
 							</li>
 							<li>
-								<a href="addJob.php"><img src="assets/img/calendar.svg" alt="sidebar_img">
-									<span>Add Jobs</span></a>
-							</li>
-							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
 							</li>
@@ -203,7 +199,7 @@ if ($result && $result->num_rows > 0) {
 					</ul>
 					<div class="d-flex gap-3">
 						<a href="addJob.php" class="mr-2"><img src="assets\img\plus-circle-fill.svg" alt="add"></a>
-						<h3>Job Listing</h3>
+						<h3>Add Job</h3>
 					</div>
 				</div>
 
