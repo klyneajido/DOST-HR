@@ -201,8 +201,10 @@ if ($result && $result->num_rows > 0) {
 						</li>
 						<li class="breadcrumb-item active">Applicants</li>
 					</ul>
-					<h3>Job Listing</h3>
-					
+					<div class="d-flex gap-3">
+						<a href="addJob.php" class="mr-2"><img src="assets\img\plus-circle-fill.svg" alt="add"></a>
+						<h3>Job Listing</h3>
+					</div>
 				</div>
 
 				<?php if (!empty($errors)) : ?>

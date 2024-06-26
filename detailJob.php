@@ -194,7 +194,27 @@ if ($result && $result->num_rows > 0) {
 		</div>
 		<div class="page-wrapper">
 			<div class="container-fluid">
+			
+				<div class="breadcrumb-path mb-4 my-4">
+					<ul class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="viewJob.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
+						</li>
+						<li class="breadcrumb-item active">Details</li>
+					</ul>
+					<h3>*Spec job post</h3>
+				</div>
+
+				<?php if (!empty($errors)) : ?>
+					<div class="alert alert-danger">
+						<?php foreach ($errors as $error) : ?>
+							<p><?php echo htmlspecialchars($error); ?></p>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+
 				
+			
 			</div>
 		</div>
 
