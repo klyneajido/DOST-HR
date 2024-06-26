@@ -42,20 +42,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         if ($stmt->execute()) {
             // Redirect back to the form page with a success message
-            header('Location: index.php?success=Job added successfully');
+            header('Location: viewJob.php?success=Job added successfully');
             exit();
         } else {
             $errors['database'] = "Error adding job: " . $mysqli->error;
             // Redirect back to the form page with error messages
-            header('Location: index.php?' . http_build_query($errors));
+            header('Location: viewJob.php?' . http_build_query($errors));
             exit();
         }
     } else {
         // Redirect back to the form page with error messages
-        header('Location: index.php?' . http_build_query($errors));
+        header('Location: viewJob.php?' . http_build_query($errors));
         exit();
     }
 } else {
-    header('Location: index.php');
+    header('Location: viewJob.php');
     exit();
 }

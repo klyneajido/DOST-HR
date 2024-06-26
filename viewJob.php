@@ -212,9 +212,10 @@ if ($result && $result->num_rows > 0) {
                         <div class="card-body shadow p-3">
                             <h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
                             <p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-                            <p class="card-text"><strong>Monthly Salary:</strong> <?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+                            <p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
                             <p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-                            <a href="#" class="btn btn-primary w-25">Edit</a>
+                            <a href="#" class="btn btn-primary py-3 w-25">Edit</a>
+							<a href="#" class="btn btn-success py-3 w-25">Details</a>
                         </div>
                     </div>
                 </div>

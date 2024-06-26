@@ -143,21 +143,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							Profile</a>
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
 							Settings</a>
-						<a class="dropdown-item" href="PHP_Connections/logout.php" id="logout-link"><i data-feather="log-out" class="mr-1" ></i>
+						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
 							Logout</a>
 					</div>
 				</li>
 
 			</ul>
-			<script>
-				document.getElementById('logout-link').addEventListener('click', function(event) {
-					event.preventDefault();
-					var confirmLogout = confirm("Are you sure you want to logout?");
-					if (confirmLogout) {
-						window.location.href = this.href;
-					}
-				});
-			</script>
 			<div class="dropdown mobile-user-menu show">
 				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
 				<div class="dropdown-menu dropdown-menu-right ">
@@ -267,38 +258,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								</div>
 							<?php endif; ?>
 
-<<<<<<< HEAD:job.php
-							<form method="POST" action="">
-								<div class="form-group">
-									<label for="position">Position</label>
-									<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="description">Description</label>
-									<textarea name="description" id="description" class="form-control"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
-								</div>
-								<div class="form-group">
-									<label for="department_id">Department</label>
-									<input type="number" name="department" id="department" class="form-control" value="<?php echo isset($_POST['department_id']) ? htmlspecialchars($_POST['department_id']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="monthly_salary">Monthly Salary</label>
-									<input type="number" step="0.01" name="monthly_salary" id="monthly_salary" class="form-control" value="<?php echo isset($_POST['monthly_salary']) ? htmlspecialchars($_POST['monthly_salary']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="daily_salary">Daily Salary</label>
-									<input type="number" step="0.01" name="daily_salary" id="daily_salary" class="form-control" value="<?php echo isset($_POST['daily_salary']) ? htmlspecialchars($_POST['daily_salary']) : ''; ?>">
-								</div>
-								<div class="form-group">
-									<label for="status">Status</label>
-									<select name="status" id="status" class="form-control">
-										<option value="permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'permanent') ? 'selected' : ''; ?>>Permanent</option>
-										<option value="cos" <?php echo (isset($_POST['status']) && $_POST['status'] == 'cos') ? 'selected' : ''; ?>>COS</option>
-									</select>
-								</div>
-								<button type="submit" class="btn btn-primary w-25">Add Job</button>
-							</form>
-=======
 							<form method="POST" action="addJob.php" onsubmit="return confirm('Are you sure you want to add this job?');">
                                 <div class="form-group">
                                     <label for="position">Position</label>
@@ -339,7 +298,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <button type="submit" class="btn btn-primary w-25">Add Job</button>
                             </form>
->>>>>>> 58f591563edc3f946192f118f56342e4b891e7c1:addJob.php
 						</div>
 					</div>
 				</div>
