@@ -1674,6 +1674,7 @@ button.bg-danger:hover {
 
 .section-header {
   margin-bottom: 1.875rem;
+  
 }
 .section-header .section-title {
   color: #333;
@@ -2866,7 +2867,7 @@ html.menu-opened body {
 .top-nav-search {
   float: left;
   margin-left: 15px;
-  width: 40%;
+  width: 50%;
 }
 .top-nav-search form {
   margin-top: 10px;
@@ -2875,6 +2876,7 @@ html.menu-opened body {
 }
 .top-nav-search .form-control {
   border: 1px solid rgba(137, 137, 137, 0.25);
+
   border-radius: 50px;
   color: #333;
   height: 40px;

@@ -289,8 +289,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
-                                        <option value="permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'permanent') ? 'selected' : ''; ?>>Permanent</option>
-                                        <option value="cos" <?php echo (isset($_POST['status']) && $_POST['status'] == 'cos') ? 'selected' : ''; ?>>COS</option>
+                                        <option value="Permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'Permanent') ? 'selected' : ''; ?>>Permanent</option>
+                                        <option value="COS" <?php echo (isset($_POST['status']) && $_POST['status'] == 'COS') ? 'selected' : ''; ?>>COS</option>
                                     </select>
                                     <?php if (isset($errors['status'])) : ?>
                                         <small class="text-danger"><?php echo $errors['status']; ?></small>

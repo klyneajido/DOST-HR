@@ -2,21 +2,30 @@
 // Start session
 session_start();
 include_once 'PHP_Connections\db_connection.php';
+
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-	// Redirect to login page if not logged in
-	header('Location: login.php');
-	exit();
+    // Redirect to login page if not logged in
+    header('Location: login.php');
+    exit();
 }
 
 // Get user's name from session
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+// Check if search query is set
+$search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
+// Prepare SQL query
 $sql = "SELECT j.job_id, j.position, d.name as department_name, j.monthlysalary, j.status 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
+
+if (!empty($search)) {
+    $sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%'";
+}
+
 $result = $mysqli->query($sql);
 
 // Initialize an empty array to store jobs data
@@ -77,8 +86,8 @@ if ($result && $result->num_rows > 0) {
 			</div>
 
 			<div class="top-nav-search">
-				<form>
-					<input type="text" class="form-control" placeholder="">
+				<form method="GET" action="viewJob.php">
+					<input type="text" class="form-control" name="search" placeholder="Search...">
 					<button class="btn" type="submit"><i class="fas fa-search"></i></button>
 				</form>
 			</div>
