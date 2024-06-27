@@ -142,9 +142,6 @@ if ($result) {
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
 						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
 					</div>
-					
-
-
 				</li>
 
 
