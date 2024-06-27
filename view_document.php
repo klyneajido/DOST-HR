@@ -58,7 +58,6 @@ if ($result->num_rows > 0) {
     <style>
         body {
             margin: 0;
-            overflow: hidden;
         }
 
         .iframe-container {
