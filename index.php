@@ -72,27 +72,6 @@ if ($result) {
 </style>
 
 <body>
-<<<<<<< HEAD
-	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					Are you sure you want to logout?
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-				</div>
-			</div>
-		</div>
-	</div>
-=======
     <!-- Logout Modal -->
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -113,7 +92,6 @@ if ($result) {
             </div>
         </div>
     </div>
->>>>>>> 8f2ed529a6d817de64e52416533407a221b58576
 	<div class="main-wrapper">
 
 		<div class="header">
@@ -164,10 +142,7 @@ if ($result) {
 						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
 						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
 					</div>
-<<<<<<< HEAD
-=======
 					
->>>>>>> 8f2ed529a6d817de64e52416533407a221b58576
 
 
 				</li>

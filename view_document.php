@@ -58,7 +58,6 @@ if ($result->num_rows > 0) {
     <style>
         body {
             margin: 0;
-            overflow: hidden;
         }
 
         .iframe-container {
@@ -120,12 +119,12 @@ if ($result->num_rows > 0) {
                         <a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
                     </div>
                     <script>
-                        document.getElementById('logoutLink').addEventListener('click', function (event) {
+                        document.getElementById('logoutLink').addEventListener('click', function(event) {
                             event.preventDefault();
                             $('#logoutModal').modal('show');
                         });
 
-                        document.getElementById('confirmLogout').addEventListener('click', function () {
+                        document.getElementById('confirmLogout').addEventListener('click', function() {
                             window.location.href = 'PHP_Connections/logout.php';
                         });
                     </script>
@@ -222,9 +221,9 @@ if ($result->num_rows > 0) {
                 <div class="modal-header">
                     <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to logout?

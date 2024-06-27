@@ -136,23 +136,23 @@ if ($uploadStatus === 'failed') {
                         <span><?php echo htmlspecialchars($user_name); ?></span>
                     </a>
                     <div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
-						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
-						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
-					</div>
-					
+                        <a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+                        <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+                        <a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+                    </div>
 
-					<script>
-						document.getElementById('logoutLink').addEventListener('click', function(event) {
-							event.preventDefault();
-							$('#logoutModal').modal('show');
-						});
 
-						document.getElementById('confirmLogout').addEventListener('click', function() {
-							window.location.href = 'PHP_Connections/logout.php';
-						});
-					</script>
-				</li>
+                    <script>
+                        document.getElementById('logoutLink').addEventListener('click', function(event) {
+                            event.preventDefault();
+                            $('#logoutModal').modal('show');
+                        });
+
+                        document.getElementById('confirmLogout').addEventListener('click', function() {
+                            window.location.href = 'PHP_Connections/logout.php';
+                        });
+                    </script>
+                </li>
                 </li>
 
             </ul>
@@ -218,7 +218,7 @@ if ($uploadStatus === 'failed') {
                         <ul class="logout">
                             <li>
                                 <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
-                                        
+
                             </li>
                         </ul>
                     </div>
@@ -236,7 +236,7 @@ if ($uploadStatus === 'failed') {
             });
         </script>
         <div class="page-wrapper">
-                        <?php
+            <?php
             // Place the error message display here
             if ($uploadStatus === 'failed') {
                 echo '<div class="alert alert-danger mt-3 mb-3" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
@@ -253,7 +253,7 @@ if ($uploadStatus === 'failed') {
                     <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                         <div class="form-group d-flex flex-column">
                             <div class="custom-file mb-3 flex-grow-1">
-                                <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf,application/msword">
+                                <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                             <button type="submit" class="btn btn-primary flex-grow-1">Upload</button>
@@ -266,12 +266,12 @@ if ($uploadStatus === 'failed') {
                 <div class="container-fluid">
                     <div class="row">
                         <?php
-                        
+
                         foreach ($documentCards as $card) {
-                            
-                            echo '<div class="col-md-12">' 
-                            
-                            . $card . '</div>';
+
+                            echo '<div class="col-md-12">'
+
+                                . $card . '</div>';
                         }
                         ?>
                     </div>
