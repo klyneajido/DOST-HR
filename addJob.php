@@ -44,10 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$department_id = $_POST['department_id'];
 	$monthly_salary = $_POST['monthlysalary'];
 	$status = $_POST['status'];
+	$description = $_POST['description'];
 
 	// Validate form data
 	if (empty($position)) {
 		$errors['position'] = "Position is required";
+	}
+	if(empty($description)) {
+		$errors['description'] = "Please input job description, duties, and responsibilities";
 	}
 	if (empty($department_id)) {
 		$errors['department_id'] = "Department is required";
@@ -76,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
 	<title>DOST-HRMO</title>
 
-	<link rel="shortcut icon" href="assets/img/dost_logo.png" />
+	<link rel="shortcut icon" href="assets/img/dost_logo.png">
 
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 
@@ -306,6 +310,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
 									<?php if (isset($errors['position'])) : ?>
 										<small class="text-danger"><?php echo $errors['position']; ?></small>
+									<?php endif; ?>
+								</div>
+								<div class="form-group">
+									<label for="position">Description, Duties & Responsibilities</label>
+									<textarea name="description" id="description" class="form-control" rows="5"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+									<?php if (isset($errors['description'])) : ?>
+										<small class="text-danger"><?php echo $errors['description']; ?></small>
 									<?php endif; ?>
 								</div>
 								<div class="form-group">

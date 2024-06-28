@@ -89,7 +89,7 @@ if ($result) {
 	                   color-stop(.5, rgba(255, 255, 255, .2)),
 					   color-stop(.5, transparent), to(transparent));
 }
-</style>
+</style> 
 
 <body class="scrollbar" id="style-5">
     <!-- Logout Modal -->

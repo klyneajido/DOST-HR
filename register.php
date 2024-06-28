@@ -5,6 +5,7 @@ $username = isset($_GET['input_data']['username']) ? $_GET['input_data']['userna
 $email = isset($_GET['input_data']['email']) ? $_GET['input_data']['email'] : '';
 
 $username_error = isset($errors['username']) ? $errors['username'] : '';
+$email_error = isset($errors['email']) ? $errors['email'] : '';
 $password_error = isset($errors['password']) ? $errors['password'] : '';
 $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPassword'] : '';
 ?>
@@ -56,6 +57,9 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
                                     <label class="form-control-label">Email Address</label>
                                     <input class="form-control" type="email" id="Email" name="email"
                                         value="<?php echo htmlspecialchars($email); ?>" required />
+                                    <?php if (!empty($email_error)): ?>
+                                        <small class="form-text text-danger"><?php echo $email_error; ?></small>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>

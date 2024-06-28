@@ -38,6 +38,30 @@ if ($result && $result->num_rows > 0) {
 } else {
 	$errors['database'] = "No jobs found.";
 }
+// Get job ID from query string
+$job_id = isset($_GET['job_id']) ? intval($_GET['job_id']) : 0;
+
+if ($job_id <= 0) {
+    die('Invalid job ID.');
+}
+
+// Prepare SQL query to fetch job details
+$sql = "SELECT j.job_id, j.position, j.description, d.name as department_name, j.monthlysalary, j.status 
+        FROM job j
+        INNER JOIN department d ON j.department_id = d.department_id
+        WHERE j.job_id = ?";
+
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('i', $job_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die('Job not found.');
+}
+
+$job = $result->fetch_assoc();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -259,8 +283,38 @@ if ($result && $result->num_rows > 0) {
 						</li>
 						<li class="breadcrumb-item active">Details</li>
 					</ul>
-					<h3>*Spec job post</h3>
+					<h3 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h3>
 				</div>
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<a href="viewJob.php" class="btn btn-secondary float-right">Back to Jobs</a>
+								</div>
+								<div class="card-body">
+									<div class="mb-5">
+										<h5><strong>Department</strong></h5>
+										<p><?php echo htmlspecialchars($job['department_name']); ?></p>
+									</div>
+									<div class="mb-5">
+										<h5><strong>Description</strong></h5>
+										<p><?php echo nl2br(htmlspecialchars($job['description'])); ?></p>
+									</div>
+									<div class="mb-5">
+										<h5><strong>Monthly Salary</strong></h5>
+										<p>₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+									</div>
+									<div class="mb-5">
+										<h5><strong>Status</strong></h5>
+										<p><?php echo htmlspecialchars($job['status']); ?></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 
 				<?php if (!empty($errors)) : ?>
 					<div class="alert alert-danger">

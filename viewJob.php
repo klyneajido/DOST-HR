@@ -281,7 +281,7 @@ if ($result && $result->num_rows > 0) {
 									<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
 									<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
 									<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-									<a href="detailJob.php" class="btn btn-success py-3 w-25">Details</a>
+									<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 w-25">Details</a>
 								</div>
 							</div>
 						</div>

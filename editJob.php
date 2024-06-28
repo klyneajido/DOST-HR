@@ -46,9 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $department_id = $_POST['department_id'];
     $monthly_salary = $_POST['monthlysalary'];
     $status = $_POST['status'];
+    $description= $_POST['description'];
 
     if (empty($position)) {
         $errors['position'] = "Position is required";
+    }
+    if(empty($description)) {
+        $errors['description'] = "Description is required";
     }
     if (empty($department_id)) {
         $errors['department_id'] = "Department is required";
@@ -61,9 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errors)) {
-        $sql = "UPDATE job SET position = ?, department_id = ?, monthlysalary = ?, status = ? WHERE job_id = ?";
+        $sql = "UPDATE job SET position = ?, department_id = ?, monthlysalary = ?, status = ?, description = ? WHERE job_id = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('sidsi', $position, $department_id, $monthly_salary, $status, $job_id);
+        $stmt->bind_param('sidssi', $position, $department_id, $monthly_salary, $status, $description, $job_id);
 
         if ($stmt->execute()) {
             header('Location: viewJob.php?success=Job updated successfully');
@@ -305,6 +309,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="text" name="position" id="position" class="form-control" value="<?php echo htmlspecialchars($job['position']); ?>">
                                     <?php if (isset($errors['position'])) : ?>
                                         <small class="text-danger"><?php echo $errors['position']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description, Duties, and Responsibilities</label>
+                                    <textarea name="description" id="description" class="form-control" rows="5"><?php echo htmlspecialchars($job['description']); ?></textarea>
+                                    <?php if (isset($errors['description'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['description']; ?></small>
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
