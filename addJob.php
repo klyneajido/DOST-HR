@@ -44,10 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	$department_id = $_POST['department_id'];
 	$monthly_salary = $_POST['monthlysalary'];
 	$status = $_POST['status'];
+	$description = $_POST['description'];
 
 	// Validate form data
 	if (empty($position)) {
 		$errors['position'] = "Position is required";
+	}
+	if(empty($description)) {
+		$errors['description'] = "Please input job description, duties, and responsibilities";
 	}
 	if (empty($department_id)) {
 		$errors['department_id'] = "Department is required";
@@ -76,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
 	<title>DOST-HRMO</title>
 
-	<link rel="shortcut icon" href="assets/img/dost_logo.png" />
+	<link rel="shortcut icon" href="assets/img/dost_logo.png">
 
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 
@@ -92,8 +96,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <![endif]-->
 
 </head>
+<style>
+	#style-5::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		background-color: #F5F5F5;
+	}
 
-<body>
+	#style-5::-webkit-scrollbar
+	{
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb
+	{
+		background-color: #0ae;
+		
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+											color-stop(.5, rgba(255, 255, 255, .2)),
+							color-stop(.5, transparent), to(transparent));
+	}
+</style>
+
+<body class="scrollbar" id="style-5">
+	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="main-wrapper">
 		<div class="header">
 
@@ -139,13 +184,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 						<span><?php echo htmlspecialchars($user_name); ?></span>
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
-							Profile</a>
-						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
-							Settings</a>
-						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
-							Logout</a>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
 					</div>
+					
+
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
+
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
 				</li>
 
 			</ul>
@@ -208,15 +262,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							</li>
 						</ul>
 						<ul class="logout">
-							<li>
-								<a href="PHP_Connections/logout.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
-										out</span></a>
-							</li>
-						</ul>
+                            <li>
+                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+                            </li>
+                        </ul>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#logoutModal').modal('show');
+            });
+
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                window.location.href = 'PHP_Connections/logout.php';
+            });
+        </script>
 		<div class="page-wrapper">
 			<div class="row">
 				<div class="col-md-9 mx-auto my-5">
@@ -247,6 +310,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 									<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
 									<?php if (isset($errors['position'])) : ?>
 										<small class="text-danger"><?php echo $errors['position']; ?></small>
+									<?php endif; ?>
+								</div>
+								<div class="form-group">
+									<label for="position">Description, Duties & Responsibilities</label>
+									<textarea name="description" id="description" class="form-control" rows="5"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+									<?php if (isset($errors['description'])) : ?>
+										<small class="text-danger"><?php echo $errors['description']; ?></small>
 									<?php endif; ?>
 								</div>
 								<div class="form-group">

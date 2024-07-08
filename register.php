@@ -7,9 +7,16 @@ $name = isset($_GET['input_data']['name']) ? htmlspecialchars($_GET['input_data'
 $username = isset($_GET['input_data']['username']) ? htmlspecialchars($_GET['input_data']['username']) : '';
 $email = isset($_GET['input_data']['email']) ? htmlspecialchars($_GET['input_data']['email']) : '';
 
+<<<<<<< HEAD
 $username_error = isset($errors['username']) ? htmlspecialchars($errors['username']) : '';
 $password_error = isset($errors['password']) ? htmlspecialchars($errors['password']) : '';
 $confirmPassword_error = isset($errors['confirmPassword']) ? htmlspecialchars($errors['confirmPassword']) : '';
+=======
+$username_error = isset($errors['username']) ? $errors['username'] : '';
+$email_error = isset($errors['email']) ? $errors['email'] : '';
+$password_error = isset($errors['password']) ? $errors['password'] : '';
+$confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPassword'] : '';
+>>>>>>> 9e1ab8c8583d4b0aa4d110cba4136c81300bfdc1
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +64,10 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? htmlspecialchars($e
                                 <div class="form-group">
                                     <label class="form-control-label">Email Address</label>
                                     <input class="form-control" type="email" id="Email" name="email"
-                                        value="<?php echo $email; ?>" required />
+                                        value="<?php echo htmlspecialchars($email); ?>" required />
+                                    <?php if (!empty($email_error)): ?>
+                                        <small class="form-text text-danger"><?php echo $email_error; ?></small>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>

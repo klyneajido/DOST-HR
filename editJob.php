@@ -46,9 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $department_id = $_POST['department_id'];
     $monthly_salary = $_POST['monthlysalary'];
     $status = $_POST['status'];
+    $description= $_POST['description'];
 
     if (empty($position)) {
         $errors['position'] = "Position is required";
+    }
+    if(empty($description)) {
+        $errors['description'] = "Description is required";
     }
     if (empty($department_id)) {
         $errors['department_id'] = "Department is required";
@@ -61,9 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errors)) {
-        $sql = "UPDATE job SET position = ?, department_id = ?, monthlysalary = ?, status = ? WHERE job_id = ?";
+        $sql = "UPDATE job SET position = ?, department_id = ?, monthlysalary = ?, status = ?, description = ? WHERE job_id = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('sidsi', $position, $department_id, $monthly_salary, $status, $job_id);
+        $stmt->bind_param('sidssi', $position, $department_id, $monthly_salary, $status, $description, $job_id);
 
         if ($stmt->execute()) {
             header('Location: viewJob.php?success=Job updated successfully');
@@ -77,8 +81,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="en">
+<style>
+	#style-5::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		background-color: #F5F5F5;
+	}
 
-<head>
+	#style-5::-webkit-scrollbar
+	{
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb
+	{
+		background-color: #0ae;
+		
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+											color-stop(.5, rgba(255, 255, 255, .2)),
+							color-stop(.5, transparent), to(transparent));
+	}
+</style>
+
+<body class="scrollbar" id="style-5">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <title>Edit Job</title>
@@ -91,6 +117,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="main-wrapper">
         <div class="header">
 
@@ -136,13 +181,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span><?php echo htmlspecialchars($user_name); ?></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
-                            Profile</a>
-                        <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
-                            Settings</a>
-                        <a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
-                            Logout</a>
-                    </div>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+					</div>
+					
+
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
+
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
+				</li>
                 </li>
 
             </ul>
@@ -213,14 +268,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </ul>
                         <ul class="logout">
                             <li>
-                                <a href="PHP_Connections/logout.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
-                                        out</span></a>
+                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+                                 
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#logoutModal').modal('show');
+            });
+
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                window.location.href = 'PHP_Connections/logout.php';
+            });
+        </script>
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-md-9 mx-auto my-5">
@@ -244,6 +309,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="text" name="position" id="position" class="form-control" value="<?php echo htmlspecialchars($job['position']); ?>">
                                     <?php if (isset($errors['position'])) : ?>
                                         <small class="text-danger"><?php echo $errors['position']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description, Duties, and Responsibilities</label>
+                                    <textarea name="description" id="description" class="form-control" rows="5"><?php echo htmlspecialchars($job['description']); ?></textarea>
+                                    <?php if (isset($errors['description'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['description']; ?></small>
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">

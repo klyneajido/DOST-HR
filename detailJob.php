@@ -38,6 +38,30 @@ if ($result && $result->num_rows > 0) {
 } else {
 	$errors['database'] = "No jobs found.";
 }
+// Get job ID from query string
+$job_id = isset($_GET['job_id']) ? intval($_GET['job_id']) : 0;
+
+if ($job_id <= 0) {
+    die('Invalid job ID.');
+}
+
+// Prepare SQL query to fetch job details
+$sql = "SELECT j.job_id, j.position, j.description, d.name as department_name, j.monthlysalary, j.status 
+        FROM job j
+        INNER JOIN department d ON j.department_id = d.department_id
+        WHERE j.job_id = ?";
+
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param('i', $job_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die('Job not found.');
+}
+
+$job = $result->fetch_assoc();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,8 +83,49 @@ if ($result && $result->num_rows > 0) {
 			<script src="assets/js/respond.min.js"></script>
 		<![endif] -->
 </head>
+<style>
+	#style-5::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		background-color: #F5F5F5;
+	}
 
-<body>
+	#style-5::-webkit-scrollbar
+	{
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb
+	{
+		background-color: #0ae;
+		
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+											color-stop(.5, rgba(255, 255, 255, .2)),
+							color-stop(.5, transparent), to(transparent));
+	}
+</style>
+
+<body class="scrollbar" id="style-5">
+	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
 	<div class="main-wrapper">
 
 		<div class="header">
@@ -107,13 +172,23 @@ if ($result && $result->num_rows > 0) {
 						<span><?php echo htmlspecialchars($user_name); ?></span>
 					</a>
 					<div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i>
-							Profile</a>
-						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i>
-							Settings</a>
-						<a class="dropdown-item" href="PHP_Connections/logout.php"><i data-feather="log-out" class="mr-1"></i>
-							Logout</a>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
 					</div>
+					
+
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
+
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
+				</li>
 				</li>
 
 			</ul>
@@ -180,14 +255,24 @@ if ($result && $result->num_rows > 0) {
 						</ul>
 						<ul class="logout">
 							<li>
-								<a href="PHP_Connections/logout.php"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
-										out</span></a>
+								<a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+								
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
+		<script>
+            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#logoutModal').modal('show');
+            });
+
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                window.location.href = 'PHP_Connections/logout.php';
+            });
+        </script>
 		<div class="page-wrapper">
 			<div class="container-fluid">
 			
@@ -198,8 +283,38 @@ if ($result && $result->num_rows > 0) {
 						</li>
 						<li class="breadcrumb-item active">Details</li>
 					</ul>
-					<h3>*Spec job post</h3>
+					<h3 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h3>
 				</div>
+
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<a href="viewJob.php" class="btn btn-secondary float-right">Back to Jobs</a>
+								</div>
+								<div class="card-body">
+									<div class="mb-5">
+										<h5><strong>Department</strong></h5>
+										<p><?php echo htmlspecialchars($job['department_name']); ?></p>
+									</div>
+									<div class="mb-5">
+										<h5><strong>Description</strong></h5>
+										<p><?php echo nl2br(htmlspecialchars($job['description'])); ?></p>
+									</div>
+									<div class="mb-5">
+										<h5><strong>Monthly Salary</strong></h5>
+										<p>₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+									</div>
+									<div class="mb-5">
+										<h5><strong>Status</strong></h5>
+										<p><?php echo htmlspecialchars($job['status']); ?></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
 
 				<?php if (!empty($errors)) : ?>
 					<div class="alert alert-danger">

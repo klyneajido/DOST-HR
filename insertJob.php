@@ -19,12 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Get form data from URL parameters
     $position = $_GET['position'];
     $department_id = $_GET['department_id'];
+    $description = $_GET['description'];
     $monthly_salary = $_GET['monthlysalary'];
     $status = $_GET['status'];
 
     // Validate form data
     if (empty($position)) {
         $errors['position'] = "Position is required";
+    }
+    if (empty($description)) {
+        $errors['position'] = "Please input job description, duties, and responsibilities";
     }
     if (empty($department_id)) {
         $errors['department_id'] = "Department is required";
@@ -38,8 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     // If no errors, insert data into job table
     if (empty($errors)) {
-        $stmt = $mysqli->prepare("INSERT INTO job (position,  department_id, monthlysalary, status) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("sids", $position, $department_id, $monthly_salary, $status);
+        $stmt = $mysqli->prepare("INSERT INTO job (position,  department_id, monthlysalary, status, description) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sidss", $position, $department_id, $monthly_salary, $status, $description);
 
         if ($stmt->execute()) {
             // Redirect back to the form page with a success message
