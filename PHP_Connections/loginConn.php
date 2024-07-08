@@ -1,15 +1,24 @@
 <?php
 session_start();
 
-$username = "";
-$password = "";
-$errors = array();
-$input_data = array();
+// Verify CSRF token
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        // Handle CSRF token mismatch error
+        die("CSRF token validation failed.");
+    }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sanitize input data
-    $username = isset($_POST['username']) ? trim($_POST['username']) : '';
-    $password = isset($_POST['password']) ? $_POST['password'] : '';
+    // Regenerate session ID to prevent session fixation
+    session_regenerate_id(true);
+
+    // Initialize variables
+    $username = "";
+    $password = "";
+    $errors = array();
+
+    // Sanitize and validate input data
+    $username = isset($_POST['username']) ? filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING) : '';
+    $password = isset($_POST['password']) ? filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING) : '';
 
     // Validate username
     if (empty($username)) {
@@ -26,22 +35,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $response = validateUser($username, $password);
 
         if ($response['success']) {
+            // Store user information in session upon successful login
             $_SESSION['username'] = $username;
-            $_SESSION['name'] = $response['name']; // Store user's name in the session
+            $_SESSION['name'] = $response['name'];
+
+            // Redirect to index.php or any desired location
             header('Location: ../index.php');
             exit();
         } else {
-            $errors['general'] = $response['error'];
+            $errors['general'] = "Invalid username or password."; // General error message
         }
     }
 
-    // Store errors and input data in query string for login.php
-    $query_string = http_build_query(
-        array(
-            'errors' => $errors,
-            'input_data' => array('username' => $username) // Only username needs to be repopulated
-        )
-    );
+    // If authentication fails, redirect back to login.php with errors
+    $query_string = http_build_query(array(
+        'errors' => $errors,
+        'input_data' => array('username' => $username) // Only username needs to be repopulated
+    ));
     header("Location: ../login.php?" . $query_string);
     exit();
 }

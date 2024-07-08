@@ -1,12 +1,15 @@
 <?php
+session_start();
+$token = bin2hex(random_bytes(32));
+$_SESSION['csrf_token'] = $token;
 $errors = isset($_GET['errors']) ? $_GET['errors'] : array();
-$name = isset($_GET['input_data']['name']) ? $_GET['input_data']['name'] : '';
-$username = isset($_GET['input_data']['username']) ? $_GET['input_data']['username'] : '';
-$email = isset($_GET['input_data']['email']) ? $_GET['input_data']['email'] : '';
+$name = isset($_GET['input_data']['name']) ? htmlspecialchars($_GET['input_data']['name']) : '';
+$username = isset($_GET['input_data']['username']) ? htmlspecialchars($_GET['input_data']['username']) : '';
+$email = isset($_GET['input_data']['email']) ? htmlspecialchars($_GET['input_data']['email']) : '';
 
-$username_error = isset($errors['username']) ? $errors['username'] : '';
-$password_error = isset($errors['password']) ? $errors['password'] : '';
-$confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPassword'] : '';
+$username_error = isset($errors['username']) ? htmlspecialchars($errors['username']) : '';
+$password_error = isset($errors['password']) ? htmlspecialchars($errors['password']) : '';
+$confirmPassword_error = isset($errors['confirmPassword']) ? htmlspecialchars($errors['confirmPassword']) : '';
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +31,7 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
 </head>
 
 <body>
-    <div class="main-wrapper login-body">
+<div class="main-wrapper login-body">
         <div class="login-wrapper">
             <div class="container">
                 <img class="img-fluid logo-dark mb-2" src="assets/img/dost_logo.png" alt="Logo" />
@@ -41,13 +44,12 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
                             <form action="PHP_Connections/registerConn.php" method="post">
                                 <div class="form-group">
                                     <label class="form-control-label">Name</label>
-                                    <input class="form-control" type="text" id="Name" name="name"
-                                        value="<?php echo htmlspecialchars($name); ?>" required />
+                                    <input class="form-control" type="hidden" name="csrf_token" value="<?php echo $token; ?>" required />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Username</label>
                                     <input class="form-control" type="text" id="Username" name="username"
-                                        value="<?php echo htmlspecialchars($username); ?>" required />
+                                        value="<?php echo $username; ?>" required />
                                     <?php if (!empty($username_error)): ?>
                                         <small class="form-text text-danger"><?php echo $username_error; ?></small>
                                     <?php endif; ?>
@@ -55,7 +57,7 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
                                 <div class="form-group">
                                     <label class="form-control-label">Email Address</label>
                                     <input class="form-control" type="email" id="Email" name="email"
-                                        value="<?php echo htmlspecialchars($email); ?>" required />
+                                        value="<?php echo $email; ?>" required />
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Password</label>
@@ -75,7 +77,7 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
                                 </div>
                                 <?php if (isset($errors['general'])): ?>
                                     <div class="form-group">
-                                        <small class="form-text text-danger"><?php echo $errors['general']; ?></small>
+                                        <small class="form-text text-danger"><?php echo htmlspecialchars($errors['general']); ?></small>
                                     </div>
                                 <?php endif; ?>
                                 <div class="form-group mb-0">
@@ -84,17 +86,6 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
                                     </button>
                                 </div>
                             </form>
-
-                            <!-- <div class="login-or">
-                                <span class="or-line"></span>
-                                <span class="span-or">or</span>
-                            </div> -->
-
-                            <!-- <div class="social-login">
-                                <span>Register with</span>
-                                <a href="#" class="facebook"><i class="fab fa-facebook-f"></i></a>
-                                <a href="#" class="google"><i class="fab fa-google"></i></a>
-                            </div> -->
 
                             <div class="text-center dont-have">
                                 Already have an account? <a href="login.php">Login</a>

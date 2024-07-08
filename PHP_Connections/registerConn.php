@@ -76,7 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($password !== $confirmPassword) {
         $errors['confirmPassword'] = "Passwords do not match.";
     }
-
     // Handle profile picture upload (if submitted)
     if (!empty($_FILES['profilePicture']['tmp_name'])) {
         $file_name = $_FILES['profilePicture']['name'];
@@ -89,17 +88,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $upload_dir = 'uploads/';
 
         // Check file type and size, handle errors
-        // Example: Move uploaded file to destination directory
-        if (move_uploaded_file($file_tmp, $upload_dir . $file_name)) {
-            $profile_image_path = $upload_dir . $file_name;
+        $allowed_types = array('jpg', 'jpeg', 'png', 'gif');
+        $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        if (!in_array($file_extension, $allowed_types)) {
+            $errors['general'] = "Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.";
+        } elseif ($file_size > 2097152) { // 2MB
+            $errors['general'] = "File size exceeds maximum limit (2MB).";
+        } elseif ($file_error !== UPLOAD_ERR_OK) {
+            $errors['general'] = "File upload error: " . $file_error;
         } else {
-            $errors['general'] = "Failed to upload file.";
+            // Move uploaded file to destination directory
+            if (move_uploaded_file($file_tmp, $upload_dir . $file_name)) {
+                $profile_image_path = $upload_dir . $file_name;
+            } else {
+                $errors['general'] = "Failed to upload file.";
+            }
         }
     } else {
         // Default profile image path
         $profile_image_path = 'assets/img/profiles/default-profile.png';
     }
-
     if (empty($errors)) {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
