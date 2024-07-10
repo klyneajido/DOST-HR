@@ -200,6 +200,10 @@ if ($result->num_rows > 0) {
                                         View Job</span></a>
                             </li>
                             <li>
+                                <a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
+                                    <span>Announcements</span></a>
+                            </li>
+                            <li>
                                 <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                         Transparency</span></a>
                             </li>
@@ -209,7 +213,7 @@ if ($result->num_rows > 0) {
                             </li>
                         </ul>
                         <ul class="logout">
-                            <li>
+                            <li class="align-center">
                                 <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
                             </li>
                         </ul>

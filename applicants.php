@@ -194,6 +194,10 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                                         View Job</span></a>
                             </li>
                             <li>
+                                <a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
+                                    <span>Announcements</span></a>
+                            </li>
+                            <li>
                                 <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                         Transparency</span></a>
                             </li>
@@ -202,6 +206,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                                 <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                                     <span>Profile</span></a>
                             </li>
+                            
                         </ul>
                         <ul class="logout">
                             <li>

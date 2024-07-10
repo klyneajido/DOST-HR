@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-include_once 'PHP_Connections/db_connection.php';
+include_once 'PHP_Connections\db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
@@ -14,44 +14,9 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-// Fetch uploaded documents
-$sql = "SELECT * FROM documents";
-$result = $mysqli->query($sql);
-
-// Array to store document cards HTML
-$documentCards = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $documentId = $row['doc_id']; // Assuming your table has an ID field
-        $documentName = $row['name'];
-        // Assuming documents are stored as PDFs or Word files
-        $icon = 'assets/img/pdf.png'; // Change this based on file type if needed
-
-        // Generate HTML for document card
-        $documentCard = '<div class="card m-2">
-                         
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">' . $documentName . '</h6>
-                                                        <div class="document-buttons">
-                                                            <a href="download_document.php?id=' . $documentId . '" class="btn btn-primary px-4">Download</a>
-                                                            <a href="view_document.php?id=' . $documentId . '" class="btn btn-success px-4 py-3">View</a>
-                                                        </div>
-                            </div>
-                        </div>';
-
-        // Append card HTML to array
-        $documentCards[] = $documentCard;
-    }
-}
-$uploadStatus = isset($_GET['upload_status']) ? $_GET['upload_status'] : '';
-if ($uploadStatus === 'failed') {
-    $errorMsg = isset($_GET['error']) ? urldecode($_GET['error']) : 'Unknown error occurred.';
-    echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -69,6 +34,29 @@ if ($uploadStatus === 'failed') {
 			<script src="assets/js/respond.min.js"></script>
 		<![endif] -->
 </head>
+
+<style>
+	#style-5::-webkit-scrollbar-track
+	{
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar
+	{
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb
+	{
+		background-color: #0ae;
+		
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+											color-stop(.5, rgba(255, 255, 255, .2)),
+							color-stop(.5, transparent), to(transparent));
+	}
+</style>
 
 <body>
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
@@ -136,23 +124,23 @@ if ($uploadStatus === 'failed') {
                         <span><?php echo htmlspecialchars($user_name); ?></span>
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
-                        <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
-                        <a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
-                    </div>
+						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
+						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
+						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
+					</div>
+					
 
+					<script>
+						document.getElementById('logoutLink').addEventListener('click', function(event) {
+							event.preventDefault();
+							$('#logoutModal').modal('show');
+						});
 
-                    <script>
-                        document.getElementById('logoutLink').addEventListener('click', function(event) {
-                            event.preventDefault();
-                            $('#logoutModal').modal('show');
-                        });
-
-                        document.getElementById('confirmLogout').addEventListener('click', function() {
-                            window.location.href = 'PHP_Connections/logout.php';
-                        });
-                    </script>
-                </li>
+						document.getElementById('confirmLogout').addEventListener('click', function() {
+							window.location.href = 'PHP_Connections/logout.php';
+						});
+					</script>
+				</li>
                 </li>
 
             </ul>
@@ -205,11 +193,11 @@ if ($uploadStatus === 'failed') {
                                 <a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
                                         View Job</span></a>
                             </li>
-                            <li>
+                            <li class="active">
                                 <a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
                                     <span>Announcements</span></a>
                             </li>
-                            <li class="active">
+                            <li>
                                 <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                         Transparency</span></a>
                             </li>
@@ -223,7 +211,7 @@ if ($uploadStatus === 'failed') {
                         <ul class="logout">
                             <li>
                                 <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
-
+                                
                             </li>
                         </ul>
                     </div>
@@ -241,56 +229,21 @@ if ($uploadStatus === 'failed') {
             });
         </script>
         <div class="page-wrapper">
-            <?php
-            // Place the error message display here
-            if ($uploadStatus === 'failed') {
-                echo '<div class="alert alert-danger mt-3 mb-3" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
-            }
-            ?>
             <div class="container-fluid">
-                <div class="breadcrumb-path mb-4 my-4">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Legal</a>
-                        </li>
-                        <li class="breadcrumb-item active">Documents</li>
-                    </ul>
-                    <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-                        <div class="form-group d-flex flex-column">
-                            <div class="custom-file mb-3 flex-grow-1">
-                                <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary flex-grow-1">Upload</button>
-                        </div>
-                    </form>
+              <div class="breadcrumb-path mb-4 my-4" >
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
+                  </li>
+                  <li class="breadcrumb-item active">Posts</li>
+                </ul>
+                <div class="d-flex gap-3">
+                  
                 </div>
-            </div>
-            <h3 class="d-flex justify-content-center">Documents</h3>
-            <div class="display-documents">
-                <div class="container-fluid">
-                    <div class="row">
-                        <?php
+              </div>
 
-                        foreach ($documentCards as $card) {
-
-                            echo '<div class="col-md-12">'
-
-                                . $card . '</div>';
-                        }
-                        ?>
-                    </div>
-                </div>
             </div>
         </div>
-
-        <script>
-            document.querySelector('.custom-file-input').addEventListener('change', function(e) {
-                var fileName = document.getElementById("customFile").files[0].name;
-                var nextSibling = e.target.nextElementSibling;
-                nextSibling.innerText = fileName;
-            });
-        </script>
 
     </div>
     <script src="assets/js/date.js"></script>

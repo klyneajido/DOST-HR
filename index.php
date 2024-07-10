@@ -216,6 +216,10 @@ if ($result) {
 										View Job</span></a>
 							</li>
 							<li>
+								<a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
+										<span>Announcements</span></a>
+              </li>
+							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
 							</li>
@@ -224,6 +228,7 @@ if ($result) {
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
 							</li>
+							
 						</ul>
 						<ul class="logout">
                             <li>
