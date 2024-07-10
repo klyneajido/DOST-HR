@@ -250,7 +250,7 @@ if ($result && $result->num_rows > 0) {
         </script>
 		<div class="page-wrapper">
 			<div class="container-fluid">
-				<div class="breadcrumb-path mb-4 my-4">
+				<div class="breadcrumb-path mb-4 my-4" >
 					<ul class="breadcrumb">
 						<li class="breadcrumb-item">
 							<a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
@@ -258,8 +258,13 @@ if ($result && $result->num_rows > 0) {
 						<li class="breadcrumb-item active">Applicants</li>
 					</ul>
 					<div class="d-flex gap-3">
-						<a href="addJob.php" class="mr-2"><img src="assets\img\plus-circle-fill.svg" alt="add"></a>
-						<h3>Add Job</h3>
+						<a href="addJob.php" class="mr-2 btn btn-info">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+  							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+							</svg> 
+							Add Job
+						</a>
+						
 					</div>
 				</div>
 

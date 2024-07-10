@@ -276,7 +276,7 @@ if ($result) {
 				</div>
 				<div class="row mb-4">
 
-					<div class="col-xl-3 col-sm-6 col-12">
+					<div class="col-xl-4 col-sm-6 col-12">
 						<div class="card board1 fill1 ">
 							<div class="card-body">
 								<div class="card_widget_header">
@@ -289,7 +289,7 @@ if ($result) {
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-sm-6 col-12">
+					<div class="col-xl-4 col-sm-6 col-12">
 						<div class="card board1 fill2 ">
 							<div class="card-body">
 								<div class="card_widget_header">
@@ -302,7 +302,7 @@ if ($result) {
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-sm-6 col-12">
+					<div class="col-xl-4 col-sm-6 col-12">
 						<div class="card board1 fill3 ">
 							<div class="card-body">
 								<div class="card_widget_header">
@@ -315,6 +315,7 @@ if ($result) {
 							</div>
 						</div>
 					</div>
+					<!-- 
 					<div class="col-xl-3 col-sm-6 col-12">
 						<div class="card board1 fill4 ">
 							<div class="card-body">
@@ -327,6 +328,7 @@ if ($result) {
 								</div>
 							</div>
 						</div>
+					 -->
 					</div>
 				</div>
 				<div class="row">
