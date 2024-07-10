@@ -59,6 +59,7 @@ if ($result && $result->num_rows > 0) {
 			<script src="assets/js/respond.min.js"></script>
 		<![endif] -->
 </head>
+
 <style>
 	#style-5::-webkit-scrollbar-track
 	{

@@ -40,7 +40,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 	}
 </style>
 
-<body class="scrollbar" id="style-5">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>HRMO Admin</title>
