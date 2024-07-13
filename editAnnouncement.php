@@ -304,8 +304,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="text" name="title" id="title" class="form-control" value="<?php echo htmlspecialchars($announcement['title']); ?>">
                             </div>
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea name="description" id="description" class="form-control"><?php echo htmlspecialchars($announcement['description_announcement']); ?></textarea>
+                              <label for="description">Description</label>
+                              <textarea name="description" id="description" class="form-control" rows="5"><?php echo htmlspecialchars($announcement['description_announcement']); ?></textarea>
+                              <small class="text-muted"><span id="description-count">0</span> / 300 characters</small>
                             </div>
                             <div class="form-group">
                                 <label for="link">Link</label>
@@ -333,7 +334,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
     </div>
+    <script>
+    // Ensure DOM is fully loaded before executing JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the textarea element
+        const descriptionTextarea = document.getElementById('description');
+        // Select the span element for character count
+        const descriptionCount = document.getElementById('description-count');
 
+        // Update character count on input event
+        descriptionTextarea.addEventListener('input', function() {
+            const currentLength = descriptionTextarea.value.length;
+            descriptionCount.textContent = currentLength;
+
+            // Optionally limit the textarea length to 300 characters
+            if (currentLength > 300) {
+                descriptionTextarea.value = descriptionTextarea.value.substring(0, 300);
+                descriptionCount.textContent = 300;
+            }
+        });
+
+        // Initialize character count on page load
+        descriptionCount.textContent = descriptionTextarea.value.length;
+    });
+    </script>                              
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>

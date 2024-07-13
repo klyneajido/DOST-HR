@@ -14,6 +14,9 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+$success_message = isset($_GET['success']) ? htmlspecialchars($_GET['success']) : '';
+
+
 // Check if search query is set
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
@@ -264,6 +267,8 @@ if ($result && $result->num_rows > 0) {
             });
         </script>
 
+        
+
         <div class="page-wrapper">
             <div class="container-fluid">
               <div class="breadcrumb-path mb-4 my-4" >
@@ -311,7 +316,7 @@ if ($result && $result->num_rows > 0) {
                                             <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
                                             <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
                                             <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-                                            <a href="#?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25">Remove</a>
+                                            <a href="#?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="disabled btn btn-danger py-3 w-25">Remove</a>
                                         </div>
                                         <div class="col-md-4 text-right">
                                             <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>" alt="Announcement Image" class="img-fluid">
@@ -333,6 +338,12 @@ if ($result && $result->num_rows > 0) {
 
             </div>
         </div>
+    <!-- Pop-up notification -->
+        <?php if (!empty($success_message)): ?>
+        <script>
+            alert('<?php echo addslashes($success_message); ?>');
+        </script>
+        <?php endif; ?>      
 
     </div>
     <script src="assets/js/date.js"></script>

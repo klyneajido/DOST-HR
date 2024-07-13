@@ -12,6 +12,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 
 
 $errors = [];
+$max_description_length = 300; // Example maximum length
 
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -25,8 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($title)) {
         $errors['title'] = "Title is required";
     }
-    if (empty($description)) {
-        $errors['description'] = "Description is required";
+    if (strlen($description) > $max_description_length) {
+        $errors['description'] = "Description must not exceed {$max_description_length} characters.";
     }
     if (empty($link)) {
         $errors['link'] = "Link is required";
@@ -47,10 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Execute SQL statement
             if ($stmt->execute()) {
-                $success = "Announcement added successfully!";
-                // Redirect or display success message
-                header('Location: announcements.php');
+                header('Location: announcements.php?success=Announcement added successfully');
                 exit();
+                
             } else {
                 $errors['database'] = "Error executing statement: " . $stmt->error;
             }
@@ -295,7 +295,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <textarea name="description" id="description" class="form-control"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+                            <textarea name="description" id="description" class="form-control" rows="5"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : (isset($announcement['description_announcement']) ? htmlspecialchars($announcement['description_announcement']) : ''); ?></textarea>
+                            <small class="text-muted"><span id="description-count">0</span> / 300 characters</small>
                         </div>
                         <div class="form-group">
                             <label for="link">Link</label>
@@ -314,7 +315,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
+    <script>
+    // Ensure DOM is fully loaded before executing JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        // Select the textarea element
+        const descriptionTextarea = document.getElementById('description');
+        // Select the span element for character count
+        const descriptionCount = document.getElementById('description-count');
 
+        // Update character count on input event
+        descriptionTextarea.addEventListener('input', function() {
+            const currentLength = descriptionTextarea.value.length;
+            descriptionCount.textContent = currentLength;
+
+            // Optionally limit the textarea length to 300 characters
+            if (currentLength > 300) {
+                descriptionTextarea.value = descriptionTextarea.value.substring(0, 300);
+                descriptionCount.textContent = 300;
+            }
+        });
+
+        // Initialize character count on page load
+        descriptionCount.textContent = descriptionTextarea.value.length;
+    });
+    </script>
+                            
     <!-- Scripts remain unchanged -->
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
