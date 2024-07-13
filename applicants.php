@@ -230,7 +230,17 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
         </script>
         <div class="page-wrapper">
             <div class="container-fluid">
-
+                <div class="breadcrumb-path mb-4 my-4" >
+                    <ul class="breadcrumb">
+                      <li class="breadcrumb-item">
+                        <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
+                      </li>
+                      <li class="breadcrumb-item active">Posts</li>
+                    </ul>
+                    <div class="d-flex gap-3">
+                      
+                    </div>
+                  </div>
             </div>
         </div>
 

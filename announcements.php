@@ -14,6 +14,31 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+
+// Check if search query is set
+$search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
+
+// Prepare SQL query
+$sql = "SELECT a.id, a.title, a.description_announcement as announcement, a.link, a.image_announcement as image_shown, a.created_at, a.updated_at 
+        FROM announcements a ";
+
+if (!empty($search)) {
+	$sql .= " WHERE a.title LIKE '%$search%' OR a.description_announcement LIKE '%$search%'";
+}
+
+$result = $mysqli->query($sql);
+
+// Initialize an empty array to store announcments data
+$announcements = [];
+
+if ($result && $result->num_rows > 0) {
+	while ($row = $result->fetch_assoc()) {
+		$announcements[] = $row;
+	}
+} else {
+	$errors['database'] = "No announcements found.";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,6 +81,8 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 											color-stop(.5, rgba(255, 255, 255, .2)),
 							color-stop(.5, transparent), to(transparent));
 	}
+    
+
 </style>
 
 <body>
@@ -218,6 +245,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                 </div>
             </div>
         </div>
+
         <script>
             document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
                 event.preventDefault();
@@ -228,6 +256,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                 window.location.href = 'PHP_Connections/logout.php';
             });
         </script>
+
         <div class="page-wrapper">
             <div class="container-fluid">
               <div class="breadcrumb-path mb-4 my-4" >
@@ -241,6 +270,44 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
                   
                 </div>
               </div>
+              <?php if (!empty($errors)) : ?>
+					<div class="alert alert-danger">
+						<?php foreach ($errors as $error) : ?>
+							<p><?php echo htmlspecialchars($error); ?></p>
+						<?php endforeach; ?>
+					</div>
+				<?php endif; ?>
+
+				<div class="row">
+                <?php foreach ($announcements as $announcement) : ?>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body shadow p-3">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h5 class="card-title"><?php echo htmlspecialchars($announcement['title']); ?></h5>
+                                        <p class="card-text"><strong>Description:</strong> <?php echo htmlspecialchars($announcement['announcement']); ?></p>
+                                        <p class="card-text"><strong>Link:</strong> <?php echo htmlspecialchars($announcement['link']); ?></p>
+                                        <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
+                                        <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
+                                        <a href="#?announcement_id=<?php echo $announcement['id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
+                                        <a href="#?announcement_id=<?php echo $announcement['id']; ?>" class="btn btn-success py-3 w-25">Details</a>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>" alt="Announcement Image" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <a href="add_announcement.php" class="btn btn-primary btn-lg float-add-btn" title="Add Announcement">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+                </svg>
+                Add Announcement 
+            </a>
 
             </div>
         </div>

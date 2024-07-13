@@ -7123,3 +7123,12 @@ label.logo-upload {
     font-size: 12px;
   }
 }
+
+.float-add-btn {
+  position: fixed;
+  bottom: 20px;
+  right: -5px;
+  border-radius: 15px 0px 0px 15px;
+  padding: 15px 20px;
+  z-index: 1000;
+}
