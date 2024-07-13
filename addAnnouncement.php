@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-include_once 'PHP_Connections\db_connection.php';
+include_once 'PHP_Connections/db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
@@ -14,33 +14,60 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-// Check if search query is set
-$search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
+$errors = [];
+// Check if form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Get form data
+  $title = $_POST['title'];
+  $description = $_POST['description'];
+  $link = $_POST['link'];
+  $image = $_FILES['image']['name'];
+  $image_temp = $_FILES['image']['tmp_name'];
 
-// Check if sort order is set
-$order = isset($_GET['order']) ? $_GET['order'] : 'desc'; // Default order descending
+  // Validate form data
+  if (empty($title)) {
+      $errors['title'] = "Title is required";
+  }
+  if (empty($description)) {
+      $errors['description'] = "Description is required";
+  }
+  if (empty($link)) {
+      $errors['link'] = "Link is required";
+  }
+  if (empty($image)) {
+      $errors['image'] = "Image is required";
+  }
 
-// Prepare SQL query
-$sql = "SELECT a.id, a.title, a.description_announcement as announcement, a.link, a.image_announcement as image_shown, a.created_at, a.updated_at 
-        FROM announcements a ";
+  // If no errors, proceed with data insertion
+  if (empty($errors)) {
+      // Prepare SQL statement
+      $sql = "INSERT INTO announcements (title, description_announcement, link, image_announcement, created_at) VALUES (?, ?, ?, ?, NOW())";
+      $stmt = $mysqli->prepare($sql);
 
-if (!empty($search)) {
-    $sql .= " WHERE a.title LIKE '%$search%' OR a.description_announcement LIKE '%$search%'";
-}
+      if ($stmt) {
+          // Bind parameters and execute
+          $stmt->bind_param("ssss", $title, $description, $link, $image);
+          
+          // Move uploaded file to desired location
+          $upload_directory = "uploads/"; // Directory where images will be stored
+          move_uploaded_file($image_temp, $upload_directory . $image);
 
-$sql .= " ORDER BY a.created_at $order"; // Sort by created_at field and order by descending or ascending
+          // Execute SQL statement
+          if ($stmt->execute()) {
+              $success = "Announcement added successfully!";
+              // Redirect or display success message
+              header('Location: announcements.php');
+              exit();
+          } else {
+              echo "Error executing statement: " . $stmt->error;
+          }
+      } else {
+          echo "Error preparing statement: " . $mysqli->error;
+      }
 
-$result = $mysqli->query($sql);
-
-// Initialize an empty array to store announcements data
-$announcements = [];
-
-if ($result && $result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $announcements[] = $row;
-    }
-} else {
-    $errors['database'] = "No announcements found.";
+      // Close statement
+      $stmt->close();
+  }
 }
 
 ?>
@@ -48,50 +75,35 @@ if ($result && $result->num_rows > 0) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>HRMO Admin</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+    <title>DOST-HRMO</title>
 
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+        #style-5::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+        }
 
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+        #style-5::-webkit-scrollbar {
+            width: 10px;
+            background-color: #F5F5F5;
+        }
 
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
-    <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- [if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif] -->
+        #style-5::-webkit-scrollbar-thumb {
+            background-color: #0ae;
+            background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(.5, rgba(255, 255, 255, .2)), color-stop(.5, transparent), to(transparent));
+        }
+    </style>
 </head>
-
-<style>
-	#style-5::-webkit-scrollbar-track
-	{
-		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-		background-color: #F5F5F5;
-	}
-
-	#style-5::-webkit-scrollbar
-	{
-		width: 10px;
-		background-color: #F5F5F5;
-	}
-
-	#style-5::-webkit-scrollbar-thumb
-	{
-		background-color: #0ae;
-		
-		background-image: -webkit-gradient(linear, 0 0, 0 100%,
-											color-stop(.5, rgba(255, 255, 255, .2)),
-							color-stop(.5, transparent), to(transparent));
-	}
-    
-
-</style>
-
-<body>
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+<body class="scrollbar" id="style-5">
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -135,10 +147,10 @@ if ($result && $result->num_rows > 0) {
             </div>
 
             <div class="top-nav-search" style="width:46.5%; margin-left:8%; min-width:20%;">
-                <form method="GET" action="announcements.php">
-					<input type="text" class="form-control" name="search" placeholder="Search...">
-					<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-				</form>
+                <form>
+                    <input type="text" class="form-control" placeholder="">
+                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                </form>
             </div>
 
 
@@ -206,10 +218,8 @@ if ($result && $result->num_rows > 0) {
                             <div class="sidebar-input">
                                 <div class="top-nav-search">
                                     <form>
-                                        <form method="GET" action="viewJob.php">
-											<input type="text" class="form-control" name="search" placeholder="Search...">
-											<button class="btn" type="submit"><i class="fas fa-search"></i></button>
-										</form>
+                                        <input type="text" class="form-control" placeholder="Search here">
+                                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -264,92 +274,76 @@ if ($result && $result->num_rows > 0) {
             });
         </script>
 
-        <div class="page-wrapper">
-            <div class="container-fluid">
-              <div class="breadcrumb-path mb-4 my-4" >
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
-                  </li>
-                  <li class="breadcrumb-item active">Posts</li>
-                </ul>
-                <div class="d-flex gap-3">
-                    <button class="btn btn-link" id="sortAsc"><i class="fas fa-arrow-up"></i> Oldest First</button>
-                    <button class="btn btn-link" id="sortDesc"><i class="fas fa-arrow-down"></i> Newest First</button>
-                </div>
-                <script>
-                    document.getElementById('sortAsc').addEventListener('click', function() {
-                        window.location.href = 'announcements.php?order=asc';
-                    });
-
-                    document.getElementById('sortDesc').addEventListener('click', function() {
-                        window.location.href = 'announcements.php?order=desc';
-                    });
-                </script>
-
-              </div>
-
-              <?php if (!empty($errors)) : ?>
-                    <div class="alert alert-danger">
-                        <?php foreach ($errors as $error) : ?>
-                            <p><?php echo htmlspecialchars($error); ?></p>
-                        <?php endforeach; ?>
+    <div class="page-wrapper">
+        <div class="row">
+            <div class="col-md-9 mx-auto my-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Add New Announcement</h4>
                     </div>
-                <?php endif; ?>
-
-                <!-- Display announcements -->
-                <div class="row">
-                    <?php foreach ($announcements as $announcement) : ?>
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body shadow p-3">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <h5 class="card-title"><?php echo htmlspecialchars($announcement['title']); ?></h5>
-                                            <p class="card-text"><strong>Description:</strong> <?php echo htmlspecialchars($announcement['announcement']); ?></p>
-                                            <p class="card-text"><strong>Link:</strong> <?php echo htmlspecialchars($announcement['link']); ?></p>
-                                            <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
-                                            <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
-                                            <a href="#?announcement_id=<?php echo $announcement['id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-                                            <a href="#?announcement_id=<?php echo $announcement['id']; ?>" class="btn btn-danger py-3 w-25">Remove</a>
-                                        </div>
-                                        <div class="col-md-4 text-right">
-                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>" alt="Announcement Image" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
+                    <div class="card-body">
+                        <?php if (!empty($success)) : ?>
+                            <div class="alert alert-success">
+                                <?php echo htmlspecialchars($success); ?>
                             </div>
-                        </div>
-                    <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <?php if (!empty($errors)) : ?>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    <?php foreach ($errors as $error) : ?>
+                                        <li><?php echo htmlspecialchars($error); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+
+                        <form method="POST" action="addAnnouncement.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to add this announcement?');">
+                          <div class="form-group">
+                              <label for="title"><p>Title <b class="text-danger">*</b></p></label>
+                              <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : ''; ?>">
+                              <?php if (isset($errors['title'])) : ?>
+                                  <small class="text-danger"><?php echo $errors['title']; ?></small>
+                              <?php endif; ?>
+                          </div>
+                          <div class="form-group">
+                              <label for="description"><p>Description <b class="text-danger">*</b></p></label>
+                              <textarea name="description" id="description" class="form-control" rows="5"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+                              <?php if (isset($errors['description'])) : ?>
+                                  <small class="text-danger"><?php echo $errors['description']; ?></small>
+                              <?php endif; ?>
+                          </div>
+                          <div class="form-group">
+                              <label for="link"><p>Link <b class="text-danger">*</b></p></label>
+                              <input type="text" name="link" id="link" class="form-control" value="<?php echo isset($_POST['link']) ? htmlspecialchars($_POST['link']) : ''; ?>">
+                              <?php if (isset($errors['link'])) : ?>
+                                  <small class="text-danger"><?php echo $errors['link']; ?></small>
+                              <?php endif; ?>
+                          </div>
+                          <div class="form-group">
+                              <label for="image"><p>Image <b class="text-danger">*</b></p></label>
+                              <input type="file" name="image" id="image" class="form-control-file">
+                              <?php if (isset($errors['image'])) : ?>
+                                  <small class="text-danger"><?php echo $errors['image']; ?></small>
+                              <?php endif; ?>
+                          </div>
+                          <button type="submit" class="btn btn-primary py-3 w-25">Add Announcement</button>
+                          <a href="announcements.php" class="btn btn-danger py-3 w-25">Cancel</a>
+                        </form>
+
+                    </div>
                 </div>
-
-                <!-- Add announcement button -->
-                <a href="addAnnouncement.php" class="btn btn-info btn-lg float-add-btn" title="Add Announcement">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                    </svg>
-                    Add Announcement
-                </a>
-
             </div>
         </div>
-
     </div>
-    <script src="assets/js/date.js"></script>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
 
+    <!-- Scripts remain unchanged -->
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
-
     <script src="assets/js/feather.min.js"></script>
-
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
+    <script src="assets/plugins/select2/js/select2.min.js"></script>
     <script src="assets/js/script.js"></script>
-    <!-- sdsadasdasd -->
-
 </body>
-
 </html>
