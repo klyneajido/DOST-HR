@@ -1,75 +1,64 @@
 <?php
-// Start session
 session_start();
 include_once 'PHP_Connections/db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
     header('Location: login.php');
     exit();
 }
 
-// Get user's name from session
-$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
-
 $errors = [];
+
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Get form data
-  $title = $_POST['title'];
-  $description = $_POST['description'];
-  $link = $_POST['link'];
-  $image = $_FILES['image']['name'];
-  $image_temp = $_FILES['image']['tmp_name'];
+    // Get form data
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $link = $_POST['link'];
+    $image_data = file_get_contents($_FILES['image']['tmp_name']);
 
-  // Validate form data
-  if (empty($title)) {
-      $errors['title'] = "Title is required";
-  }
-  if (empty($description)) {
-      $errors['description'] = "Description is required";
-  }
-  if (empty($link)) {
-      $errors['link'] = "Link is required";
-  }
-  if (empty($image)) {
-      $errors['image'] = "Image is required";
-  }
+    // Validate form data
+    if (empty($title)) {
+        $errors['title'] = "Title is required";
+    }
+    if (empty($description)) {
+        $errors['description'] = "Description is required";
+    }
+    if (empty($link)) {
+        $errors['link'] = "Link is required";
+    }
+    if (empty($image_data)) {
+        $errors['image'] = "Image is required";
+    }
 
-  // If no errors, proceed with data insertion
-  if (empty($errors)) {
-      // Prepare SQL statement
-      $sql = "INSERT INTO announcements (title, description_announcement, link, image_announcement, created_at) VALUES (?, ?, ?, ?, NOW())";
-      $stmt = $mysqli->prepare($sql);
+    // If no errors, proceed with data insertion
+    if (empty($errors)) {
+        // Prepare SQL statement
+        $sql = "INSERT INTO announcements (title, description_announcement, link, image_announcement, created_at) VALUES (?, ?, ?, ?, NOW())";
+        $stmt = $mysqli->prepare($sql);
 
-      if ($stmt) {
-          // Bind parameters and execute
-          $stmt->bind_param("ssss", $title, $description, $link, $image);
-          
-          // Move uploaded file to desired location
-          $upload_directory = "uploads/"; // Directory where images will be stored
-          move_uploaded_file($image_temp, $upload_directory . $image);
+        if ($stmt) {
+            // Bind parameters and execute
+            $stmt->bind_param("ssss", $title, $description, $link, $image_data);
 
-          // Execute SQL statement
-          if ($stmt->execute()) {
-              $success = "Announcement added successfully!";
-              // Redirect or display success message
-              header('Location: announcements.php');
-              exit();
-          } else {
-              echo "Error executing statement: " . $stmt->error;
-          }
-      } else {
-          echo "Error preparing statement: " . $mysqli->error;
-      }
+            // Execute SQL statement
+            if ($stmt->execute()) {
+                $success = "Announcement added successfully!";
+                // Redirect or display success message
+                header('Location: announcements.php');
+                exit();
+            } else {
+                $errors['database'] = "Error executing statement: " . $stmt->error;
+            }
+        } else {
+            $errors['database'] = "Error preparing statement: " . $mysqli->error;
+        }
 
-      // Close statement
-      $stmt->close();
-  }
+        // Close statement
+        $stmt->close();
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -282,54 +271,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h4 class="card-title">Add New Announcement</h4>
                     </div>
                     <div class="card-body">
-                        <?php if (!empty($success)) : ?>
-                            <div class="alert alert-success">
-                                <?php echo htmlspecialchars($success); ?>
-                            </div>
-                        <?php endif; ?>
+                    <?php if (!empty($success)) : ?>
+                        <div class="alert alert-success"><?php echo htmlspecialchars($success); ?></div>
+                    <?php endif; ?>
 
-                        <?php if (!empty($errors)) : ?>
-                            <div class="alert alert-danger">
-                                <ul>
-                                    <?php foreach ($errors as $error) : ?>
-                                        <li><?php echo htmlspecialchars($error); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        <?php endif; ?>
+                    <?php if (!empty($errors)) : ?>
+                        <div class="alert alert-danger">
+                            <ul>
+                                <?php foreach ($errors as $error) : ?>
+                                    <li><?php echo htmlspecialchars($error); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
 
-                        <form method="POST" action="addAnnouncement.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to add this announcement?');">
-                          <div class="form-group">
-                              <label for="title"><p>Title <b class="text-danger">*</b></p></label>
-                              <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : ''; ?>">
-                              <?php if (isset($errors['title'])) : ?>
-                                  <small class="text-danger"><?php echo $errors['title']; ?></small>
-                              <?php endif; ?>
-                          </div>
-                          <div class="form-group">
-                              <label for="description"><p>Description <b class="text-danger">*</b></p></label>
-                              <textarea name="description" id="description" class="form-control" rows="5"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
-                              <?php if (isset($errors['description'])) : ?>
-                                  <small class="text-danger"><?php echo $errors['description']; ?></small>
-                              <?php endif; ?>
-                          </div>
-                          <div class="form-group">
-                              <label for="link"><p>Link <b class="text-danger">*</b></p></label>
-                              <input type="text" name="link" id="link" class="form-control" value="<?php echo isset($_POST['link']) ? htmlspecialchars($_POST['link']) : ''; ?>">
-                              <?php if (isset($errors['link'])) : ?>
-                                  <small class="text-danger"><?php echo $errors['link']; ?></small>
-                              <?php endif; ?>
-                          </div>
-                          <div class="form-group">
-                              <label for="image"><p>Image <b class="text-danger">*</b></p></label>
-                              <input type="file" name="image" id="image" class="form-control-file">
-                              <?php if (isset($errors['image'])) : ?>
-                                  <small class="text-danger"><?php echo $errors['image']; ?></small>
-                              <?php endif; ?>
-                          </div>
-                          <button type="submit" class="btn btn-primary py-3 w-25">Add Announcement</button>
-                          <a href="announcements.php" class="btn btn-danger py-3 w-25">Cancel</a>
-                        </form>
+                    <form method="POST" action="addAnnouncement.php" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" id="title" class="form-control" value="<?php echo isset($_POST['title']) ? htmlspecialchars($_POST['title']) : ''; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" class="form-control"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="link">Link</label>
+                            <input type="text" name="link" id="link" class="form-control" value="<?php echo isset($_POST['link']) ? htmlspecialchars($_POST['link']) : ''; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file" name="image" id="image" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Announcement</button>
+                        <a href="announcements.php" class="btn btn-secondary">Cancel</a>
+                    </form>
 
                     </div>
                 </div>

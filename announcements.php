@@ -21,7 +21,7 @@ $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) 
 $order = isset($_GET['order']) ? $_GET['order'] : 'desc'; // Default order descending
 
 // Prepare SQL query
-$sql = "SELECT a.id, a.title, a.description_announcement as announcement, a.link, a.image_announcement as image_shown, a.created_at, a.updated_at 
+$sql = "SELECT a.announcement_id, a.title, a.description_announcement as announcement, a.link, a.image_announcement as image_shown, a.created_at, a.updated_at 
         FROM announcements a ";
 
 if (!empty($search)) {
@@ -310,8 +310,8 @@ if ($result && $result->num_rows > 0) {
                                             <p class="card-text"><strong>Link:</strong> <?php echo htmlspecialchars($announcement['link']); ?></p>
                                             <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
                                             <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
-                                            <a href="#?announcement_id=<?php echo $announcement['id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-                                            <a href="#?announcement_id=<?php echo $announcement['id']; ?>" class="btn btn-danger py-3 w-25">Remove</a>
+                                            <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
+                                            <a href="#?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25">Remove</a>
                                         </div>
                                         <div class="col-md-4 text-right">
                                             <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>" alt="Announcement Image" class="img-fluid">
