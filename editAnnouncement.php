@@ -35,15 +35,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $link = $_POST['link'];
-    $updated_now = date('Y-m-d H:i:s');
 
-    // Handle image upload
-    if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    // Check if a new image is uploaded
+    if (!empty($_FILES['image']['tmp_name'])) {
         $image_data = file_get_contents($_FILES['image']['tmp_name']);
     } else {
-        // Keep the existing image if no new image is uploaded
-        $image_data = $announcement['image_announcement'];
+        $image_data = $announcement['image_announcement']; // Use the existing image if no new image is uploaded
     }
+
+    // Updated_at using MySQL NOW() function
+    $sql_update = "UPDATE announcements SET title = ?, description_announcement = ?, image_announcement = ?, link = ?, updated_at = NOW() WHERE announcement_id = ?";
+    $stmt_update = $mysqli->prepare($sql_update);
+    $stmt_update->bind_param('ssssi', $title, $description, $image_data, $link, $announcement_id);
 
     if (empty($title)) {
         $errors['title'] = "Title is required";
@@ -56,11 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errors)) {
-        $sql = "UPDATE announcements SET title = ?, description_announcement = ?, image_announcement = ?, link = ?, updated_at = ? WHERE announcement_id = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('sssssi', $title, $description, $image_data, $link, $updated_now, $announcement_id);
-
-        if ($stmt->execute()) {
+        if ($stmt_update->execute()) {
             header('Location: announcements.php?success=Announcement updated successfully');
             exit();
         } else {
@@ -69,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
