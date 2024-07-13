@@ -2,11 +2,14 @@
 session_start();
 include_once 'PHP_Connections/db_connection.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
+
+$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
+
 
 $errors = [];
 
@@ -302,8 +305,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <label for="image">Image</label>
                             <input type="file" name="image" id="image" class="form-control-file">
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Announcement</button>
-                        <a href="announcements.php" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary py-3 w-25">Add Announcement</button>
+                        <a href="announcements.php" class="btn btn-secondary py-3 w-25">Cancel</a>
                     </form>
 
                     </div>
