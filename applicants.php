@@ -1,43 +1,74 @@
 <?php
-// Start session
 session_start();
-include_once 'PHP_Connections\db_connection.php';
+include_once 'PHP_Connections/db_connection.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
     header('Location: login.php');
     exit();
 }
 
-// Get user's name from session
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
+
+$query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
+                 a.application_letter, a.personal_data_sheet, a.performance_rating, a.eligibility_rating_license, 
+                 a.transcript_of_records, a.certificate_of_employment, a.proof_of_ratings_seminars, 
+                 a.proof_of_rewards, j.position
+          FROM applicants a 
+          LEFT JOIN job j ON a.job_id = j.job_id";
+$result = mysqli_query($mysqli, $query);
+
+$applicants = [];
+if ($result) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $applicants[] = $row;
+    }
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+    $applicantId = $_POST['id'];
+
+    // Prevent SQL injection
+    $applicantId = mysqli_real_escape_string($mysqli, $applicantId);
+
+    // Perform deletion query
+    $deleteQuery = "DELETE FROM applicants WHERE id = '$applicantId'";
+
+    if (mysqli_query($mysqli, $deleteQuery)) {
+        echo "Applicant deleted successfully!";
+    } else {
+        echo "Error deleting applicant: " . mysqli_error($mysqli);
+    }
+} else {
+    echo "Invalid request. Please provide an applicant ID.";
+}
+
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <style>
-	#style-5::-webkit-scrollbar-track
-	{
-		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-		background-color: #F5F5F5;
-	}
+    .file-preview img {
+        max-width: 100px;
+        height: auto;
+    }
 
-	#style-5::-webkit-scrollbar
-	{
-		width: 10px;
-		background-color: #F5F5F5;
-	}
+    #style-5::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #F5F5F5;
+    }
 
-	#style-5::-webkit-scrollbar-thumb
-	{
-		background-color: #0ae;
-		
-		background-image: -webkit-gradient(linear, 0 0, 0 100%,
-											color-stop(.5, rgba(255, 255, 255, .2)),
-							color-stop(.5, transparent), to(transparent));
-	}
+    #style-5::-webkit-scrollbar {
+        width: 10px;
+        background-color: #F5F5F5;
+    }
+
+    #style-5::-webkit-scrollbar-thumb {
+        background-color: #0ae;
+
+        background-image: --webkit-gradient(linear, 0 0, 0 100%,
+                color-stop(.5, rgba(255, 255, 255, .2)),
+                color-stop(.5, transparent), to(transparent));
+    }
 </style>
 
 <head>
@@ -59,6 +90,26 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 </head>
 
 <body>
+    <!-- Modal for Delete Confirmation -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this applicant?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -80,171 +131,109 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
     </div>
     <div class="main-wrapper">
 
-        <div class="header">
-
-            <div class="header-left">
-                <div class="logo-wrapper">
-                    <a href="index.php" class="logo">
-                        <img src="assets/img/DOST.png" alt="Logo">
-                    </a>
-
-                </div>
-
-                <a href="index.php" class="logo logo-small">
-                    <img src="assets/img/dost_logo.png" alt="Logo" width="30" height="30">
-                </a>
-                <a href="javascript:void(0);" id="toggle_btn">
-                    <span class="bar-icon">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </span>
-                </a>
-            </div>
-
-            <div class="top-nav-search" style="width:46.5%; margin-left:8%; min-width:20%;">
-                <form>
-                    <input type="text" class="form-control" placeholder="">
-                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-
-
-            <a class="mobile_btn" id="mobile_btn">
-                <i class="fas fa-bars"></i>
-            </a>
-            <ul class="nav user-menu">
-
-                <li class="nav-item dropdown has-arrow main-drop">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                        <span class="user-img">
-                            <img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Avatar" style="border-radius: 50%; width: 45px; height: 45px;">
-                            <span class="status online"></span>
-                        </span>
-                        <span><?php echo htmlspecialchars($user_name); ?></span>
-                    </a>
-                    <div class="dropdown-menu">
-						<a class="dropdown-item" href="profile.html"><i data-feather="user" class="mr-1"></i> Profile</a>
-						<a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
-						<a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
-					</div>
-					
-
-					<script>
-						document.getElementById('logoutLink').addEventListener('click', function(event) {
-							event.preventDefault();
-							$('#logoutModal').modal('show');
-						});
-
-						document.getElementById('confirmLogout').addEventListener('click', function() {
-							window.location.href = 'PHP_Connections/logout.php';
-						});
-					</script>
-				</li>
-                </li>
-
-            </ul>
-            <div class="dropdown mobile-user-menu show">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                <div class="dropdown-menu dropdown-menu-right ">
-                    <a class="dropdown-item" href="profile.php">My Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="PHP_Connections/logout.php">Logout</a>
-                </div>
-            </div>
-
-        </div>
-
-
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div class="sidebar-contents">
-                    <div id="sidebar-menu" class="sidebar-menu">
-                        <div class="mobile-show">
-                            <div class="offcanvas-menu">
-                                <div class="user-info align-center bg-theme text-center">
-                                    <span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
-                                    <a href="javascript:void(0)" class="d-block menu-style text-white">
-                                        <div class="user-avatar d-inline-block mr-3">
-                                            <img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="user avatar" class="rounded-circle" width="50">
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="sidebar-input">
-                                <div class="top-nav-search">
-                                    <form>
-                                        <input type="text" class="form-control" placeholder="Search here">
-                                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <ul>
-                            <li>
-                                <a href="index.php"><img src="assets/img/home.svg" alt="sidebar_img">
-                                    <span>Dashboard</span></a>
-                            </li>
-                            <li class="active">
-                                <a href="applicants.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
-                                        Applicants</span></a>
-                            </li>
-                            <li>
-                                <a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-                                        View Job</span></a>
-                            </li>
-                            <li>
-                                <a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
-                                    <span>Announcements</span></a>
-                            </li>
-                            <li>
-                                <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
-                                        Transparency</span></a>
-                            </li>
-
-                            <li>
-                                <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
-                                    <span>Profile</span></a>
-                            </li>
-                            
-                        </ul>
-                        <ul class="logout">
-                            <li>
-                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
-                                
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
-                event.preventDefault();
-                $('#logoutModal').modal('show');
-            });
-
-            document.getElementById('confirmLogout').addEventListener('click', function() {
-                window.location.href = 'PHP_Connections/logout.php';
-            });
-        </script>
+        <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="container-fluid">
-                <div class="breadcrumb-path mb-4 my-4" >
+                <!-- Breadcrumb section -->
+                <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
-                      <li class="breadcrumb-item">
-                        <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
-                      </li>
-                      <li class="breadcrumb-item active">Posts</li>
+                        <li class="breadcrumb-item">
+                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
+                        </li>
+                        <li class="breadcrumb-item active">Posts</li>
                     </ul>
-                    <div class="d-flex gap-3">
-                      
+                </div>
+                <!-- Table section -->
+                <div class="col-xl-12 col-sm-12 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-titles">Applicants</h2>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table custom-table no-footer text-center">
+                                <thead>
+                                    <tr >
+                                        <th>ID</th>
+                                        <th>Job Title</th>
+                                        <th>Last Name</th>
+                                        <th>First Name</th>
+                                        <th>Middle Name</th>
+                                        <th>Sex</th>
+                                        <th>Address</th>
+                                        <th>Email</th>
+                                        <th>Contact Number</th>
+                                        <th>Application Letter</th>
+                                        <th>Personal Data Sheet</th>
+                                        <th>Performance Rating</th>
+                                        <th>Eligibility/Rating/License</th>
+                                        <th>Transcript of Records</th>
+                                        <th>Certificate of Employment</th>
+                                        <th>Proof of Ratings/Seminars</th>
+                                        <th>Proof of Rewards</th>
+                                       
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($applicants)) : ?>
+                                        <?php foreach ($applicants as $applicant) : ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($applicant['id']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['position']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['sex']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['address']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['email']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['application_letter']); ?>
+                                                </td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['personal_data_sheet']); ?>
+                                                </td>
+                                                
+                                                <td class="file-preview">
+                                                <?php echo getFilePreview($applicant['performance_rating']); ?>
+                                                </td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['eligibility_rating_license']); ?>
+                                                </td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['transcript_of_records']); ?>
+                                                </td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['certificate_of_employment']); ?>
+                                                </td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['proof_of_ratings_seminars']); ?>
+                                                </td>
+                                                <td class="file-preview">
+                                                    <?php echo getFilePreview($applicant['proof_of_rewards']); ?>
+                                                </td>
+                                                
+                                                <td>
+                                                    <button type="button" class="btn btn-danger delete-btn" data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal" data-target="#deleteModal">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="18">No applicants found.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
 
-    </div>
+</body>
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
 
@@ -258,8 +247,50 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
-    <!-- sdsadasdasd -->
 
-</body>
+    
+<script>
+    // JavaScript for deleting applicant
+    $(document).ready(function() {
+        $('.delete-btn').click(function() {
+            var applicantId = $(this).data('applicant-id');
+            $('#confirmDelete').data('applicant-id', applicantId); // Set data attribute to modal button
+        });
+
+        $('#confirmDelete').click(function() {
+            var applicantId = $(this).data('applicant-id');
+            // Perform AJAX request to delete applicant
+            $.ajax({
+                url: 'PHP_Connections/delete_applicant.php',
+                method: 'POST',
+                data: { id: applicantId },
+                success: function(response) {
+                    // Handle success, maybe refresh table or show message
+                    alert('Applicant deleted successfully!');
+                    // Example: Reload the page after deletion
+                    location.reload();
+                },
+                error: function(xhr, status, error) {
+                    // Handle error
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 </html>
+<?php
+function getFilePreview($filePath)
+{
+    $filePath = '../DOSTHR-PUBLIC/' . htmlspecialchars($filePath);
+    $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if (in_array($fileExtension, $imageExtensions)) {
+        return '<img src="' . $filePath . '" alt="Image">';
+    } else {
+        return '<a href="' . $filePath . '" target="_blank">View</a>';
+    }
+}
+?>
