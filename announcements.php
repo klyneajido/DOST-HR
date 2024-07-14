@@ -85,7 +85,7 @@ if ($result && $result->num_rows > 0) {
 	{
 		background-color: #0ae;
 		
-		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+		background-image: --webkit-gradient(linear, 0 0, 0 100%,
 											color-stop(.5, rgba(255, 255, 255, .2)),
 							color-stop(.5, transparent), to(transparent));
 	}

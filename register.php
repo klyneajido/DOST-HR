@@ -45,7 +45,11 @@ $confirmPassword_error = isset($errors['confirmPassword']) ? $errors['confirmPas
                             <form action="PHP_Connections/registerConn.php" method="post">
                                 <div class="form-group">
                                     <label class="form-control-label">Name</label>
-                                    <input class="form-control" type="hidden" name="csrf_token" value="<?php echo $token; ?>" required />
+                                    <input class="form-control" type="text" id="Name" name="name"
+                                        value="<?php echo $name; ?>" required />
+                                    <?php if (!empty($username_error)): ?>
+                                        <small class="form-text text-danger"><?php echo $username_error; ?></small>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-control-label">Username</label>

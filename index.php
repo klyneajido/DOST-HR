@@ -13,7 +13,7 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-$sql = "SELECT COUNT(*) as count FROM applicant";
+$sql = "SELECT COUNT(*) as count FROM applicants";
 $result = $mysqli->query($sql);
 $applicant_count = 0;
 
