@@ -330,12 +330,12 @@ if ($result) {
 
 			
 				
-
+				<!-- Applicant filter -->
 				<div class="row">
 					<div class="col-xl-12 col-sm-12 col-12 d-flex">
 						<div class="card card-list flex-fill">
 							<div class="card-header ">
-								<h4 class="card-title">Total Salary By Unit</h4>
+								<h4 class="card-title">Applicant by Position/Unit</h4>
 							</div>
 							<div class="card-body">
 								<div class="team-list">
@@ -411,6 +411,8 @@ if ($result) {
 					</div>
 				</div>
 
+
+				<!-- history and interview cards -->
 				<div class="row">
 					<div class="col-xl-8 col-sm-12 col-12 d-flex">
 						<div class="card card-list flex-fill">
