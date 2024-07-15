@@ -19,7 +19,7 @@ $applicant_count = 0;
 
 if ($result) {
 	$row = $result->fetch_assoc();
-	$employee_count = $row['count'];
+	$applicant_count = $row['count'];
 } else {
 	echo "Error retrieving applicant count: " . $mysqli->error;
 }
@@ -35,7 +35,16 @@ if ($result) {
 	echo "Error retrieving job count: " . $mysqli->error;
 }
 
+$sql = "SELECT COUNT(*) as count FROM announcements";
+$result = $mysqli->query($sql);
+$announcement_count = 0;
 
+if ($result) {
+	$row = $result->fetch_assoc();
+	$announcement_count = $row['count'];
+} else {
+	echo "Error retrieving announcement count: " . $mysqli->error;
+}
 
 ?>
 <?php
@@ -223,7 +232,14 @@ if ($result) {
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
 							</li>
-
+							<li>
+								<a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+										<span>Archive</span></a>
+              </li>
+							<li>
+								<a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+										<span>History</span></a>
+              </li>
 							<li>
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
@@ -286,7 +302,7 @@ if ($result) {
 							<div class="card-body">
 								<div class="card_widget_header">
 									<label>Announcements</label>
-									<h4>6</h4>
+									<h4><?php echo $announcement_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
 									<img src="assets/img/dash1.png" alt="card-img" />
