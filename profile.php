@@ -199,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </ul>
                             </div>
                         <?php endif; ?>
-                        <form method="POST" enctype="multipart/form-data" onsubmit="return confirmSubmission(event)">
+                        <form method="POST" enctype="multipart/form-data" id="profileForm">
                             <div class="row">
                                 <!-- Profile Image and Upload Input on the left side -->
                                 <div class="col-md-4">
@@ -210,11 +210,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <?php else : ?>
                                             <span>No image uploaded</span>
                                         <?php endif; ?>
-                                        <br>
                                         <input type="file" name="profile_image" id="profile_image" class="form-control-file mt-3" style="margin: 0 auto;">
                                     </div>
                                 </div>
-
                                 <!-- Other form fields on the right side -->
                                 <div class="col-md-8">
                                     <div class="form-group">
@@ -260,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Are you sure you want to update your profile?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary py-2" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary w-25 py-2" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary w-25 py-2" id="confirmUpdate">Yes, Update</button>
                 </div>
             </div>
@@ -281,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     Your profile has been updated successfully.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-primary w-25 py-2" data-dismiss="modal">OK</button>
                 </div>
             </div>
         </div>
@@ -293,9 +291,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $('#confirmationModal').modal('show');
         }
 
+        document.getElementById('profileForm').addEventListener('submit', confirmSubmission);
+
         document.getElementById('confirmUpdate').addEventListener('click', function() {
-            document.querySelector('form').submit();
+            document.getElementById('profileForm').submit();
         });
+
+        // Success Modal OK button
+        document.querySelector('#successModal .btn-primary').addEventListener('click', function() {
+            window.location.href = 'profile.php';
+        });
+
+
     </script>
 
     <script src="assets/js/date.js"></script>
