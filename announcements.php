@@ -69,7 +69,7 @@ if ($result && $result->num_rows > 0) {
 </head>
 
 <style>
-	#style-5::-webkit-scrollbar-track
+		#style-5::-webkit-scrollbar-track
 	{
 		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 		background-color: #F5F5F5;
@@ -85,7 +85,7 @@ if ($result && $result->num_rows > 0) {
 	{
 		background-color: #0ae;
 		
-		background-image: --webkit-gradient(linear, 0 0, 0 100%,
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
 											color-stop(.5, rgba(255, 255, 255, .2)),
 							color-stop(.5, transparent), to(transparent));
 	}
@@ -93,7 +93,7 @@ if ($result && $result->num_rows > 0) {
 
 </style>
 
-<body>
+<body class="scrollbar" id="style-5">
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
