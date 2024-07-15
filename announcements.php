@@ -315,17 +315,21 @@ if ($result && $result->num_rows > 0) {
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-body shadow p-3">
-                                    <div class="row">
+                                    <h5 class="card-header"><?php echo htmlspecialchars($announcement['title']); ?></h5>
+                                    <div class="row mx-3 my-2">
+                                    
                                         <div class="col-md-8">
-                                            <h5 class="card-title"><?php echo htmlspecialchars($announcement['title']); ?></h5>
+                                            
                                             <p class="card-text"><strong>Description:</strong> <?php echo htmlspecialchars($announcement['announcement']); ?></p>
                                             <p class="card-text"><strong>Link:</strong> <?php echo htmlspecialchars($announcement['link']); ?></p>
                                             <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
                                             <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
-                                            <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-                                            <a href="#?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="disabled btn btn-danger py-3 w-25">Remove</a>
+                                            <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 px-3">Edit</a>
+                                            <a href="#?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="disabled btn btn-danger py-3 ">Remove</a>
+                                            
                                         </div>
                                         <div class="col-md-4 text-right">
+                                            <br>
                                             <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>" alt="Announcement Image" class="img-fluid">
                                         </div>
                                     </div>
@@ -336,12 +340,23 @@ if ($result && $result->num_rows > 0) {
                 </div>
 
                 <!-- Add announcement button -->
-                <a href="addAnnouncement.php" class="btn btn-info btn-lg float-add-btn" title="Add Announcement">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-                    </svg>
-                    Add Announcement
-                </a>
+                <div class="user-menu">
+					<a href="addJob.php" class="btn btn-info btn-lg float-add-btn" title="Add Job">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+							</svg>
+							Add Announcement
+					</a>
+				</div>
+
+				<div class="mobile-user-menu show">
+					<a href="addJob.php" class="btn btn-info btn-lg float-add-btn px-3 py-2" title="Add Job">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+							</svg>
+						
+					</a>
+				</div>
 
             </div>
         </div>

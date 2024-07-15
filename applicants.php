@@ -138,9 +138,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                 <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
+                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Applicants</a>
                         </li>
-                        <li class="breadcrumb-item active">Posts</li>
                     </ul>
                 </div>
                 <!-- Table section -->
