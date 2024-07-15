@@ -284,16 +284,6 @@ if ($result) {
 							<h3>Admin Dashboard</h3>
 						</div>
 					</div>
-					<!-- <div class="col-xl-6 col-sm-12 col-12">
-						<div class="row">
-							<div class="col-xl-6 col-sm-6 col-12">
-								<a class="btn-dash" href="#"> Admin Dashboard</a>
-							</div>
-							<div class="col-xl-6 col-sm-6 col-12">
-								<a class="btn-emp" href="index-applicants.php">Employee Dashboard</a>
-							</div>
-						</div>
-					</div> -->
 				</div>
 				<div class="row mb-4">
 
@@ -336,74 +326,13 @@ if ($result) {
 							</div>
 						</div>
 					</div>
-					<!-- 
-					<div class="col-xl-3 col-sm-6 col-12">
-						<div class="card board1 fill4 ">
-							<div class="card-body">
-								<div class="card_widget_header">
-									<label>Salary</label>
-									<h4>$5.8M</h4>
-								</div>
-								<div class="card_widget_img">
-									<img src="assets/img/dash4.png" alt="card-img" />
-								</div>
-							</div>
-						</div>
-					 -->
-					</div>
 				</div>
+
+			
+				
+
 				<div class="row">
-					<div class="col-xl-6 d-flex mobile-h">
-						<div class="card flex-fill">
-							<div class="card-header">
-								<div class="d-flex justify-content-between align-items-center">
-									<h5 class="card-title">Total Employees</h5>
-								</div>
-							</div>
-							<div class="card-body">
-								<div id="invoice_chart"></div>
-								<div class="text-center text-muted">
-									<div class="row">
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#071952;"></i> Cashier</p>
-											</div>
-										</div>
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#088395"></i> ITSM</p>
-											</div>
-										</div>
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#37B7C3"></i> RSTL</p>
-											</div>
-										</div>
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:black"></i> Supply Office</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-6 d-flex">
-						<div class="card flex-fill">
-							<div class="card-header">
-								<div class="d-flex justify-content-between align-items-center">
-									<h5 class="card-title">Total Salary By Unit</h5>
-								</div>
-							</div>
-							<div class="card-body">
-								<div id="sales_chart"></div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-xl-6 col-sm-12 col-12 d-flex">
+					<div class="col-xl-12 col-sm-12 col-12 d-flex">
 						<div class="card card-list flex-fill">
 							<div class="card-header ">
 								<h4 class="card-title">Total Salary By Unit</h4>
@@ -480,7 +409,10 @@ if ($result) {
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-sm-12 col-12 d-flex">
+				</div>
+
+				<div class="row">
+					<div class="col-xl-8 col-sm-12 col-12 d-flex">
 						<div class="card card-list flex-fill">
 							<div class="card-header">
 								<div class="">
@@ -562,16 +494,18 @@ if ($result) {
 										</div>
 									</div>
 								</div>
-								<div class="leave-viewall activit">
-									<a>View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
+								<div class="leave-viewall">
+									<a href="history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-sm-12 col-12 d-flex">
+
+					<!-- UPCOMING INTERVIEW CARD -->
+					<div class="col-xl-4 col-sm-12 col-12 d-flex">
 						<div class="card card-list flex-fill">
 							<div class="card-header ">
-								<h4 class="card-title-dash">Your Upcoming Leave</h4>
+								<h4 class="card-title-dash">Your Upcoming Interview</h4>
 								<div class="dropdown">
 									<button class="btn btn-action " type="button" id="roomsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<i class="fas fa-ellipsis-h"></i>
@@ -581,6 +515,7 @@ if ($result) {
 									</div>
 								</div>
 							</div>
+
 							<div class="card-body p-0">
 								<div class="leave-set">
 									<span class="leave-inactive">
@@ -612,14 +547,20 @@ if ($result) {
 									</span>
 									<label>Tue, 31 Dec 2021</label>
 								</div>
-								<div class="leave-viewall">
-									<a href="leave.html">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
-								</div>
+								
 							</div>
+							<div class="leave-viewall">
+									<a href="#">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+								</div>
 						</div>
 					</div>
 				</div>
+
+				<div>
+					
+				</div>
 			</div>
+			
 		</div>
 
 	</div>
