@@ -78,49 +78,47 @@ if ($result) {
 	.modal-dialog {
 		z-index: 1050 !important;
 	}
-	#style-5::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-}
 
-#style-5::-webkit-scrollbar
-{
-	width: 10px;
-	background-color: #F5F5F5;
-}
+	#style-5::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: #F5F5F5;
+	}
 
-#style-5::-webkit-scrollbar-thumb
-{
-	background-color: #0ae;
-	
-	background-image: -webkit-gradient(linear, 0 0, 0 100%,
-	                   color-stop(.5, rgba(255, 255, 255, .2)),
-					   color-stop(.5, transparent), to(transparent));
-}
-</style> 
+	#style-5::-webkit-scrollbar {
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb {
+		background-color: #0ae;
+
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+				color-stop(.5, rgba(255, 255, 255, .2)),
+				color-stop(.5, transparent), to(transparent));
+	}
+</style>
 
 <body class="scrollbar" id="style-5">
-    <!-- Logout Modal -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Logout Modal -->
+	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to logout?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="main-wrapper">
 
 		<div class="header">
@@ -226,8 +224,8 @@ if ($result) {
 							</li>
 							<li>
 								<a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
-										<span>Announcements</span></a>
-              </li>
+									<span>Announcements</span></a>
+							</li>
 							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
@@ -244,27 +242,27 @@ if ($result) {
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
 							</li>
-							
+
 						</ul>
 						<ul class="logout">
-                            <li>
-                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
-                            </li>
-                        </ul>
+							<li>
+								<a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script>
-            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
-                event.preventDefault();
-                $('#logoutModal').modal('show');
-            });
+			document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+				event.preventDefault();
+				$('#logoutModal').modal('show');
+			});
 
-            document.getElementById('confirmLogout').addEventListener('click', function() {
-                window.location.href = 'PHP_Connections/logout.php';
-            });
-        </script>
+			document.getElementById('confirmLogout').addEventListener('click', function() {
+				window.location.href = 'PHP_Connections/logout.php';
+			});
+		</script>
 
 
 		<div class="page-wrapper">
@@ -391,46 +389,50 @@ if ($result) {
 											<span>IOS</span>
 										</div>
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
+									<div class="team-content">
+										<label>Linda Craver</label>
+										<span>IOS</span>
 									</div>
 								</div>
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Jenni Sims</label>
-											<span>Android</span>
-										</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="team-list">
+								<div class="team-view">
+									<div class="team-img">
+										<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
+									<div class="team-content">
+										<label>Jenni Sims</label>
+										<span>Android</span>
 									</div>
 								</div>
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Danny</label>
-											<span>Design</span>
-										</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="team-list">
+								<div class="team-view">
+									<div class="team-img">
+										<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
+									<div class="team-content">
+										<label>Danny</label>
+										<span>Design</span>
 									</div>
+								</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
@@ -590,6 +592,7 @@ if ($result) {
 			</div>
 			
 		</div>
+	</div>
 
 	</div>
 	<script src="assets/js/date.js"></script>
