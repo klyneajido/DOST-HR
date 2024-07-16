@@ -18,7 +18,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
 // Prepare SQL query
-$sql = "SELECT j.job_id, j.position, d.name as department_name, d.abbrev, j.monthlysalary, j.status 
+$sql = "SELECT j.job_id, j.position, d.name as department_name, d.abbrev, j.salary, j.status 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
 
@@ -289,7 +289,7 @@ if ($result && $result->num_rows > 0) {
 									<h5 class="card-header"><?php echo htmlspecialchars($job['position']); ?></h5>
 									<div class="mx-3 py-2">
 										<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-										<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+										<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['salary']); ?></p>
 										<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
 										<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
 										<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 w-25">Details</a>

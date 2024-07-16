@@ -2,7 +2,7 @@
 $db_host = 'localhost';
 $db_user = 'root'; // Correct MySQL username
 $db_password = ''; // MySQL password (leave empty if no password)
-$db_name = 'dosthr';
+$db_name = 'dosthr-gpt';
 
 // Create connection
 $mysqli = new mysqli($db_host, $db_user, $db_password, $db_name);

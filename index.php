@@ -56,7 +56,7 @@ if ($result) {
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-	<title>HRMO Admin</title>
+	<title>HRMO Admin Dashboard</title>
 
 	<link rel="shortcut icon" href="assets/img/dost_logo.png">
 
@@ -328,8 +328,6 @@ if ($result) {
 					</div>
 				</div>
 
-			
-				
 				<!-- Applicant filter -->
 				<div class="row">
 					<div class="col-xl-12 col-sm-12 col-12 d-flex">
@@ -338,10 +336,11 @@ if ($result) {
 								<h4 class="card-title">Applicant by Position/Unit</h4>
 							</div>
 							<div class="card-body">
+
 								<div class="team-list">
 									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-03.jpg" alt="avatar" />
+										<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
+											<h4><?php echo $applicant_count; ?></h4>
 										</div>
 										<div class="team-content">
 											<label>Maria Cotton</label>
@@ -350,11 +349,38 @@ if ($result) {
 									</div>
 									<div class="team-action">
 										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
+											<li><a><i data-feather="chevron-down"></i></a></li>
+											<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
 										</ul>
 									</div>
 								</div>
+								
+								<div class="team-list" style="margin-left:5%;">
+									<div class="team-view">
+										<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
+											<h4><?php echo $applicant_count; ?></h4>
+										</div>
+										<div class="team-content">
+											<label>Maria Cotton</label>
+											<span>PHP</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="team-list" style="margin-left:5%;">
+									<div class="team-view">
+										<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
+											<h4><?php echo $applicant_count; ?></h4>
+										</div>
+										<div class="team-content">
+											<label>Maria Cotton</label>
+											<span>PHP</span>
+										</div>
+									</div>
+								</div>
+
+
+
 								<div class="team-list">
 									<div class="team-view">
 										<div class="team-img">
@@ -552,7 +578,7 @@ if ($result) {
 								
 							</div>
 							<div class="leave-viewall">
-									<a href="#">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+									<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
 								</div>
 						</div>
 					</div>
