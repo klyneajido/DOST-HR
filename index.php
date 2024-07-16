@@ -69,49 +69,47 @@ if ($result) {
 	.modal-dialog {
 		z-index: 1050 !important;
 	}
-	#style-5::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	background-color: #F5F5F5;
-}
 
-#style-5::-webkit-scrollbar
-{
-	width: 10px;
-	background-color: #F5F5F5;
-}
+	#style-5::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: #F5F5F5;
+	}
 
-#style-5::-webkit-scrollbar-thumb
-{
-	background-color: #0ae;
-	
-	background-image: -webkit-gradient(linear, 0 0, 0 100%,
-	                   color-stop(.5, rgba(255, 255, 255, .2)),
-					   color-stop(.5, transparent), to(transparent));
-}
-</style> 
+	#style-5::-webkit-scrollbar {
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb {
+		background-color: #0ae;
+
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+				color-stop(.5, rgba(255, 255, 255, .2)),
+				color-stop(.5, transparent), to(transparent));
+	}
+</style>
 
 <body class="scrollbar" id="style-5">
-    <!-- Logout Modal -->
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Logout Modal -->
+	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					Are you sure you want to logout?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="main-wrapper">
 
 		<div class="header">
@@ -217,8 +215,8 @@ if ($result) {
 							</li>
 							<li>
 								<a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
-										<span>Announcements</span></a>
-              </li>
+									<span>Announcements</span></a>
+							</li>
 							<li>
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
@@ -228,27 +226,27 @@ if ($result) {
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
 							</li>
-							
+
 						</ul>
 						<ul class="logout">
-                            <li>
-                                <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
-                            </li>
-                        </ul>
+							<li>
+								<a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
 		<script>
-            document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
-                event.preventDefault();
-                $('#logoutModal').modal('show');
-            });
+			document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+				event.preventDefault();
+				$('#logoutModal').modal('show');
+			});
 
-            document.getElementById('confirmLogout').addEventListener('click', function() {
-                window.location.href = 'PHP_Connections/logout.php';
-            });
-        </script>
+			document.getElementById('confirmLogout').addEventListener('click', function() {
+				window.location.href = 'PHP_Connections/logout.php';
+			});
+		</script>
 
 
 		<div class="page-wrapper">
@@ -334,277 +332,277 @@ if ($result) {
 							</div>
 						</div>
 					 -->
-					</div>
 				</div>
-				<div class="row">
-					<div class="col-xl-6 d-flex mobile-h">
-						<div class="card flex-fill">
-							<div class="card-header">
-								<div class="d-flex justify-content-between align-items-center">
-									<h5 class="card-title">Total Employees</h5>
-								</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6 d-flex mobile-h">
+					<div class="card flex-fill">
+						<div class="card-header">
+							<div class="d-flex justify-content-between align-items-center">
+								<h5 class="card-title">Total Employees</h5>
 							</div>
-							<div class="card-body">
-								<div id="invoice_chart"></div>
-								<div class="text-center text-muted">
-									<div class="row">
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#071952;"></i> Cashier</p>
-											</div>
+						</div>
+						<div class="card-body">
+							<div id="invoice_chart"></div>
+							<div class="text-center text-muted">
+								<div class="row">
+									<div class="col-3">
+										<div class="mt-3">
+											<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#071952;"></i> Cashier</p>
 										</div>
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#088395"></i> ITSM</p>
-											</div>
+									</div>
+									<div class="col-3">
+										<div class="mt-3">
+											<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#088395"></i> ITSM</p>
 										</div>
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#37B7C3"></i> RSTL</p>
-											</div>
+									</div>
+									<div class="col-3">
+										<div class="mt-3">
+											<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:#37B7C3"></i> RSTL</p>
 										</div>
-										<div class="col-3">
-											<div class="mt-3">
-												<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:black"></i> Supply Office</p>
-											</div>
+									</div>
+									<div class="col-3">
+										<div class="mt-3">
+											<p class="mb-2 text-truncate"><i class="fas fa-circle" style="color:black"></i> Supply Office</p>
 										</div>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-6 d-flex">
-						<div class="card flex-fill">
-							<div class="card-header">
-								<div class="d-flex justify-content-between align-items-center">
-									<h5 class="card-title">Total Salary By Unit</h5>
-								</div>
-							</div>
-							<div class="card-body">
-								<div id="sales_chart"></div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-xl-6 col-sm-12 col-12 d-flex">
-						<div class="card card-list flex-fill">
-							<div class="card-header ">
-								<h4 class="card-title">Total Salary By Unit</h4>
+				<div class="col-xl-6 d-flex">
+					<div class="card flex-fill">
+						<div class="card-header">
+							<div class="d-flex justify-content-between align-items-center">
+								<h5 class="card-title">Total Salary By Unit</h5>
 							</div>
-							<div class="card-body">
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-03.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Maria Cotton</label>
-											<span>PHP</span>
-										</div>
+						</div>
+						<div class="card-body">
+							<div id="sales_chart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xl-6 col-sm-12 col-12 d-flex">
+					<div class="card card-list flex-fill">
+						<div class="card-header ">
+							<h4 class="card-title">Total Salary By Unit</h4>
+						</div>
+						<div class="card-body">
+							<div class="team-list">
+								<div class="team-view">
+									<div class="team-img">
+										<img src="assets/img/profiles/avatar-03.jpg" alt="avatar" />
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-04.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Linda Craver</label>
-											<span>IOS</span>
-										</div>
-									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
+									<div class="team-content">
+										<label>Maria Cotton</label>
+										<span>PHP</span>
 									</div>
 								</div>
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Jenni Sims</label>
-											<span>Android</span>
-										</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="team-list">
+								<div class="team-view">
+									<div class="team-img">
+										<img src="assets/img/profiles/avatar-04.jpg" alt="avatar" />
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
+									<div class="team-content">
+										<label>Linda Craver</label>
+										<span>IOS</span>
 									</div>
 								</div>
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Danny</label>
-											<span>Design</span>
-										</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="team-list">
+								<div class="team-view">
+									<div class="team-img">
+										<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
+									<div class="team-content">
+										<label>Jenni Sims</label>
+										<span>Android</span>
 									</div>
+								</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="team-list">
+								<div class="team-view">
+									<div class="team-img">
+										<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
+									</div>
+									<div class="team-content">
+										<label>Danny</label>
+										<span>Design</span>
+									</div>
+								</div>
+								<div class="team-action">
+									<ul>
+										<li><a><i data-feather="trash-2"></i></a></li>
+										<li><a><i data-feather="edit-2"></i></a></li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-sm-12 col-12 d-flex">
-						<div class="card card-list flex-fill">
-							<div class="card-header">
-								<div class="">
-									<h4 class="card-title">Recent Activities</h3>
+				</div>
+				<div class="col-xl-3 col-sm-12 col-12 d-flex">
+					<div class="card card-list flex-fill">
+						<div class="card-header">
+							<div class="">
+								<h4 class="card-title">Recent Activities</h3>
+							</div>
+						</div>
+						<div class="card-body dash-activity">
+							<div class="slimscroll activity_scroll">
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-02.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>2 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-05.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>3 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-07.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>4 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-08.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>5 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-09.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>6 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-10.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>2 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-12.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>3 hours ago</span>
+									</div>
+								</div>
+								<div class="activity-set">
+									<div class="activity-img">
+										<img src="assets/img/profiles/avatar-13.jpg" alt="avatar">
+									</div>
+									<div class="activity-content">
+										<label>Lorem ipsum dolor sit amet,</label>
+										<span>4 hours ago</span>
+									</div>
 								</div>
 							</div>
-							<div class="card-body dash-activity">
-								<div class="slimscroll activity_scroll">
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-02.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>2 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-05.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>3 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-07.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>4 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-08.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>5 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-09.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>6 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-10.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>2 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-12.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>3 hours ago</span>
-										</div>
-									</div>
-									<div class="activity-set">
-										<div class="activity-img">
-											<img src="assets/img/profiles/avatar-13.jpg" alt="avatar">
-										</div>
-										<div class="activity-content">
-											<label>Lorem ipsum dolor sit amet,</label>
-											<span>4 hours ago</span>
-										</div>
-									</div>
-								</div>
-								<div class="leave-viewall activit">
-									<a>View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
-								</div>
+							<div class="leave-viewall activit">
+								<a>View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-3 col-sm-12 col-12 d-flex">
-						<div class="card card-list flex-fill">
-							<div class="card-header ">
-								<h4 class="card-title-dash">Your Upcoming Leave</h4>
-								<div class="dropdown">
-									<button class="btn btn-action " type="button" id="roomsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fas fa-ellipsis-h"></i>
-									</button>
-									<div class="dropdown-menu" aria-labelledby="roomsBtn">
-										<a class="dropdown-item" href="#">Action</a>
-									</div>
+				</div>
+				<div class="col-xl-3 col-sm-12 col-12 d-flex">
+					<div class="card card-list flex-fill">
+						<div class="card-header ">
+							<h4 class="card-title-dash">Your Upcoming Leave</h4>
+							<div class="dropdown">
+								<button class="btn btn-action " type="button" id="roomsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fas fa-ellipsis-h"></i>
+								</button>
+								<div class="dropdown-menu" aria-labelledby="roomsBtn">
+									<a class="dropdown-item" href="#">Action</a>
 								</div>
 							</div>
-							<div class="card-body p-0">
-								<div class="leave-set">
-									<span class="leave-inactive">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Mon, 16 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Fri, 20 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Wed, 25 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Fri, 27 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Tue, 31 Dec 2021</label>
-								</div>
-								<div class="leave-viewall">
-									<a href="leave.html">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
-								</div>
+						</div>
+						<div class="card-body p-0">
+							<div class="leave-set">
+								<span class="leave-inactive">
+									<i class="fas fa-briefcase"></i>
+								</span>
+								<label>Mon, 16 Dec 2021</label>
+							</div>
+							<div class="leave-set">
+								<span class="leave-active">
+									<i class="fas fa-briefcase"></i>
+								</span>
+								<label>Fri, 20 Dec 2021</label>
+							</div>
+							<div class="leave-set">
+								<span class="leave-active">
+									<i class="fas fa-briefcase"></i>
+								</span>
+								<label>Wed, 25 Dec 2021</label>
+							</div>
+							<div class="leave-set">
+								<span class="leave-active">
+									<i class="fas fa-briefcase"></i>
+								</span>
+								<label>Fri, 27 Dec 2021</label>
+							</div>
+							<div class="leave-set">
+								<span class="leave-active">
+									<i class="fas fa-briefcase"></i>
+								</span>
+								<label>Tue, 31 Dec 2021</label>
+							</div>
+							<div class="leave-viewall">
+								<a href="leave.html">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 
 	</div>
 	<script src="assets/js/date.js"></script>

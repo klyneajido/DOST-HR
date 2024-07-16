@@ -138,9 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                 <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
+                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Apply</a>
                         </li>
-                        <li class="breadcrumb-item active">Posts</li>
+                        <li class="breadcrumb-item active">Applicants</li>
                     </ul>
                 </div>
                 <!-- Table section -->
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                         <div class="table-responsive">
                             <table class="table custom-table no-footer text-center">
                                 <thead>
-                                    <tr >
+                                    <tr>
                                         <th>ID</th>
                                         <th>Job Title</th>
                                         <th>Last Name</th>
@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                                         <th>Certificate of Employment</th>
                                         <th>Proof of Ratings/Seminars</th>
                                         <th>Proof of Rewards</th>
-                                       
+
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -193,9 +193,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                                                 <td class="file-preview">
                                                     <?php echo getFilePreview($applicant['personal_data_sheet']); ?>
                                                 </td>
-                                                
+
                                                 <td class="file-preview">
-                                                <?php echo getFilePreview($applicant['performance_rating']); ?>
+                                                    <?php echo getFilePreview($applicant['performance_rating']); ?>
                                                 </td>
                                                 <td class="file-preview">
                                                     <?php echo getFilePreview($applicant['eligibility_rating_license']); ?>
@@ -212,7 +212,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                                                 <td class="file-preview">
                                                     <?php echo getFilePreview($applicant['proof_of_rewards']); ?>
                                                 </td>
-                                                
+
                                                 <td>
                                                     <button type="button" class="btn btn-danger delete-btn" data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal" data-target="#deleteModal">
                                                         <i class="fas fa-trash"></i>
@@ -234,21 +234,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
         </div>
 
 </body>
-    <script src="assets/js/date.js"></script>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/date.js"></script>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
 
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
 
-    <script src="assets/js/feather.min.js"></script>
+<script src="assets/js/feather.min.js"></script>
 
-    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
-    <script src="assets/js/script.js"></script>
+<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+<script src="assets/plugins/apexchart/chart-data.js"></script>
+<script src="assets/js/script.js"></script>
 
-    
+
 <script>
     // JavaScript for deleting applicant
     $(document).ready(function() {
@@ -263,7 +263,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             $.ajax({
                 url: 'PHP_Connections/delete_applicant.php',
                 method: 'POST',
-                data: { id: applicantId },
+                data: {
+                    id: applicantId
+                },
                 success: function(response) {
                     // Handle success, maybe refresh table or show message
                     alert('Applicant deleted successfully!');
