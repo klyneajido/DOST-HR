@@ -155,15 +155,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                         Transparency</span></a>
                             </li>
-                            <li>
-								<a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
-										<span>Archive</span></a>
-                            </li>
-							<li>
-								<a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
-										<span>History</span></a>
-                            </li>
                             <li class="active">
+                              <a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+                                  <span>Archive</span></a>
+                                          </li>
+                            <li>
+                              <a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+                                  <span>History</span></a>
+                            </li>
+                            <li >
                                 <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                                     <span>Profile</span></a>
                             </li>
@@ -191,127 +191,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="profile.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Profile</a>
+                            <a href="archive.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Archive</a>
                         </li>
-                        <li class="breadcrumb-item active">Account</li>
+                        <li class="breadcrumb-item active">Files</li>
                     </ul>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <?php if (!empty($errors)) : ?>
-                            <div class="alert alert-danger">
-                                <ul>
-                                    <?php foreach ($errors as $error) : ?>
-                                        <li><?php echo htmlspecialchars($error); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        <?php endif; ?>
-                        <form method="POST" enctype="multipart/form-data" id="profileForm">
-                            <div class="row">
-                                <!-- Profile Image and Upload Input on the left side -->
-                                <div class="col-md-4">
-                                    <div class="form-group text-center">
-                                        <label for="profile_image">Profile Image</label><br>
-                                        <?php if (!empty($admin['profile_image'])) : ?>
-                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($admin['profile_image']); ?>" alt="Profile Image" style="max-width: 200px; max-height: 200px; display: block; margin: 0 auto;">
-                                        <?php else : ?>
-                                            <span>No image uploaded</span>
-                                        <?php endif; ?>
-                                        <input type="file" name="profile_image" id="profile_image" class="form-control-file mt-3" style="margin: 0 auto;">
-                                    </div>
-                                </div>
-                                <!-- Other form fields on the right side -->
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name" id="name" class="form-control" value="<?php echo htmlspecialchars($admin['name']); ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input type="text" name="username" id="username" class="form-control" value="<?php echo htmlspecialchars($admin['username']); ?>" disabled>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email">Email</label>
-                                        <input type="email" name="email" id="email" class="form-control" value="<?php echo htmlspecialchars($admin['email']); ?>" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" name="password" id="password" class="form-control" value="********" disabled>
-                                    </div>
-                                    <div class="col-md-12 offset-md-6">
-                                        <button type="submit" class="btn btn-primary py-3 w-25">Update Profile</button>
-                                        <a href="index.php" class="btn btn-secondary py-3 w-25">Cancel</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
-
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Update</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to update your profile?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary w-25 py-2" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary w-25 py-2" id="confirmUpdate">Yes, Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Your profile has been updated successfully.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary w-25 py-2" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function confirmSubmission(event) {
-            event.preventDefault();
-            $('#confirmationModal').modal('show');
-        }
-
-        document.getElementById('profileForm').addEventListener('submit', confirmSubmission);
-
-        document.getElementById('confirmUpdate').addEventListener('click', function() {
-            document.getElementById('profileForm').submit();
-        });
-
-        // Success Modal OK button
-        document.querySelector('#successModal .btn-primary').addEventListener('click', function() {
-            window.location.href = 'profile.php';
-        });
-
-
-    </script>
 
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>

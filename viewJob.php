@@ -228,7 +228,14 @@ if ($result && $result->num_rows > 0) {
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
 										Transparency</span></a>
 							</li>
-
+							<li>
+								<a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+										<span>Archive</span></a>
+              </li>
+							<li>
+								<a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+										<span>History</span></a>
+              </li>
 							<li>
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
@@ -261,17 +268,9 @@ if ($result && $result->num_rows > 0) {
 						<li class="breadcrumb-item">
 							<a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
 						</li>
-						<li class="breadcrumb-item active">Applicants</li>
+						<li class="breadcrumb-item active">Position</li>
 					</ul>
-					<div class="d-flex gap-3">
-						<a href="addJob.php" class="mr-2 btn btn-info">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
-  							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-							</svg> 
-							Add Job
-						</a>
-						
-					</div>
+					
 				</div>
 
 				<?php if (!empty($errors)) : ?>
@@ -287,17 +286,38 @@ if ($result && $result->num_rows > 0) {
 						<div class="col-md-6">
 							<div class="card">
 								<div class="card-body shadow p-3">
-									<h5 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h5>
-									<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-									<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
-									<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-									<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-									<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 w-25">Details</a>
+									<h5 class="card-header"><?php echo htmlspecialchars($job['position']); ?></h5>
+									<div class="mx-3 py-2">
+										<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
+										<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+										<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
+										<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
+										<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 w-25">Details</a>
+									</div>
 								</div>
 							</div>
 						</div>
 					<?php endforeach; ?>
 				</div>
+
+				<div class="user-menu">
+					<a href="addJob.php" class="btn btn-info btn-lg float-add-btn" title="Add Job">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+							</svg>
+							Add Job
+					</a>
+				</div>
+
+				<div class="mobile-user-menu show">
+					<a href="addJob.php" class="btn btn-info btn-lg float-add-btn px-3 py-2" title="Add Job">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
+							</svg>
+						
+					</a>
+				</div>
+
 			</div>
 		</div>
 

@@ -252,7 +252,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                         Transparency</span></a>
                             </li>
-
+                            <li>
+								<a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+										<span>Archive</span></a>
+                            </li>
+							<li>
+								<a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+										<span>History</span></a>
+                            </li>
                             <li>
                                 <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                                     <span>Profile</span></a>

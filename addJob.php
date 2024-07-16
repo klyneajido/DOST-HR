@@ -13,7 +13,7 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-$sql = "SELECT COUNT(*) as count FROM applicant";
+$sql = "SELECT COUNT(*) as count FROM applicants";
 $result = $mysqli->query($sql);
 $employee_count = 0;
 
@@ -260,6 +260,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 								<a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img">
 									<span>Transparency</span></a>
 							</li>
+							<li>
+								<a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+										<span>Archive</span></a>
+              </li>
+							<li>
+								<a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+										<span>History</span></a>
+              </li>
 							<li>
 								<a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
 									<span>Profile</span></a>
