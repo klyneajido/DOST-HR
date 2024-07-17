@@ -44,7 +44,7 @@ $errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $position = $_POST['position'];
     $department_id = $_POST['department_id'];
-    $monthly_salary = $_POST['monthlysalary'];
+    $monthly_salary = $_POST['salary'];
     $status = $_POST['status'];
     $description= $_POST['description'];
 
@@ -338,7 +338,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group">
                                     <label for="monthly_salary">Monthly Salary</label>
-                                    <input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo htmlspecialchars($job['monthlysalary']); ?>" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
+                                    <input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo htmlspecialchars($job['salary']); ?>" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
                                     <?php if (isset($errors['monthlysalary'])) : ?>
                                         <small class="text-danger"><?php echo $errors['monthlysalary']; ?></small>
                                     <?php endif; ?>

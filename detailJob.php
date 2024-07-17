@@ -18,7 +18,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
 // Prepare SQL query
-$sql = "SELECT j.job_id, j.position, d.name as department_name, d.abbrev, j.monthlysalary, j.status 
+$sql = "SELECT j.job_id, j.position, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
 
@@ -46,7 +46,7 @@ if ($job_id <= 0) {
 }
 
 // Prepare SQL query to fetch job details
-$sql = "SELECT j.job_id, j.position, j.description, d.name as department_name, j.monthlysalary, j.status 
+$sql = "SELECT j.job_id, j.position, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id
         WHERE j.job_id = ?";
@@ -302,10 +302,16 @@ $job = $result->fetch_assoc();
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card mb-4">
-								<div class="card-header">
-									<a href="viewJob.php" class="btn btn-secondary float-right">Back to Jobs</a>
+								<div class="card-header d-flex">
+									<h4 class="col-md-8 pt-2">	<strong>
+										<?php echo htmlspecialchars($job['position']); ?></strong>
+									</h4>
+									<div class="col-md-4 user-menu justify-content-end align-items-center">
+										<a href="viewJob.php" class=" btn btn-secondary float-right ">Back to Jobs</a>									
+									</div>
+									
 								</div>
-								<div class="card-body">
+								<div class="card-body mx-3">
 									<div class="mb-5">
 										<h5><strong>Department</strong></h5>
 										<p><?php echo htmlspecialchars($job['department_name']); ?></p>
@@ -315,13 +321,59 @@ $job = $result->fetch_assoc();
 										<p><?php echo nl2br(htmlspecialchars($job['description'])); ?></p>
 									</div>
 									<div class="mb-5">
-										<h5><strong>Monthly Salary</strong></h5>
-										<p>₱<?php echo htmlspecialchars($job['monthlysalary']); ?></p>
+										<h5><strong>Educational Requirement</strong></h5>
+										<p><?php echo nl2br(htmlspecialchars($job['education_requirement'])); ?></p>
 									</div>
 									<div class="mb-5">
-										<h5><strong>Status</strong></h5>
-										<p><?php echo htmlspecialchars($job['status']); ?></p>
+										<h5><strong>Experience or Training</strong></h5>
+										<p><?php echo nl2br(htmlspecialchars($job['experience_or_training'])); ?></p>
 									</div>
+
+									<div class="row">
+										<div class="col-md-6">
+											<div class="mb-5">
+												<h5><strong>Department</strong></h5>
+												<p><?php echo nl2br(htmlspecialchars($job['department_name'])); ?></p>
+											</div>
+											<?php if(!empty($job['place_of_assignment'])) : ?>
+											<div class="mb-5">
+												<h5><strong>Place of Assignment</strong></h5>
+												<p><?php echo nl2br(htmlspecialchars($job['place_of_assignment'])); ?></p>
+											</div>
+											<?php endif;?>
+											<?php if("COS"== ($job['status'])) : ?>
+												<div class="mb-5">
+													<h5><strong>Daily Salary</strong></h5>
+													<p>₱<?php echo htmlspecialchars($job['salary']); ?></p>
+												</div>
+											
+											<?php else : ?>
+												<div class="mb-5">
+													<h5><strong>Monthly Salary</strong></h5>
+													<p>₱<?php echo htmlspecialchars($job['salary']); ?></p>
+												</div>
+											<?php endif;?>
+											<div class="mb-5">
+												<h5><strong>Status</strong></h5>
+												<p><?php echo htmlspecialchars($job['status']); ?></p>
+											</div>
+										</div>
+										<div class="col-md-6 pt-3">
+											<div class="mb-5">
+												<h5><strong>Created at</strong></h5>
+												<p><?php echo htmlspecialchars($job['created_at']); ?></p>
+											</div>
+											<div class="mb-5">
+												<h5><strong>Updated at</strong></h5>
+												<p><?php echo htmlspecialchars($job['updated_at']); ?></p>
+											</div>
+											<div class="mb-5">
+												<h5><strong>Deadline</strong></h5>
+												<p><?php echo htmlspecialchars($job['deadline']); ?></p>
+											</div>										
+										</div>
+									</div>			
+
 								</div>
 							</div>
 						</div>
@@ -340,6 +392,7 @@ $job = $result->fetch_assoc();
 			
 			</div>
 		</div>
+
 
 	</div>
 	<script src="assets/js/date.js"></script>

@@ -18,7 +18,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
 // Prepare SQL query
-$sql = "SELECT j.job_id, j.position, d.name as department_name, d.abbrev, j.salary, j.status 
+$sql = "SELECT j.job_id, j.position, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
 
@@ -283,16 +283,37 @@ if ($result && $result->num_rows > 0) {
 
 				<div class="row">
 					<?php foreach ($jobs as $job) : ?>
-						<div class="col-md-6">
+						<div class="col-md-12">
 							<div class="card">
 								<div class="card-body shadow p-3">
-									<h5 class="card-header"><?php echo htmlspecialchars($job['position']); ?></h5>
+									<h5 class="card-header"><strong><?php echo htmlspecialchars($job['position']); ?> </strong></h5>
 									<div class="mx-3 py-2">
-										<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-										<p class="card-text"><strong>Monthly Salary:</strong> ₱<?php echo htmlspecialchars($job['salary']); ?></p>
-										<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
-										<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 w-25">Edit</a>
-										<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 w-25">Details</a>
+										<p class="card-text pt-3"><strong>Description:</strong> <?php echo htmlspecialchars($job['description']); ?></p>
+										
+										<div class="row ">
+											<div class="col-md-6">
+												<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
+												<?php if(!empty($job['place_of_assignment'])) : ?>
+												<p class="card-text"><strong>Place of Assignment:</strong> <?php echo htmlspecialchars($job['place_of_assignment']); ?></p>
+												<?php endif;?>
+												<?php if("COS"==($job['status'])) : ?>
+													<p class="card-text"><strong>Daily Salary:</strong> Php <?php echo htmlspecialchars(number_format($job['salary'],2)); ?></p>
+												<?php else: ?>
+													<p class="card-text"><strong>Monthly Salary:</strong> Php <?php echo htmlspecialchars(number_format($job['salary'],2)); ?></p>
+												<?php endif;?>
+												<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
+											</div>
+
+											<div class="col-md-6 pt-3">
+												<p class="card-text"><strong>Created At:</strong> <?php echo htmlspecialchars($job['created_at']); ?></p>
+												<p class="card-text"><strong>Updated At:</strong> <?php echo htmlspecialchars($job['updated_at']); ?></p>
+												<p class="card-text"><strong>Deadline:</strong> <?php echo htmlspecialchars($job['deadline']); ?></p>	
+											</div>
+										</div>
+
+										<br>
+										<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 px-5">Edit</a>
+										<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 px-5">Details</a>
 									</div>
 								</div>
 							</div>

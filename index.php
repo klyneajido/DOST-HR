@@ -389,10 +389,6 @@ if ($result) {
 											<span>IOS</span>
 										</div>
 									</div>
-									<div class="team-content">
-										<label>Linda Craver</label>
-										<span>IOS</span>
-									</div>
 								</div>
 								<div class="team-action">
 									<ul>
@@ -400,39 +396,40 @@ if ($result) {
 										<li><a><i data-feather="edit-2"></i></a></li>
 									</ul>
 								</div>
-							</div>
-							<div class="team-list">
-								<div class="team-view">
-									<div class="team-img">
-										<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
+								
+								<div class="team-list">
+									<div class="team-view">
+										<div class="team-img">
+											<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
+										</div>
+										<div class="team-content">
+											<label>Jenni Sims</label>
+											<span>Android</span>
+										</div>
 									</div>
-									<div class="team-content">
-										<label>Jenni Sims</label>
-										<span>Android</span>
-									</div>
-								</div>
-								<div class="team-action">
-									<ul>
-										<li><a><i data-feather="trash-2"></i></a></li>
-										<li><a><i data-feather="edit-2"></i></a></li>
-									</ul>
-								</div>
-							</div>
-							<div class="team-list">
-								<div class="team-view">
-									<div class="team-img">
-										<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
-									</div>
-									<div class="team-content">
-										<label>Danny</label>
-										<span>Design</span>
+									<div class="team-action">
+										<ul>
+											<li><a><i data-feather="trash-2"></i></a></li>
+											<li><a><i data-feather="edit-2"></i></a></li>
+										</ul>
 									</div>
 								</div>
-								<div class="team-action">
-									<ul>
-										<li><a><i data-feather="trash-2"></i></a></li>
-										<li><a><i data-feather="edit-2"></i></a></li>
-									</ul>
+								<div class="team-list">
+									<div class="team-view">
+										<div class="team-img">
+											<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
+										</div>
+										<div class="team-content">
+											<label>Danny</label>
+											<span>Design</span>
+										</div>
+									</div>
+									<div class="team-action">
+										<ul>
+											<li><a><i data-feather="trash-2"></i></a></li>
+											<li><a><i data-feather="edit-2"></i></a></li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
