@@ -211,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="row">
                                 <!-- Profile Image and Upload Input on the left side -->
                                 <!-- Other form fields on the right side -->
-                                <div class="col-md-8">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="name">Name</label>
                                         <input type="text" name="name" id="name" class="form-control" value="<?php echo htmlspecialchars($admin['name']); ?>" required>
