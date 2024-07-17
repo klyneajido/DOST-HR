@@ -1,91 +1,78 @@
 <?php
 // Start session
 session_start();
-include_once 'PHP_Connections\db_connection.php';
+include_once 'PHP_Connections/db_connection.php';
+
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-	// Redirect to login page if not logged in
-	header('Location: login.php');
-	exit();
+    // Redirect to login page if not logged in
+    header('Location: login.php');
+    exit();
 }
 
 // Get user's name from session
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-$sql = "SELECT COUNT(*) as count FROM applicants";
-$result = $mysqli->query($sql);
-$employee_count = 0;
-
-if ($result) {
-	$row = $result->fetch_assoc();
-	$employee_count = $row['count'];
-} else {
-	echo "Error retrieving applicant count: " . $mysqli->error;
-}
-
 $sql = "SELECT department_id, name FROM department";
 $result = $mysqli->query($sql);
 
 $departments = [];
 if ($result) {
-	while ($row = $result->fetch_assoc()) {
-		$departments[] = $row;
-	}
+    while ($row = $result->fetch_assoc()) {
+        $departments[] = $row;
+    }
 } else {
-	echo "Error retrieving departments: " . $mysqli->error;
+    echo "Error retrieving departments: " . $mysqli->error;
 }
+
 $errors = [];
+$success = "";
 
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	// Get form data
-	$job_title = $_POST['job_title'];
+    // Get form data
+    $job_title = $_POST['job_title'];
     $position = $_POST['position'];
     $department_id = $_POST['department_id'];
     $experienceortraining = $_POST['experienceortraining'];
     $dutiesandresponsibilities = $_POST['dutiesandresponsibilities'];
     $educationrequirement = $_POST['educreq'];
     $placeofassignment = $_POST['poa'];
-    $department_id = $_POST['department_id'];
     $monthly_salary = $_POST['monthlysalary'];
     $status = $_POST['status'];
     $deadline = $_POST['deadline'];
-    $description= $_POST['description'];
+    $description = $_POST['description'];
 
-    if (empty($job_title)) {
-        $errors['job_title'] = "Position is required";
-    }
-    if(empty($description)) {
-        $errors['description'] = "Description is required";
-    }
-    if (empty($department_id)) {
-        $errors['department_id'] = "Department is required";
-    }
-    if (empty($monthly_salary)) {
-        $errors['monthlysalary'] = "Monthly Salary is required";
-    }
-    if (empty($status)) {
-        $errors['status'] = "Status is required";
-    }
-    if (empty($deadline)) {
-        $errors['deadline'] = "Deadline is required";
-    }
-    if (empty($educationrequirement)) {
-        $errors['educreq'] = "Educational Requirement is required";
-    }
-    if (empty($experienceortraining)) {
-        $errors['experienceortraining'] = "Experience or Training is required";
-    }
+    // Validate inputs
+    if (empty($job_title)) $errors['job_title'] = "Position is required";
+    if (empty($description)) $errors['description'] = "Description is required";
+    if (empty($department_id)) $errors['department_id'] = "Department is required";
+    if (empty($monthly_salary)) $errors['monthlysalary'] = "Monthly Salary is required";
+    if (empty($status)) $errors['status'] = "Status is required";
+    if (empty($deadline)) $errors['deadline'] = "Deadline is required";
+    if (empty($educationrequirement)) $errors['educreq'] = "Educational Requirement is required";
+    if (empty($experienceortraining)) $errors['experienceortraining'] = "Experience or Training is required";
 
-	// If no errors, proceed with data insertion
-	if (empty($errors)) {
-		// Send data to insert_job.php
-		header('Location: insertJob.php?' . http_build_query($_POST));
-		exit();
-	}
+    // If no errors, insert data into job table
+    if (empty($errors)) {
+        $stmt = $mysqli->prepare("INSERT INTO job (job_title, position_or_unit, description, education_requirement, experience_or_training, duties_and_responsibilities, department_id, salary, place_of_assignment, status, deadline, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param("sssssisdsss", $job_title, $position, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $department_id, $monthly_salary, $placeofassignment, $status, $deadline);
+
+        if ($stmt->execute()) {
+			header('Location: viewJob.php');
+            $success = "Job added successfully";
+        } else {
+            $errors['database'] = "Error adding job: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
 }
+
+$mysqli->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -286,6 +286,9 @@ if ($result && $result->num_rows > 0) {
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-body shadow p-3">
+									<div class="col-md-4 mt-3 user-menu justify-content-end align-items-center z-4">
+										<a href="archiveJobs.php" class=" btn btn-secondary float-right">Archive</a>									
+									</div>
 									<h5 class="card-header"><strong>
 										<?php if(empty($job['position_or_unit'])): $position = ' '; else: $position = $job['position_or_unit']; endif;
 										echo htmlspecialchars($job['job_title']." ". $position); ?> </strong>
