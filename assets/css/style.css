@@ -7132,3 +7132,7 @@ label.logo-upload {
   padding: 15px 20px;
   z-index: 1000;
 }
+
+.z-4{
+  z-index: 4;
+}

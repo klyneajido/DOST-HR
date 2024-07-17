@@ -306,8 +306,8 @@ $job = $result->fetch_assoc();
 									<h4 class="col-md-8 pt-2">	<strong>
 										<?php echo htmlspecialchars($job['position']); ?></strong>
 									</h4>
-									<div class="col-md-4 user-menu justify-content-end align-items-center">
-										<a href="viewJob.php" class=" btn btn-secondary float-right ">Back to Jobs</a>									
+									<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
+										<a href="viewJob.php" class=" btn btn-secondary float-right">Back to Jobs</a>									
 									</div>
 									
 								</div>
