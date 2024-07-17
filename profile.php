@@ -210,17 +210,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form method="POST" enctype="multipart/form-data" id="profileForm">
                             <div class="row">
                                 <!-- Profile Image and Upload Input on the left side -->
-                                <div class="col-md-4">
-                                    <div class="form-group text-center">
-                                        <label for="profile_image">Profile Image</label><br>
-                                        <?php if (!empty($admin['profile_image'])) : ?>
-                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($admin['profile_image']); ?>" alt="Profile Image" style="max-width: 200px; max-height: 200px; display: block; margin: 0 auto;">
-                                        <?php else : ?>
-                                            <span>No image uploaded</span>
-                                        <?php endif; ?>
-                                        <input type="file" name="profile_image" id="profile_image" class="form-control-file mt-3" style="margin: 0 auto;">
-                                    </div>
-                                </div>
                                 <!-- Other form fields on the right side -->
                                 <div class="col-md-8">
                                     <div class="form-group">
