@@ -40,28 +40,43 @@ $errors = [];
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// Get form data
-	$position = $_POST['position'];
-	$department_id = $_POST['department_id'];
-	$monthly_salary = $_POST['monthlysalary'];
-	$status = $_POST['status'];
-	$description = $_POST['description'];
+	$job_title = $_POST['job_title'];
+    $position = $_POST['position'];
+    $department_id = $_POST['department_id'];
+    $experienceortraining = $_POST['experienceortraining'];
+    $dutiesandresponsibilities = $_POST['dutiesandresponsibilities'];
+    $educationrequirement = $_POST['educreq'];
+    $placeofassignment = $_POST['poa'];
+    $department_id = $_POST['department_id'];
+    $monthly_salary = $_POST['monthlysalary'];
+    $status = $_POST['status'];
+    $deadline = $_POST['deadline'];
+    $description= $_POST['description'];
 
-	// Validate form data
-	if (empty($position)) {
-		$errors['position'] = "Position is required";
-	}
-	if(empty($description)) {
-		$errors['description'] = "Please input job description, duties, and responsibilities";
-	}
-	if (empty($department_id)) {
-		$errors['department_id'] = "Department is required";
-	}
-	if (empty($monthly_salary)) {
-		$errors['monthlysalary'] = "Monthly Salary is required";
-	}
-	if (empty($status)) {
-		$errors['status'] = "Status is required";
-	}
+    if (empty($job_title)) {
+        $errors['job_title'] = "Position is required";
+    }
+    if(empty($description)) {
+        $errors['description'] = "Description is required";
+    }
+    if (empty($department_id)) {
+        $errors['department_id'] = "Department is required";
+    }
+    if (empty($monthly_salary)) {
+        $errors['monthlysalary'] = "Monthly Salary is required";
+    }
+    if (empty($status)) {
+        $errors['status'] = "Status is required";
+    }
+    if (empty($deadline)) {
+        $errors['deadline'] = "Deadline is required";
+    }
+    if (empty($educationrequirement)) {
+        $errors['educreq'] = "Educational Requirement is required";
+    }
+    if (empty($experienceortraining)) {
+        $errors['experienceortraining'] = "Experience or Training is required";
+    }
 
 	// If no errors, proceed with data insertion
 	if (empty($errors)) {
@@ -318,67 +333,112 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 							<?php endif; ?>
 
 							<form method="POST" action="addJob.php" onsubmit="return confirm('Are you sure you want to add this job?');">
-								<div class="form-group">
-									<label for="position">Position</label>
-									<input type="text" name="position" id="position" class="form-control" value="<?php echo isset($_POST['position']) ? htmlspecialchars($_POST['position']) : ''; ?>">
-									<?php if (isset($errors['position'])) : ?>
-										<small class="text-danger"><?php echo $errors['position']; ?></small>
-									<?php endif; ?>
-								</div>
-								<div class="form-group">
-									<label for="position">Description, Duties & Responsibilities</label>
-									<textarea name="description" id="description" class="form-control" rows="5"><?php echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; ?></textarea>
-									<?php if (isset($errors['description'])) : ?>
-										<small class="text-danger"><?php echo $errors['description']; ?></small>
-									<?php endif; ?>
-								</div>
-								<div class="form-group">
-									<label for="department_id">Department</label>
-									<select name="department_id" id="department_id" class="form-control">
-										<?php foreach ($departments as $department) : ?>
-											<option value="<?php echo htmlspecialchars($department['department_id']); ?>" <?php echo (isset($_POST['department_id']) && $_POST['department_id'] == $department['department_id']) ? 'selected' : ''; ?>>
-												<?php echo htmlspecialchars($department['name']); ?>
-											</option>
-										<?php endforeach; ?>
-									</select>
-									<?php if (isset($errors['department_id'])) : ?>
-										<small class="text-danger"><?php echo $errors['department_id']; ?></small>
-									<?php endif; ?>
-								</div>
-								<div class="form-group">
-									<label for="monthly_salary">Monthly Salary</label>
-									<input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo isset($_POST['monthlysalary']) ? htmlspecialchars($_POST['monthlysalary']) : ''; ?>" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
-									<?php if (isset($errors['monthlysalary'])) : ?>
-										<small class="text-danger"><?php echo $errors['monthlysalary']; ?></small>
-									<?php endif; ?>
-								</div>
-								<script>
-									function validateSalaryInput(input) {
-										const maxDigits = 7;
-										const maxDecimalPlaces = 2;
+									<div class="row col-md-12">
+											<div class="form-group col-md-6">
+													<label for="job_title">Job Title</label>
+													<input type="text" name="job_title" id="job_title" class="form-control" value="">
+													<?php if (isset($errors['job_title'])) : ?>
+															<small class="text-danger"><?php echo $errors['job_title']; ?></small>
+													<?php endif; ?>
+											</div>            
+											<div class="form-group col-md-6">
+													<label for="position">Position</label>
+													<input type="text" name="position" id="position" class="form-control" value="">
+													<?php if (isset($errors['position'])) : ?>
+															<small class="text-danger"><?php echo $errors['position_or_unit']; ?></small>
+													<?php endif; ?>
+											</div>
+									</div>
+									
+									<div class="form-group">
+											<label for="description">Description</label>
+											<textarea name="description" id="description" class="form-control" rows="5"></textarea>
+											<?php if (isset($errors['description'])) : ?>
+													<small class="text-danger"><?php echo $errors['description']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="educreq">Educational Requirement</label>
+											<textarea name="educreq" id="educreq" class="form-control" rows="5"></textarea>
+											<?php if (isset($errors['education_requirement'])) : ?>
+													<small class="text-danger"><?php echo $errors['education_requirement']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="experienceortraining">Experience or Training</label>
+											<textarea name="experienceortraining" id="experienceortraining" class="form-control" rows="5"></textarea>
+											<?php if (isset($errors['experience_or_training'])) : ?>
+													<small class="text-danger"><?php echo $errors['experience_or_training']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="dutiesandresponsibilities">Duties and Responsibilities</label>
+											<textarea name="dutiesandresponsibilities" id="dutiesandresponsibilities" class="form-control" rows="5"></textarea>
+											<?php if (isset($errors['duties_and_responsibilities'])) : ?>
+													<small class="text-danger"><?php echo $errors['duties_and_responsibilities']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="department_id">Department</label>
+											<select name="department_id" id="department_id" class="form-control">
+													<?php foreach ($departments as $department) : ?>
+															<option value="<?php echo htmlspecialchars($department['department_id']); ?>">
+																	<?php echo htmlspecialchars($department['name']); ?>
+															</option>
+													<?php endforeach; ?>
+											</select>
+											<?php if (isset($errors['department_id'])) : ?>
+													<small class="text-danger"><?php echo $errors['department_id']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="poa">Place of Assignment</label>
+											<input type="text" name="poa" id="poa" class="form-control" value="">
+											<?php if (isset($errors['place_of_assignment'])) : ?>
+													<small class="text-danger"><?php echo $errors['place_of_assignment']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="monthlysalary">Salary</label>
+											<input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
+											<?php if (isset($errors['monthlysalary'])) : ?>
+													<small class="text-danger"></small>
+											<?php endif; ?>
+									</div>
+									<script>
+										function validateSalaryInput(input) {
+											const maxDigits = 7;
+											const maxDecimalPlaces = 2;
 
-										let value = input.value;
-										let parts = value.split('.');
+											let value = input.value;
+											let parts = value.split('.');
 
-										if (parts[0].length > maxDigits) {
-											input.value = parts[0].slice(0, maxDigits) + (parts[1] ? '.' + parts[1] : '');
+											if (parts[0].length > maxDigits) {
+												input.value = parts[0].slice(0, maxDigits) + (parts[1] ? '.' + parts[1] : '');
+											}
+
+											if (parts[1] && parts[1].length > maxDecimalPlaces) {
+												input.value = parts[0] + '.' + parts[1].slice(0, maxDecimalPlaces);
+											}
 										}
-
-										if (parts[1] && parts[1].length > maxDecimalPlaces) {
-											input.value = parts[0] + '.' + parts[1].slice(0, maxDecimalPlaces);
-										}
-									}
-								</script>
-								<div class="form-group">
-									<label for="status">Status</label>
-									<select name="status" id="status" class="form-control">
-										<option value="Permanent" <?php echo (isset($_POST['status']) && $_POST['status'] == 'Permanent') ? 'selected' : ''; ?>>Permanent</option>
-										<option value="COS" <?php echo (isset($_POST['status']) && $_POST['status'] == 'COS') ? 'selected' : ''; ?>>COS</option>
-									</select>
-									<?php if (isset($errors['status'])) : ?>
-										<small class="text-danger"><?php echo $errors['status']; ?></small>
-									<?php endif; ?>
-								</div>
+									</script>
+									<div class="form-group">
+											<label for="deadline">Deadline</label>
+											<input type="date" name="deadline" id="deadline" class="form-control"  value=""/>
+											<?php if (isset($errors['deadline'])) : ?>
+													<small class="text-danger"><?php echo $errors['deadline']; ?></small>
+											<?php endif; ?>
+									</div>
+									<div class="form-group">
+											<label for="status">Status</label>
+											<select name="status" id="status" class="form-control">
+													<option value="Permanent" >Permanent</option>
+													<option value="COS">COS</option>
+											</select>
+											<?php if (isset($errors['status'])) : ?>
+													<small class="text-danger"><?php echo $errors['status']; ?></small>
+											<?php endif; ?>
+									</div>
 								<button type="submit" class="btn btn-primary w-25">Add Job</button>
 								<a href="viewJob.php" class="btn btn-danger py-3 w-25">Cancel</a>
 							</form>

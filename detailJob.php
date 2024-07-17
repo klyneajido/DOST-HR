@@ -18,12 +18,12 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
 // Prepare SQL query
-$sql = "SELECT j.job_id, j.position, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
+$sql = "SELECT j.job_id, j.job_title, j.position_or_unit, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
 
 if (!empty($search)) {
-	$sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
+	$sql .= " WHERE j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
 }
 
 $result = $mysqli->query($sql);
@@ -295,7 +295,7 @@ $job = $result->fetch_assoc();
 						</li>
 						<li class="breadcrumb-item active">Details</li>
 					</ul>
-					<h3 class="card-title"><?php echo htmlspecialchars($job['position']); ?></h3>
+					<h3 class="card-title"><?php echo htmlspecialchars($job['job_title']." ". $job['position_or_unit']); ?></h3>
 				</div>
 
 				<div class="container-fluid">
@@ -304,7 +304,7 @@ $job = $result->fetch_assoc();
 							<div class="card mb-4">
 								<div class="card-header d-flex">
 									<h4 class="col-md-8 pt-2">	<strong>
-										<?php echo htmlspecialchars($job['job_title'] + $job['position_or_unit']); ?></strong>
+										<?php echo htmlspecialchars($job['job_title'] ." ". $job['position_or_unit']); ?></strong>
 									</h4>
 									<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
 										<a href="viewJob.php" class=" btn btn-secondary float-right">Back to Jobs</a>									

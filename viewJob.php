@@ -23,7 +23,7 @@ $sql = "SELECT j.job_id, j.job_title ,j.position_or_unit, j.description, j.educa
         INNER JOIN department d ON j.department_id = d.department_id";
 
 if (!empty($search)) {
-	$sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
+	$sql .= " WHERE j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
 }
 
 $result = $mysqli->query($sql);

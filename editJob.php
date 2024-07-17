@@ -395,7 +395,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label for="monthly_salary">Daily Salary</label>
                                     <?php else: ?>
                                         <label for="monthly_salary">Monthly Salary</label>
-                                    <?php endif;?>
+                                    <?php endif;?>                    
                                     <input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo htmlspecialchars($job['salary']); ?>" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
                                     <?php if (isset($errors['monthlysalary'])) : ?>
                                         <small class="text-danger"><?php echo $errors['monthlysalary']; ?></small>
