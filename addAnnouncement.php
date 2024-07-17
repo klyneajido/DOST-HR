@@ -311,7 +311,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input type="file" name="image" id="image" class="form-control-file">
+                            <input type="file" name="image" id="image" class="form-control-file" accept="image/png, image/jpeg">
                         </div>
                         <button type="submit" class="btn btn-primary py-3 w-25">Add Announcement</button>
                         <a href="announcements.php" class="btn btn-secondary py-3 w-25">Cancel</a>

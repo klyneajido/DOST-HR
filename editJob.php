@@ -44,8 +44,14 @@ $errors = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $position = $_POST['position'];
     $department_id = $_POST['department_id'];
-    $monthly_salary = $_POST['salary'];
+    $experienceortraining = $_POST['experienceortraining'];
+    $dutiesandresponsibilities = $_POST['dutiesandresponsibilities'];
+    $educationrequirement = $_POST['educreq'];
+    $placeofassignment = $_POST['poa'];
+    $department_id = $_POST['department_id'];
+    $monthly_salary = $_POST['monthlysalary'];
     $status = $_POST['status'];
+    $deadline = $_POST['deadline'];
     $description= $_POST['description'];
 
     if (empty($position)) {
@@ -63,11 +69,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($status)) {
         $errors['status'] = "Status is required";
     }
+    if (empty($deadline)) {
+        $errors['deadline'] = "Deadline is required";
+    }
+    if (empty($educationrequirement)) {
+        $errors['educreq'] = "Educational Requirement is required";
+    }
+    if (empty($experienceortraining)) {
+        $errors['experienceortraining'] = "Experience or Training is required";
+    }
 
     if (empty($errors)) {
-        $sql = "UPDATE job SET position = ?, department_id = ?, monthlysalary = ?, status = ?, description = ? WHERE job_id = ?";
+        $sql = "UPDATE job SET position = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW()  WHERE job_id = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('sidssi', $position, $department_id, $monthly_salary, $status, $description, $job_id);
+        $stmt->bind_param('sidsssssssi', $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
 
         if ($stmt->execute()) {
             header('Location: viewJob.php?success=Job updated successfully');
@@ -104,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	}
 </style>
 
-<body class="scrollbar" id="style-5">
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <title>Edit Job</title>
@@ -116,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 
-<body>
+<body  class="scrollbar" id="style-5">
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -317,10 +332,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="description">Description, Duties, and Responsibilities</label>
+                                    <label for="description">Description</label>
                                     <textarea name="description" id="description" class="form-control" rows="5"><?php echo htmlspecialchars($job['description']); ?></textarea>
                                     <?php if (isset($errors['description'])) : ?>
                                         <small class="text-danger"><?php echo $errors['description']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="educreq">Educational Requirement</label>
+                                    <textarea name="educreq" id="educreq" class="form-control" rows="5"><?php echo htmlspecialchars($job['education_requirement']); ?></textarea>
+                                    <?php if (isset($errors['education_requirement'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['education_requirement']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="experienceortraining">Experience or Training</label>
+                                    <textarea name="experienceortraining" id="experienceortraining" class="form-control" rows="5"><?php echo htmlspecialchars($job['experience_or_training']); ?></textarea>
+                                    <?php if (isset($errors['experience_or_training'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['experience_or_training']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
+                                    <textarea name="dutiesandresponsibilities" id="dutiesandresponsibilities" class="form-control" rows="5"><?php echo htmlspecialchars($job['duties_and_responsibilities']); ?></textarea>
+                                    <?php if (isset($errors['duties_and_responsibilities'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['duties_and_responsibilities']; ?></small>
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
@@ -337,7 +373,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <?php endif; ?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="monthly_salary">Monthly Salary</label>
+                                    <label for="poa">Place of Assignment</label>
+                                    <input type="text" name="poa" id="poa" class="form-control" value="<?php echo htmlspecialchars($job['place_of_assignment']); ?>">
+                                    <?php if (isset($errors['place_of_assignment'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['place_of_assignment']; ?></small>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="form-group">
+                                    <?php if("COS"== ($job["status"])) : ?>
+                                        <label for="monthly_salary">Daily Salary</label>
+                                    <?php else: ?>
+                                        <label for="monthly_salary">Monthly Salary</label>
+                                    <?php endif;?>
                                     <input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo htmlspecialchars($job['salary']); ?>" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
                                     <?php if (isset($errors['monthlysalary'])) : ?>
                                         <small class="text-danger"><?php echo $errors['monthlysalary']; ?></small>
@@ -360,6 +407,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 										}
 									}
 								</script>
+                                <div class="form-group">
+                                    <label for="deadline">Deadline</label>
+                                    <input type="date" name="deadline" id="deadline" class="form-control"  value="<?php echo htmlspecialchars($job['deadline']); ?>"/>
+                                    <?php if (isset($errors['deadline'])) : ?>
+                                        <small class="text-danger"><?php echo $errors['deadline']; ?></small>
+                                    <?php endif; ?>
+                                </div>
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control">
