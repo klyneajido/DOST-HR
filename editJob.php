@@ -42,6 +42,7 @@ if ($result) {
 $errors = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $job_title = $_POST['job_title'];
     $position = $_POST['position'];
     $department_id = $_POST['department_id'];
     $experienceortraining = $_POST['experienceortraining'];
@@ -54,8 +55,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deadline = $_POST['deadline'];
     $description= $_POST['description'];
 
-    if (empty($position)) {
-        $errors['position'] = "Position is required";
+    if (empty($job_title)) {
+        $errors['job_title'] = "Position is required";
     }
     if(empty($description)) {
         $errors['description'] = "Description is required";
@@ -80,9 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errors)) {
-        $sql = "UPDATE job SET position = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW()  WHERE job_id = ?";
+        $sql = "UPDATE job SET job_title = ?, position_or_unit = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW()  WHERE job_id = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('sidsssssssi', $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
+        $stmt->bind_param('ssidsssssssi',$job_title,  $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
 
         if ($stmt->execute()) {
             header('Location: viewJob.php?success=Job updated successfully');
@@ -324,13 +325,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                             <?php endif; ?>
                             <form method="POST" action="editJob.php?job_id=<?php echo $job_id; ?>">
-                                <div class="form-group">
-                                    <label for="position">Position</label>
-                                    <input type="text" name="position" id="position" class="form-control" value="<?php echo htmlspecialchars($job['position']); ?>">
-                                    <?php if (isset($errors['position'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['position']; ?></small>
-                                    <?php endif; ?>
+                                <div class="row col-md-12">
+                                    <div class="form-group col-md-6">
+                                        <label for="job_title">Job Title</label>
+                                        <input type="text" name="job_title" id="job_title" class="form-control" value="<?php echo htmlspecialchars($job['job_title']); ?>">
+                                        <?php if (isset($errors['job_title'])) : ?>
+                                            <small class="text-danger"><?php echo $errors['job_title']; ?></small>
+                                        <?php endif; ?>
+                                    </div>            
+                                    <div class="form-group col-md-6">
+                                        <label for="position">Position</label>
+                                        <input type="text" name="position" id="position" class="form-control" value="<?php echo htmlspecialchars($job['position_or_unit']); ?>">
+                                        <?php if (isset($errors['position'])) : ?>
+                                            <small class="text-danger"><?php echo $errors['position_or_unit']; ?></small>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="description">Description</label>
                                     <textarea name="description" id="description" class="form-control" rows="5"><?php echo htmlspecialchars($job['description']); ?></textarea>

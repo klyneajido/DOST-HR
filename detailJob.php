@@ -46,7 +46,7 @@ if ($job_id <= 0) {
 }
 
 // Prepare SQL query to fetch job details
-$sql = "SELECT j.job_id, j.position, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
+$sql = "SELECT j.job_id, j.job_title, j.position_or_unit, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id
         WHERE j.job_id = ?";
@@ -304,7 +304,7 @@ $job = $result->fetch_assoc();
 							<div class="card mb-4">
 								<div class="card-header d-flex">
 									<h4 class="col-md-8 pt-2">	<strong>
-										<?php echo htmlspecialchars($job['position']); ?></strong>
+										<?php echo htmlspecialchars($job['job_title'] + $job['position_or_unit']); ?></strong>
 									</h4>
 									<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
 										<a href="viewJob.php" class=" btn btn-secondary float-right">Back to Jobs</a>									

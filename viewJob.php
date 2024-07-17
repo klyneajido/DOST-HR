@@ -18,7 +18,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
 // Prepare SQL query
-$sql = "SELECT j.job_id, j.position, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
+$sql = "SELECT j.job_id, j.job_title ,j.position_or_unit, j.description, j.education_requirement, j.experience_or_training, j.duties_and_responsibilities, d.name as department_name,j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
         INNER JOIN department d ON j.department_id = d.department_id";
 
@@ -286,7 +286,10 @@ if ($result && $result->num_rows > 0) {
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-body shadow p-3">
-									<h5 class="card-header"><strong><?php echo htmlspecialchars($job['position']); ?> </strong></h5>
+									<h5 class="card-header"><strong>
+										<?php if(empty($job['position_or_unit'])): $position = ' '; else: $position = $job['position_or_unit']; endif;
+										echo htmlspecialchars($job['job_title']." ". $position); ?> </strong>
+									</h5>
 									<div class="mx-3 py-2">
 										<p class="card-text pt-3"><strong>Description:</strong> <?php echo htmlspecialchars($job['description']); ?></p>
 										
