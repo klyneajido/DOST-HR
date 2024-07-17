@@ -13,7 +13,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
                  a.application_letter, a.personal_data_sheet, a.performance_rating, a.eligibility_rating_license, 
                  a.transcript_of_records, a.certificate_of_employment, a.proof_of_ratings_seminars, 
-                 a.proof_of_rewards, j.position
+                 a.proof_of_rewards, CONCAT(j.job_title, ' ', j.position_or_unit) AS job_title
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id";
 $result = mysqli_query($mysqli, $query);
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                             <table class="table custom-table no-footer text-center">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <!-- <th>ID</th> -->
                                         <th>Job Title</th>
                                         <th>Last Name</th>
                                         <th>First Name</th>
@@ -177,8 +177,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                                     <?php if (!empty($applicants)) : ?>
                                         <?php foreach ($applicants as $applicant) : ?>
                                             <tr>
-                                                <td><?php echo htmlspecialchars($applicant['id']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['position']); ?></td>
+                                                <!-- <td><?php echo htmlspecialchars($applicant['id']); ?></td> -->
+                                                <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
                                                 <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
                                                 <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
                                                 <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>

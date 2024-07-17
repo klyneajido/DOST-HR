@@ -46,8 +46,40 @@ if ($result) {
 	echo "Error retrieving announcement count: " . $mysqli->error;
 }
 
-?>
-<?php
+// applicant filter
+$query = "SELECT 
+            (SELECT COUNT(*) FROM applicants WHERE applicants.job_id = j.job_id) as count, 
+            a.lastname, 
+            j.job_title, 
+            j.position_or_unit,
+            j.job_id
+          FROM applicants a
+          RIGHT JOIN job j ON j.job_id = a.job_id";
+
+$result = $mysqli->query($query);
+
+// Process data into a structured array
+$positions = [];
+while ($row = $result->fetch_assoc()) {
+    $general_id = $row['job_id'];
+    $positions[$general_id]['general_title'] = $row['job_title'];
+    $positions[$general_id]['specific_positions'][] = [
+        'specific_id' => $general_id,
+        'specific_position' => $row['position_or_unit'],
+        'specific_count' => $row['count']
+    ];
+}
+
+// Fetch total applicants for each general title
+foreach ($positions as $general_id => &$general) {
+    $query = "SELECT COUNT(*) as total_count FROM applicants 
+              WHERE applicants.job_id IN 
+              (SELECT job_id FROM job WHERE job_title = '".$general['general_title']."')";
+    $total_result = $mysqli->query($query);
+    $total_count = $total_result->fetch_assoc()['total_count'];
+    $general['total_count'] = $total_count;
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -65,10 +97,7 @@ if ($result) {
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
-	<!-- [if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif] -->
+
 </head>
 <style>
 	.modal-backdrop {
@@ -96,6 +125,15 @@ if ($result) {
 				color-stop(.5, rgba(255, 255, 255, .2)),
 				color-stop(.5, transparent), to(transparent));
 	}
+	.filter-content-indiv{
+  margin-left:5%; 
+  border: 1px solid #ccc; 
+  border-radius: 15px
+}
+
+.border-filter{
+  border: 1px solid #ccc;
+}
 </style>
 
 <body class="scrollbar" id="style-5">
@@ -335,50 +373,72 @@ if ($result) {
 							</div>
 							<div class="card-body">
 
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
-											<h4><?php echo $applicant_count; ?></h4>
-										</div>
-										<div class="team-content">
-											<label>Maria Cotton</label>
-											<span>PHP</span>
+								<?php foreach ($positions as $general_id => $general): ?>
+								<div>
+									<div class="team-list border-filter">
+										<div class="team-view justify-content-between">
+											<div class="row col-md-auto">
+												<div class="team-img px-2 btn-warning rounded-circle mx-2 my-2 disabled">
+														<h4><?php echo $general['total_count']; ?></h4>
+												</div>
+												<div class="team-content">
+														<label><?php echo $general['general_title']; ?></label>
+														<span>PHP</span>
+												</div>
+											</div>
+												
+												<div class="team-action" style="">
+														<ul>
+																<li><a href="#" class="toggle-positions" data-id="<?php echo $general_id; ?>"><i data-feather="chevron-down"></i></a></li>
+																<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
+														</ul>
+												</div>
 										</div>
 									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="chevron-down"></i></a></li>
-											<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
-										</ul>
-									</div>
+									<?php foreach ($general['specific_positions'] as $specific): ?>
+									<div class="">
+										<div class="specific-positions" id="positions-<?php echo $general_id; ?>" style="display: none; margin-left: 5%;">
+												
+												<div class="mb-3 filter-content-indiv">
+														<div class="team-view">
+																<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
+																		<h4><?php echo $specific['specific_count']; ?></h4>
+																</div>
+																<div class="team-content">
+																		<label><?php echo $specific['specific_position']; ?></label>
+																		<span>PHP</span>
+																</div>
+														</div>
+												</div>
+										</div>
+									</div>	<?php endforeach; ?>
 								</div>
+								<?php endforeach; ?>
+
 								
-								<div class="team-list" style="margin-left:5%;">
-									<div class="team-view">
-										<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
-											<h4><?php echo $applicant_count; ?></h4>
-										</div>
-										<div class="team-content">
-											<label>Maria Cotton</label>
-											<span>PHP</span>
-										</div>
-									</div>
-								</div>
+    
 
-								<div class="team-list" style="margin-left:5%;">
-									<div class="team-view">
-										<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
-											<h4><?php echo $applicant_count; ?></h4>
-										</div>
-										<div class="team-content">
-											<label>Maria Cotton</label>
-											<span>PHP</span>
-										</div>
-									</div>
-								</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.toggle-positions').forEach(function(toggle) {
+            toggle.addEventListener('click', function(event) {
+                event.preventDefault();
+                var id = toggle.getAttribute('data-id');
+                var positionsDiv = document.getElementById('positions-' + id);
+                if (positionsDiv.style.display === 'none') {
+                    positionsDiv.style.display = 'block';
+                    toggle.querySelector('i').setAttribute('data-feather', 'chevron-up');
+                } else {
+                    positionsDiv.style.display = 'none';
+                    toggle.querySelector('i').setAttribute('data-feather', 'chevron-down');
+                }
+                feather.replace();
+            });
+        });
+    });
+</script>
 
-
-
+<!-- 
 								<div class="team-list">
 									<div class="team-view">
 										<div class="team-img">
@@ -430,7 +490,8 @@ if ($result) {
 											<li><a><i data-feather="edit-2"></i></a></li>
 										</ul>
 									</div>
-								</div>
+								</div> -->
+
 							</div>
 						</div>
 					</div>

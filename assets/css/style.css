@@ -7136,3 +7136,13 @@ label.logo-upload {
 .z-4{
   z-index: 4;
 }
+
+.filter-content-indiv{
+  margin-left:5%; 
+  border: 1px solid #ccc; 
+  border-radius: 15px
+}
+
+.border-filter{
+  border: 1px solid #ccc;
+}
