@@ -335,7 +335,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     echo "<td>" . htmlspecialchars($archive['description_announcement']) . "</td>";
                                                     echo "<td><a href='" . htmlspecialchars($archive['link']) . "'>" . htmlspecialchars($archive['link']) . "</a></td>";
                                                     // Use base64-encoded string as the src attribute of the img tag
-                                                    echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='50' height='50'></td>";
+                                                    echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='100' height='100'></td>";
                                                     echo "<td>" . htmlspecialchars($archive['created_at']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['updated_at']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
