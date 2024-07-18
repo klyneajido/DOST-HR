@@ -385,51 +385,50 @@ while ($row = $result->fetch_assoc()) {
 							<div class="card-header">
 								<h4 class="card-title">Applicant by Position/Unit</h4>
 							</div>
-							<div class="card-body" >
+							<div class="card-body overflow-auto" >
 
 							<?php foreach ($positions as $general): ?>
-    <div>
-        <div class="team-list border-filter">
-            <div class="team-view justify-content-between">
-                <div class="row col-md-auto">
-                    <div class="team-img px-2 btn-warning rounded-circle mx-2 my-2 disabled">
-                        <h4><?php echo $general['total_count']; ?></h4>
-                    </div>
-                    <div class="team-content">
-                        <label><?php echo $general['general_title']; ?></label>
-                        <span>PHP</span>
-                    </div>
-                </div>
+								<div>
+										<div class="team-list border-filter">
+												<div class="team-view justify-content-between">
+														<div class="row col-md-auto">
+																<div class="team-img px-2 btn-info rounded-circle mx-2 my-2 disabled">
+																		<h4 class="text-light"><?php echo $general['total_count']; ?></h4>
+																</div>
+																<div class="team-content my-auto">
+																		<label><?php echo $general['general_title']; ?></label>
+																		
+																</div>
+														</div>
 
-                <div class="team-action" style="">
-                    <ul>
-                        <li><a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a></li>
-                        <li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+														<div class="team-action" style="">
+																<ul>
+																		<li><a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a></li>
+																		<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
+																</ul>
+														</div>
+												</div>
+										</div>
 
-        <div class="">
-            <div class="specific-positions" id="positions-<?php echo $general['general_title']; ?>" style="display: none; margin-left: 5%;">
-                <?php foreach ($general['specific_positions'] as $specific): ?>
-                    <div class="mb-3 filter-content-indiv">
-                        <div class="team-view">
-                            <div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
-                                <h4><?php echo $specific['specific_count']; ?></h4>
-                            </div>
-                            <div class="team-content">
-                                <label><?php echo $specific['specific_position']; ?></label>
-                                <span>PHP</span>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-    </div>
-<?php endforeach; ?>
-
+										<div class="">
+												<div class="specific-positions" id="positions-<?php echo $general['general_title']; ?>" style="display: none; margin-left: 5%;">
+														<?php foreach ($general['specific_positions'] as $specific): ?>
+																<div class="mb-3 filter-content-indiv">
+																		<div class="team-view">
+																				<div class="team-img px-2 btn-light rounded-circle mx-2 disabled" style="background:lightblue;">
+																						<h4 class="text-body-tertiary"><?php echo $specific['specific_count']; ?></h4>
+																				</div>
+																				<div class="team-content my-auto">
+																						<label><?php echo $specific['specific_position']; ?></label>
+																						
+																				</div>
+																		</div>
+																</div>
+														<?php endforeach; ?>
+												</div>
+										</div>
+								</div>
+							<?php endforeach; ?>
 
 
 							</div>
