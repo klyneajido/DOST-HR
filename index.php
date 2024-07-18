@@ -46,39 +46,52 @@ if ($result) {
 	echo "Error retrieving announcement count: " . $mysqli->error;
 }
 
-// applicant filter
+//APPLICATION FILTER 
+// Fetch job titles and their specific positions/units along with applicant counts
 $query = "SELECT 
-            (SELECT COUNT(*) FROM applicants WHERE applicants.job_id = j.job_id) as count, 
-            a.lastname, 
-            j.job_title, 
+            j.job_id,
+            j.job_title,
             j.position_or_unit,
-            j.job_id
-          FROM applicants a
-          RIGHT JOIN job j ON j.job_id = a.job_id";
+            COUNT(a.id) as count
+          FROM job j
+          LEFT JOIN applicants a ON j.job_id = a.job_id
+          GROUP BY j.job_id, j.job_title, j.position_or_unit";
 
 $result = $mysqli->query($query);
 
-// Process data into a structured array
+// Initialize an array to store positions and counts
 $positions = [];
+
+// Process data into a structured array
 while ($row = $result->fetch_assoc()) {
+    $general_title = $row['job_title'];
     $general_id = $row['job_id'];
-    $positions[$general_id]['general_title'] = $row['job_title'];
-    $positions[$general_id]['specific_positions'][] = [
-        'specific_id' => $general_id,
-        'specific_position' => $row['position_or_unit'],
-        'specific_count' => $row['count']
+    $specific_position = $row['position_or_unit'];
+    $count = $row['count'];
+
+    // Check if the general_title already exists in $positions
+    if (!isset($positions[$general_title])) {
+        $positions[$general_title] = [
+            'general_title' => $general_title,
+            'total_count' => 0,
+            'specific_positions' => []
+        ];
+    }
+
+    // Increment total_count for the existing general_title
+    $positions[$general_title]['total_count'] += $count;
+
+    // Add specific_position under the general_title
+    $positions[$general_title]['specific_positions'][] = [
+        'specific_position' => $specific_position,
+        'specific_count' => $count
     ];
 }
 
-// Fetch total applicants for each general title
-foreach ($positions as $general_id => &$general) {
-    $query = "SELECT COUNT(*) as total_count FROM applicants 
-              WHERE applicants.job_id IN 
-              (SELECT job_id FROM job WHERE job_title = '".$general['general_title']."')";
-    $total_result = $mysqli->query($query);
-    $total_count = $total_result->fetch_assoc()['total_count'];
-    $general['total_count'] = $total_count;
-}
+
+
+// Now $positions array contains combined job titles with aggregated specific positions and counts
+
 
 
 ?>
@@ -364,139 +377,85 @@ foreach ($positions as $general_id => &$general) {
 					</div>
 				</div>
 
+
 				<!-- Applicant filter -->
-				<div class="row">
-					<div class="col-xl-12 col-sm-12 col-12 d-flex">
-						<div class="card card-list flex-fill">
-							<div class="card-header ">
+				<div class="row" >
+					<div class="col-xl-12 col-sm-12 col-12">
+						<div class="card card-list py-3">
+							<div class="card-header">
 								<h4 class="card-title">Applicant by Position/Unit</h4>
 							</div>
-							<div class="card-body">
+							<div class="card-body" >
 
-								<?php foreach ($positions as $general_id => $general): ?>
-								<div>
-									<div class="team-list border-filter">
-										<div class="team-view justify-content-between">
-											<div class="row col-md-auto">
-												<div class="team-img px-2 btn-warning rounded-circle mx-2 my-2 disabled">
-														<h4><?php echo $general['total_count']; ?></h4>
-												</div>
-												<div class="team-content">
-														<label><?php echo $general['general_title']; ?></label>
-														<span>PHP</span>
-												</div>
-											</div>
-												
-												<div class="team-action" style="">
-														<ul>
-																<li><a href="#" class="toggle-positions" data-id="<?php echo $general_id; ?>"><i data-feather="chevron-down"></i></a></li>
-																<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
-														</ul>
-												</div>
-										</div>
-									</div>
-									<?php foreach ($general['specific_positions'] as $specific): ?>
-									<div class="">
-										<div class="specific-positions" id="positions-<?php echo $general_id; ?>" style="display: none; margin-left: 5%;">
-												
-												<div class="mb-3 filter-content-indiv">
-														<div class="team-view">
-																<div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
-																		<h4><?php echo $specific['specific_count']; ?></h4>
-																</div>
-																<div class="team-content">
-																		<label><?php echo $specific['specific_position']; ?></label>
-																		<span>PHP</span>
-																</div>
-														</div>
-												</div>
-										</div>
-									</div>	<?php endforeach; ?>
-								</div>
-								<?php endforeach; ?>
+							<?php foreach ($positions as $general): ?>
+    <div>
+        <div class="team-list border-filter">
+            <div class="team-view justify-content-between">
+                <div class="row col-md-auto">
+                    <div class="team-img px-2 btn-warning rounded-circle mx-2 my-2 disabled">
+                        <h4><?php echo $general['total_count']; ?></h4>
+                    </div>
+                    <div class="team-content">
+                        <label><?php echo $general['general_title']; ?></label>
+                        <span>PHP</span>
+                    </div>
+                </div>
 
-								
-    
+                <div class="team-action" style="">
+                    <ul>
+                        <li><a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a></li>
+                        <li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.toggle-positions').forEach(function(toggle) {
-            toggle.addEventListener('click', function(event) {
-                event.preventDefault();
-                var id = toggle.getAttribute('data-id');
-                var positionsDiv = document.getElementById('positions-' + id);
-                if (positionsDiv.style.display === 'none') {
-                    positionsDiv.style.display = 'block';
-                    toggle.querySelector('i').setAttribute('data-feather', 'chevron-up');
-                } else {
-                    positionsDiv.style.display = 'none';
-                    toggle.querySelector('i').setAttribute('data-feather', 'chevron-down');
-                }
-                feather.replace();
-            });
-        });
-    });
-</script>
+        <div class="">
+            <div class="specific-positions" id="positions-<?php echo $general['general_title']; ?>" style="display: none; margin-left: 5%;">
+                <?php foreach ($general['specific_positions'] as $specific): ?>
+                    <div class="mb-3 filter-content-indiv">
+                        <div class="team-view">
+                            <div class="team-img px-2 btn-warning rounded-circle mx-2 disabled">
+                                <h4><?php echo $specific['specific_count']; ?></h4>
+                            </div>
+                            <div class="team-content">
+                                <label><?php echo $specific['specific_position']; ?></label>
+                                <span>PHP</span>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
 
-<!-- 
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-04.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Linda Craver</label>
-											<span>IOS</span>
-										</div>
-									</div>
-								</div>
-								<div class="team-action">
-									<ul>
-										<li><a><i data-feather="trash-2"></i></a></li>
-										<li><a><i data-feather="edit-2"></i></a></li>
-									</ul>
-								</div>
-								
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-06.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Jenni Sims</label>
-											<span>Android</span>
-										</div>
-									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<div class="team-list">
-									<div class="team-view">
-										<div class="team-img">
-											<img src="assets/img/profiles/avatar-11.jpg" alt="avatar" />
-										</div>
-										<div class="team-content">
-											<label>Danny</label>
-											<span>Design</span>
-										</div>
-									</div>
-									<div class="team-action">
-										<ul>
-											<li><a><i data-feather="trash-2"></i></a></li>
-											<li><a><i data-feather="edit-2"></i></a></li>
-										</ul>
-									</div>
-								</div> -->
+
 
 							</div>
 						</div>
 					</div>
 				</div>
 
+				<script>
+					document.addEventListener('DOMContentLoaded', function() {
+							document.querySelectorAll('.toggle-positions').forEach(function(toggle) {
+									toggle.addEventListener('click', function(event) {
+											event.preventDefault();
+											var id = toggle.getAttribute('data-id');
+											var positionsDiv = document.getElementById('positions-' + id);
+											if (positionsDiv.style.display === 'none') {
+													positionsDiv.style.display = 'block';
+													toggle.querySelector('i').setAttribute('data-feather', 'chevron-up');
+											} else {
+													positionsDiv.style.display = 'none';
+													toggle.querySelector('i').setAttribute('data-feather', 'chevron-down');
+											}
+											feather.replace();
+									});
+							});
+					});
+			</script>
 
 				<!-- history and interview cards -->
 				<div class="row">
