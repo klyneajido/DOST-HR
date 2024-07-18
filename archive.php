@@ -69,7 +69,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    
 </head>
+<style>
+    .description-column {
+        max-width: 400px; /* Set the maximum width */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
 <body>
     <div class="main-wrapper">
         <div class="header">
@@ -210,11 +219,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <table class="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <!-- <th>ID</th> -->
                                                 <th>Title</th>
                                                 <th>Position/Unit</th>
                                                 <th>Description</th>
-                                                <th>Education Requirement</th>
+                                                <th class="w-25">Education Requirement</th>
                                                 <th>Experience or Training</th>
                                                 <th>Duties and Responsibilities</th>
                                                 <th>Salary</th>
@@ -233,10 +242,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             if ($result_archive->num_rows > 0) {
                                                 while ($job = $result_archive->fetch_assoc()) {
                                                     echo "<tr>";
-                                                    echo "<td>" . htmlspecialchars($job['jobarchive_id']) . "</td>";
+                                                    // echo "<td>" . htmlspecialchars($job['jobarchive_id']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['description']) . "</td>";
+                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
