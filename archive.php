@@ -72,24 +72,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 </head>
 <style>
-    .card {
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-        }
-        .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .card-header h4 {
-            margin-bottom: 0;
-        }
-        .card-body {
-            padding: 20px;
-        }
+    #style-5::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar {
+		width: 10px;
+		background-color: #F5F5F5;
+	}
+
+	#style-5::-webkit-scrollbar-thumb {
+		background-color: #0ae;
+
+		background-image: -webkit-gradient(linear, 0 0, 0 100%,
+				color-stop(.5, rgba(255, 255, 255, .2)),
+				color-stop(.5, transparent), to(transparent));
+	}
+	.filter-content-indiv{
+  margin-left:5%; 
+  border: 1px solid #ccc; 
+  border-radius: 15px
+}
+
+.border-filter{
+  border: 1px solid #ccc;
+}
         tr td {
         max-width: 400px; /* Set the maximum width */
         white-space: nowrap;
@@ -97,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         text-overflow: ellipsis;
     }
 </style>
-<body>
+<body class="scrollbar" id="style-5">
     <div class="main-wrapper">
         <div class="header">
             <div class="header-left">
@@ -231,6 +239,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Archived Jobs</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <!-- <th>ID</th> -->
+                                                <th>Title</th>
+                                                <th>Position/Unit</th>
+                                                <th>Description</th>
+                                                <th class="w-25">Education Requirement</th>
+                                                <th>Experience or Training</th>
+                                                <th>Duties and Responsibilities</th>
+                                                <th>Salary</th>
+                                                <th>Department ID</th>
+                                                <th>Place of Assignment</th>
+                                                <th>Status</th>
+                                                <th>Proof</th>
+                                                <th>Created At</th>
+                                                <th>Updated At</th>
+                                                <th>Deadline</th>
+                                                <th>Archived By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if ($result_archive->num_rows > 0) {
+                                                while ($job = $result_archive->fetch_assoc()) {
+                                                    echo "<tr>";
+                                                    // echo "<td>" . htmlspecialchars($job['jobarchive_id']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
+                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
+                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['department_id']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['proof']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='10'>No archived jobs found.</td></tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Archived Announcements</h4>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">

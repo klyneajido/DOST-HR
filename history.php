@@ -193,11 +193,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="breadcrumb-item">
                             <a href="history.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />History</a>
                         </li>
-                        <li class="breadcrumb-item active">            </li>
+                        <li class="breadcrumb-item active">    </li>
                     </ul>
                 </div>
                 
             </div>
+            <div class="row">
+				<div class="col-md-9 mx-auto my-5">
+					<div class="card">
+                        <img src="assets\img\error.png">
+                    </div>
+						
+				</div>
+			</div>
+
         </div>
     </div>
 
