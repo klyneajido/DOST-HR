@@ -38,6 +38,11 @@ $query_archive = "
 ";
 $result_archive = $mysqli->query($query_archive);
 
+
+$query_announcement_archive = "
+    SELECT * FROM announcement_archive
+";
+$result_announcement_archive = $mysqli->query($query_announcement_archive);
 // If the form is submitted, update the profile details
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -307,51 +312,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped">
-                                        <thead>
+                                        <thead class="text-center">
                                             <tr>
                                                 <!-- <th>ID</th> -->
                                                 <th>Title</th>
-                                                <th>Position/Unit</th>
                                                 <th>Description</th>
-                                                <th class="w-25">Education Requirement</th>
-                                                <th>Experience or Training</th>
-                                                <th>Duties and Responsibilities</th>
-                                                <th>Salary</th>
-                                                <th>Department ID</th>
-                                                <th>Place of Assignment</th>
-                                                <th>Status</th>
-                                                <th>Proof</th>
+                                                <th>Link</th>
+                                                <th>Image</th>
                                                 <th>Created At</th>
                                                 <th>Updated At</th>
-                                                <th>Deadline</th>
                                                 <th>Archived By</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                          <tbody class="text-center">
                                             <?php
-                                            if ($result_archive->num_rows > 0) {
-                                                while ($job = $result_archive->fetch_assoc()) {
+                                            if ($result_announcement_archive->num_rows > 0) {
+                                                while ($archive = $result_announcement_archive->fetch_assoc()) {
+                                                    // Encode the image_announcement BLOB data to base64
+                                                    $image_data = base64_encode($archive['image_announcement']);
                                                     echo "<tr>";
-                                                    // echo "<td>" . htmlspecialchars($job['jobarchive_id']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
-                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['department_id']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['proof']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['title']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['description_announcement']) . "</td>";
+                                                    echo "<td><a href='" . htmlspecialchars($archive['link']) . "'>" . htmlspecialchars($archive['link']) . "</a></td>";
+                                                    // Use base64-encoded string as the src attribute of the img tag
+                                                    echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='50' height='50'></td>";
+                                                    echo "<td>" . htmlspecialchars($archive['created_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['updated_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
                                                     echo "</tr>";
                                                 }
                                             } else {
-                                                echo "<tr><td colspan='10'>No archived jobs found.</td></tr>";
+                                                echo "<tr><td colspan='7'>No archived announcements found.</td></tr>";
                                             }
                                             ?>
                                         </tbody>

@@ -325,8 +325,7 @@ if ($result && $result->num_rows > 0) {
                                             <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
                                             <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
                                             <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 px-3 w-25">Edit</a>
-                                            <a href="#?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25">Archive</a>
-                                            
+                            <a href="announcementArchive.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25 archive-button">Archive</a>                                        
                                         </div>
                                         <div class="col-md-4 text-right">
                                             <br>
@@ -360,6 +359,19 @@ if ($result && $result->num_rows > 0) {
 
             </div>
         </div>
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const archiveButtons = document.querySelectorAll('.archive-button');
+            archiveButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    const confirmed = confirm('Are you sure you want to archive this announcement?');
+                    if (!confirmed) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
     <!-- Pop-up notification -->
         <?php if (!empty($success_message)): ?>
         <script>
