@@ -72,7 +72,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 </head>
 <style>
-    tr td {
+    .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .card-header h4 {
+            margin-bottom: 0;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        tr td {
         max-width: 400px; /* Set the maximum width */
         white-space: nowrap;
         overflow: hidden;
