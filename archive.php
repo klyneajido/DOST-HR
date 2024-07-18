@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 </head>
 <style>
-    .description-column {
+    tr td {
         max-width: 400px; /* Set the maximum width */
         white-space: nowrap;
         overflow: hidden;
