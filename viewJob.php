@@ -286,34 +286,34 @@ if ($result && $result->num_rows > 0) {
 						<div class="col-md-12">
 							<div class="card">
 								<div class="card-body shadow p-3">
-									<div class="col-md-4 mt-3 user-menu justify-content-end align-items-center z-4">
-										<a href="archiveJobs.php" class=" btn btn-secondary float-right">Archive</a>									
+									<div class="d-flex justify-content-between align-items-center">
+										<h5 class="card-header mb-0"><strong>
+											<?php if (empty($job['position_or_unit'])) : $position = ' '; else : $position = $job['position_or_unit']; endif;
+											echo htmlspecialchars($job['job_title'] . " " . $position); ?>
+										</strong></h5>
+										<a href="archiveJobs.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-secondary archive-btn">Archive</a>
 									</div>
-									<h5 class="card-header"><strong>
-										<?php if(empty($job['position_or_unit'])): $position = ' '; else: $position = $job['position_or_unit']; endif;
-										echo htmlspecialchars($job['job_title']." ". $position); ?> </strong>
-									</h5>
 									<div class="mx-3 py-2">
 										<p class="card-text pt-3"><strong>Description:</strong> <?php echo htmlspecialchars($job['description']); ?></p>
 										
 										<div class="row ">
 											<div class="col-md-6">
 												<p class="card-text"><strong>Department:</strong> <?php echo htmlspecialchars($job['department_name']); ?></p>
-												<?php if(!empty($job['place_of_assignment'])) : ?>
+												<?php if (!empty($job['place_of_assignment'])) : ?>
 												<p class="card-text"><strong>Place of Assignment:</strong> <?php echo htmlspecialchars($job['place_of_assignment']); ?></p>
-												<?php endif;?>
-												<?php if("COS"==($job['status'])) : ?>
-													<p class="card-text"><strong>Daily Salary:</strong> Php <?php echo htmlspecialchars(number_format($job['salary'],2)); ?></p>
-												<?php else: ?>
-													<p class="card-text"><strong>Monthly Salary:</strong> Php <?php echo htmlspecialchars(number_format($job['salary'],2)); ?></p>
-												<?php endif;?>
+												<?php endif; ?>
+												<?php if ("COS" == ($job['status'])) : ?>
+												<p class="card-text"><strong>Daily Salary:</strong> Php <?php echo htmlspecialchars(number_format($job['salary'], 2)); ?></p>
+												<?php else : ?>
+												<p class="card-text"><strong>Monthly Salary:</strong> Php <?php echo htmlspecialchars(number_format($job['salary'], 2)); ?></p>
+												<?php endif; ?>
 												<p class="card-text"><strong>Status:</strong> <?php echo htmlspecialchars($job['status']); ?></p>
 											</div>
 
 											<div class="col-md-6 pt-3">
 												<p class="card-text"><strong>Created At:</strong> <?php echo htmlspecialchars($job['created_at']); ?></p>
 												<p class="card-text"><strong>Updated At:</strong> <?php echo htmlspecialchars($job['updated_at']); ?></p>
-												<p class="card-text"><strong>Deadline:</strong> <?php echo htmlspecialchars($job['deadline']); ?></p>	
+												<p class="card-text"><strong>Deadline:</strong> <?php echo htmlspecialchars($job['deadline']); ?></p>
 											</div>
 										</div>
 
@@ -326,6 +326,18 @@ if ($result && $result->num_rows > 0) {
 						</div>
 					<?php endforeach; ?>
 				</div>
+
+				<script>
+					document.querySelectorAll('.archive-btn').forEach(function(button) {
+						button.addEventListener('click', function(event) {
+							event.preventDefault();
+							var result = confirm('Are you sure you want to archive this job?');
+							if (result) {
+								window.location.href = this.href;
+							}
+						});
+					});
+				</script>
 
 				<div class="user-menu">
 					<a href="addJob.php" class="btn btn-info btn-lg float-add-btn" title="Add Job">

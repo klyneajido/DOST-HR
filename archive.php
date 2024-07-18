@@ -30,6 +30,9 @@ if ($result->num_rows == 1) {
     exit();
 }
 
+$query_archive = "SELECT * FROM job_archive";
+$result_archive = $mysqli->query($query_archive);
+
 // If the form is submitted, update the profile details
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
@@ -196,9 +199,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="breadcrumb-item active">Files</li>
                     </ul>
                 </div>
-                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Archived Jobs</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Title</th>
+                                                <th>Position/Unit</th>
+                                                <th>Description</th>
+                                                <th>Education Requirement</th>
+                                                <th>Experience or Training</th>
+                                                <th>Duties and Responsibilities</th>
+                                                <th>Salary</th>
+                                                <th>Department ID</th>
+                                                <th>Place of Assignment</th>
+                                                <th>Status</th>
+                                                <th>Proof</th>
+                                                <th>Created At</th>
+                                                <th>Updated At</th>
+                                                <th>Deadline</th>
+                                                <th>Archived By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if ($result_archive->num_rows > 0) {
+                                                while ($job = $result_archive->fetch_assoc()) {
+                                                    echo "<tr>";
+                                                    echo "<td>" . htmlspecialchars($job['jobarchive_id']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['description']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
+                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['department_id']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['proof']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='10'>No archived jobs found.</td></tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
     </div>
 
     <script src="assets/js/date.js"></script>

@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // If no errors, insert data into job table
     if (empty($errors)) {
         $stmt = $mysqli->prepare("INSERT INTO job (job_title, position_or_unit, description, education_requirement, experience_or_training, duties_and_responsibilities, department_id, salary, place_of_assignment, status, deadline, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-        $stmt->bind_param("sssssisdsss", $job_title, $position, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $department_id, $monthly_salary, $placeofassignment, $status, $deadline);
+        $stmt->bind_param("sssssssdsss", $job_title, $position, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $department_id, $monthly_salary, $placeofassignment, $status, $deadline);
 
         if ($stmt->execute()) {
 			header('Location: viewJob.php');
