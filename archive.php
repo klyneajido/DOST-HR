@@ -30,7 +30,12 @@ if ($result->num_rows == 1) {
     exit();
 }
 
-$query_archive = "SELECT * FROM job_archive";
+// Modified query to join job_archive with department to get department name
+$query_archive = "
+    SELECT ja.*, d.name 
+    FROM job_archive ja
+    LEFT JOIN department d ON ja.department_id = d.department_id
+";
 $result_archive = $mysqli->query($query_archive);
 
 // If the form is submitted, update the profile details
@@ -243,7 +248,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-striped">
-                                        <thead>
+                                        <thead class="text-center">
                                             <tr>
                                                 <!-- <th>ID</th> -->
                                                 <th>Title</th>
@@ -253,7 +258,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <th>Experience or Training</th>
                                                 <th>Duties and Responsibilities</th>
                                                 <th>Salary</th>
-                                                <th>Department ID</th>
+                                                <th>Department</th>
                                                 <th>Place of Assignment</th>
                                                 <th>Status</th>
                                                 <th>Proof</th>
@@ -267,7 +272,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <?php
                                             if ($result_archive->num_rows > 0) {
                                                 while ($job = $result_archive->fetch_assoc()) {
-                                                    echo "<tr>";
+                                                    echo "<tr class='text-center'>";
                                                     // echo "<td>" . htmlspecialchars($job['jobarchive_id']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
@@ -276,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
                                                     echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['department_id']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['name']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['status']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['proof']) . "</td>";
