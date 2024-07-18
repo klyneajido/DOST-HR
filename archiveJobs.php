@@ -39,10 +39,10 @@ try {
         error_log("Job details: " . print_r($job, true));
 
         // Insert job into job_archive table
-        $sql_insert = "INSERT INTO job_archive (jobarchive_id, job_title, position_or_unit, description, education_requirement, experience_or_training, duties_and_responsibilities, salary, department_id, place_of_assignment, status, proof, created_at, updated_at, deadline, archived_by)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql_insert = "INSERT INTO job_archive (jobarchive_id, job_title, position_or_unit, description, education_requirement, experience_or_training, duties_and_responsibilities, salary, department_id, place_of_assignment, status, proof, created_at, deadline, archived_by, updated_at)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         $stmt_insert = $mysqli->prepare($sql_insert);
-        $stmt_insert->bind_param("issssssdisssssss", 
+        $stmt_insert->bind_param("issssssdissssss", 
             $job['job_id'], 
             $job['job_title'], 
             $job['position_or_unit'], 
@@ -55,7 +55,6 @@ try {
             $job['place_of_assignment'], // Fixed column name
             $job['status'], 
             $job['proof'], 
-            $job['created_at'], 
             $job['updated_at'], 
             $job['deadline'], 
             $archived_by
