@@ -57,10 +57,22 @@
                     </ul>
                 </div>
                 <!-- Table section -->
-                <div class="col-xl-12 col-sm-12 col-12">
+                <div class="col-xl-12 col-sm-12 col-12 pb-3">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header d-flex justify-content-between ">
                             <h2 class="card-titles">Applicants</h2>
+                            <!-- Rows per page dropdown -->
+                            <div class="form-group d-flex text-center rows_per_page">
+                                <label for="rows_per_page " class="mr-2">Rows</label>
+                                <select class="form-control" id="rows_per_page" onchange="changeRowsPerPage()">
+                                    <option value="10" <?php echo $rows_per_page == 10 ? 'selected' : ''; ?>>10</option>
+                                    <option value="20" <?php echo $rows_per_page == 20 ? 'selected' : ''; ?>>20</option>
+                                    <option value="50" <?php echo $rows_per_page == 50 ? 'selected' : ''; ?>>50</option>
+                                    <option value="100" <?php echo $rows_per_page == 100 ? 'selected' : ''; ?>>100
+                                    </option>
+                                </select>
+                            </div>
+
                         </div>
                         <div class="table-responsive">
                             <table class="table custom-table no-footer text-center">
@@ -141,18 +153,20 @@
                                 </tbody>
                             </table>
                         </div>
- 
-<!-- Pagination and rows per page controls -->
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center mt-3">
-        <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
-            <a class="page-link" href="?applicants_page=<?php echo $page - 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-                <span class="sr-only">Previous</span>
-            </a>
-        </li>
 
-        <?php
+                        <!-- Pagination and rows per page controls -->
+                        <nav aria-label="Page navigation " class="mb-3">
+                            <ul class="pagination justify-content-center mt-3">
+                                <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                                    <a class="page-link"
+                                        href="?applicants_page=<?php echo $page - 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>"
+                                        aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                </li>
+
+                                <?php
         $start = max(1, $page - 1);
         $end = min($total_pages, $page + 1);
 
@@ -164,10 +178,11 @@
         }
 
         for ($i = $start; $i <= $end; $i++) : ?>
-            <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
-                <a class="page-link" href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>"><?php echo $i; ?></a>
-            </li>
-        <?php endfor;
+                                <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
+                                    <a class="page-link"
+                                        href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>"><?php echo $i; ?></a>
+                                </li>
+                                <?php endfor;
 
         if ($end < $total_pages) {
             if ($end < $total_pages - 1) {
@@ -177,39 +192,32 @@
         }
         ?>
 
-        <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
-            <a class="page-link" href="?applicants_page=<?php echo $page + 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-                <span class="sr-only">Next</span>
-            </a>
-        </li>
-    </ul>
-</nav>
+                                <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+                                    <a class="page-link"
+                                        href="?applicants_page=<?php echo $page + 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>"
+                                        aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
 
-<!-- Rows per page dropdown -->
-<div class="form-group">
-    <label for="rows_per_page">Rows per page:</label>
-    <select class="form-control" id="rows_per_page" onchange="changeRowsPerPage()">
-        <option value="10" <?php echo $rows_per_page == 10 ? 'selected' : ''; ?>>10</option>
-        <option value="20" <?php echo $rows_per_page == 20 ? 'selected' : ''; ?>>20</option>
-        <option value="50" <?php echo $rows_per_page == 50 ? 'selected' : ''; ?>>50</option>
-        <option value="100" <?php echo $rows_per_page == 100 ? 'selected' : ''; ?>>100</option>
-    </select>
-</div>
-
-<script>
-    function changeRowsPerPage() {
-        var rowsPerPage = document.getElementById('rows_per_page').value;
-        var url = new URL(window.location.href);
-        url.searchParams.set('rows_per_page', rowsPerPage);
-        window.location.href = url.toString();
-    }
-</script>
+                        <script>
+                        function changeRowsPerPage() {
+                            var rowsPerPage = document.getElementById('rows_per_page').value;
+                            var url = new URL(window.location.href);
+                            url.searchParams.set('rows_per_page', rowsPerPage);
+                            window.location.href = url.toString();
+                        }
+                        </script>
                     </div>
                 </div>
-            </div>
-        </div>
 
+               
+            </div>
+
+        </div>
 </body>
 <script src="assets/js/date.js"></script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>

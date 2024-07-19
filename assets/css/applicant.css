@@ -7230,3 +7230,13 @@ label.logo-upload {
       height: 100%;
   }
 
+  .status-dropdown{
+    width: auto;
+    padding:5px;
+  }
+  #rows_per_page{
+    width: 100px;
+    height: 25px;
+    font-size: 12px;
+  }
+  
