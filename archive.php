@@ -29,13 +29,16 @@ if ($result->num_rows == 1) {
     exit();
 }
 
+// Get search input if present
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
 // Pagination parameters for Jobs
-$jobs_limit = 10; 
+$jobs_limit = 10;
 $jobs_page = isset($_GET['jobs_page']) ? intval($_GET['jobs_page']) : 1;
 $jobs_offset = ($jobs_page - 1) * $jobs_limit;
 
 // Pagination parameters for Announcements
-$announcements_limit = 6; 
+$announcements_limit = 6;
 $announcements_page = isset($_GET['announcements_page']) ? intval($_GET['announcements_page']) : 1;
 $announcements_offset = ($announcements_page - 1) * $announcements_limit;
 
@@ -44,16 +47,25 @@ $query_archive = "
     SELECT ja.*, d.name 
     FROM job_archive ja
     LEFT JOIN department d ON ja.department_id = d.department_id
+    WHERE ja.job_title LIKE ? OR ja.description LIKE ?
     LIMIT ?, ?
 ";
+$search_term = '%' . $search . '%';
 $stmt_archive = $mysqli->prepare($query_archive);
-$stmt_archive->bind_param('ii', $jobs_offset, $jobs_limit);
+$stmt_archive->bind_param('ssii', $search_term, $search_term, $jobs_offset, $jobs_limit);
 $stmt_archive->execute();
 $result_archive = $stmt_archive->get_result();
 
 // Get total number of archived jobs for pagination
-$query_archive_count = "SELECT COUNT(*) AS total FROM job_archive";
-$result_archive_count = $mysqli->query($query_archive_count);
+$query_archive_count = "
+    SELECT COUNT(*) AS total 
+    FROM job_archive 
+    WHERE job_title LIKE ? OR description LIKE ?
+";
+$stmt_count = $mysqli->prepare($query_archive_count);
+$stmt_count->bind_param('ss', $search_term, $search_term);
+$stmt_count->execute();
+$result_archive_count = $stmt_count->get_result();
 $total_jobs = $result_archive_count->fetch_assoc()['total'];
 $total_pages_jobs = ceil($total_jobs / $jobs_limit);
 
@@ -95,9 +107,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating profile.";
     }
 }
+// Get search input if present (for announcements)
+$search_announcement = isset($_GET['search_announcement']) ? trim($_GET['search_announcement']) : '';
+
+// Modified query to search within announcement_archive
+$query_announcement_archive = "
+    SELECT * FROM announcement_archive
+    WHERE title LIKE ? OR description_announcement LIKE ?
+    LIMIT ?, ?
+";
+$search_announcement_term = '%' . $search_announcement . '%';
+$stmt_announcement = $mysqli->prepare($query_announcement_archive);
+$stmt_announcement->bind_param('ssii', $search_announcement_term, $search_announcement_term, $announcements_offset, $announcements_limit);
+$stmt_announcement->execute();
+$result_announcement_archive = $stmt_announcement->get_result();
+
+// Get total number of matching announcements for pagination
+$query_announcement_count = "
+    SELECT COUNT(*) AS total
+    FROM announcement_archive
+    WHERE title LIKE ? OR description_announcement LIKE ?
+";
+$stmt_count_announcement = $mysqli->prepare($query_announcement_count);
+$stmt_count_announcement->bind_param('ss', $search_announcement_term, $search_announcement_term);
+$stmt_count_announcement->execute();
+$result_announcement_count = $stmt_count_announcement->get_result();
+$total_announcements = $result_announcement_count->fetch_assoc()['total'];
+$total_pages_announcements = ceil($total_announcements / $announcements_limit);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -107,42 +148,56 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    
+
 </head>
 <style>
+    .top-nav-search form {
+        width: 100%;
+        /* Set to 100% for full width, or use a fixed width value like 800px */
+    }
+
+    .top-nav-search input[type="text"] {
+        width: 100%;
+        /* This makes the input field take up the full width of its container */
+    }
+
     #style-5::-webkit-scrollbar-track {
-		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-		background-color: #F5F5F5;
-	}
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #F5F5F5;
+    }
 
-	#style-5::-webkit-scrollbar {
-		width: 10px;
-		background-color: #F5F5F5;
-	}
+    #style-5::-webkit-scrollbar {
+        width: 10px;
+        background-color: #F5F5F5;
+    }
 
-	#style-5::-webkit-scrollbar-thumb {
-		background-color: #0ae;
+    #style-5::-webkit-scrollbar-thumb {
+        background-color: #0ae;
 
-		background-image: -webkit-gradient(linear, 0 0, 0 100%,
-				color-stop(.5, rgba(255, 255, 255, .2)),
-				color-stop(.5, transparent), to(transparent));
-	}
-	.filter-content-indiv{
-  margin-left:5%; 
-  border: 1px solid #ccc; 
-  border-radius: 15px
-}
+        background-image: -webkit-gradient(linear, 0 0, 0 100%,
+                color-stop(.5, rgba(255, 255, 255, .2)),
+                color-stop(.5, transparent), to(transparent));
+    }
 
-.border-filter{
-  border: 1px solid #ccc;
-}
-        tr td {
-        max-width: 400px; /* Set the maximum width */
+    .filter-content-indiv {
+        margin-left: 5%;
+        border: 1px solid #ccc;
+        border-radius: 15px
+    }
+
+    .border-filter {
+        border: 1px solid #ccc;
+    }
+
+    tr td {
+        max-width: 400px;
+        /* Set the maximum width */
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 </style>
+
 <body class="scrollbar" id="style-5">
     <div class="main-wrapper">
         <div class="header">
@@ -232,14 +287,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         Transparency</span></a>
                             </li>
                             <li class="active">
-                              <a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
-                                  <span>Archive</span></a>
-                                          </li>
-                            <li>
-                              <a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
-                                  <span>History</span></a>
+                                <a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+                                    <span>Archive</span></a>
                             </li>
-                            <li >
+                            <li>
+                                <a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+                                    <span>History</span></a>
+                            </li>
+                            <li>
                                 <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                                     <span>Profile</span></a>
                             </li>
@@ -276,7 +331,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h4 class="card-title">Archived Jobs</h4>
+                                <h4 class="card-title d-inline">Archived Jobs</h4>
+                                <div class="search-container d-inline float-right" style="margin-left: 20px;">
+                                    <form action="archive.php" method="get" class="d-flex flex-wrap">
+                                        <input type="text" name="search" class="form-control mr-2" placeholder="Search Jobs" style="flex: 1; min-width: 200px;">
+                                        <button class="btn" type="submit" style="background: none; border: none; padding: 0;">
+                                            <i class="fas fa-search" style="color: #000;"></i> <!-- Set color to desired color -->
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -377,6 +440,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Archived Announcements</h4>
+                                <div class="search-container d-inline float-right" style="margin-left: 20px;">
+                                    <form action="archive.php" method="get" class="d-flex flex-wrap">
+                                        <input type="text" name="search_announcement" class="form-control mr-2" placeholder="Search Announcements" style="flex: 1; min-width: 200px;" value="<?php echo htmlspecialchars($search_announcement); ?>">
+                                        <button class="btn" type="submit" style="background: none; border: none; padding: 0;">
+                                            <i class="fas fa-search" style="color: #000;"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
@@ -393,7 +464,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 <th>Archived By</th>
                                             </tr>
                                         </thead>
-                                          <tbody class="text-center">
+                                        <tbody class="text-center">
                                             <?php
                                             if ($result_announcement_archive->num_rows > 0) {
                                                 while ($archive = $result_announcement_archive->fetch_assoc()) {
@@ -462,16 +533,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
 
-    <script src="assets/js/date.js"></script>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/feather.min.js"></script>
-    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
-    <script src="assets/js/script.js"></script>
+        <script src="assets/js/date.js"></script>
+        <script src="assets/js/jquery-3.6.0.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/feather.min.js"></script>
+        <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+        <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+        <script src="assets/plugins/apexchart/chart-data.js"></script>
+        <script src="assets/js/script.js"></script>
 </body>
+
 </html>
