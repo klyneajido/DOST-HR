@@ -12,7 +12,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 
 $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
                  a.application_letter, a.personal_data_sheet, a.performance_rating, a.eligibility_rating_license, 
-                 a.transcript_of_records, a.certificate_of_employment, a.proof_of_ratings_seminars, 
+                 a.transcript_of_records, a.certificate_of_employment, a.proof_of_trainings_seminars, 
                  a.proof_of_rewards, CONCAT(j.job_title, ' ', j.position_or_unit) AS job_title
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id";
@@ -206,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                                                     <?php echo getFilePreview($applicant['certificate_of_employment']); ?>
                                                 </td>
                                                 <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['proof_of_ratings_seminars']); ?>
+                                                    <?php echo getFilePreview($applicant['proof_of_trainings_seminars']); ?>
                                                 </td>
                                                 <td class="file-preview">
                                                     <?php echo getFilePreview($applicant['proof_of_rewards']); ?>
