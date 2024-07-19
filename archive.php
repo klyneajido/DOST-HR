@@ -5,7 +5,6 @@ include_once 'PHP_Connections/db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
     header('Location: login.php');
     exit();
 }
@@ -30,24 +29,54 @@ if ($result->num_rows == 1) {
     exit();
 }
 
-// Modified query to join job_archive with department to get department name
+// Pagination parameters for Jobs
+$jobs_limit = 10; 
+$jobs_page = isset($_GET['jobs_page']) ? intval($_GET['jobs_page']) : 1;
+$jobs_offset = ($jobs_page - 1) * $jobs_limit;
+
+// Pagination parameters for Announcements
+$announcements_limit = 6; 
+$announcements_page = isset($_GET['announcements_page']) ? intval($_GET['announcements_page']) : 1;
+$announcements_offset = ($announcements_page - 1) * $announcements_limit;
+
+// Modified query to join job_archive with department to get department name and paginate results
 $query_archive = "
     SELECT ja.*, d.name 
     FROM job_archive ja
     LEFT JOIN department d ON ja.department_id = d.department_id
+    LIMIT ?, ?
 ";
-$result_archive = $mysqli->query($query_archive);
+$stmt_archive = $mysqli->prepare($query_archive);
+$stmt_archive->bind_param('ii', $jobs_offset, $jobs_limit);
+$stmt_archive->execute();
+$result_archive = $stmt_archive->get_result();
 
+// Get total number of archived jobs for pagination
+$query_archive_count = "SELECT COUNT(*) AS total FROM job_archive";
+$result_archive_count = $mysqli->query($query_archive_count);
+$total_jobs = $result_archive_count->fetch_assoc()['total'];
+$total_pages_jobs = ceil($total_jobs / $jobs_limit);
 
+// Fetch paginated archived announcements
 $query_announcement_archive = "
     SELECT * FROM announcement_archive
+    LIMIT ?, ?
 ";
-$result_announcement_archive = $mysqli->query($query_announcement_archive);
+$stmt_announcement = $mysqli->prepare($query_announcement_archive);
+$stmt_announcement->bind_param('ii', $announcements_offset, $announcements_limit);
+$stmt_announcement->execute();
+$result_announcement_archive = $stmt_announcement->get_result();
+
+// Get total number of archived announcements for pagination
+$query_announcement_count = "SELECT COUNT(*) AS total FROM announcement_archive";
+$result_announcement_count = $mysqli->query($query_announcement_count);
+$total_announcements = $result_announcement_count->fetch_assoc()['total'];
+$total_pages_announcements = ceil($total_announcements / $announcements_limit);
+
 // If the form is submitted, update the profile details
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    // Handle profile image update if a new one is uploaded
     if (!empty($_FILES['profile_image']['name'])) {
         $profile_image = addslashes(file_get_contents($_FILES['profile_image']['tmp_name']));
     } else {
@@ -66,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating profile.";
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -303,6 +331,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </tbody>
                                     </table>
                                 </div>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-3">
+                                        <li class="page-item <?php if ($jobs_page <= 1) echo 'disabled'; ?>">
+                                            <a class="page-link" href="?jobs_page=<?php echo $jobs_page - 1; ?>" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        <?php
+                                        $jobs_start = max(1, $jobs_page - 1);
+                                        $jobs_end = min($total_pages_jobs, $jobs_page + 1);
+
+                                        if ($jobs_start > 1) {
+                                            echo '<li class="page-item"><a class="page-link" href="?jobs_page=1">1</a></li>';
+                                            if ($jobs_start > 2) {
+                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                            }
+                                        }
+
+                                        for ($i = $jobs_start; $i <= $jobs_end; $i++) : ?>
+                                            <li class="page-item <?php if ($jobs_page == $i) echo 'active'; ?>"><a class="page-link" href="?jobs_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                                        <?php endfor;
+
+                                        if ($jobs_end < $total_pages_jobs) {
+                                            if ($jobs_end < $total_pages_jobs - 1) {
+                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                            }
+                                            echo '<li class="page-item"><a class="page-link" href="?jobs_page=' . $total_pages_jobs . '">' . $total_pages_jobs . '</a></li>';
+                                        }
+                                        ?>
+
+                                        <li class="page-item <?php if ($jobs_page >= $total_pages_jobs) echo 'disabled'; ?>">
+                                            <a class="page-link" href="?jobs_page=<?php echo $jobs_page + 1; ?>" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+
                             </div>
                         </div>
                         <div class="card">
@@ -348,6 +417,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </tbody>
                                     </table>
                                 </div>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-3">
+                                        <li class="page-item <?php if ($announcements_page <= 1) echo 'disabled'; ?>">
+                                            <a class="page-link" href="?announcements_page=<?php echo $announcements_page - 1; ?>" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        <?php
+                                        $announcements_start = max(1, $announcements_page - 1);
+                                        $announcements_end = min($total_pages_announcements, $announcements_page + 1);
+
+                                        if ($announcements_start > 1) {
+                                            echo '<li class="page-item"><a class="page-link" href="?announcements_page=1">1</a></li>';
+                                            if ($announcements_start > 2) {
+                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                            }
+                                        }
+
+                                        for ($i = $announcements_start; $i <= $announcements_end; $i++) : ?>
+                                            <li class="page-item <?php if ($announcements_page == $i) echo 'active'; ?>"><a class="page-link" href="?announcements_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                                        <?php endfor;
+
+                                        if ($announcements_end < $total_pages_announcements) {
+                                            if ($announcements_end < $total_pages_announcements - 1) {
+                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                            }
+                                            echo '<li class="page-item"><a class="page-link" href="?announcements_page=' . $total_pages_announcements . '">' . $total_pages_announcements . '</a></li>';
+                                        }
+                                        ?>
+
+                                        <li class="page-item <?php if ($announcements_page >= $total_pages_announcements) echo 'disabled'; ?>">
+                                            <a class="page-link" href="?announcements_page=<?php echo $announcements_page + 1; ?>" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
