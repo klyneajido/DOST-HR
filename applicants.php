@@ -1,4 +1,5 @@
 <?php include_once("PHP_Connections/fetch_applicants.php")?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +14,7 @@
 
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/applicant.css">
     <!-- [if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
@@ -104,12 +105,25 @@
                                         <td><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
                                         <td>
                                             <button type="button" class="btn btn-primary">
-                                                <a href="download_documents.php?id=<?php echo $applicant['id']; ?>"
-                                                    style="color: white; text-decoration: none;">Download All</a>
+                                                <a href="download_documents.php?id=<?php echo $applicant['id']; ?>">Download
+                                                    All</a>
                                             </button>
                                         </td>
 
-                                        <td><?php echo htmlspecialchars($applicant['status']); ?></td>
+                                        <td>
+                                            <select class="status-dropdown form-control"
+                                                data-applicant-id="<?php echo $applicant['id']; ?>">
+                                                <option value="Shortlisted"
+                                                    <?php echo ($applicant['status'] === 'Shortlisted') ? 'selected' : ''; ?>>
+                                                    Shortlisted</option>
+                                                <option value="Interview"
+                                                    <?php echo ($applicant['status'] === 'Interview') ? 'selected' : ''; ?>>
+                                                    Interview</option>
+                                                <option value="Endorsed"
+                                                    <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>
+                                                    Endorsed</option>
+                                            </select>
+                                        </td>
                                         <td>
                                             <button type="button" class="btn btn-danger delete-btn"
                                                 data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal"
@@ -127,6 +141,70 @@
                                 </tbody>
                             </table>
                         </div>
+ 
+<!-- Pagination and rows per page controls -->
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center mt-3">
+        <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+            <a class="page-link" href="?applicants_page=<?php echo $page - 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+
+        <?php
+        $start = max(1, $page - 1);
+        $end = min($total_pages, $page + 1);
+
+        if ($start > 1) {
+            echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '">1</a></li>';
+            if ($start > 2) {
+                echo '<li class="page-item"><span class="page-link">...</span></li>';
+            }
+        }
+
+        for ($i = $start; $i <= $end; $i++) : ?>
+            <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
+                <a class="page-link" href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>"><?php echo $i; ?></a>
+            </li>
+        <?php endfor;
+
+        if ($end < $total_pages) {
+            if ($end < $total_pages - 1) {
+                echo '<li class="page-item"><span class="page-link">...</span></li>';
+            }
+            echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '">' . $total_pages . '</a></li>';
+        }
+        ?>
+
+        <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+            <a class="page-link" href="?applicants_page=<?php echo $page + 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<!-- Rows per page dropdown -->
+<div class="form-group">
+    <label for="rows_per_page">Rows per page:</label>
+    <select class="form-control" id="rows_per_page" onchange="changeRowsPerPage()">
+        <option value="10" <?php echo $rows_per_page == 10 ? 'selected' : ''; ?>>10</option>
+        <option value="20" <?php echo $rows_per_page == 20 ? 'selected' : ''; ?>>20</option>
+        <option value="50" <?php echo $rows_per_page == 50 ? 'selected' : ''; ?>>50</option>
+        <option value="100" <?php echo $rows_per_page == 100 ? 'selected' : ''; ?>>100</option>
+    </select>
+</div>
+
+<script>
+    function changeRowsPerPage() {
+        var rowsPerPage = document.getElementById('rows_per_page').value;
+        var url = new URL(window.location.href);
+        url.searchParams.set('rows_per_page', rowsPerPage);
+        window.location.href = url.toString();
+    }
+</script>
                     </div>
                 </div>
             </div>
@@ -135,18 +213,35 @@
 </body>
 <script src="assets/js/date.js"></script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Event handler for status dropdown change
+    $('.status-dropdown').change(function() {
+        var status = $(this).val();
+        var applicantId = $(this).data('applicant-id');
 
+        $.ajax({
+            url: 'PHP_Connections/update_status.php',
+            type: 'POST',
+            data: {
+                id: applicantId,
+                status: status
+            },
+            success: function(response) {
+                console.log('Status updated successfully:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to update status:', error);
+                console.log('Response:', xhr.responseText);
+            }
+        });
+    });
+});
+</script>
 <script src="assets/js/popper.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
-
 <script src="assets/js/feather.min.js"></script>
-
 <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
-<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-<script src="assets/plugins/apexchart/chart-data.js"></script>
 <script src="assets/js/script.js"></script>
 
 </html>
-<?php
-
