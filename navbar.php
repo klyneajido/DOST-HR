@@ -20,23 +20,15 @@
         </a>
     </div>
 
-    <div class="top-nav-search" style="width:46.5%; margin-left:8%; min-width:20%;">
-        <form>
-            <input type="text" class="form-control" placeholder="">
-            <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-        </form>
-    </div>
-
-
     <a class="mobile_btn" id="mobile_btn">
         <i class="fas fa-bars"></i>
     </a>
     <ul class="nav user-menu">
-
         <li class="nav-item dropdown has-arrow main-drop">
             <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
                 <span class="user-img">
-                    <img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Avatar" style="border-radius: 50%; width: 45px; height: 45px;">
+                    <img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="Avatar"
+                        style="border-radius: 50%; width: 45px; height: 45px;">
                     <span class="status online"></span>
                 </span>
                 <span><?php echo htmlspecialchars($user_name); ?></span>
@@ -46,24 +38,23 @@
                 <a class="dropdown-item" href="settings.html"><i data-feather="settings" class="mr-1"></i> Settings</a>
                 <a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
             </div>
-
-
             <script>
-                document.getElementById('logoutLink').addEventListener('click', function(event) {
-                    event.preventDefault();
-                    $('#logoutModal').modal('show');
-                });
+            document.getElementById('logoutLink').addEventListener('click', function(event) {
+                event.preventDefault();
+                $('#logoutModal').modal('show');
+            });
 
-                document.getElementById('confirmLogout').addEventListener('click', function() {
-                    window.location.href = 'PHP_Connections/logout.php';
-                });
+            document.getElementById('confirmLogout').addEventListener('click', function() {
+                window.location.href = 'PHP_Connections/logout.php';
+            });
             </script>
         </li>
         </li>
 
     </ul>
     <div class="dropdown mobile-user-menu show">
-        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
+                class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right ">
             <a class="dropdown-item" href="profile.php">My Profile</a>
             <a class="dropdown-item" href="settings.html">Settings</a>
@@ -82,17 +73,10 @@
                             <span class="lnr lnr-cross  text-white" id="mobile_btn_close">X</span>
                             <a href="javascript:void(0)" class="d-block menu-style text-white">
                                 <div class="user-avatar d-inline-block mr-3">
-                                    <img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="user avatar" class="rounded-circle" width="50">
+                                    <img src="<?php echo htmlspecialchars($profile_image_path); ?>" alt="user avatar"
+                                        class="rounded-circle" width="50">
                                 </div>
                             </a>
-                        </div>
-                    </div>
-                    <div class="sidebar-input">
-                        <div class="top-nav-search">
-                            <form>
-                                <input type="text" class="form-control" placeholder="Search here">
-                                <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -101,7 +85,7 @@
                         <a href="index.php"><img src="assets/img/home.svg" alt="sidebar_img">
                             <span>Dashboard</span></a>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a href="applicants.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
                                 Applicants</span></a>
                     </li>
@@ -119,11 +103,11 @@
                     </li>
                     <li>
                         <a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
-                                <span>Archive</span></a>
+                            <span>Archive</span></a>
                     </li>
                     <li>
                         <a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
-                                <span>History</span></a>
+                            <span>History</span></a>
                     </li>
                     <li>
                         <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
@@ -133,7 +117,8 @@
                 </ul>
                 <ul class="logout">
                     <li>
-                        <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log out</span></a>
+                        <a href="#" id="sidebarLogoutLink"><img src="assets/img/logout.svg" alt="sidebar_img"><span>Log
+                                out</span></a>
 
                     </li>
                 </ul>
@@ -142,12 +127,13 @@
     </div>
 </div>
 <script>
-    document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
-        event.preventDefault();
-        $('#logoutModal').modal('show');
-    });
+document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
+    event.preventDefault();
+    $('#logoutModal').modal('show');
+});
 
-    document.getElementById('confirmLogout').addEventListener('click', function() {
-        window.location.href = 'PHP_Connections/logout.php';
-    });
+document.getElementById('confirmLogout').addEventListener('click', function() {
+    window.location.href = 'PHP_Connections/logout.php';
+});
 </script>
+

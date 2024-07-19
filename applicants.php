@@ -1,75 +1,6 @@
-<?php
-session_start();
-include_once 'PHP_Connections/db_connection.php';
-
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit();
-}
-
-$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
-
-$query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
-                 a.application_letter, a.personal_data_sheet, a.performance_rating, a.eligibility_rating_license, 
-                 a.transcript_of_records, a.certificate_of_employment, a.proof_of_trainings_seminars, 
-                 a.proof_of_rewards, CONCAT(j.job_title, ' ', j.position_or_unit) AS job_title
-          FROM applicants a 
-          LEFT JOIN job j ON a.job_id = j.job_id";
-$result = mysqli_query($mysqli, $query);
-
-$applicants = [];
-if ($result) {
-    while ($row = mysqli_fetch_assoc($result)) {
-        $applicants[] = $row;
-    }
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $applicantId = $_POST['id'];
-
-    // Prevent SQL injection
-    $applicantId = mysqli_real_escape_string($mysqli, $applicantId);
-
-    // Perform deletion query
-    $deleteQuery = "DELETE FROM applicants WHERE id = '$applicantId'";
-
-    if (mysqli_query($mysqli, $deleteQuery)) {
-        echo "Applicant deleted successfully!";
-    } else {
-        echo "Error deleting applicant: " . mysqli_error($mysqli);
-    }
-} else {
-    echo "Invalid request. Please provide an applicant ID.";
-}
-
-
-?>
+<?php include_once("PHP_Connections/fetch_applicants.php")?>
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    .file-preview img {
-        max-width: 100px;
-        height: auto;
-    }
-
-    #style-5::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: #F5F5F5;
-    }
-
-    #style-5::-webkit-scrollbar {
-        width: 10px;
-        background-color: #F5F5F5;
-    }
-
-    #style-5::-webkit-scrollbar-thumb {
-        background-color: #0ae;
-
-        background-image: --webkit-gradient(linear, 0 0, 0 100%,
-                color-stop(.5, rgba(255, 255, 255, .2)),
-                color-stop(.5, transparent), to(transparent));
-    }
-</style>
 
 <head>
     <meta charset="utf-8">
@@ -110,25 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
             </div>
         </div>
     </div>
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="main-wrapper">
 
         <?php include("navbar.php") ?>
@@ -161,68 +74,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
                                         <th>Address</th>
                                         <th>Email</th>
                                         <th>Contact Number</th>
-                                        <th>Application Letter</th>
-                                        <th>Personal Data Sheet</th>
-                                        <th>Performance Rating</th>
-                                        <th>Eligibility/Rating/License</th>
-                                        <th>Transcript of Records</th>
-                                        <th>Certificate of Employment</th>
-                                        <th>Proof of Ratings/Seminars</th>
-                                        <th>Proof of Rewards</th>
-
+                                        <th>Course</th>
+                                        <th>Years of Experience</th>
+                                        <th>Hours of Training</th>
+                                        <th>Eligibility</th>
+                                        <th>List of Awards</th>
+                                        <th>Attachments</th>
+                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if (!empty($applicants)) : ?>
-                                        <?php foreach ($applicants as $applicant) : ?>
-                                            <tr>
-                                                <!-- <td><?php echo htmlspecialchars($applicant['id']); ?></td> -->
-                                                <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['sex']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['address']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['email']); ?></td>
-                                                <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['application_letter']); ?>
-                                                </td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['personal_data_sheet']); ?>
-                                                </td>
+                                    <?php foreach ($applicants as $applicant) : ?>
+                                    <tr>
+                                        <!-- <td><?php echo htmlspecialchars($applicant['id']); ?></td> -->
+                                        <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['sex']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['address']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['email']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['course']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['years_of_experience']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['hours_of_training']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['eligibility']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-primary">
+                                                <a href="download_documents.php?id=<?php echo $applicant['id']; ?>"
+                                                    style="color: white; text-decoration: none;">Download All</a>
+                                            </button>
+                                        </td>
 
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['performance_rating']); ?>
-                                                </td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['eligibility_rating_license']); ?>
-                                                </td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['transcript_of_records']); ?>
-                                                </td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['certificate_of_employment']); ?>
-                                                </td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['proof_of_trainings_seminars']); ?>
-                                                </td>
-                                                <td class="file-preview">
-                                                    <?php echo getFilePreview($applicant['proof_of_rewards']); ?>
-                                                </td>
-
-                                                <td>
-                                                    <button type="button" class="btn btn-danger delete-btn" data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal" data-target="#deleteModal">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <?php endforeach; ?>
+                                        <td><?php echo htmlspecialchars($applicant['status']); ?></td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger delete-btn"
+                                                data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal"
+                                                data-target="#deleteModal">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
                                     <?php else : ?>
-                                        <tr>
-                                            <td colspan="18">No applicants found.</td>
-                                        </tr>
+                                    <tr>
+                                        <td colspan="18">No applicants found.</td>
+                                    </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -247,51 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 <script src="assets/plugins/apexchart/chart-data.js"></script>
 <script src="assets/js/script.js"></script>
 
-
-<script>
-    // JavaScript for deleting applicant
-    $(document).ready(function() {
-        $('.delete-btn').click(function() {
-            var applicantId = $(this).data('applicant-id');
-            $('#confirmDelete').data('applicant-id', applicantId); // Set data attribute to modal button
-        });
-
-        $('#confirmDelete').click(function() {
-            var applicantId = $(this).data('applicant-id');
-            // Perform AJAX request to delete applicant
-            $.ajax({
-                url: 'PHP_Connections/delete_applicant.php',
-                method: 'POST',
-                data: {
-                    id: applicantId
-                },
-                success: function(response) {
-                    // Handle success, maybe refresh table or show message
-                    alert('Applicant deleted successfully!');
-                    // Example: Reload the page after deletion
-                    location.reload();
-                },
-                error: function(xhr, status, error) {
-                    // Handle error
-                    console.error(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
-
 </html>
 <?php
-function getFilePreview($filePath)
-{
-    $filePath = '../DOSTHR-PUBLIC/' . htmlspecialchars($filePath);
-    $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-    $imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
-    if (in_array($fileExtension, $imageExtensions)) {
-        return '<img src="' . $filePath . '" alt="Image">';
-    } else {
-        return '<a href="' . $filePath . '" target="_blank">View</a>';
-    }
-}
-?>
