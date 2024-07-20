@@ -15,7 +15,7 @@ $archived_by = $_SESSION['username'];
 
 // Check if job_id is set in the query string
 if (!isset($_GET['job_id'])) {
-    header('Location: viewJob.php');
+    header('Location: ../viewJob.php');
     exit();
 }
 

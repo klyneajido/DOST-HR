@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-include_once 'PHP_Connections\db_connection.php';
+include_once 'db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
@@ -16,7 +16,7 @@ $archived_by = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 // Check if announcement_id is set
 if (!isset($_GET['announcement_id'])) {
     // Redirect to announcements page if announcement_id is not set
-    header('Location: announcements.php');
+    header('Location: ../announcements.php');
     exit();
 }
 
@@ -50,21 +50,21 @@ if ($result && $result->num_rows > 0) {
         $delete_query = "DELETE FROM announcements WHERE announcement_id = $announcement_id";
         if ($mysqli->query($delete_query)) {
             // Redirect to announcements page with success message
-            header('Location: announcements.php?success=Announcement archived successfully.');
+            header('Location: ../announcements.php?success=Announcement archived successfully.');
             exit();
         } else {
             // Redirect to announcements page with error message
-            header('Location: announcements.php?error=Failed to delete announcement.');
+            header('Location: ../announcements.php?error=Failed to delete announcement.');
             exit();
         }
     } else {
         // Redirect to announcements page with error message
-        header('Location: announcements.php?error=Failed to archive announcement.');
+        header('Location: ../announcements.php?error=Failed to archive announcement.');
         exit();
     }
 } else {
     // Redirect to announcements page with error message
-    header('Location: announcements.php?error=Announcement not found.');
+    header('Location: ../announcements.php?error=Announcement not found.');
     exit();
 }
 ?>

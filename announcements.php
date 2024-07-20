@@ -139,7 +139,7 @@ if ($result && $result->num_rows > 0) {
                                             <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
                                             <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
                                             <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 px-3 w-25">Edit</a>
-                            <a href="announcementArchive.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25 archive-button">Archive</a>                                        
+                                            <a href="PHP_Connections/announcementArchive.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25 archive-button">Archive</a>                                        
                                         </div>
                                         <div class="col-md-4 text-right">
                                             <br>
