@@ -5,18 +5,15 @@ include_once 'PHP_Connections/db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
     header('Location: login.php');
     exit();
 }
 
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
-
-// Get user's username from session
 $username = $_SESSION['username'];
 
-// Fetch admin details from the database
+// Fetch admin details
 $query = "SELECT name, username, email, profile_image FROM admins WHERE username = ?";
 $stmt = $mysqli->prepare($query);
 $stmt->bind_param('s', $username);
@@ -30,11 +27,10 @@ if ($result->num_rows == 1) {
     exit();
 }
 
-// If the form is submitted, update the profile details
+// Handle form submission for profile update
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    // Handle profile image update if a new one is uploaded
     if (!empty($_FILES['profile_image']['name'])) {
         $profile_image = addslashes(file_get_contents($_FILES['profile_image']['tmp_name']));
     } else {
@@ -53,30 +49,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating profile.";
     }
 }
-// Fetch admin details from the database
-$query = "SELECT name, username, email, profile_image FROM admins WHERE username = ?";
-$stmt = $mysqli->prepare($query);
-$stmt->bind_param('s', $username);
-$stmt->execute();
-$result = $stmt->get_result();
 
-if ($result->num_rows == 1) {
-    $admin = $result->fetch_assoc();
-} else {
-    echo "User not found.";
-    exit();
-}
+// Pagination setup
+$items_per_page = 6;
+$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+$offset = ($page - 1) * $items_per_page;
 
-// Fetch history records
-// Get the sort order from the URL parameter, default to descending
+// Get sort order
 $sort_order = isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'ASC' : 'DESC';
 
-// Fetch history records with sorting
-$history_query = "SELECT h.*, a.name AS admin_name FROM history h JOIN admins a ON h.user_id = a.admin_id ORDER BY h.date $sort_order";
-$history_result = $mysqli->query($history_query);
+// Handle filters
+$search_term = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
+$admin_id = isset($_GET['admin_id']) ? intval($_GET['admin_id']) : 0;
+$action_filter = isset($_GET['action']) ? $mysqli->real_escape_string($_GET['action']) : '';
 
+// Prepare SQL query with filters
+$history_query = "SELECT h.*, a.name AS admin_name 
+                  FROM history h 
+                  JOIN admins a ON h.user_id = a.admin_id 
+                  WHERE h.action LIKE ? ";
+if ($admin_id > 0) {
+    $history_query .= "AND h.user_id = ? ";
+}
+if (!empty($action_filter)) {
+    $history_query .= "AND h.action = ? ";
+}
+$history_query .= "ORDER BY h.date $sort_order 
+                  LIMIT $items_per_page OFFSET $offset";
 
+$stmt = $mysqli->prepare($history_query);
+$search_like = '%' . $search_term . '%';
+$params = [$search_like];
+if ($admin_id > 0) {
+    $params[] = $admin_id;
+}
+if (!empty($action_filter)) {
+    $params[] = $action_filter;
+}
+$stmt->bind_param(str_repeat('s', count($params)), ...$params);
+$stmt->execute();
+$history_result = $stmt->get_result();
+
+// Count total records for pagination
+$count_query = "SELECT COUNT(*) AS total FROM history WHERE action LIKE ? ";
+if ($admin_id > 0) {
+    $count_query .= "AND user_id = ? ";
+}
+if (!empty($action_filter)) {
+    $count_query .= "AND action = ? ";
+}
+$stmt = $mysqli->prepare($count_query);
+$params = [$search_like];
+if ($admin_id > 0) {
+    $params[] = $admin_id;
+}
+if (!empty($action_filter)) {
+    $params[] = $action_filter;
+}
+$stmt->bind_param(str_repeat('s', count($params)), ...$params);
+$stmt->execute();
+$count_result = $stmt->get_result();
+$total_rows = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total_rows / $items_per_page);
 ?>
+
 <?php include("logout_modal.php")?>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,10 +125,20 @@ $history_result = $mysqli->query($history_query);
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .card {
+            margin-bottom: 1rem;
+        }
+        .filter-container {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    </style>
 </head>
 <body>
-    
-     <div class="main-wrapper">
+    <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="container-fluid">
@@ -103,19 +149,48 @@ $history_result = $mysqli->query($history_query);
                         </li>
                         <li class="breadcrumb-item active"></li>
                     </ul>
-                    <div class="d-flex gap-3">
+                </div>
 
+                <!-- Search and Filter Section -->
+                <div class="mb-4 filter-container">
+                    <div>
+                        <select id="filterAction" class="form-control">
+                            <option value="" disabled selected>Filter by Action</option>
+                            <!-- Add options dynamically or manually as needed -->
+                            <option value="Archived Job" <?php echo $action_filter === 'Archived Job' ? 'selected' : ''; ?>>Archived Job</option>
+                            <option value="Archived Announcements" <?php echo $action_filter === 'Archived Announcements' ? 'selected' : ''; ?>>Archived Announcement</option>
+                            <option value="update" <?php echo $action_filter === 'update' ? 'selected' : ''; ?>>Update</option>
+                            <!-- Add other actions here -->
+                        </select>
+                    </div>
+                    <div>
+                        <select id="filterAdmin" class="form-control">
+                            <option value="" disabled selected>Filter by Admin</option>
+                            <?php
+                            // Fetch all admins for filter options
+                            $admins_query = "SELECT admin_id, name FROM admins";
+                            $admins_result = $mysqli->query($admins_query);
+                            while ($admin = $admins_result->fetch_assoc()) {
+                                $selected = isset($_GET['admin_id']) && $_GET['admin_id'] == $admin['admin_id'] ? 'selected' : '';
+                                echo "<option value=\"" . $admin['admin_id'] . "\" $selected>" . htmlspecialchars($admin['name']) . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div>
                         <button class="btn btn-link" id="sortAsc"><i class="fas fa-arrow-up"></i> Oldest First</button>
                         <button class="btn btn-link" id="sortDesc"><i class="fas fa-arrow-down"></i> Newest First</button>
                     </div>
+                    <div>
+                        <button class="btn btn-danger" id="resetFilters"><i class="fas fa-times"></i> Reset</button>
+                    </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-md-12 mx-auto my-5">
-                        <div class="mb-3 d-flex justify-content-between">
-                        </div>
-                        <?php if ($history_result->num_rows > 0): ?>
-                            <?php while ($row = $history_result->fetch_assoc()): ?>
-                                <div class="card mb-3">
+                    <?php if ($history_result->num_rows > 0): ?>
+                        <?php while ($row = $history_result->fetch_assoc()): ?>
+                            <div class="col-md-6 mb-2">
+                                <div class="card">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <span><?php echo htmlspecialchars($row['action']); ?></span>
                                         <a href="deleteHistory.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm">
@@ -130,27 +205,83 @@ $history_result = $mysqli->query($history_query);
                                         <?php echo htmlspecialchars($row['date']); ?>
                                     </div>
                                 </div>
-                            <?php endwhile; ?>
-                        <?php else: ?>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <div class="col-12">
                             <div class="alert alert-warning" role="alert">
                                 No history records found.
                             </div>
-                        <?php endif; ?>
-                    </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
+                
+                <!-- Pagination controls -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        <?php if ($page > 1): ?>
+                            <li class="page-item"><a class="page-link" href="history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">First</a></li>
+                            <li class="page-item"><a class="page-link" href="history.php?page=<?php echo $page - 1; ?>&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">Previous</a></li>
+                        <?php endif; ?>
+
+                        <?php
+                        // Display page numbers with a limit of 3 numbers around the current page
+                        $start_page = max(1, $page - 1);
+                        $end_page = min($total_pages, $page + 1);
+
+                        if ($start_page > 1) {
+                            echo '<li class="page-item"><a class="page-link" href="history.php?page=1&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">1</a></li>';
+                            if ($start_page > 2) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                        }
+
+                        for ($i = $start_page; $i <= $end_page; $i++) {
+                            echo '<li class="page-item' . ($i === $page ? ' active' : '') . '"><a class="page-link" href="history.php?page=' . $i . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $i . '</a></li>';
+                        }
+
+                        if ($end_page < $total_pages) {
+                            if ($end_page < $total_pages - 1) {
+                                echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                            }
+                            echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $total_pages . '</a></li>';
+                        }
+
+                        if ($page < $total_pages) {
+                            echo '<li class="page-item"><a class="page-link" href="history.php?page=' . ($page + 1) . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Next</a></li>';
+                            echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Last</a></li>';
+                        }
+                        ?>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
     <script>
     document.getElementById('sortAsc').addEventListener('click', function() {
-        window.location.href = 'history.php?sort=asc';
+        window.location.href = 'history.php?sort=asc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
     });
 
     document.getElementById('sortDesc').addEventListener('click', function() {
-        window.location.href = 'history.php?sort=desc';
+        window.location.href = 'history.php?sort=desc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
+    });
+
+    document.getElementById('filterAction').addEventListener('change', function() {
+        const action = this.value;
+        const adminId = document.getElementById('filterAdmin').value;
+        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
+    });
+
+    document.getElementById('filterAdmin').addEventListener('change', function() {
+        const action = document.getElementById('filterAction').value;
+        const adminId = this.value;
+        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
+    });
+
+    document.getElementById('resetFilters').addEventListener('click', function() {
+        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>';
     });
 </script>
-
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
