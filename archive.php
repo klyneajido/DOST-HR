@@ -203,32 +203,37 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                         </thead>
                                         <tbody>
                                             <?php
-                                            while ($job = $result_archive->fetch_assoc()) {
-                                                echo "<tr class='text-center'>";
-                                                echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                                                echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
-                                                echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['name']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
-                                                echo "<td>
-                                                                <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                                                                    <i class='fas fa-undo'></i>
-                                                                </a>
-                                                                <a href='#' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                                                                    <i class='fas fa-trash'></i>
-                                                                </a>
-                                                            </td>";
-                                                echo "</tr>";
+                                            if ($result_archive->num_rows > 0) {
+                                                while ($job = $result_archive->fetch_assoc()) {
+                                                    echo "<tr class='text-center'>";
+                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
+                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
+                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['name']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
+                                                    echo "<td>
+                                                                    <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                                                                        <i class='fas fa-undo'></i>
+                                                                    </a>
+                                                                    <a href='#' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                                                                        <i class='fas fa-trash'></i>
+                                                                    </a>
+                                                                </td>";
+                                                    echo "</tr>";
+                                                }
                                             }
+                                            else {
+                                                echo "<tr class = 'text-center'><td colspan='12'>No archived Jobs found.</td></tr>";
+                                                }
                                             ?>
                                         </tbody>
                                     </table>
@@ -320,18 +325,17 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                                     echo "<td>" . htmlspecialchars($archive['updated_at']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
                                                     echo "<td>
-                                                        <a href='restoreAnnouncement.php?id=" . htmlspecialchars($archive['announcement_id']) . "' class='btn btn-success btn-sm'>
+                                                        <a href='#' class='btn btn-success btn-sm restore-announcement-button' onclick='confirmRestore(" . htmlspecialchars($archive['announcement_id']) . "); return false;'>
                                                             <i class='fas fa-undo'></i>
                                                         </a>
-                                                        <a href='deleteAnnouncement.php?id=" . htmlspecialchars($archive['announcement_id']) . "' class='btn btn-danger btn-sm'>
+                                                        <a href='deleteAnnouncement.php?id=" . htmlspecialchars($archive['announcement_id']) . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this announcement?\");'>
                                                             <i class='fas fa-trash'></i>
                                                         </a>
                                                     </td>";
-
                                                     echo "</tr>";
                                                 }
                                             } else {
-                                                echo "<tr><td colspan='7'>No archived announcements found.</td></tr>";
+                                                echo "<tr><td colspan='8'>No archived announcements found.</td></tr>";
                                             }
                                             ?>
                                         </tbody>
@@ -399,7 +403,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                         event.preventDefault();
                         var jobId = this.getAttribute('data-id');
                         if (confirm('Are you sure you want to restore this job?')) {
-                            window.location.href = 'restoreJob.php?id=' + jobId;
+                            window.location.href = 'PHP_Connections/restoreJob.php?id=' + jobId;
                         }
                     });
                 });
@@ -415,7 +419,13 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                 });
             });
         </script>
-
+        <script>
+        function confirmRestore(id) {
+            if (confirm("Are you sure you want to restore this announcement?")) {
+                window.location.href = 'PHP_Connections/restoreAnnouncement.php?id=' + id;
+            }
+        }
+        </script>
         <script src="assets/js/date.js"></script>
         <script src="assets/js/jquery-3.6.0.min.js"></script>
         <script src="assets/js/popper.min.js"></script>
@@ -425,6 +435,21 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
         <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
         <script src="assets/plugins/apexchart/chart-data.js"></script>
         <script src="assets/js/script.js"></script>
+        <?php
+        if (isset($_GET['restored']) && $_GET['restored'] == 1) {
+            echo "<div class='alert alert-success'>Announcement restored successfully!</div>";
+        }
+        if (isset($_GET['error']) && $_GET['error'] == 1) {
+            echo "<div class='alert alert-danger'>Failed to restore announcement.</div>";
+        }
+        if (isset($_GET['notfound']) && $_GET['notfound'] == 1) {
+            echo "<div class='alert alert-warning'>Announcement not found in archive.</div>";
+        }
+        if (isset($_GET['invalid']) && $_GET['invalid'] == 1) {
+            echo "<div class='alert alert-danger'>Invalid request.</div>";
+        }
+        ?>
+
 </body>
 
 </html>

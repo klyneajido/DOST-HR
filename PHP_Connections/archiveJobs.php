@@ -1,7 +1,7 @@
 <?php
 // Start session
 session_start();
-include_once 'PHP_Connections/db_connection.php';
+include_once 'db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
@@ -15,7 +15,7 @@ $archived_by = $_SESSION['username'];
 
 // Check if job_id is set in the query string
 if (!isset($_GET['job_id'])) {
-    header('Location: viewJob.php');
+    header('Location: ../viewJob.php');
     exit();
 }
 
@@ -73,13 +73,13 @@ try {
 
         // Commit transaction
         $mysqli->commit();
-        header('Location: viewJob.php?message=Job archived successfully');
+        header('Location: ../viewJob.php?message=Job archived successfully');
     } else {
         throw new Exception("Job not found");
     }
 } catch (Exception $e) {
     // Rollback transaction if any error occurs
     $mysqli->rollback();
-    header('Location: viewJob.php?error=' . urlencode($e->getMessage()));
+    header('Location: ../viewJob.php?error=' . urlencode($e->getMessage()));
 }
 ?>

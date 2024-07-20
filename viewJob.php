@@ -125,7 +125,7 @@ if ($result && $result->num_rows > 0) {
 											<?php if (empty($job['position_or_unit'])) : $position = ' '; else : $position = $job['position_or_unit']; endif;
 											echo htmlspecialchars($job['job_title'] . " " . $position); ?>
 										</strong></h5>
-										<a href="archiveJobs.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-secondary archive-btn">Archive</a>
+										<a href="PHP_Connections/archiveJobs.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-secondary archive-btn">Archive</a>
 									</div>
 									<div class="mx-3 py-2">
 										<p class="card-text pt-3"><strong>Description:</strong> <?php echo htmlspecialchars($job['description']); ?></p>
