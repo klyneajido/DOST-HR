@@ -12,7 +12,8 @@ if (!isset($_SESSION['username'])) {
 
 // Get username from session
 $username = $_SESSION['username'];
-$archived_by = null;
+$archived_by_username = null;
+$archived_by_admin_id = null;
 
 // Begin transaction
 $mysqli->begin_transaction();
@@ -27,7 +28,8 @@ try {
 
     if ($result_user->num_rows > 0) {
         $admin = $result_user->fetch_assoc();
-        $archived_by = $admin['admin_id'];
+        $archived_by_admin_id = $admin['admin_id'];
+        $archived_by_username = $username;
     } else {
         throw new Exception("User not found");
     }
@@ -69,7 +71,7 @@ try {
             $job['proof'], 
             $job['updated_at'], 
             $job['deadline'], 
-            $archived_by
+            $archived_by_username
         );
         $stmt_insert->execute();
 
@@ -78,7 +80,7 @@ try {
         $details = "Job Title: {$job['job_title']}";
         $sql_history = "INSERT INTO history (action, details, date, user_id) VALUES (?, ?, NOW(), ?)";
         $stmt_history = $mysqli->prepare($sql_history);
-        $stmt_history->bind_param("sss", $action, $details, $archived_by);
+        $stmt_history->bind_param("sss", $action, $details, $archived_by_admin_id);
         $stmt_history->execute();
 
         // Delete job from job table
