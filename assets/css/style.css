@@ -7229,3 +7229,16 @@ label.logo-upload {
       width: 100%;
       height: 100%;
   }
+  .pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
+
+.pagination .page-link {
+    color: #007bff;
+}
+
+.pagination .page-link:hover {
+    color: #0056b3;
+}

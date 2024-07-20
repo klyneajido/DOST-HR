@@ -87,4 +87,24 @@ while ($row = $result->fetch_assoc()) {
         'specific_count' => $count
     ];
 }
+
+$results_per_page = 5;
+
+// Find out the number of results stored in database
+$total_results = count($positions);
+
+// Determine the total number of pages available
+$total_pages = ceil($total_results / $results_per_page);
+
+// Determine which page number visitor is currently on
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+
+// Determine the starting limit number
+$start_limit = ($page - 1) * $results_per_page;
+
+// Slice the positions array to get only the results for the current page
+$positions_to_display = array_slice($positions, $start_limit, $results_per_page);
+
+
+
 ?>
