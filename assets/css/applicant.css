@@ -7275,24 +7275,63 @@ padding: 10px;
   }
 }
 
-/* Basic reset for button */
-.btn-icon {
-  background: transparent;
-  border: none;
-  padding: 0;
+.header_1 .export {
+  position: relative;
+  width: 120px;
+  height: 40px;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
+  align-items: center;
+  border: 1px solid #17795E;
+  background-color: #209978;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+.header_1 .export, .header_1 .export .button__icon, .header_1 .export .button__text {
+  transition: all 0.3s;
+}
+
+.header_1 .export .button__text {
+  transform: translateX(10px);
+  color: #fff;
+  font-weight: 600;
+}
+
+.header_1 .export .button__icon {
+  position: absolute;
+  transform: translateX(72px);
+  height: 100%;
+  width: 40px;
+  background-color: #17795E;
+  display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
-/* Style the icon */
-.btn-icon i {
-  font-size: 0.8rem; /* Adjust size as needed */
-  color: #000; /* Adjust color as needed */
+.header_1 .export .svg {
+  width: 20px;
+  fill: #fff;
 }
 
-/* Style for dropdown menu */
-.dropdown-menu {
-  min-width: 150px; /* Adjust width as needed */
+.header_1 .export:hover {
+  background: #17795E;
+}
+
+.header_1 .export:hover .button__text {
+  color: transparent;
+}
+
+.header_1 .export:hover .button__icon {
+  width: 105px;
+  transform: translateX(0);
+}
+
+.header_1 .export:active .button__icon {
+  background-color: #146c54;
+}
+
+.header_1 .export:active {
+  border: 1px solid #146c54;
 }
