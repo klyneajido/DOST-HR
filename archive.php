@@ -399,7 +399,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                         event.preventDefault();
                         var jobId = this.getAttribute('data-id');
                         if (confirm('Are you sure you want to restore this job?')) {
-                            window.location.href = 'restoreJob.php?id=' + jobId;
+                            window.location.href = 'PHP_Connections/restoreJob.php?id=' + jobId;
                         }
                     });
                 });

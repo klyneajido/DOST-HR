@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'PHP_Connections/db_connection.php';
+include_once 'db_connection.php';
 
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
@@ -46,7 +46,7 @@ if (isset($_GET['id'])) {
             // Delete the job from the job_archive table
             $delete_query = "DELETE FROM job_archive WHERE jobarchive_id = '$jobarchive_id'";
             if ($mysqli->query($delete_query)) {
-                header('Location: archive.php?tab=jobs&msg=restored');
+                header('Location: ../archive.php?tab=jobs&msg=restored');
                 exit();
             } else {
                 echo "Error deleting archived job: " . $mysqli->error;
