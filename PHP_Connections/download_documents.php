@@ -1,5 +1,5 @@
 <?php
-include_once 'PHP_Connections/db_connection.php';
+include_once 'db_connection.php';
 
 if (isset($_GET['id'])) {
     $applicantId = mysqli_real_escape_string($mysqli, $_GET['id']);

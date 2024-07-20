@@ -6634,9 +6634,9 @@ label.logo-upload {
   #toggle_btn {
     display: none;
   }
-  .top-nav-search {
+  /* .top-nav-search {
     display: none;
-  }
+  } */
   .login-wrapper .loginbox .login-left {
     padding: 80px 50px;
     width: 50%;
@@ -7234,9 +7234,43 @@ label.logo-upload {
     width: auto;
     padding:5px;
   }
-  #rows_per_page{
-    width: 100px;
-    height: 25px;
-    font-size: 12px;
+ select{
+  height: auto;
+  width: auto;
+}
+
+.filter .button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+padding: 10px;
+  gap: 8px;
+  height: auto;
+  width: auto;
+  border: none;
+  background: #ff362b34;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.dropdown button{
+  font-size: 12px;
+}
+
+
+.filter .button:hover {
+  background: #ff362b52;
+}
+
+.filter .button:hover .svg-icon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
+
+  100% {
+    transform: rotate(-360deg);
+  }
+}
