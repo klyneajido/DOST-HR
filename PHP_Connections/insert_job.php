@@ -132,6 +132,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $update_stmt->bind_param("sssi", $education_requirement_list, $experience_requirements_list, $duties_and_responsibilities_list, $job_id);
 
             if ($update_stmt->execute()) {
+                // Record action in the history table
+                $history_stmt = $mysqli->prepare("
+                    INSERT INTO history (action, details, user_id, date) 
+                    VALUES (?, ?, (SELECT admin_id FROM admins WHERE username = ?), NOW())
+                ");
+                $action = "Added New Job";
+                $details = "Job Title: $job_title $position";
+                $history_stmt->bind_param("sss", $action, $details, $user_name);
+                $history_stmt->execute();
+                $history_stmt->close();
+
                 $success = "Job added successfully with requirements.";
             } else {
                 $errors['database'] = "Error updating job: " . $update_stmt->error;

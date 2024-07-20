@@ -159,7 +159,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                             <!-- Add options dynamically or manually as needed -->
                             <option value="Archived Job" <?php echo $action_filter === 'Archived Job' ? 'selected' : ''; ?>>Archived Job</option>
                             <option value="Archived Announcements" <?php echo $action_filter === 'Archived Announcements' ? 'selected' : ''; ?>>Archived Announcement</option>
-                            <option value="update" <?php echo $action_filter === 'update' ? 'selected' : ''; ?>>Update</option>
+                            <option value="Added New Job" <?php echo $action_filter === 'Added New Job' ? 'selected' : ''; ?>>Added New Job</option>
                             <!-- Add other actions here -->
                         </select>
                     </div>
