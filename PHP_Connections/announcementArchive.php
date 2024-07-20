@@ -10,8 +10,24 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Get user's name from session
-$archived_by = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+// Get user's username from session
+$username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+
+// Fetch user ID based on username
+$user_query = "SELECT admin_id FROM admins WHERE username = ?";
+$stmt_user = $mysqli->prepare($user_query);
+$stmt_user->bind_param('s', $username);
+$stmt_user->execute();
+$result_user = $stmt_user->get_result();
+
+if ($result_user->num_rows > 0) {
+    $user = $result_user->fetch_assoc();
+    $user_id = $user['admin_id'];
+} else {
+    // Redirect to announcements page with error message if user is not found
+    header('Location: ../announcements.php?error=User not found.');
+    exit();
+}
 
 // Check if announcement_id is set
 if (!isset($_GET['announcement_id'])) {
@@ -30,7 +46,7 @@ $result = $mysqli->query($query);
 if ($result && $result->num_rows > 0) {
     $announcement = $result->fetch_assoc();
 
-    // Insert the announcement into the announcements_archive table
+    // Insert the announcement into the announcement_archive table
     $archive_query = "INSERT INTO announcement_archive (announcement_id, title, description_announcement, link, image_announcement, created_at, updated_at, archived_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $mysqli->prepare($archive_query);
     $stmt->bind_param(
@@ -42,19 +58,32 @@ if ($result && $result->num_rows > 0) {
         $announcement['image_announcement'],
         $announcement['created_at'],
         $announcement['updated_at'],
-        $archived_by
+        $username
     );
 
     if ($stmt->execute()) {
-        // Delete the announcement from the announcements table
-        $delete_query = "DELETE FROM announcements WHERE announcement_id = $announcement_id";
-        if ($mysqli->query($delete_query)) {
-            // Redirect to announcements page with success message
-            header('Location: ../announcements.php?success=Announcement archived successfully.');
-            exit();
+        // Log the action in the history table
+        $action = "Archived Announcements";
+        $details = "Archived announcement titled: \"" . htmlspecialchars($announcement['title']) . "\"";
+        $log_query = "INSERT INTO history (user_id, action, details, date) VALUES (?, ?, ?, NOW())";
+        $log_stmt = $mysqli->prepare($log_query);
+        $log_stmt->bind_param('iss', $user_id, $action, $details);
+
+        if ($log_stmt->execute()) {
+            // Delete the announcement from the announcements table
+            $delete_query = "DELETE FROM announcements WHERE announcement_id = $announcement_id";
+            if ($mysqli->query($delete_query)) {
+                // Redirect to announcements page with success message
+                header('Location: ../announcements.php?success=Announcement archived successfully.');
+                exit();
+            } else {
+                // Redirect to announcements page with error message
+                header('Location: ../announcements.php?error=Failed to delete announcement.');
+                exit();
+            }
         } else {
-            // Redirect to announcements page with error message
-            header('Location: ../announcements.php?error=Failed to delete announcement.');
+            // Redirect to announcements page with error message for logging failure
+            header('Location: ../announcements.php?error=Failed to log the action.');
             exit();
         }
     } else {

@@ -204,7 +204,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row mb-4">
+				<div class="row mb-4" id="ap">
 
 					<div class="col-xl-4 col-sm-6 col-12">
 						<div class="card board1 fill1 ">
@@ -249,15 +249,26 @@
 
 
 				<!-- Applicant filter -->
-				<div class="row" >
+				<div class="row">
 					<div class="col-xl-12 col-sm-12 col-12">
 						<div class="card card-list py-3">
 							<div class="card-header d-flex">
 								<h4 class="col-md-8 pt-2">	<strong>
-										Applicant by Position</strong>
+										Applicant by Job Title and Position</strong>
 									</h4>
 									<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
-										<a href="#" class=" btn btn-secondary float-right">Filter by</a>									
+									<a href="?filter=title#ap" class="btn btn-secondary float-right mx-1">Job Title</a>
+									<a href="index.php#ap" class="btn btn-secondary float-right mx-1">
+										<svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
+												<g stroke="white" stroke-linecap="round" stroke-width="1.5">
+														<path
+																d="m3.33337 10.8333c0 3.6819 2.98477 6.6667 6.66663 6.6667 3.682 0 6.6667-2.9848 6.6667-6.6667 0-3.68188-2.9847-6.66664-6.6667-6.66664-1.29938 0-2.51191.37174-3.5371 1.01468">
+														</path>
+														<path
+																d="m7.69867 1.58163-1.44987 3.28435c-.18587.42104.00478.91303.42582 1.0989l3.28438 1.44986">
+														</path>
+												</g>
+										</svg></a>								
 									</div>
 							</div>
 

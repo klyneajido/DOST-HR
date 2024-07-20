@@ -47,7 +47,10 @@ if ($result) {
 }
 
 //APPLICATION FILTER 
-// Fetch job titles and their specific positions/units along with applicant counts
+// Determine filter criteria
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'count';
+
+// Base query to fetch job titles and their specific positions/units along with applicant counts
 $query = "SELECT 
             j.job_id,
             j.job_title,
@@ -56,6 +59,13 @@ $query = "SELECT
           FROM job j
           LEFT JOIN applicants a ON j.job_id = a.job_id
           GROUP BY j.job_id, j.job_title, j.position_or_unit";
+
+// Modify query based on the filter criteria
+if ($filter === 'title') {
+    $query .= " ORDER BY j.job_title ASC";
+} elseif ($filter === 'count') {
+    $query .= " ORDER BY count DESC";
+}
 
 $result = $mysqli->query($query);
 
@@ -87,6 +97,7 @@ while ($row = $result->fetch_assoc()) {
         'specific_count' => $count
     ];
 }
+
 
 $results_per_page = 5;
 
