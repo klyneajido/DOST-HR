@@ -40,6 +40,29 @@ document.getElementById('reset-filters').addEventListener('click', function() {
     // Optional: Reset search input field
     document.getElementById('search-input').value = '';
 });
+$(document).ready(function() {
+    // Event handler for status dropdown change
+    $('.status-dropdown').change(function() {
+        var status = $(this).val();
+        var applicantId = $(this).data('applicant-id');
+
+        $.ajax({
+            url: 'PHP_Connections/update_status.php',
+            type: 'POST',
+            data: {
+                id: applicantId,
+                status: status
+            },
+            success: function(response) {
+                console.log('Status updated successfully:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to update status:', error);
+                console.log('Response:', xhr.responseText);
+            }
+        });
+    });
+});
 
 function changeRowsPerPage() {
     var rowsPerPage = document.getElementById('rows_per_page').value;

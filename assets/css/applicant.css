@@ -7274,3 +7274,25 @@ padding: 10px;
     transform: rotate(-360deg);
   }
 }
+
+/* Basic reset for button */
+.btn-icon {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Style the icon */
+.btn-icon i {
+  font-size: 0.8rem; /* Adjust size as needed */
+  color: #000; /* Adjust color as needed */
+}
+
+/* Style for dropdown menu */
+.dropdown-menu {
+  min-width: 150px; /* Adjust width as needed */
+}

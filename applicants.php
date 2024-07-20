@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/applicant.css">
+    <script src="https://kit.fontawesome.com/0dcd39d035.js" crossorigin="anonymous"></script>
     <!-- [if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
@@ -117,16 +118,52 @@
                                     </svg>
                                 </button>
                             </div>
-
-
                         </div>
                         <div class="table-responsive">
                             <table class="table custom-table no-footer text-center">
                                 <thead>
                                     <tr>
                                         <!-- <th>ID</th> -->
-                                        <th>Job Title</th>
-                                        <th>Position</th>
+                                        <th>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <p class="mb-0">Job Title</p>
+                                                <div class="ml-2">
+                                                    <button class="btn-icon" type="button" id="jobTitleDropdown"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fa-solid fa-circle-chevron-down"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="jobTitleDropdown">
+                                                        <?php foreach ($job_titles as $title): ?>
+                                                        <a class="dropdown-item" href="#" data-filter="job_title"
+                                                            data-value="<?php echo htmlspecialchars($title); ?>">
+                                                            <?php echo htmlspecialchars($title); ?>
+                                                        </a>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <p class="mb-0">Position</p>
+                                                <div class="ml-2">
+                                                    <button class="btn-icon" type="button" id="positionDropdown"
+                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fa-solid fa-circle-chevron-down"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="positionDropdown">
+                                                        <?php foreach ($positions as $position): ?>
+                                                        <a class="dropdown-item" href="#" data-filter="position"
+                                                            data-value="<?php echo htmlspecialchars($position); ?>">
+                                                            <?php echo htmlspecialchars($position); ?>
+                                                        </a>
+                                                        <?php endforeach; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th>Last Name</th>
                                         <th>First Name</th>
                                         <th>Middle Name</th>
@@ -202,7 +239,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                         <!-- Pagination and rows per page controls -->
                         <nav aria-label="Page navigation " class="mb-3 col-xl-12 d-flex justify-content-between ">
                             <div class="col-lg-4"></div>
@@ -268,7 +304,6 @@
                                     </select>
                                 </div>
                             </div>
-
                         </nav>
                     </div>
                 </div>

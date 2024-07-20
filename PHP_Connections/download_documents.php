@@ -25,14 +25,13 @@ if (isset($_GET['id'])) {
 
             // Define folder name based on applicant details
             $folderName = "{$row['lastname']}_{$row['firstname']}_{$jobTitle}";
-            $folderPath = "/Users/User/Desktop/uploads/$folderName/";
 
-            // Create the folder if it does not exist
-            if (!file_exists($folderPath)) {
-                mkdir($folderPath, 0777, true);
-            }
+            // Create a ZIP file to store all documents
+            $zip = new ZipArchive();
+            $zipFileName = tempnam(sys_get_temp_dir(), 'zip');
+            $zip->open($zipFileName, ZipArchive::CREATE);
 
-            // Create files for each document
+            // Add files to the ZIP
             $files = [
                 'application_letter' => $row['application_letter'],
                 'personal_data_sheet' => $row['personal_data_sheet'],
@@ -46,15 +45,24 @@ if (isset($_GET['id'])) {
 
             foreach ($files as $label => $fileData) {
                 if (!empty($fileData)) {
-                    // Define file path
-                    $filePath = $folderPath . $label . '.pdf'; // Assuming PDF format
-                    // Save the file to the folder
-                    file_put_contents($filePath, $fileData);
+                    // Define file path within the ZIP
+                    $filePath = "$folderName/{$label}.pdf"; // Assuming PDF format
+                    // Add the file to the ZIP
+                    $zip->addFromString($filePath, $fileData);
                 }
             }
 
-            // Provide a link to the created folder
-            echo "Documents have been saved to: $folderPath";
+            // Close the ZIP file
+            $zip->close();
+
+            // Send the ZIP file to the browser for download
+            header('Content-Type: application/zip');
+            header('Content-Disposition: attachment; filename="' . $folderName . '.zip"');
+            header('Content-Length: ' . filesize($zipFileName));
+            readfile($zipFileName);
+
+            // Clean up temporary file
+            unlink($zipFileName);
         } else {
             echo "Failed to retrieve job title.";
         }
@@ -65,4 +73,3 @@ if (isset($_GET['id'])) {
     echo "No applicant ID provided.";
 }
 ?>
-
