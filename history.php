@@ -74,6 +74,8 @@ $sort_order = isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'ASC' : 'DESC';
 // Fetch history records with sorting
 $history_query = "SELECT h.*, a.name AS admin_name FROM history h JOIN admins a ON h.user_id = a.admin_id ORDER BY h.date $sort_order";
 $history_result = $mysqli->query($history_query);
+
+
 ?>
 <?php include("logout_modal.php")?>
 <!DOCTYPE html>
@@ -108,7 +110,7 @@ $history_result = $mysqli->query($history_query);
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-9 mx-auto my-5">
+                    <div class="col-md-12 mx-auto my-5">
                         <div class="mb-3 d-flex justify-content-between">
                         </div>
                         <?php if ($history_result->num_rows > 0): ?>
@@ -117,7 +119,7 @@ $history_result = $mysqli->query($history_query);
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <span><?php echo htmlspecialchars($row['action']); ?></span>
                                         <a href="deleteHistory.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i> Delete
+                                            <i class="fas fa-trash"></i> 
                                         </a>
                                     </div>
                                     <div class="card-body">
