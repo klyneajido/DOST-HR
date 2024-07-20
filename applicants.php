@@ -123,59 +123,20 @@
                             <table class="table custom-table no-footer text-center">
                                 <thead>
                                     <tr>
-                                        <!-- <th>ID</th> -->
-                                        <th>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <p class="mb-0">Job Title</p>
-                                                <div class="ml-2">
-                                                    <button class="btn-icon" type="button" id="jobTitleDropdown"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-circle-chevron-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="jobTitleDropdown">
-                                                        <?php foreach ($job_titles as $title): ?>
-                                                        <a class="dropdown-item" href="#" data-filter="job_title"
-                                                            data-value="<?php echo htmlspecialchars($title); ?>">
-                                                            <?php echo htmlspecialchars($title); ?>
-                                                        </a>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <p class="mb-0">Position</p>
-                                                <div class="ml-2">
-                                                    <button class="btn-icon" type="button" id="positionDropdown"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa-solid fa-circle-chevron-down"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu" aria-labelledby="positionDropdown">
-                                                        <?php foreach ($positions as $position): ?>
-                                                        <a class="dropdown-item" href="#" data-filter="position"
-                                                            data-value="<?php echo htmlspecialchars($position); ?>">
-                                                            <?php echo htmlspecialchars($position); ?>
-                                                        </a>
-                                                        <?php endforeach; ?>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <th>Last Name</th>
-                                        <th>First Name</th>
-                                        <th>Middle Name</th>
-                                        <th>Sex</th>
-                                        <th>Address</th>
-                                        <th>Email</th>
-                                        <th>Contact Number</th>
-                                        <th>Course</th>
-                                        <th>Years of Experience</th>
-                                        <th>Hours of Training</th>
-                                        <th>Eligibility</th>
-                                        <th>List of Awards</th>
+                                    <th data-column="job_title" class="sortable">Job Title <i class="fas"></i></th>
+                                        <th data-column="position_or_unit" class="sortable">Position <i class="fas"></i></th>
+                                        <th data-column="lastname" class="sortable">Last Name <i class="fas"></i></th>
+                                        <th data-column="firstname" class="sortable">First Name <i class="fas"></i></th>
+                                        <th data-column="middlename" class="sortable">Middle Name <i class="fas"></i></th>
+                                        <th data-column="sex" class="sortable">Sex <i class="fas"></i></th>
+                                        <th data-column="address" class="sortable">Address <i class="fas"></i></th>
+                                        <th data-column="email" class="sortable">Email <i class="fas"></i></th>
+                                        <th data-column="contact_number" class="sortable">Contact Number <i class="fas"></i></th>
+                                        <th data-column="course" class="sortable">Course <i class="fas"></i></th>
+                                        <th data-column="years_of_experience" class="sortable">Years of Experience <i class="fas"></i></th>
+                                        <th data-column="hours_of_training" class="sortable">Hours of Training <i class="fas"></i></th>
+                                        <th data-column="eligibility" class="sortable">Eligibility <i class="fas"></i></th>
+                                        <th data-column="list_of_awards" class="sortable">List of Awards <i class="fas"></i></th>
                                         <th>Attachments</th>
                                         <th>Status</th>
                                         <th>Actions</th>

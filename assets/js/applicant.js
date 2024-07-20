@@ -1,72 +1,67 @@
-$(document).ready(function() {
-    // Handle filter clicks
-    $('.dropdown-item').click(function(e) {
-        e.preventDefault(); // Prevent default anchor click behavior
+document.addEventListener("DOMContentLoaded", function () {
+    const table = document.querySelector(".table");
+    const headers = table.querySelectorAll(".sortable");
+    let sortDirection = false;
 
-        var filterType = $(this).data('filter');
-        var filterValue = $(this).data('value');
-        var url = new URL(window.location.href);
-        
-        // Update URL parameters
-        if (filterType === 'job_title') {
-            url.searchParams.set('job_title', filterValue);
-        } else if (filterType === 'position') {
-            url.searchParams.set('position', filterValue);
-        }
+    headers.forEach(header => {
+        header.addEventListener("click", () => {
+            const column = header.dataset.column;
+            sortDirection = !sortDirection;
+            const direction = sortDirection ? 1 : -1;
+            const rows = Array.from(table.querySelectorAll("tbody tr"));
 
-        // Redirect to updated URL
-        window.location.href = url.toString();
+            rows.sort((a, b) => {
+                const aText = a.querySelector(`td:nth-child(${Array.from(headers).indexOf(header) + 1})`).textContent;
+                const bText = b.querySelector(`td:nth-child(${Array.from(headers).indexOf(header) + 1})`).textContent;
+                return aText.localeCompare(bText) * direction;
+            });
+
+            table.querySelector("tbody").append(...rows);
+            updateSortIcons(headers, header, sortDirection);
+        });
     });
 
-    // Handle search input
-    $('#search-input').on('input', function() {
-        var searchValue = $(this).val();
-        var url = new URL(window.location.href);
-        url.searchParams.set('search', searchValue);
-        window.location.href = url.toString();
-    });
-});
-document.getElementById('reset-filters').addEventListener('click', function() {
-    // Clear URL parameters
-    var url = new URL(window.location.href);
-    url.searchParams.delete('search');
-    url.searchParams.delete('job_title');
-    url.searchParams.delete('position');
-    url.searchParams.delete('rows_per_page');
-    
-    // Redirect to the new URL with reset parameters
-    window.location.href = url.toString();
-    
-    // Optional: Reset search input field
-    document.getElementById('search-input').value = '';
-});
-$(document).ready(function() {
-    // Event handler for status dropdown change
-    $('.status-dropdown').change(function() {
-        var status = $(this).val();
-        var applicantId = $(this).data('applicant-id');
-
-        $.ajax({
-            url: 'PHP_Connections/update_status.php',
-            type: 'POST',
-            data: {
-                id: applicantId,
-                status: status
-            },
-            success: function(response) {
-                console.log('Status updated successfully:', response);
-            },
-            error: function(xhr, status, error) {
-                console.error('Failed to update status:', error);
-                console.log('Response:', xhr.responseText);
+    function updateSortIcons(headers, activeHeader, sortDirection) {
+        headers.forEach(header => {
+            const icon = header.querySelector(".fas");
+            if (header === activeHeader) {
+                icon.classList.remove("fa-sort-up", "fa-sort-down");
+                icon.classList.add(sortDirection ? "fa-sort-up" : "fa-sort-down");
+            } else {
+                icon.classList.remove("fa-sort-up", "fa-sort-down");
             }
+        });
+    }
+});
+// Function to handle status update
+document.addEventListener("DOMContentLoaded", function () {
+    const statusDropdowns = document.querySelectorAll(".status-dropdown");
+
+    statusDropdowns.forEach(dropdown => {
+        dropdown.addEventListener("change", function () {
+            const applicantId = this.dataset.applicantId;
+            const newStatus = this.value;
+
+            const formData = new FormData();
+            formData.append("applicant_id", applicantId);
+            formData.append("status", newStatus);
+
+            fetch("php_connections/update_status.php", {
+                method: "POST",
+                body: formData,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Status updated successfully!");
+                    } else {
+                        alert("Failed to update status.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while updating the status.");
+                });
         });
     });
 });
-
-function changeRowsPerPage() {
-    var rowsPerPage = document.getElementById('rows_per_page').value;
-    var url = new URL(window.location.href);
-    url.searchParams.set('rows_per_page', rowsPerPage);
-    window.location.href = url.toString();
-}
