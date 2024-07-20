@@ -1,3 +1,38 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const table = document.querySelector(".table");
+    const headers = table.querySelectorAll(".sortable");
+    let sortDirection = false;
+
+    headers.forEach(header => {
+        header.addEventListener("click", () => {
+            const column = header.dataset.column;
+            sortDirection = !sortDirection;
+            const direction = sortDirection ? 1 : -1;
+            const rows = Array.from(table.querySelectorAll("tbody tr"));
+
+            rows.sort((a, b) => {
+                const aText = a.querySelector(`td:nth-child(${Array.from(headers).indexOf(header) + 1})`).textContent;
+                const bText = b.querySelector(`td:nth-child(${Array.from(headers).indexOf(header) + 1})`).textContent;
+                return aText.localeCompare(bText) * direction;
+            });
+
+            table.querySelector("tbody").append(...rows);
+            updateSortIcons(headers, header, sortDirection);
+        });
+    });
+
+    function updateSortIcons(headers, activeHeader, sortDirection) {
+        headers.forEach(header => {
+            const icon = header.querySelector(".fas");
+            if (header === activeHeader) {
+                icon.classList.remove("fa-sort-up", "fa-sort-down");
+                icon.classList.add(sortDirection ? "fa-sort-up" : "fa-sort-down");
+            } else {
+                icon.classList.remove("fa-sort-up", "fa-sort-down");
+            }
+        });
+    }
+});
 $(document).ready(function() {
     // Handle filter clicks
     $('.dropdown-item').click(function(e) {
