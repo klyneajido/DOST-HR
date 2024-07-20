@@ -53,8 +53,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating profile.";
     }
 }
+// Fetch admin details from the database
+$query = "SELECT name, username, email, profile_image FROM admins WHERE username = ?";
+$stmt = $mysqli->prepare($query);
+$stmt->bind_param('s', $username);
+$stmt->execute();
+$result = $stmt->get_result();
 
+if ($result->num_rows == 1) {
+    $admin = $result->fetch_assoc();
+} else {
+    echo "User not found.";
+    exit();
+}
+
+// Fetch history records
+// Get the sort order from the URL parameter, default to descending
+$sort_order = isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'ASC' : 'DESC';
+
+// Fetch history records with sorting
+$history_query = "SELECT h.*, a.name AS admin_name FROM history h JOIN admins a ON h.user_id = a.admin_id ORDER BY h.date $sort_order";
+$history_result = $mysqli->query($history_query);
 ?>
+<?php include("logout_modal.php")?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,8 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="main-wrapper">
-    <?php include("navbar.php")?>
+    
+     <div class="main-wrapper">
+        <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="container-fluid">
                 <div class="breadcrumb-path mb-4 my-4">
@@ -77,22 +99,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="breadcrumb-item">
                             <a href="history.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />History</a>
                         </li>
-                        <li class="breadcrumb-item active">    </li>
+                        <li class="breadcrumb-item active"></li>
                     </ul>
-                </div>
-                
-            </div>
-            <div class="row">
-				<div class="col-md-9 mx-auto my-5">
-					<div class="card">
-                        <img src="assets\img\error.png">
-                    </div>
-						
-				</div>
-			</div>
+                    <div class="d-flex gap-3">
 
+                        <button class="btn btn-link" id="sortAsc"><i class="fas fa-arrow-up"></i> Oldest First</button>
+                        <button class="btn btn-link" id="sortDesc"><i class="fas fa-arrow-down"></i> Newest First</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-9 mx-auto my-5">
+                        <div class="mb-3 d-flex justify-content-between">
+                        </div>
+                        <?php if ($history_result->num_rows > 0): ?>
+                            <?php while ($row = $history_result->fetch_assoc()): ?>
+                                <div class="card mb-3">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <span><?php echo htmlspecialchars($row['action']); ?></span>
+                                        <a href="deleteHistory.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><strong>Details:</strong> <?php echo htmlspecialchars($row['details']); ?></p>
+                                        <p><strong>Performed by:</strong> <?php echo htmlspecialchars($row['admin_name']); ?></p>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        <?php echo htmlspecialchars($row['date']); ?>
+                                    </div>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <div class="alert alert-warning" role="alert">
+                                No history records found.
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <script>
+    document.getElementById('sortAsc').addEventListener('click', function() {
+        window.location.href = 'history.php?sort=asc';
+    });
+
+    document.getElementById('sortDesc').addEventListener('click', function() {
+        window.location.href = 'history.php?sort=desc';
+    });
+</script>
 
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
