@@ -45,17 +45,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $deadline = $_POST['deadline'];
     $description = $_POST['description'];
 
-    // Validate inputs
-    if (empty($job_title)) $errors['job_title'] = "Job Title is required";
-    if (empty($description)) $errors['description'] = "Description is required";
-    if (empty($department_id)) $errors['department_id'] = "Department is required";
-    if (empty($monthly_salary)) $errors['monthlysalary'] = "Monthly Salary is required";
-    if (empty($status)) $errors['status'] = "Status is required";
-    if (empty($deadline)) $errors['deadline'] = "Deadline is required";
-    if (empty($education_requirement)) $errors['education_requirement'] = "At least one educational requirement is required";
-    if (empty($experience_or_training)) $errors['experience_or_training'] = "At least one experience or training requirement is required";
-    if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
+   // Filter out empty values from arrays
+$education_requirement = array_filter($_POST['educationrequirement'], function($value) {
+    return !empty(trim($value));
+});
+$experience_or_training = array_filter($_POST['experienceortraining'], function($value) {
+    return !empty(trim($value));
+});
+$duties_and_responsibilities = array_filter($_POST['dutiesandresponsibilities'], function($value) {
+    return !empty(trim($value));
+});
 
+// Validate inputs
+if (empty($job_title)) $errors['job_title'] = "Job Title is required";
+if (empty($description)) $errors['description'] = "Description is required";
+if (empty($department_id)) $errors['department_id'] = "Department is required";
+if (empty($monthly_salary)) $errors['monthlysalary'] = "Monthly Salary is required";
+if (empty($status)) $errors['status'] = "Status is required";
+if (empty($deadline)) $errors['deadline'] = "Deadline is required";
+if (empty($education_requirement)) $errors['education_requirement'] = "At least one educational requirement is required";
+if (empty($experience_or_training)) $errors['experience_or_training'] = "At least one experience or training requirement is required";
+if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
     if (empty($errors)) {
         // Insert job details into the job table
         $stmt = $mysqli->prepare("INSERT INTO job (job_title, position_or_unit, description, department_id, salary, place_of_assignment, status, deadline, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
