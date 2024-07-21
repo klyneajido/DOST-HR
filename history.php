@@ -178,8 +178,9 @@ $total_pages = ceil($total_rows / $items_per_page);
                                     <option value="" disabled selected>Filter by Action</option>
                                     <!-- Add options dynamically or manually as needed -->
                                     <option value="Archived Job" <?php echo $action_filter === 'Archived Job' ? 'selected' : ''; ?>>Archived Job</option>
-                                    <option value="Archived Announcements" <?php echo $action_filter === 'Archived Announcements' ? 'selected' : ''; ?>>Archived Announcement</option>
+                                    <option value="Archived Announcement" <?php echo $action_filter === 'Archived Announcement' ? 'selected' : ''; ?>>Archived Announcement</option>
                                     <option value="Added New Job" <?php echo $action_filter === 'Added New Job' ? 'selected' : ''; ?>>Added New Job</option>
+                                    <option value="Added Announcement" <?php echo $action_filter === 'Added Announcement' ? 'selected' : ''; ?>>Added Announcement</option>
                                     <!-- Add other actions here -->
                                 </select>
                             </div>

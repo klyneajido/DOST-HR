@@ -47,9 +47,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Execute SQL statement
             if ($stmt->execute()) {
+                // Get the ID of the inserted announcement
+                $announcement_id = $stmt->insert_id;
+
+                // Record action in the history table
+                $history_stmt = $mysqli->prepare("
+                    INSERT INTO history (action, details, user_id, date) 
+                    VALUES (?, ?, (SELECT admin_id FROM admins WHERE username = ?), NOW())
+                ");
+                $action = "Added Announcement";
+                $details = "Announcement Title: $title";
+                $history_stmt->bind_param("sss", $action, $details, $user_name);
+                $history_stmt->execute();
+                $history_stmt->close();
+
                 header('Location: announcements.php?success=Announcement added successfully');
                 exit();
-                
             } else {
                 $errors['database'] = "Error executing statement: " . $stmt->error;
             }

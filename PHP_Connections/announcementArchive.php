@@ -63,7 +63,7 @@ if ($result && $result->num_rows > 0) {
 
     if ($stmt->execute()) {
         // Log the action in the history table
-        $action = "Archived Announcements";
+        $action = "Archived Announcement";
         $details = "Announcement title: " . ($announcement['title']) . "";
         $log_query = "INSERT INTO history (user_id, action, details, date) VALUES (?, ?, ?, NOW())";
         $log_stmt = $mysqli->prepare($log_query);
