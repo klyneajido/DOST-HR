@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
 $(document).ready(function() {
-    // Handle filter clicks
     $('.dropdown-item').click(function(e) {
         e.preventDefault(); // Prevent default anchor click behavior
 
@@ -43,7 +43,9 @@ $(document).ready(function() {
         var url = new URL(window.location.href);
         
         // Update URL parameters
-        if (filterType === 'job_title') {
+        if (filterType === 'status') {
+            url.searchParams.set('status', filterValue);
+        } else if (filterType === 'job_title') {
             url.searchParams.set('job_title', filterValue);
         } else if (filterType === 'position') {
             url.searchParams.set('position', filterValue);
@@ -52,6 +54,8 @@ $(document).ready(function() {
         // Redirect to updated URL
         window.location.href = url.toString();
     });
+
+
 
     // Handle search input
     $('#search-input').on('input', function() {
@@ -101,16 +105,18 @@ $(document).ready(function() {
             }
         });
     });
-
 // Handle export button click
+
 $('#export-button').click(function() {
     var sortColumn = getUrlParameter('sort_column') || 'id';
     var sortDirection = getUrlParameter('sort_direction') || 'ASC';
     var searchValue = getUrlParameter('search') || '';
     var jobTitle = getUrlParameter('job_title') || '';
     var position = getUrlParameter('position') || '';
+    var status = getUrlParameter('status') || '';
 
-    window.location.href = `PHP_Connections/export_to_csv.php?sort_column=${sortColumn}&sort_direction=${sortDirection}&search=${searchValue}&job_title=${jobTitle}&position=${position}`;
+    window.location.href = `PHP_Connections/export_to_csv.php?export=true&sort_column=${sortColumn}&sort_direction=${sortDirection}&search=${searchValue}&job_title=${jobTitle}&position=${position}&status=${status}`;
+
 });
 
     // Change rows per page
@@ -130,6 +136,7 @@ $('#export-button').click(function() {
     $('#reset-filters').click(function() {
         var url = new URL(window.location.href);
         url.searchParams.delete('search');
+        url.searchParams.delete('status');
         url.searchParams.delete('job_title');
         url.searchParams.delete('position');
         url.searchParams.delete('rows_per_page');
@@ -138,3 +145,25 @@ $('#export-button').click(function() {
         $('#search-input').val('');
     });
 });
+function toggleDropdown(event) {
+            event.stopPropagation();
+            var dropdownContent = event.currentTarget.nextElementSibling;
+            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function removeApplicant(id) {
+            if (confirm("Are you sure you want to remove this applicant?")) {
+                window.location.href = `PHP_Connections/remove_applicant.php?id=${id}`;
+            }
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.style.display === 'block') {
+                    openDropdown.style.display = 'none';
+                }
+            }
+        }

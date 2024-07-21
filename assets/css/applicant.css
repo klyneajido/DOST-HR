@@ -241,6 +241,7 @@ p:last-child {
 .table td,
 .table th {
   padding: 15px 10px;
+  overflow: visible;
 }
 table.table td h2 {
   display: inline-block;

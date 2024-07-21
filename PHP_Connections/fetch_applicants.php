@@ -10,6 +10,7 @@ if (isset($_SESSION['username'])) {
     $user_name = 'Guest'; // Default value if user is not logged in
     $profile_image_path = 'assets/img/profiles/default-profile.png';
 }
+
 // Fetch job titles
 $job_titles_query = "SELECT DISTINCT job_title FROM job";
 $job_titles_result = $mysqli->query($job_titles_query);
@@ -30,6 +31,7 @@ while ($row = $positions_result->fetch_assoc()) {
 $search_query = isset($_GET['search']) ? mysqli_real_escape_string($mysqli, $_GET['search']) : '';
 $job_title_filter = isset($_GET['job_title']) ? mysqli_real_escape_string($mysqli, $_GET['job_title']) : '';
 $position_filter = isset($_GET['position']) ? mysqli_real_escape_string($mysqli, $_GET['position']) : '';
+$status_filter = isset($_GET['status']) ? mysqli_real_escape_string($mysqli, $_GET['status']) : '';
 
 // Default rows per page
 $default_rows_per_page = 10;
@@ -44,20 +46,35 @@ $total_query = "SELECT COUNT(*) as total
                 FROM applicants a 
                 LEFT JOIN job j ON a.job_id = j.job_id
                 WHERE 
-                    (a.lastname LIKE '%$search_query%' OR 
-                     a.firstname LIKE '%$search_query%' OR 
-                     a.email LIKE '%$search_query%' OR
-                     j.job_title LIKE '%$search_query%' OR
-                     j.position_or_unit LIKE '%$search_query%')";
+                    (a.lastname LIKE ? OR 
+                     a.firstname LIKE ? OR 
+                     a.email LIKE ? OR
+                     j.job_title LIKE ? OR
+                     j.position_or_unit LIKE ?)";
 
+$params = array_fill(0, 5, "%$search_query%");
+
+// Apply additional filters
 if ($job_title_filter) {
-    $total_query .= " AND j.job_title = '$job_title_filter'";
+    $total_query .= " AND j.job_title = ?";
+    $params[] = $job_title_filter;
 }
 if ($position_filter) {
-    $total_query .= " AND j.position_or_unit = '$position_filter'";
+    $total_query .= " AND j.position_or_unit = ?";
+    $params[] = $position_filter;
+}
+if ($status_filter) {
+    $total_query .= " AND a.status = ?";
+    $params[] = $status_filter;
 }
 
-$total_result = $mysqli->query($total_query);
+$stmt = $mysqli->prepare($total_query);
+$types = str_repeat('s', count($params));
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$total_result = $stmt->get_result();
 $total_row = $total_result->fetch_assoc();
 $total_applicants = $total_row['total'];
 $total_pages = ceil($total_applicants / $rows_per_page);
@@ -71,25 +88,44 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, 
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
-              (a.lastname LIKE '%$search_query%' OR 
-               a.firstname LIKE '%$search_query%' OR 
-               a.email LIKE '%$search_query%' OR
-               j.job_title LIKE '%$search_query%' OR
-               j.position_or_unit LIKE '%$search_query%')";
+              (a.lastname LIKE ? OR 
+               a.firstname LIKE ? OR 
+               a.email LIKE ? OR
+               j.job_title LIKE ? OR
+               j.position_or_unit LIKE ?)";
 
+$params = array_fill(0, 5, "%$search_query%");
+
+// Apply additional filters
 if ($job_title_filter) {
-    $query .= " AND j.job_title = '$job_title_filter'";
+    $query .= " AND j.job_title = ?";
+    $params[] = $job_title_filter;
 }
 if ($position_filter) {
-    $query .= " AND j.position_or_unit = '$position_filter'";
+    $query .= " AND j.position_or_unit = ?";
+    $params[] = $position_filter;
+}
+if ($status_filter) {
+    $query .= " AND a.status = ?";
+    $params[] = $status_filter;
 }
 
-$query .= " LIMIT $offset, $rows_per_page";
+$query .= " LIMIT ?, ?";
+$params[] = $offset;
+$params[] = $rows_per_page;
 
-$result = $mysqli->query($query);
+$stmt = $mysqli->prepare($query);
+$types = str_repeat('s', count($params) - 2) . 'ii'; // Adjust for offset and limit
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 
 $applicants = [];
 while ($row = $result->fetch_assoc()) {
     $applicants[] = $row;
 }
+
+// Output the results as JSON or other format as needed
 ?>

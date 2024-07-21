@@ -61,23 +61,32 @@
                 <div class="col-xl-12 col-sm-12 col-12 pb-3">
                     <div class="card ">
                         <div class="header_1 card-header  d-flex justify-content-between">
-                        <h2 class="card-titles col-lg-10">Applicants</h2>
-                        <div class="export_btn col-lg-2 d-flex justify-content-end">
-    <button class="export btn btn-primary" id="export-button" type="button">
-        <span class="button__text">Export</span>
-        <span class="button__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" id="bdd05811-e15d-428c-bb53-8661459f9307" data-name="Layer 2" class="svg">
-                <path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path>
-                <path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path>
-                <path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path>
-            </svg>
-        </span>
-    </button>
-</div>
-
+                            <h2 class="card-titles col-lg-10">Applicants</h2>
+                            <!-- EXPORT BUTTON -->
+                            <div class="export_btn col-lg-2 d-flex justify-content-end">
+                                <button class="export btn btn-primary" id="export-button" type="button">
+                                    <span class="button__text">Export</span>
+                                    <span class="button__icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35"
+                                            id="bdd05811-e15d-428c-bb53-8661459f9307" data-name="Layer 2" class="svg">
+                                            <path
+                                                d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z">
+                                            </path>
+                                            <path
+                                                d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z">
+                                            </path>
+                                            <path
+                                                d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <!-- END EXPORT BUTTON -->
                         </div>
 
                         <div class="header_2 card-header d-flex justify-content-between  ">
+                            <!-- START SEARCH -->
                             <div class="top-nav-search  ">
                                 <form id="search-form" method="GET" action="applicants.php">
                                     <input type="text" id="search-input" name="search" class="form-control"
@@ -86,7 +95,26 @@
                                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                                 </form>
                             </div>
+                            <!-- END SEARCH -->
+
+                            <!-- START FILTERS -->
                             <div class="filter d-flex row align-items-center">
+                                <!-- Status Dropdown -->
+                                <div class="dropdown mr-2">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Status
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                                        <a class="dropdown-item" href="#" data-filter="status"
+                                            data-value="Shortlisted">Shortlisted</a>
+                                        <a class="dropdown-item" href="#" data-filter="status"
+                                            data-value="Interview">Interview</a>
+                                        <a class="dropdown-item" href="#" data-filter="status"
+                                            data-value="Endorsed">Endorsed</a>
+                                    </div>
+                                </div>
+
                                 <!-- Job Title Dropdown -->
                                 <div class="dropdown mr-2">
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
@@ -135,20 +163,27 @@
                             <table class="table custom-table no-footer text-center">
                                 <thead>
                                     <tr>
-                                    <th data-column="job_title" class="sortable">Job Title <i class="fas"></i></th>
-                                        <th data-column="position_or_unit" class="sortable">Position <i class="fas"></i></th>
+                                        <th data-column="job_title" class="sortable">Job Title <i class="fas"></i></th>
+                                        <th data-column="position_or_unit" class="sortable">Position <i class="fas"></i>
+                                        </th>
                                         <th data-column="lastname" class="sortable">Last Name <i class="fas"></i></th>
                                         <th data-column="firstname" class="sortable">First Name <i class="fas"></i></th>
-                                        <th data-column="middlename" class="sortable">Middle Name <i class="fas"></i></th>
+                                        <th data-column="middlename" class="sortable">Middle Name <i class="fas"></i>
+                                        </th>
                                         <th data-column="sex" class="sortable">Sex <i class="fas"></i></th>
                                         <th data-column="address" class="sortable">Address <i class="fas"></i></th>
                                         <th data-column="email" class="sortable">Email <i class="fas"></i></th>
-                                        <th data-column="contact_number" class="sortable">Contact Number <i class="fas"></i></th>
+                                        <th data-column="contact_number" class="sortable">Contact Number <i
+                                                class="fas"></i></th>
                                         <th data-column="course" class="sortable">Course <i class="fas"></i></th>
-                                        <th data-column="years_of_experience" class="sortable">Years of Experience <i class="fas"></i></th>
-                                        <th data-column="hours_of_training" class="sortable">Hours of Training <i class="fas"></i></th>
-                                        <th data-column="eligibility" class="sortable">Eligibility <i class="fas"></i></th>
-                                        <th data-column="list_of_awards" class="sortable">List of Awards <i class="fas"></i></th>
+                                        <th data-column="years_of_experience" class="sortable">Years of Experience <i
+                                                class="fas"></i></th>
+                                        <th data-column="hours_of_training" class="sortable">Hours of Training <i
+                                                class="fas"></i></th>
+                                        <th data-column="eligibility" class="sortable">Eligibility <i class="fas"></i>
+                                        </th>
+                                        <th data-column="list_of_awards" class="sortable">List of Awards <i
+                                                class="fas"></i></th>
                                         <th>Attachments</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -174,11 +209,23 @@
                                         <td><?php echo htmlspecialchars($applicant['eligibility']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary">
-                                                <a
-                                                    href="PHP_Connections/download_documents.php?id=<?php echo $applicant['id']; ?>">Download
-                                                    All</a>
-                                            </button>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                    id="actionsDropdown<?php echo $applicant['id']; ?>"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis"></i>
+                                                </button>
+                                                <div class="dropdown-menu"
+                                                    aria-labelledby="actionsDropdown<?php echo $applicant['id']; ?>">
+                                                    <a class="dropdown-item" href="#"
+                                                        onclick="removeApplicant(<?php echo $applicant['id']; ?>)">Remove</a>
+                                                    <a class="dropdown-item"
+                                                        href="PHP_Connections/view_applicant.php?id=<?php echo $applicant['id']; ?>">View</a>
+                                                    <a
+                                                        href="PHP_Connections/download_documents.php?id=<?php echo $applicant['id']; ?>">Download
+                                                        All</a>
+                                                </div>
+                                            </div>
                                         </td>
 
                                         <td>
