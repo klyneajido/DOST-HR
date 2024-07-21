@@ -65,10 +65,26 @@ if ($result && $result->num_rows > 0) {
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
+<<<<<<< HEAD
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/jobs.css">
     <!-- [if lt IE 9]>
+=======
+	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/style.css">
+	<style>
+		.custom-btn {
+			width: 150px; /* Set a fixed width */
+			height: 50px; /* Set a fixed height */
+			display: inline-flex; /* Aligns the text vertically and horizontally */
+			align-items: center; 
+			justify-content: center; 
+		}
+	</style>
+	<!-- [if lt IE 9]>
+>>>>>>> dc83eed81b2d41cef243bd3235edd76c7c4eeec5
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif] -->
@@ -152,6 +168,7 @@ if ($result && $result->num_rows > 0) {
                                                 <?php echo htmlspecialchars($job['status']); ?></p>
                                         </div>
 
+<<<<<<< HEAD
                                         <div class="col-md-6 pt-3">
                                             <p class="card-text"><strong>Created At:</strong>
                                                 <?php echo htmlspecialchars($job['created_at']); ?></p>
@@ -182,6 +199,26 @@ if ($result && $result->num_rows > 0) {
                             </a>
                         </li>
                         <?php
+=======
+										<br>
+<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary custom-btn">Edit</a>
+<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success custom-btn">Details</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-3">
+                    <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                        <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <?php
+>>>>>>> dc83eed81b2d41cef243bd3235edd76c7c4eeec5
                     $start = max(1, $page - 2);
                     $end = min($total_pages, $page + 2);
 

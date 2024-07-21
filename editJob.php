@@ -259,7 +259,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <small class="text-danger"><?php echo $errors['status']; ?></small>
                                     <?php endif; ?>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-25">Update Job</button>
+                                <button type="submit" class="btn btn-primary py-3 w-25">Update Job</button>
                                 <a href="viewJob.php" class="btn btn-danger py-3 w-25">Cancel</a>
                             </form>
                         </div>
