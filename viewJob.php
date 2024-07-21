@@ -68,11 +68,21 @@ if ($result && $result->num_rows > 0) {
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
 	<link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
+	<style>
+		.custom-btn {
+			width: 150px; /* Set a fixed width */
+			height: 50px; /* Set a fixed height */
+			display: inline-flex; /* Aligns the text vertically and horizontally */
+			align-items: center; 
+			justify-content: center; 
+		}
+	</style>
 	<!-- [if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif] -->
 </head>
+
 <body class="scrollbar" id="style-5">
 	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -152,8 +162,8 @@ if ($result && $result->num_rows > 0) {
 										</div>
 
 										<br>
-										<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary py-3 px-5">Edit</a>
-										<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success py-3 px-5">Details</a>
+<a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-primary custom-btn">Edit</a>
+<a href="detailJob.php?job_id=<?php echo $job['job_id']; ?>" class="btn btn-success custom-btn">Details</a>
 									</div>
 								</div>
 							</div>
