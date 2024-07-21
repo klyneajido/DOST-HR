@@ -147,12 +147,9 @@ $total_pages = ceil($total_rows / $items_per_page);
                         <li class="breadcrumb-item">
                             <a href="history.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />History</a>
                         </li>
-                        <li class="breadcrumb-item active"></li>
+                        <li class="breadcrumb-item active">Logs</li>
                     </ul>
-                </div>
-
-                <!-- Search and Filter Section -->
-                <div class="mb-4 filter-container">
+                    <div class="mb-4 filter-container">
                     <div>
                         <select id="filterAction" class="form-control">
                             <option value="" disabled selected>Filter by Action</option>
@@ -185,6 +182,10 @@ $total_pages = ceil($total_rows / $items_per_page);
                         <button class="btn btn-danger" id="resetFilters"><i class="fas fa-times"></i> Reset</button>
                     </div>
                 </div>
+                </div>
+
+                <!-- Search and Filter Section -->
+                
 
                 <div class="row">
                     <?php if ($history_result->num_rows > 0): ?>
