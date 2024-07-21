@@ -147,7 +147,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                         <li class="breadcrumb-item">
                             <a href="history.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />History</a>
                         </li>
-                        <li class="breadcrumb-item active"></li>
+                        <li class="breadcrumb-item active">Logs</li>
                     </ul>
                     <div class="mb-4 filter-container">
                     <div>
