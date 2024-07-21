@@ -91,7 +91,7 @@
                     </li>
                     <li>
                         <a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
-                                View Job</span></a>
+                                Jobs</span></a>
                     </li>
                     <li>
                         <a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
@@ -136,4 +136,3 @@ document.getElementById('confirmLogout').addEventListener('click', function() {
     window.location.href = 'PHP_Connections/logout.php';
 });
 </script>
-

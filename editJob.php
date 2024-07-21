@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/jobs.css" />
 </head>
 
 <body  class="scrollbar" id="style-5">
