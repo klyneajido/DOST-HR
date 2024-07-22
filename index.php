@@ -229,35 +229,36 @@ include("PHP_Connections/recentActivities.php");
 
 				<!-- history and interview cards -->
 				<div class="row">
-					<div class="col-xl-8 col-sm-12 col-12 d-flex">
-						<div class="card card-list flex-fill">
-							<div class="card-header">
-								<h4 class="card-title">5 Recent Activities</h4>
-							</div>
-							<div class="card-body dash-activity">
-								<div class="slimscroll activity_scroll">
-									<?php foreach ($recent_activities as $activity) : ?>
-										<div class="activity-set d-flex align-items-start mb-3 w-100">
-											<div class="activity-img mr-3">
-												<img src="<?php echo htmlspecialchars($activity['profile_image']); ?>" alt="avatar" class="rounded-circle">
-											</div>
-											<div class="activity-content w-100">
-												<div class="d-flex justify-content-between w-100 mb-1">
-													<span class="font-weight-bold"><?php echo htmlspecialchars($activity['activity']); ?></span>
-													<span class="text-muted small"><?php echo htmlspecialchars($activity['timestamp']); ?></span>
-												</div>
-												<div><?php echo htmlspecialchars($activity['name']) . ' has ' . htmlspecialchars($activity['activity']); ?></div>
-												<div class="text-muted mt-1"><?php echo htmlspecialchars($activity['details']); ?></div>
-											</div>
-										</div>
-									<?php endforeach; ?>
-								</div>
-								<div class="leave-viewall mt-3">
-									<a href="history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
-								</div>
-							</div>
-						</div>
-					</div>
+<div class="col-xl-8 col-sm-12 col-12 d-flex">
+    <div class="card card-list flex-fill">
+        <div class="card-header">
+            <h4 class="card-title">5 Recent Activities</h4>
+        </div>
+        <div class="card-body dash-activity">
+            <div class="slimscroll activity_scroll">
+                <?php foreach ($recent_activities as $activity) : ?>
+                    <div class="activity-set d-flex align-items-start mb-3 w-100">
+                        <div class="activity-img mr-3">
+                            <img src="<?php echo htmlspecialchars($activity['profile_image']); ?>" alt="avatar" class="rounded-circle">
+                        </div>
+                        <div class="activity-content w-100">
+                            <div class="d-flex justify-content-between w-100 mb-1">
+                                <span class="font-weight-bold"><?php echo htmlspecialchars($activity['activity']); ?></span>
+                                <span class="text-muted small"><?php echo htmlspecialchars($activity['formatted_timestamp']); ?></span>
+                            </div>
+                            <div><?php echo htmlspecialchars($activity['name']) . ' has ' . htmlspecialchars($activity['activity']); ?></div>
+                            <div class="text-muted mt-1"><?php echo htmlspecialchars($activity['details']); ?></div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="leave-viewall mt-3">
+                <a href="history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 					<!-- UPCOMING INTERVIEW CARD -->
 					<div class="col-xl-4 col-sm-12 col-12 d-flex">
 						<div class="card card-list flex-fill">
