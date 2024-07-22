@@ -210,6 +210,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                                     <option value="Archived Announcement" <?php echo $action_filter === 'Archived Announcement' ? 'selected' : ''; ?>>Archived Announcement</option>
                                     <option value="Added New Job" <?php echo $action_filter === 'Added New Job' ? 'selected' : ''; ?>>Added New Job</option>
                                     <option value="Added Announcement" <?php echo $action_filter === 'Added Announcement' ? 'selected' : ''; ?>>Added Announcement</option>
+                                    <option value="Updated Announcement" <?php echo $action_filter === 'Updated Announcement' ? 'selected' : ''; ?>>Updated Announcement</option>
                                     <!-- Add other actions here -->
                                 </select>
                             </div>

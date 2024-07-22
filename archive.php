@@ -152,6 +152,51 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 </head>
 
 <body class="scrollbar" id="style-5">
+    <div class="modal fade" id="passwordModalJob" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteForm">
+                        <input type="hidden" id="deleteJobId" name="id" value="">
+                        <div class="form-group">
+                            <label for="adminPassword">Admin Password</label>
+                            <input type="password" class="form-control" id="adminPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Delete Job</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="passwordModalAnnouncement" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteAnnouncementForm">
+                        <input type="hidden" id="deleteAnnouncementId" name="id" value="">
+                        <div class="form-group">
+                            <label for="adminPasswordAnnouncement">Admin Password</label>
+                            <input type="password" class="form-control" id="adminPasswordAnnouncement" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Delete Announcement</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -179,7 +224,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                 </div>
                             </div>
                             <div class="card-body">
-                                
+
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead class="text-center">
@@ -226,7 +271,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                                                     <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                                                                         <i class='fas fa-undo'></i>
                                                                     </a>
-                                                                    <a href='#' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                                                                    <a href='PHP_Connections/deleteJob.php' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                                                                         <i class='fas fa-trash'></i>
                                                                     </a>
                                                                 </td>";
@@ -326,13 +371,14 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                                     echo "<td>" . htmlspecialchars($archive['updated_at']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
                                                     echo "<td>
-                                                        <a href='#' class='btn btn-success btn-sm restore-announcement-button' onclick='confirmRestore(" . htmlspecialchars($archive['announcement_id']) . "); return false;'>
-                                                            <i class='fas fa-undo'></i>
-                                                        </a>
-                                                        <a href='deleteAnnouncement.php?id=" . htmlspecialchars($archive['announcement_id']) . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Are you sure you want to delete this announcement?\");'>
-                                                            <i class='fas fa-trash'></i>
-                                                        </a>
-                                                    </td>";
+                                                    <a href='#' class='btn btn-success btn-sm restore-announcement-button' onclick='confirmRestore(" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "); return false;'>
+                                                        <i class='fas fa-undo'></i>
+                                                    </a>
+                                                    <a href='PHP_Connections/deleteAnnouncement.php' class='btn btn-danger btn-sm delete-announcement-button' data-id='" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "'>
+                                                        <i class='fas fa-trash'></i>
+                                                    </a>
+                                                </td>";
+
                                                     echo "</tr>";
                                                 }
                                             } else {
@@ -409,15 +455,15 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                     });
                 });
 
-                document.querySelectorAll('.delete-button').forEach(function(button) {
-                    button.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        var jobId = this.getAttribute('data-id');
-                        if (confirm('Are you sure you want to delete this job?')) {
-                            window.location.href = 'deleteJob.php?id=' + jobId;
-                        }
-                    });
-                });
+                // document.querySelectorAll('.delete-button').forEach(function(button) {
+                //     button.addEventListener('click', function(event) {
+                //         event.preventDefault();
+                //         var jobId = this.getAttribute('data-id');
+                //         if (confirm('Are you sure you want to delete this job?')) {
+                //             window.location.href = 'deleteJob.php?id=' + jobId;
+                //         }
+                //     });
+                // });
             });
         </script>
         <script>
@@ -426,6 +472,94 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                     window.location.href = 'PHP_Connections/restoreAnnouncement.php?id=' + id;
                 }
             }
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let deleteJobId = null;
+
+                document.querySelectorAll('.delete-button').forEach(function(button) {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        deleteJobId = this.getAttribute('data-id');
+                        $('#passwordModalJob').modal('show');
+                    });
+                });
+
+                document.getElementById('deleteForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const password = document.getElementById('adminPassword').value;
+
+                    fetch('PHP_Connections/deleteJob.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: deleteJobId,
+                                password: password
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Job deleted successfully');
+                                location.reload(); // Refresh the page
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        })
+                        .finally(() => {
+                            $('#passwordModalJob').modal('hide');
+                        });
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                let deleteAnnouncementId = null;
+
+                document.querySelectorAll('.delete-announcement-button').forEach(function(button) {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        deleteAnnouncementId = this.getAttribute('data-id');
+                        $('#passwordModalAnnouncement').modal('show');
+                    });
+                });
+
+                document.getElementById('deleteAnnouncementForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const adminPassword = document.getElementById('adminPasswordAnnouncement').value;
+
+                    fetch('PHP_Connections/deleteAnnouncement.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: deleteAnnouncementId,
+                                password: adminPassword
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert('Announcement deleted successfully');
+                                location.reload();
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        })
+                        .finally(() => {
+                            $('#passwordModalAnnouncement').modal('hide');
+                        });
+                });
+            });
         </script>
         <script src="assets/js/date.js"></script>
         <script src="assets/js/jquery-3.6.0.min.js"></script>
