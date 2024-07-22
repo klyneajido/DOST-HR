@@ -10,8 +10,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Get user's name from session
-$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+// Get user's name and profile image from session
+$user_name = $_SESSION['username'];
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
 // Get departments for the dropdown
@@ -33,47 +33,42 @@ $success = "";
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Get form data
-    $job_title = $_POST['job_title'];
-    $position = $_POST['position'];
-    $department_id = $_POST['department_id'];
-    $education_requirement = isset($_POST['educreq']) ? $_POST['educreq'] : [];
-    $experience_or_training = isset($_POST['experienceortraining']) ? $_POST['experienceortraining'] : [];
-    $duties_and_responsibilities = isset($_POST['dutiesandresponsibilities']) ? $_POST['dutiesandresponsibilities'] : [];
-    $place_of_assignment = $_POST['poa'];
-    $monthly_salary = $_POST['monthlysalary'];
-    $status = $_POST['status'];
-    $deadline = $_POST['deadline'];
-    $description = $_POST['description'];
+    $job_title = $_POST['job_title'] ?? '';
+    $position = $_POST['position'] ?? '';
+    $department_id = $_POST['department_id'] ?? '';
+    $education_requirement = $_POST['educationrequirement'] ?? [];
+    $experience_or_training = $_POST['experienceortraining'] ?? [];
+    $duties_and_responsibilities = $_POST['dutiesandresponsibilities'] ?? [];
+    $place_of_assignment = $_POST['poa'] ?? '';
+    $monthly_salary = $_POST['monthlysalary'] ?? '';
+    $status = $_POST['status'] ?? '';
+    $deadline = $_POST['deadline'] ?? '';
+    $description = $_POST['description'] ?? '';
 
-   // Filter out empty values from arrays
-$education_requirement = array_filter($_POST['educationrequirement'], function($value) {
-    return !empty(trim($value));
-});
-$experience_or_training = array_filter($_POST['experienceortraining'], function($value) {
-    return !empty(trim($value));
-});
-$duties_and_responsibilities = array_filter($_POST['dutiesandresponsibilities'], function($value) {
-    return !empty(trim($value));
-});
+    // Filter out empty values from arrays
+    $education_requirement = array_filter($education_requirement, fn($value) => !empty(trim($value)));
+    $experience_or_training = array_filter($experience_or_training, fn($value) => !empty(trim($value)));
+    $duties_and_responsibilities = array_filter($duties_and_responsibilities, fn($value) => !empty(trim($value)));
 
-// Validate inputs
-if (empty($job_title)) $errors['job_title'] = "Job Title is required";
-if (empty($description)) $errors['description'] = "Description is required";
-if (empty($department_id)) $errors['department_id'] = "Department is required";
-if (empty($monthly_salary)) $errors['monthlysalary'] = "Monthly Salary is required";
-if (empty($status)) $errors['status'] = "Status is required";
-if (empty($deadline)) $errors['deadline'] = "Deadline is required";
-if (empty($education_requirement)) $errors['education_requirement'] = "At least one educational requirement is required";
-if (empty($experience_or_training)) $errors['experience_or_training'] = "At least one experience or training requirement is required";
-if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
+    // Validate inputs
+    if (empty($job_title)) $errors['job_title'] = "Job Title is required";
+    if (empty($description)) $errors['description'] = "Description is required";
+    if (empty($department_id)) $errors['department_id'] = "Department is required";
+    if (empty($monthly_salary)) $errors['monthlysalary'] = "Monthly Salary is required";
+    if (empty($status)) $errors['status'] = "Status is required";
+    if (empty($deadline)) $errors['deadline'] = "Deadline is required";
+    if (empty($education_requirement)) $errors['education_requirement'] = "At least one educational requirement is required";
+    if (empty($experience_or_training)) $errors['experience_or_training'] = "At least one experience or training requirement is required";
+    if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
+
     if (empty($errors)) {
         // Insert job details into the job table
         $stmt = $mysqli->prepare("INSERT INTO job (job_title, position_or_unit, description, department_id, salary, place_of_assignment, status, deadline, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
         $stmt->bind_param("ssssssss", $job_title, $position, $description, $department_id, $monthly_salary, $place_of_assignment, $status, $deadline);
-    
+
         if ($stmt->execute()) {
             $job_id = $stmt->insert_id; // Get the ID of the inserted job
-    
+
             // Insert education requirements
             foreach ($education_requirement as $requirement) {
                 $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'education')");
@@ -81,7 +76,7 @@ if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] 
                 $stmt_req->execute();
                 $stmt_req->close();
             }
-    
+
             // Insert experience or training requirements
             foreach ($experience_or_training as $requirement) {
                 $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'experience')");
@@ -89,7 +84,7 @@ if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] 
                 $stmt_req->execute();
                 $stmt_req->close();
             }
-    
+
             // Insert duties and responsibilities
             foreach ($duties_and_responsibilities as $requirement) {
                 $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'duties')");
@@ -97,75 +92,25 @@ if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] 
                 $stmt_req->execute();
                 $stmt_req->close();
             }
-    
-            // Aggregate requirements and update job table
-            $requirements_stmt = $mysqli->prepare("
-                SELECT requirement_text, requirement_type 
-                FROM job_requirements 
-                WHERE job_id = ?
+
+            // Record action in the history table
+            $history_stmt = $mysqli->prepare("
+                INSERT INTO history (action, details, user_id, date) 
+                VALUES (?, ?, (SELECT admin_id FROM admins WHERE username = ?), NOW())
             ");
-            $requirements_stmt->bind_param("i", $job_id);
-            $requirements_stmt->execute();
-            $requirements_result = $requirements_stmt->get_result();
+            $action = "Added New Job";
+            $details = "Job Title: $job_title $position";
+            $history_stmt->bind_param("sss", $action, $details, $user_name);
+            $history_stmt->execute();
+            $history_stmt->close();
 
-            $education_requirement = [];
-            $experience_requirements = [];
-            $duties_and_responsibilities = [];
-
-            while ($row = $requirements_result->fetch_assoc()) {
-                switch ($row['requirement_type']) {
-                    case 'education':
-                        $education_requirement[] = $row['requirement_text'];
-                        break;
-                    case 'experience':
-                        $experience_requirements[] = $row['requirement_text'];
-                        break;
-                    case 'duties':
-                        $duties_and_responsibilities[] = $row['requirement_text'];
-                        break;
-                }
-            }
-
-            // Convert arrays to strings
-            $education_requirement_list = implode("\n", $education_requirement);
-            $experience_requirements_list = implode("\n", $experience_requirements);
-            $duties_and_responsibilities_list = implode("\n", $duties_and_responsibilities);
-
-            // Update the job table with aggregated requirements
-            $update_stmt = $mysqli->prepare("
-                UPDATE job 
-                SET education_requirement = ?, 
-                    experience_or_training = ?, 
-                    duties_and_responsibilities = ?
-                WHERE job_id = ?
-            ");
-            $update_stmt->bind_param("sssi", $education_requirement_list, $experience_requirements_list, $duties_and_responsibilities_list, $job_id);
-
-            if ($update_stmt->execute()) {
-                // Record action in the history table
-                $history_stmt = $mysqli->prepare("
-                    INSERT INTO history (action, details, user_id, date) 
-                    VALUES (?, ?, (SELECT admin_id FROM admins WHERE username = ?), NOW())
-                ");
-                $action = "Added New Job";
-                $details = "Job Title: $job_title $position";
-                $history_stmt->bind_param("sss", $action, $details, $user_name);
-                $history_stmt->execute();
-                $history_stmt->close();
-
-                $success = "Job added successfully with requirements.";
-            } else {
-                $errors['database'] = "Error updating job: " . $update_stmt->error;
-            }
-
-            $update_stmt->close();
-            $requirements_stmt->close();
-
+            $success = "Job added successfully with requirements.";
             header('Location: ./viewJob.php');
+            exit();
         } else {
             $errors['database'] = "Error adding job: " . $stmt->error;
         }
-    
+
         $stmt->close();
     }
 }
