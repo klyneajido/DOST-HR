@@ -150,9 +150,10 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
     <link rel="stylesheet" href="assets/css/style.css">
 
 </head>
+
 <body class="scrollbar" id="style-5">
     <div class="main-wrapper">
-    <?php include("navbar.php")?>
+        <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="container-fluid">
                 <div class="breadcrumb-path mb-4 my-4">
@@ -170,7 +171,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                 <h4 class="card-title d-inline">Archived Jobs</h4>
                                 <div class="search-container d-inline float-right" style="margin-left: 20px;">
                                     <form action="archive.php" method="get" class="d-flex flex-wrap">
-                                        <input type="text" name="search" class="form-control mr-2" placeholder="Search Jobs" style="flex: 1; min-width: 200px;">
+                                        <input type="text" name="search" class="form-control mr-2" placeholder="Search Archived  Jobs" style="flex: 1; min-width: 400px; border-radius: 30px;">
                                         <button class="btn" type="submit" style="background: none; border: none; padding: 0;">
                                             <i class="fas fa-search" style="color: #000;"></i> <!-- Set color to desired color -->
                                         </button>
@@ -178,6 +179,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                 </div>
                             </div>
                             <div class="card-body">
+                                
                                 <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead class="text-center">
@@ -230,10 +232,9 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                                                 </td>";
                                                     echo "</tr>";
                                                 }
-                                            }
-                                            else {
+                                            } else {
                                                 echo "<tr class = 'text-center'><td colspan='12'>No archived Jobs found.</td></tr>";
-                                                }
+                                            }
                                             ?>
                                         </tbody>
                                     </table>
@@ -286,7 +287,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                                 <h4 class="card-title">Archived Announcements</h4>
                                 <div class="search-container d-inline float-right" style="margin-left: 20px;">
                                     <form action="archive.php" method="get" class="d-flex flex-wrap">
-                                        <input type="text" name="search_announcement" class="form-control mr-2" placeholder="Search Announcements" style="flex: 1; min-width: 200px;" value="<?php echo htmlspecialchars($search_announcement); ?>">
+                                        <input type="text" name="search_announcement" class="form-control mr-2" placeholder="Search Announcements" style="flex: 1; min-width: 400px; border-radius: 30px;" value="<?php echo htmlspecialchars($search_announcement); ?>">
                                         <button class="btn" type="submit" style="background: none; border: none; padding: 0;">
                                             <i class="fas fa-search" style="color: #000;"></i>
                                         </button>
@@ -420,11 +421,11 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
             });
         </script>
         <script>
-        function confirmRestore(id) {
-            if (confirm("Are you sure you want to restore this announcement?")) {
-                window.location.href = 'PHP_Connections/restoreAnnouncement.php?id=' + id;
+            function confirmRestore(id) {
+                if (confirm("Are you sure you want to restore this announcement?")) {
+                    window.location.href = 'PHP_Connections/restoreAnnouncement.php?id=' + id;
+                }
             }
-        }
         </script>
         <script src="assets/js/date.js"></script>
         <script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -453,4 +454,3 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 </body>
 
 </html>
-

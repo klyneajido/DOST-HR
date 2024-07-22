@@ -9,6 +9,21 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+// Fetch user ID based on username
+$user_query = "SELECT admin_id FROM admins WHERE username = ?";
+$stmt_user = $mysqli->prepare($user_query);
+$stmt_user->bind_param('s', $user_name);
+$stmt_user->execute();
+$result_user = $stmt_user->get_result();
+
+if ($result_user->num_rows > 0) {
+    $user = $result_user->fetch_assoc();
+    $user_id = $user['admin_id'];
+} else {
+    header('Location: viewJob.php?error=User not found.');
+    exit();
+}
+
 $job_id = isset($_GET['job_id']) ? (int)$_GET['job_id'] : 0;
 
 if ($job_id === 0) {
@@ -49,16 +64,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dutiesandresponsibilities = $_POST['dutiesandresponsibilities'];
     $educationrequirement = $_POST['educreq'];
     $placeofassignment = $_POST['poa'];
-    $department_id = $_POST['department_id'];
     $monthly_salary = $_POST['monthlysalary'];
     $status = $_POST['status'];
     $deadline = $_POST['deadline'];
-    $description= $_POST['description'];
+    $description = $_POST['description'];
 
     if (empty($job_title)) {
         $errors['job_title'] = "Position is required";
     }
-    if(empty($description)) {
+    if (empty($description)) {
         $errors['description'] = "Description is required";
     }
     if (empty($department_id)) {
@@ -81,11 +95,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if (empty($errors)) {
-        $sql = "UPDATE job SET job_title = ?, position_or_unit = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW()  WHERE job_id = ?";
+        $sql = "UPDATE job SET job_title = ?, position_or_unit = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW() WHERE job_id = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('ssidsssssssi',$job_title,  $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
+        $stmt->bind_param('ssidsssssssi', $job_title, $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
 
         if ($stmt->execute()) {
+            // Log the action in the history table
+            $action = "Updated Job";
+            $details = "Job title: " . ($job_title) . "";
+            $log_query = "INSERT INTO history (user_id, action, details, date) VALUES (?, ?, ?, NOW())";
+            $log_stmt = $mysqli->prepare($log_query);
+            $log_stmt->bind_param('iss', $user_id, $action, $details);
+            $log_stmt->execute();
+
             header('Location: viewJob.php?success=Job updated successfully');
             exit();
         } else {
