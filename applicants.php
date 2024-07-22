@@ -184,6 +184,8 @@
                                         </th>
                                         <th data-column="list_of_awards" class="sortable">List of Awards <i
                                                 class="fas"></i></th>
+                                        <th data-column="application_date" class="sortable">Application Date <i
+                                                class="fas"></i></th>
                                         <th>Attachments</th>
                                         <th>Status</th>
                                         <th>Actions</th>
@@ -208,24 +210,11 @@
                                         <td><?php echo htmlspecialchars($applicant['hours_of_training']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['eligibility']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
+                                        <td><?php echo formatDate($applicant['application_date']); ?></td>
                                         <td>
-                                            <div class="dropdown">
-                                                <button class="btn btn-secondary dropdown-toggle" type="button"
-                                                    id="actionsDropdown<?php echo $applicant['id']; ?>"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa-solid fa-ellipsis"></i>
-                                                </button>
-                                                <div class="dropdown-menu"
-                                                    aria-labelledby="actionsDropdown<?php echo $applicant['id']; ?>">
-                                                    <a class="dropdown-item" href="#"
-                                                        onclick="removeApplicant(<?php echo $applicant['id']; ?>)">Remove</a>
-                                                    <a class="dropdown-item"
-                                                        href="PHP_Connections/view_applicant.php?id=<?php echo $applicant['id']; ?>">View</a>
-                                                    <a
-                                                        href="PHP_Connections/download_documents.php?id=<?php echo $applicant['id']; ?>">Download
-                                                        All</a>
-                                                </div>
-                                            </div>
+                                            <a
+                                                href="PHP_Connections/download_documents.php?id=<?php echo $applicant['id']; ?>">Download
+                                                All</a>
                                         </td>
 
                                         <td>
@@ -242,6 +231,7 @@
                                                     Endorsed</option>
                                             </select>
                                         </td>
+
                                         <td>
                                             <button type="button" class="btn btn-danger delete-btn"
                                                 data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal"
@@ -330,6 +320,7 @@
             </div>
         </div>
 </body>
+
 <script src="assets/js/date.js"></script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/applicant.js"></script>

@@ -1,3 +1,12 @@
+function parseDate(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+        console.error('Date parsing error:', dateString);
+        return new Date(0); // Use a default date or handle as necessary
+    }
+    return date;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const table = document.querySelector(".table");
     const headers = table.querySelectorAll(".sortable");
@@ -8,11 +17,22 @@ document.addEventListener("DOMContentLoaded", function () {
             const column = header.dataset.column;
             sortDirection = !sortDirection;
             const direction = sortDirection ? 1 : -1;
+            const columnIndex = Array.from(headers).indexOf(header) + 1; // 1-based index
             const rows = Array.from(table.querySelectorAll("tbody tr"));
 
             rows.sort((a, b) => {
-                const aText = a.querySelector(`td:nth-child(${Array.from(headers).indexOf(header) + 1})`).textContent;
-                const bText = b.querySelector(`td:nth-child(${Array.from(headers).indexOf(header) + 1})`).textContent;
+                const aCell = a.querySelector(`td:nth-child(${columnIndex})`);
+                const bCell = b.querySelector(`td:nth-child(${columnIndex})`);
+
+                const aText = aCell.textContent.trim();
+                const bText = bCell.textContent.trim();
+
+                if (column === 'application_date') {
+                    const aDate = parseDate(aText);
+                    const bDate = parseDate(bText);
+                    return (aDate - bDate) * direction;
+                }
+
                 return aText.localeCompare(bText) * direction;
             });
 
@@ -33,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
 
 $(document).ready(function() {
     $('.dropdown-item').click(function(e) {

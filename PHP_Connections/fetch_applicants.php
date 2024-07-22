@@ -11,6 +11,11 @@ if (isset($_SESSION['username'])) {
     $profile_image_path = 'assets/img/profiles/default-profile.png';
 }
 
+
+function formatDate($date) {
+    return date("g:i A, F j, Y", strtotime($date));
+}
+
 // Fetch job titles
 $job_titles_query = "SELECT DISTINCT job_title FROM job";
 $job_titles_result = $mysqli->query($job_titles_query);
@@ -84,7 +89,7 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
                  a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
-                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit
+                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, a.application_date
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
