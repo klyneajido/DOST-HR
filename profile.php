@@ -55,7 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
+
 <!DOCTYPE html>
+<?php include("logout_modal.php")?>
 <html lang="en">
 <head>
     <meta charset="utf-8">

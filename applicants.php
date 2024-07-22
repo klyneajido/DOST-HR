@@ -1,4 +1,5 @@
 <?php include_once("PHP_Connections/fetch_applicants.php")?>
+<?php include("logout_modal.php")?>
 
 <!DOCTYPE html>
 <html lang="en">
