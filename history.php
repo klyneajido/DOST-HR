@@ -164,7 +164,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                 <form id="passwordForm">
                     <div class="modal-header">
                         <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
@@ -174,10 +174,25 @@ $total_pages = ceil($total_rows / $items_per_page);
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    The record has been successfully deleted.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -344,44 +359,55 @@ $total_pages = ceil($total_rows / $items_per_page);
         });
     </script>
     <script>
-        document.querySelectorAll('.delete-history-btn').forEach(button => {
-            button.addEventListener('click', function(event) {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Bootstrap modals
+            const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+
+            // Attach click event listener to all delete buttons
+            document.querySelectorAll('.delete-history-btn').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const historyId = this.dataset.id;
+                    document.getElementById('deleteHistoryId').value = historyId;
+                    passwordModal.show(); // Show the password modal
+                });
+            });
+
+            // Handle form submission for password verification and deletion
+            document.getElementById('passwordForm').addEventListener('submit', function(event) {
                 event.preventDefault();
-                const historyId = this.dataset.id;
-                document.getElementById('deleteHistoryId').value = historyId;
-                const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
-                passwordModal.show();
+                const historyId = document.getElementById('deleteHistoryId').value;
+                const adminPassword = document.getElementById('adminPassword').value;
+
+                fetch('PHP_Connections/deleteHistory.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: historyId,
+                            password: adminPassword
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Show success modal
+                            successModal.show();
+                            // Optional: Reload the page after a delay to let user see the success message
+                            setTimeout(() => window.location.reload(), 2000);
+                        } else {
+                            alert('Invalid password.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             });
         });
-
-        document.getElementById('passwordForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const historyId = document.getElementById('deleteHistoryId').value;
-            const adminPassword = document.getElementById('adminPassword').value;
-
-            fetch('PHP_Connections/deleteHistory.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id: historyId,
-                        password: adminPassword
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert('Invalid password.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
     </script>
+
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>

@@ -196,6 +196,44 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
             </div>
         </div>
     </div>
+    <div class="modal fade" id="successModalJob" tabindex="-1" role="dialog" aria-labelledby="successModalJobLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalJobLabel">Job Deleted</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The job has been deleted successfully.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Deletion Modal for Announcements -->
+    <div class="modal fade" id="successModalAnnouncement" tabindex="-1" role="dialog" aria-labelledby="successModalAnnouncementLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalAnnouncementLabel">Announcement Deleted</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The announcement has been deleted successfully.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
@@ -502,22 +540,63 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert('Job deleted successfully');
-                                location.reload(); // Refresh the page
+                                $('#passwordModalJob').modal('hide');
+                                $('#successModalJob').modal('show');
+                                setTimeout(function() {
+                                    location.reload(); // Refresh the page after showing the success message
+                                }, 2000);
                             } else {
                                 alert('Error: ' + data.message);
                             }
                         })
                         .catch(error => {
                             console.error('Error:', error);
+                        });
+                });
+
+                let deleteAnnouncementId = null;
+
+                document.querySelectorAll('.delete-announcement-button').forEach(function(button) {
+                    button.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        deleteAnnouncementId = this.getAttribute('data-id');
+                        $('#passwordModalAnnouncement').modal('show');
+                    });
+                });
+
+                document.getElementById('deleteAnnouncementForm').addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const adminPassword = document.getElementById('adminPasswordAnnouncement').value;
+
+                    fetch('PHP_Connections/deleteAnnouncement.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id: deleteAnnouncementId,
+                                password: adminPassword
+                            })
                         })
-                        .finally(() => {
-                            $('#passwordModalJob').modal('hide');
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                $('#passwordModalAnnouncement').modal('hide');
+                                $('#successModalAnnouncement').modal('show');
+                                setTimeout(function() {
+                                    location.reload(); // Refresh the page after showing the success message
+                                }, 2000);
+                            } else {
+                                alert('Error: ' + data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
                         });
                 });
             });
         </script>
-        <script>
+        <!-- <script>
             document.addEventListener('DOMContentLoaded', function() {
                 let deleteAnnouncementId = null;
 
@@ -560,7 +639,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
                         });
                 });
             });
-        </script>
+        </script> -->
         <script src="assets/js/date.js"></script>
         <script src="assets/js/jquery-3.6.0.min.js"></script>
         <script src="assets/js/popper.min.js"></script>

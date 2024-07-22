@@ -40,9 +40,10 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
     <div class="main-wrapper login-body">
         <div class="login-wrapper">
             <div class="container">
-                <img class="img-fluid logo-dark mb-2" src="assets/img/dost_logo.png" alt="Logo" />
-
+                
+            <img class="img-fluid logo-dark mb-2" src="assets/img/dost_logo.png" alt="Logo" />
                 <div class="loginbox">
+                    
                     <div class="login-right">
                         <div class="login-right-wrap">
                             <h1>Login</h1>
