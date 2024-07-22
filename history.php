@@ -113,9 +113,10 @@ $total_rows = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_rows / $items_per_page);
 ?>
 
-<?php include("logout_modal.php")?>
+<?php include("logout_modal.php") ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -125,33 +126,61 @@ $total_pages = ceil($total_rows / $items_per_page);
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-<style>
+    <style>
         .table thead th {
             background-color: #f8f9fa;
             font-weight: bold;
         }
+
         .table tbody tr {
             transition: background-color 0.3s;
         }
+
         .table tbody tr:hover {
             background-color: #f1f1f1;
         }
+
         .table tbody td {
             vertical-align: middle;
         }
+
         .filter-container {
             display: flex;
             gap: 1rem;
             align-items: center;
             justify-content: flex-end;
         }
+
         .card-header {
             font-weight: bold;
         }
-        
     </style>
 </head>
+
 <body>
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="passwordForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="adminPassword" class="form-label">Admin Password</label>
+                            <input type="password" class="form-control" id="adminPassword" required>
+                            <input type="hidden" id="deleteHistoryId">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -163,7 +192,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                         </li>
                         <li class="breadcrumb-item active"></li>
                     </ul>
-                    
+
                 </div>
 
                 <!-- Card Section -->
@@ -181,6 +210,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                                     <option value="Archived Announcement" <?php echo $action_filter === 'Archived Announcement' ? 'selected' : ''; ?>>Archived Announcement</option>
                                     <option value="Added New Job" <?php echo $action_filter === 'Added New Job' ? 'selected' : ''; ?>>Added New Job</option>
                                     <option value="Added Announcement" <?php echo $action_filter === 'Added Announcement' ? 'selected' : ''; ?>>Added Announcement</option>
+                                    <option value="Updated Announcement" <?php echo $action_filter === 'Updated Announcement' ? 'selected' : ''; ?>>Updated Announcement</option>
                                     <!-- Add other actions here -->
                                 </select>
                             </div>
@@ -220,21 +250,21 @@ $total_pages = ceil($total_rows / $items_per_page);
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <?php if ($history_result->num_rows > 0): ?>
-                                        <?php while ($row = $history_result->fetch_assoc()): ?>
+                                    <?php if ($history_result->num_rows > 0) : ?>
+                                        <?php while ($row = $history_result->fetch_assoc()) : ?>
                                             <tr>
                                                 <td><?php echo htmlspecialchars($row['action']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['details']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['admin_name']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['date']); ?></td>
                                                 <td>
-                                                    <a href="deleteHistory.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm">
+                                                    <button data-id="<?php echo $row['id']; ?>" class="btn btn-danger btn-sm delete-history-btn">
                                                         <i class="fas fa-trash"></i>
-                                                    </a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         <?php endwhile; ?>
-                                    <?php else: ?>
+                                    <?php else : ?>
                                         <tr>
                                             <td colspan="5" class="text-center">No history records found.</td>
                                         </tr>
@@ -247,7 +277,7 @@ $total_pages = ceil($total_rows / $items_per_page);
                         <!-- Pagination controls -->
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
-                                <?php if ($page > 1): ?>
+                                <?php if ($page > 1) : ?>
                                     <li class="page-item"><a class="page-link" href="history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">First</a></li>
                                     <li class="page-item"><a class="page-link" href="history.php?page=<?php echo $page - 1; ?>&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">Previous</a></li>
                                 <?php endif; ?>
@@ -289,33 +319,73 @@ $total_pages = ceil($total_rows / $items_per_page);
         </div>
     </div>
     <script>
-    document.getElementById('sortAsc').addEventListener('click', function() {
-        window.location.href = 'history.php?sort=asc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
-    });
+        document.getElementById('sortAsc').addEventListener('click', function() {
+            window.location.href = 'history.php?sort=asc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
+        });
 
-    document.getElementById('sortDesc').addEventListener('click', function() {
-        window.location.href = 'history.php?sort=desc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
-    });
+        document.getElementById('sortDesc').addEventListener('click', function() {
+            window.location.href = 'history.php?sort=desc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
+        });
 
-    document.getElementById('filterAction').addEventListener('change', function() {
-        const action = this.value;
-        const adminId = document.getElementById('filterAdmin').value;
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
-    });
+        document.getElementById('filterAction').addEventListener('change', function() {
+            const action = this.value;
+            const adminId = document.getElementById('filterAdmin').value;
+            window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
+        });
 
-    document.getElementById('filterAdmin').addEventListener('change', function() {
-        const action = document.getElementById('filterAction').value;
-        const adminId = this.value;
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
-    });
+        document.getElementById('filterAdmin').addEventListener('change', function() {
+            const action = document.getElementById('filterAction').value;
+            const adminId = this.value;
+            window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
+        });
 
-    document.getElementById('resetFilters').addEventListener('click', function() {
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>';
-    });
-</script>
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>';
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.delete-history-btn').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const historyId = this.dataset.id;
+                document.getElementById('deleteHistoryId').value = historyId;
+                const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
+                passwordModal.show();
+            });
+        });
+
+        document.getElementById('passwordForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const historyId = document.getElementById('deleteHistoryId').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+
+            fetch('PHP_Connections/deleteHistory.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: historyId,
+                        password: adminPassword
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                    } else {
+                        alert('Invalid password.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/script.js"></script>
 </body>
+
 </html>

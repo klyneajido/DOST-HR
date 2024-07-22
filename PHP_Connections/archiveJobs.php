@@ -12,15 +12,15 @@ if (!isset($_SESSION['username'])) {
 
 // Get username from session
 $username = $_SESSION['username'];
-$archived_by_username = null;
+$archived_by_name = null;
 $archived_by_admin_id = null;
 
 // Begin transaction
 $mysqli->begin_transaction();
 
 try {
-    // Fetch admin ID from username
-    $sql_user = "SELECT admin_id FROM admins WHERE username = ?";
+    // Fetch admin ID and name from username
+    $sql_user = "SELECT admin_id, name FROM admins WHERE username = ?";
     $stmt_user = $mysqli->prepare($sql_user);
     $stmt_user->bind_param("s", $username);
     $stmt_user->execute();
@@ -29,7 +29,7 @@ try {
     if ($result_user->num_rows > 0) {
         $admin = $result_user->fetch_assoc();
         $archived_by_admin_id = $admin['admin_id'];
-        $archived_by_username = $username;
+        $archived_by_name = $admin['name'];
     } else {
         throw new Exception("User not found");
     }
@@ -68,7 +68,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $job['created_at'], 
             $job['updated_at'], 
             $job['deadline'], 
-            $archived_by_username
+            $archived_by_name
         );
 
         if (!$stmt_insert->execute()) {
