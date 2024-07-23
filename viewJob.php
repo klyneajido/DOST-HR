@@ -108,11 +108,11 @@
                                                         <?php echo htmlspecialchars($job['place_of_assignment']); ?></p>
                                                 <?php endif; ?>
                                                 <?php if ("COS" == ($job['status'])) : ?>
-                                                    <p class="card-text"><strong>Daily Salary:</strong> Php
+                                                    <p class="card-text"><strong>Daily Salary:</strong>₱
                                                         <?php echo htmlspecialchars(number_format($job['salary'], 2)); ?>
                                                     </p>
                                                 <?php else : ?>
-                                                    <p class="card-text"><strong>Monthly Salary:</strong> Php
+                                                    <p class="card-text"><strong>Monthly Salary:</strong>₱
                                                         <?php echo htmlspecialchars(number_format($job['salary'], 2)); ?>
                                                     </p>
                                                 <?php endif; ?>
@@ -122,11 +122,11 @@
 
                                             <div class="col-md-6">
                                                 <p class="card-text"><strong>Created At:</strong>
-                                                    <?php echo htmlspecialchars($job['created_at']); ?></p>
+                                                    <?php echo formatDate($job['created_at']); ?></p>
                                                 <p class="card-text"><strong>Updated At:</strong>
-                                                    <?php echo htmlspecialchars($job['updated_at']); ?></p>
+                                                    <?php echo formatDate($job['updated_at']); ?></p>
                                                 <p class="card-text"><strong>Deadline:</strong>
-                                                    <?php echo htmlspecialchars($job['deadline']); ?></p>
+                                                    <?php echo formatDate($job['deadline']); ?></p>
                                             </div>
                                         </div>
                                     </div>

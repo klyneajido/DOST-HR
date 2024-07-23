@@ -69,7 +69,6 @@ LEFT JOIN job_requirements_archive jra ON ja.jobarchive_id = jra.jobarchive_id
 WHERE ja.job_title LIKE ? OR ja.description LIKE ?
 GROUP BY ja.jobarchive_id
 LIMIT ?, ?
-
 ";
 
 $search_term = '%' . $search . '%';

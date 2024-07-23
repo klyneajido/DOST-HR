@@ -1,124 +1,7 @@
-<?php
-session_start();
-include_once 'PHP_Connections/db_connection.php';
-
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit();
-}
-$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
-
-// Fetch user ID based on username
-$user_query = "SELECT admin_id FROM admins WHERE username = ?";
-$stmt_user = $mysqli->prepare($user_query);
-$stmt_user->bind_param('s', $user_name);
-$stmt_user->execute();
-$result_user = $stmt_user->get_result();
-
-if ($result_user->num_rows > 0) {
-    $user = $result_user->fetch_assoc();
-    $user_id = $user['admin_id'];
-} else {
-    header('Location: viewJob.php?error=User not found.');
-    exit();
-}
-
-$job_id = isset($_GET['job_id']) ? (int)$_GET['job_id'] : 0;
-
-if ($job_id === 0) {
-    header('Location: viewJob.php');
-    exit();
-}
-
-$sql = "SELECT * FROM job WHERE job_id = ?";
-$stmt = $mysqli->prepare($sql);
-$stmt->bind_param('i', $job_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$job = $result->fetch_assoc();
-
-if (!$job) {
-    header('Location: viewJob.php');
-    exit();
-}
-
-$sql = "SELECT department_id, name FROM department";
-$result = $mysqli->query($sql);
-$departments = [];
-if ($result) {
-    while ($row = $result->fetch_assoc()) {
-        $departments[] = $row;
-    }
-} else {
-    echo "Error retrieving departments: " . $mysqli->error;
-}
-
-$errors = [];
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $job_title = $_POST['job_title'];
-    $position = $_POST['position'];
-    $department_id = $_POST['department_id'];
-    $experienceortraining = $_POST['experienceortraining'];
-    $dutiesandresponsibilities = $_POST['dutiesandresponsibilities'];
-    $educationrequirement = $_POST['educreq'];
-    $placeofassignment = $_POST['poa'];
-    $monthly_salary = $_POST['monthlysalary'];
-    $status = $_POST['status'];
-    $deadline = $_POST['deadline'];
-    $description = $_POST['description'];
-
-    if (empty($job_title)) {
-        $errors['job_title'] = "Position is required";
-    }
-    if (empty($description)) {
-        $errors['description'] = "Description is required";
-    }
-    if (empty($department_id)) {
-        $errors['department_id'] = "Department is required";
-    }
-    if (empty($monthly_salary)) {
-        $errors['monthlysalary'] = "Monthly Salary is required";
-    }
-    if (empty($status)) {
-        $errors['status'] = "Status is required";
-    }
-    if (empty($deadline)) {
-        $errors['deadline'] = "Deadline is required";
-    }
-    if (empty($educationrequirement)) {
-        $errors['educreq'] = "Educational Requirement is required";
-    }
-    if (empty($experienceortraining)) {
-        $errors['experienceortraining'] = "Experience or Training is required";
-    }
-
-    if (empty($errors)) {
-        $sql = "UPDATE job SET job_title = ?, position_or_unit = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW() WHERE job_id = ?";
-        $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('ssidsssssssi', $job_title, $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
-
-        if ($stmt->execute()) {
-            // Log the action in the history table
-            $action = "Updated Job";
-            $details = "Job title: " . ($job_title) . "";
-            $log_query = "INSERT INTO history (user_id, action, details, date) VALUES (?, ?, ?, NOW())";
-            $log_stmt = $mysqli->prepare($log_query);
-            $log_stmt->bind_param('iss', $user_id, $action, $details);
-            $log_stmt->execute();
-
-            header('Location: viewJob.php?success=Job updated successfully');
-            exit();
-        } else {
-            $errors['database'] = "Error updating job: " . $mysqli->error;
-        }
-    }
-}
-?>
-
+<?php include("PHP_Connections/update_job.php")?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
@@ -131,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="assets/css/jobs.css" />
 </head>
 
-<body  class="scrollbar" id="style-5">
+<body class="scrollbar" id="style-5">
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -152,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <div class="main-wrapper">
-    <?php include("navbar.php")?>
+        <?php include("navbar.php")?>
+
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-md-9 mx-auto my-5">
@@ -160,134 +44,186 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="card-header">
                             <h4 class="card-title">Edit Job</h4>
                         </div>
-                        <div class="card-body">
-                            <?php if (!empty($errors)) : ?>
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        <?php foreach ($errors as $error) : ?>
-                                            <li><?php echo htmlspecialchars($error); ?></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <?php if (!empty($success)) : ?>
+                            <div class="alert alert-success">
+                                <?php echo htmlspecialchars($success); ?>
+                            </div>
                             <?php endif; ?>
-                            <form method="POST" action="editJob.php?job_id=<?php echo $job_id; ?>">
-                                <div class="row col-md-12">
-                                    <div class="form-group col-md-6">
-                                        <label for="job_title">Job Title</label>
-                                        <input type="text" name="job_title" id="job_title" class="form-control" value="<?php echo htmlspecialchars($job['job_title']); ?>">
-                                        <?php if (isset($errors['job_title'])) : ?>
-                                            <small class="text-danger"><?php echo $errors['job_title']; ?></small>
-                                        <?php endif; ?>
-                                    </div>            
-                                    <div class="form-group col-md-6">
-                                        <label for="position">Position</label>
-                                        <input type="text" name="position" id="position" class="form-control" value="<?php echo htmlspecialchars($job['position_or_unit']); ?>">
-                                        <?php if (isset($errors['position'])) : ?>
-                                            <small class="text-danger"><?php echo $errors['position_or_unit']; ?></small>
-                                        <?php endif; ?>
+
+                            <?php if (!empty($errors)) : ?>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    <?php foreach ($errors as $error) : ?>
+                                    <li><?php echo htmlspecialchars($error); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                            <?php endif; ?>
+                            <div class="container">
+                                <form method="POST" action="editJob.php?job_id=<?php echo $job_id; ?>"
+                                    onsubmit="return confirm('Are you sure you want to update this job?');"
+                                    class="needs-validation" novalidate>
+                                    <div class="row py-2">
+                                        <div class="form-group col-md-6 ">
+                                            <label for="job_title">Job Title</label>
+                                            <input type="text" name="job_title" id="job_title" class="form-control"
+                                                value="<?php echo htmlspecialchars($job['job_title']); ?>"
+                                                autocomplete="off" required>
+                                            <div class="invalid-feedback">
+                                                Please Enter a Job.
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="position">Position</label>
+                                            <input type="text" name="position" id="position" class="form-control"
+                                                value="<?php echo htmlspecialchars($job['position_or_unit']); ?>"
+                                                autocomplete="off" required>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea name="description" id="description" class="form-control" rows="5"><?php echo htmlspecialchars($job['description']); ?></textarea>
-                                    <?php if (isset($errors['description'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['description']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <label for="educreq">Educational Requirement</label>
-                                    <textarea name="educreq" id="educreq" class="form-control" rows="5"><?php echo htmlspecialchars($job['education_requirement']); ?></textarea>
-                                    <?php if (isset($errors['education_requirement'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['education_requirement']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <label for="experienceortraining">Experience or Training</label>
-                                    <textarea name="experienceortraining" id="experienceortraining" class="form-control" rows="5"><?php echo htmlspecialchars($job['experience_or_training']); ?></textarea>
-                                    <?php if (isset($errors['experience_or_training'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['experience_or_training']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
-                                    <textarea name="dutiesandresponsibilities" id="dutiesandresponsibilities" class="form-control" rows="5"><?php echo htmlspecialchars($job['duties_and_responsibilities']); ?></textarea>
-                                    <?php if (isset($errors['duties_and_responsibilities'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['duties_and_responsibilities']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <label for="department_id">Department</label>
-                                    <select name="department_id" id="department_id" class="form-control">
-                                        <?php foreach ($departments as $department) : ?>
-                                            <option value="<?php echo htmlspecialchars($department['department_id']); ?>" <?php echo ($job['department_id'] == $department['department_id']) ? 'selected' : ''; ?>>
+
+                                    <div class="form-group py-1">
+                                        <label for="description">Description</label>
+                                        <textarea name="description" id="description" class="form-control" rows="5"
+                                            autocomplete="off"
+                                            required><?php echo htmlspecialchars($job['description']); ?></textarea>
+                                    </div>
+                                    <div class="form-group py-2">
+                                        <label for="educationrequirement">Education Requirement/s</label>
+                                        <div id="educationrequirement-container" class="d-flex flex-column">
+                                            <?php foreach ($requirements['education'] as $req) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="educationrequirement[]" class="form-control"
+                                                    value="<?php echo htmlspecialchars($req); ?>"
+                                                    placeholder="Enter Education Requirement" autocomplete="off"
+                                                    required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('educationrequirement')">+</button>
+                                            </div>
+                                            <?php endforeach; ?>
+                                            <!-- Add an empty field if no requirements exist -->
+                                            <?php if (empty($requirements['education'])) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="educationrequirement[]" class="form-control"
+                                                    placeholder="Enter Education Requirement" autocomplete="off"
+                                                   >
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('educationrequirement')">+</button>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group py-2">
+                                        <label for="experienceortraining">Experience or Training</label>
+                                        <div id="experienceortraining-container" class="d-flex flex-column">
+                                            <?php foreach ($requirements['experience'] as $req) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="experienceortraining[]" class="form-control"
+                                                    value="<?php echo htmlspecialchars($req); ?>"
+                                                    placeholder="Enter experience or training requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('experienceortraining')">+</button>
+                                            </div>
+                                            <?php endforeach; ?>
+                                            <?php if (empty($requirements['experience'])) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="experienceortraining[]" class="form-control"
+                                                    placeholder="Enter experience or training requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('experienceortraining')">+</button>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
+                                        <div id="dutiesandresponsibilities-container" class="d-flex flex-column">
+                                            <?php foreach ($requirements['duties'] as $req) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="dutiesandresponsibilities[]"
+                                                    class="form-control" value="<?php echo htmlspecialchars($req); ?>"
+                                                    placeholder="Enter duty or responsibility" autocomplete="off"
+                                                    required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('dutiesandresponsibilities')">+</button>
+                                            </div>
+                                            <?php endforeach; ?>
+                                            <?php if (empty($requirements['duties'])) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="dutiesandresponsibilities[]"
+                                                    class="form-control" placeholder="Enter duty or responsibility"
+                                                    autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('dutiesandresponsibilities')">+</button>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group py-2">
+                                        <label for="department_id">Department</label>
+                                        <select name="department_id" id="department_id"
+                                            class="form-control  form-select" required>
+                                            <?php foreach ($departments as $department) : ?>
+                                            <option
+                                                value="<?php echo htmlspecialchars($department['department_id']); ?>"
+                                                <?php echo ($job['department_id'] == $department['department_id']) ? 'selected' : ''; ?>>
                                                 <?php echo htmlspecialchars($department['name']); ?>
                                             </option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                    <?php if (isset($errors['department_id'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['department_id']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <label for="poa">Place of Assignment</label>
-                                    <input type="text" name="poa" id="poa" class="form-control" value="<?php echo htmlspecialchars($job['place_of_assignment']); ?>">
-                                    <?php if (isset($errors['place_of_assignment'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['place_of_assignment']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <?php if("COS"== ($job["status"])) : ?>
-                                        <label for="monthly_salary">Daily Salary</label>
-                                    <?php else: ?>
-                                        <label for="monthly_salary">Monthly Salary</label>
-                                    <?php endif;?>                    
-                                    <input type="number" step="0.01" name="monthlysalary" id="monthly_salary" class="form-control" value="<?php echo htmlspecialchars($job['salary']); ?>" min="0" max="9999999.99" oninput="validateSalaryInput(this)">
-                                    <?php if (isset($errors['monthlysalary'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['monthlysalary']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <script>
-									function validateSalaryInput(input) {
-										const maxDigits = 7;
-										const maxDecimalPlaces = 2;
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="row py-2">
+                                        <div class="form-group col-md-6">
+                                            <label for="poa">Place of Assignment</label>
+                                            <input type="text" name="poa" id="poa" class="form-control"
+                                                value="<?php echo htmlspecialchars($job['place_of_assignment']); ?>"
+                                                autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="monthlysalary">Salary</label>
+                                            <input type="number" step="0.01" name="monthlysalary" id="monthly_salary"
+                                                class="form-control" min="0" max="9999999.99"
+                                                oninput="validateSalaryInput(this)"
+                                                value="<?php echo htmlspecialchars($job['salary']); ?>" required>
 
-										let value = input.value;
-										let parts = value.split('.');
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="deadline">Deadline</label>
+                                            <input type="date" name="deadline" id="deadline" class="form-control"
+                                                value="<?php echo htmlspecialchars($job['deadline']); ?>" required />
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="status">Status</label>
+                                            <select name="status" id="status" class="form-control">
+                                                <option value="Permanent"
+                                                    <?php echo ($job['status'] == 'Permanent') ? 'selected' : ''; ?>>
+                                                    Permanent</option>
+                                                <option value="COS"
+                                                    <?php echo ($job['status'] == 'COS') ? 'selected' : ''; ?>>COS
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between mx-1">
+                                        <button class="col-md-5 btn btn-info" type="submit">Update</button>
+                                        <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
+                                    </div>
+                                </form>
+                            </div>
 
-										if (parts[0].length > maxDigits) {
-											input.value = parts[0].slice(0, maxDigits) + (parts[1] ? '.' + parts[1] : '');
-										}
-
-										if (parts[1] && parts[1].length > maxDecimalPlaces) {
-											input.value = parts[0] + '.' + parts[1].slice(0, maxDecimalPlaces);
-										}
-									}
-								</script>
-                                <div class="form-group">
-                                    <label for="deadline">Deadline</label>
-                                    <input type="date" name="deadline" id="deadline" class="form-control"  value="<?php echo htmlspecialchars($job['deadline']); ?>"/>
-                                    <?php if (isset($errors['deadline'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['deadline']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="form-group">
-                                    <label for="status">Status</label>
-                                    <select name="status" id="status" class="form-control">
-                                        <option value="Permanent" <?php echo ($job['status'] == 'Permanent') ? 'selected' : ''; ?>>Permanent</option>
-                                        <option value="COS" <?php echo ($job['status'] == 'COS') ? 'selected' : ''; ?>>COS</option>
-                                    </select>
-                                    <?php if (isset($errors['status'])) : ?>
-                                        <small class="text-danger"><?php echo $errors['status']; ?></small>
-                                    <?php endif; ?>
-                                </div>
-                                <button type="submit" class="btn btn-primary py-3 w-25">Update Job</button>
-                                <a href="viewJob.php" class="btn btn-danger py-3 w-25">Cancel</a>
-                            </form>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
@@ -297,7 +233,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/select2/js/select2.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/editJob.js"></script>
+
+
 </body>
 
 </html>
-
