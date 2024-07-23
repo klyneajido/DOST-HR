@@ -235,8 +235,8 @@ include("PHP_Connections/recentActivities.php");
 							<div class="card-body dash-activity">
 								<div class="slimscroll activity_scroll">
 									<?php foreach ($recent_activities as $activity) : ?>
-										<div class="activity-set d-flex align-items-start mb-3 w-100">
-											<div class="activity-img mr-3">
+										<div class="activity-set d-flex align-items-start py-3 px-4">
+											<div class="activity-img mr-3 align-self-center">
 												<img src="<?php echo htmlspecialchars($activity['profile_image']); ?>" alt="avatar" class="rounded-circle">
 											</div>
 											<div class="activity-content w-100">

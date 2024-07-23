@@ -53,7 +53,7 @@
                         <div class="card-header">
                             <h4 class="card-title">Add New Job</h4>
                         </div>
-                        <div class="card-body d-flex border border-warning  justify-content-center">
+                        <div class="card-body d-flex justify-content-center">
                             <?php if (!empty($success)) : ?>
                             <div class="alert alert-success">
                                 <?php echo htmlspecialchars($success); ?>
@@ -73,7 +73,7 @@
                                 <form method="POST" action="addJob.php"
                                     onsubmit="return confirm('Are you sure you want to add this job?');"
                                     class="needs-validation" novalidate>
-                                    <div class="row">
+                                    <div class="row py-2">
                                         <div class="form-group col-md-6 ">
                                             <label for="job_title">Job Title</label>
                                             <input type="text" name="job_title" id="job_title" class="form-control"
@@ -89,12 +89,12 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group py-1">
                                         <label for="description">Description</label>
                                         <textarea name="description" id="description" class="form-control" rows="5"
                                             autocomplete="off" required></textarea>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group py-2">
                                         <label for="educationrequirement">Education Requirement/s</label>
                                         <div id="educationrequirement-container" class="d-flex flex-column">
                                             <div class="d-flex mb-2">
@@ -107,7 +107,7 @@
                                         </div>
                                     </div>
                                     <!-- Experience or Training Requirements -->
-                                    <div class="form-group">
+                                    <div class="form-group py-2">
                                         <label for="experienceortraining">Experience or Training</label>
                                         <div id="experienceortraining-container" class="d-flex flex-column">
                                             <div class="d-flex mb-2">
@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group py-2">
                                         <label for="department_id">Department</label>
                                         <select name="department_id" id="department_id" class="form-control  form-select" required>
                                             <?php foreach ($departments as $department) : ?>
@@ -144,7 +144,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
-                                    <div class="row">
+                                    <div class="row py-2">
                                         <div class="form-group col-md-6">
                                             <label for="poa">Place of Assignment</label>
                                             <input type="text" name="poa" id="poa" class="form-control" value=""
@@ -171,9 +171,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row ">
-                                        <button class="col-md-5" type="submit" class="btn btn-primary">Add Job</button>
-                                        <div class="col-md-2"></div>
+                                    <div class="d-flex justify-content-between mx-1">
+                                        <button class="col-md-5 btn btn-info" type="submit">Add Job</button>
                                         <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
                                 </form>
