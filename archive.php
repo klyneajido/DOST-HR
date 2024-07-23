@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 // Start session
 session_start();
@@ -137,6 +138,9 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 
 ?>
 
+=======
+<?php include("PHP_Connections/fetch_archives.php")?>
+>>>>>>> 2707019089995fcaa99448edbb2f4c3f6bbac791
 <!DOCTYPE html>
 <html lang="en">
 
