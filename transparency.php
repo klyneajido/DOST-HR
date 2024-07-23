@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
                             <div class="card-body d-flex justify-content-between align-items-center">
                                 <h6 class="card-title mb-0">' . $documentName . '</h6>
                                                         <div class="document-buttons">
-                                                            <a href="download_document.php?id=' . $documentId . '" class="btn btn-primary px-4">Download</a>
+                                                            <a href="download_document.php?id=' . $documentId . '" class="btn btn-primary py-3 px-4">Download</a>
                                                             <a href="view_document.php?id=' . $documentId . '" class="btn btn-success px-4 py-3">View</a>
                                                         </div>
                             </div>
@@ -71,9 +71,9 @@ if ($uploadStatus === 'failed') {
 </head>
 
 <body>
-<?php include("logout_modal.php")?>
+    <?php include("logout_modal.php") ?>
     <div class="main-wrapper">
-    <?php include("navbar.php")?>
+        <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <?php
             // Place the error message display here
@@ -89,12 +89,10 @@ if ($uploadStatus === 'failed') {
                         </li>
                         <li class="breadcrumb-item active">Documents</li>
                     </ul>
-                    <form action="uploadDocument.php" method="post" accept-charset="utf-8"
-                        enctype="multipart/form-data">
+                    <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                         <div class="form-group d-flex flex-column">
                             <div class="custom-file mb-3 flex-grow-1">
-                                <input type="file" class="custom-file-input" id="customFile" name="document"
-                                    accept="application/pdf">
+                                <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                             <button type="submit" class="btn btn-primary flex-grow-1">Upload</button>
@@ -121,11 +119,11 @@ if ($uploadStatus === 'failed') {
         </div>
 
         <script>
-        document.querySelector('.custom-file-input').addEventListener('change', function(e) {
-            var fileName = document.getElementById("customFile").files[0].name;
-            var nextSibling = e.target.nextElementSibling;
-            nextSibling.innerText = fileName;
-        });
+            document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+                var fileName = document.getElementById("customFile").files[0].name;
+                var nextSibling = e.target.nextElementSibling;
+                nextSibling.innerText = fileName;
+            });
         </script>
 
     </div>
