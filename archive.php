@@ -150,39 +150,39 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php
-                                            if ($result_archive->num_rows > 0) {
-                                                while ($job = $result_archive->fetch_assoc()) {
-                                                    echo "<tr class='text-center'>";
-                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['education_requirement']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['experience_or_training']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
-                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['name']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
-                                                    echo "<td>
-                                                                    <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                                                                        <i class='fas fa-undo'></i>
-                                                                    </a>
-                                                                    <a href='PHP_Connections/deleteJob.php' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                                                                        <i class='fas fa-trash'></i>
-                                                                    </a>
-                                                                </td>";
-                                                    echo "</tr>";
-                                                }
-                                            } else {
-                                                echo "<tr class = 'text-center'><td colspan='12'>No archived Jobs found.</td></tr>";
-                                            }
-                                            ?>
-                                        </tbody>
+    <?php
+    if ($result_archive->num_rows > 0) {
+        while ($job = $result_archive->fetch_assoc()) {
+            echo "<tr class='text-center'>";
+            echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
+            echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['requirement_type']) . "</td>"; // Adjusted column name
+            echo "<td>" . htmlspecialchars($job['requirement_text']) . "</td>"; // Adjusted column name
+            echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['department_name']) . "</td>"; // Adjusted column name
+            echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['status']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
+            echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
+            echo "<td>
+                    <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                        <i class='fas fa-undo'></i>
+                    </a>
+                    <a href='PHP_Connections/deleteJob.php' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                        <i class='fas fa-trash'></i>
+                    </a>
+                  </td>";
+            echo "</tr>";
+        }
+    } else {
+        echo "<tr class='text-center'><td colspan='12'>No archived Jobs found.</td></tr>";
+    }
+    ?>
+</tbody>
+
                                     </table>
                                 </div>
                                 <nav aria-label="Page navigation">

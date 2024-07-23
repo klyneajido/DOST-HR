@@ -43,13 +43,19 @@ $announcements_page = isset($_GET['announcements_page']) ? intval($_GET['announc
 $announcements_offset = ($announcements_page - 1) * $announcements_limit;
 
 // Modified query to join job_archive with department to get department name and paginate results
+// SQL query to join job_archive with job_requirements_archive and department
 $query_archive = "
-    SELECT ja.*, d.name AS department_name 
+    SELECT ja.*, 
+           d.name AS department_name, 
+           jra.requirement_type, 
+           jra.requirement_text
     FROM job_archive ja
     LEFT JOIN department d ON ja.department_id = d.department_id
+    LEFT JOIN job_requirements_archive jra ON ja.jobarchive_id = jra.jobarchive_id
     WHERE ja.job_title LIKE ? OR ja.description LIKE ?
     LIMIT ?, ?
 ";
+
 $search_term = '%' . $search . '%';
 $stmt_archive = $mysqli->prepare($query_archive);
 $stmt_archive->bind_param('ssii', $search_term, $search_term, $jobs_offset, $jobs_limit);
