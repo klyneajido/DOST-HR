@@ -4285,7 +4285,6 @@ span.leave-inactive {
   display: -ms-flexbox;
   display: -webkit-flex;
   align-items: center;
-  background: url(../img/right-icon.png) no-repeat 96% 50%;
 }
 .leave-viewall.activit {
   padding: 7px 10px;
@@ -4293,9 +4292,7 @@ span.leave-inactive {
 .activity-img {
   margin-right: 11px;
 }
-.activity-set:hover {
-  background: #f5f5f5 url(../img/right-icon.png) no-repeat 96% 50%;
-}
+
 .activity-content {
   display: flex;
   display: -webkit-box;
