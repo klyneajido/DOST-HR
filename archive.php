@@ -186,7 +186,7 @@
                         <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                             <i class='fas fa-undo'></i>
                         </a>
-                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' >
                             <i class='fas fa-trash'></i>
                         </a>
                       </td>";
@@ -266,63 +266,53 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
+                            <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead class="text-center">
                                             <tr>
+                                                <!-- <th>ID</th> -->
                                                 <th>Title</th>
-                                                <th>Position/Unit</th>
                                                 <th>Description</th>
-                                                <th class="w-25">Education Requirement</th>
-                                                <th>Experience or Training</th>
-                                                <th>Duties and Responsibilities</th>
-                                                <th>Salary</th>
-                                                <th>Department</th>
-                                                <th>Place of Assignment</th>
-                                                <th>Status</th>
+                                                <th>Link</th>
+                                                <th>Image</th>
                                                 <th>Created At</th>
                                                 <th>Updated At</th>
-                                                <th>Deadline</th>
                                                 <th>Archived By</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody class="text-center">
                                             <?php
-        if ($result_archive->num_rows > 0) {
-            while ($job = $result_archive->fetch_assoc()) {
-                echo "<tr class='text-center'>";
-                echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['education_requirements']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['experience_requirements']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['duties_and_responsibilities']) . "</td>";
-                echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['department_name']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
-                echo "<td>
-                        <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                            <i class='fas fa-undo'></i>
-                        </a>
-                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button'>
-                            <i class='fas fa-trash'></i>
-                        </a>
-                      </td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr class='text-center'><td colspan='14'>No archived Jobs found.</td></tr>";
-        }
-        ?>
+                                            if ($result_announcement_archive->num_rows > 0) {
+                                                while ($archive = $result_announcement_archive->fetch_assoc()) {
+                                                    // Encode the image_announcement BLOB data to base64
+                                                    $image_data = base64_encode($archive['image_announcement']);
+                                                    echo "<tr>";
+                                                    echo "<td>" . htmlspecialchars($archive['title']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['description_announcement']) . "</td>";
+                                                    echo "<td><a href='" . htmlspecialchars($archive['link']) . "'>" . htmlspecialchars($archive['link']) . "</a></td>";
+                                                    // Use base64-encoded string as the src attribute of the img tag
+                                                    echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='50' height='50'></td>";
+                                                    echo "<td>" . htmlspecialchars($archive['created_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['updated_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
+                                                    echo "<td>
+                                                    <a href='#' class='btn btn-success btn-sm restore-announcement-button' onclick='confirmRestore(" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "); return false;'>
+                                                        <i class='fas fa-undo'></i>
+                                                    </a>
+                                                    <a href='PHP_Connections/deleteAnnouncement.php' class='btn btn-danger btn-sm delete-announcement-button' data-id='" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "'>
+                                                        <i class='fas fa-trash'></i>
+                                                    </a>
+                                                </td>";
+
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='8'>No archived announcements found.</td></tr>";
+                                            }
+                                            ?>
                                         </tbody>
                                     </table>
-
                                 </div>
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center mt-3">
