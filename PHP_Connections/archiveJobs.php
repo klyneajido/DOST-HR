@@ -5,7 +5,6 @@ include_once 'db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
     header('Location: login.php');
     exit();
 }
@@ -54,7 +53,7 @@ try {
         
         // Insert job into job_archive
         $sql_insert = "INSERT INTO job_archive (job_title, position_or_unit, description, salary, department_id, place_of_assignment, status, created_at, updated_at, deadline, archived_by)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt_insert = $mysqli->prepare($sql_insert);
         $stmt_insert->bind_param("sssddssssss", 
@@ -74,7 +73,7 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         if (!$stmt_insert->execute()) {
             throw new Exception("Error inserting job into archive: " . $stmt_insert->error);
         }
-        
+
         // Fetch job requirements
         $sql_req_select = "SELECT * FROM job_requirements WHERE job_id = ?";
         $stmt_req_select = $mysqli->prepare($sql_req_select);
@@ -88,16 +87,20 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 error_log("Requirement: " . print_r($req, true));
 
                 // Insert job requirements into job_requirements_archive table
-                $sql_req_insert = "INSERT INTO job_requirements_archive (job_id, requirement_type, requirement_text)
-                                   VALUES (?, ?, ?)";
+                $sql_req_insert = "INSERT INTO job_requirements_archive (job_id, requirement_type, requirement_text, archived_at)
+                VALUES (?, ?, ?, NOW())";
+
                 $stmt_req_insert = $mysqli->prepare($sql_req_insert);
                 $stmt_req_insert->bind_param("iss", 
                     $req['job_id'], 
                     $req['requirement_type'], 
                     $req['requirement_text']
                 );
+
                 if (!$stmt_req_insert->execute()) {
+                    // Detailed error logging
                     error_log("Error inserting job requirement into archive: " . $stmt_req_insert->error);
+                    throw new Exception("Error inserting job requirement into archive: " . $stmt_req_insert->error);
                 } else {
                     error_log("Inserted requirement: " . print_r($req, true));
                 }
