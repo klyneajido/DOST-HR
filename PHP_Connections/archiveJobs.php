@@ -142,7 +142,7 @@ try {
         // Commit transaction
         $mysqli->commit();
         echo "Job archived successfully<br>";
-        header('Location: ../viewJobs.php?message=Job archived successfully');
+        header('Location: ../viewJob.php?message=Job archived successfully');
     } else {
         throw new Exception("Job not found");
     }
@@ -152,6 +152,6 @@ try {
     // Display the error message directly
     echo "Exception: " . $e->getMessage(); // Display exception message
     error_log("Exception: " . $e->getMessage()); // Log exception message
-    header('Location: ../viewJobs.php?error=' . urlencode($e->getMessage()));
+    header('Location: ../viewJob.php?error=' . urlencode($e->getMessage()));
 }
 ?>
