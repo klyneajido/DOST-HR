@@ -34,6 +34,7 @@ if ($result->num_rows === 1) {
 
         if ($delete_stmt->execute()) {
             echo json_encode(['success' => true, 'message' => 'Job deleted successfully']);
+            
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to delete job']);
         }

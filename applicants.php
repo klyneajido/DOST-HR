@@ -24,7 +24,7 @@
 </head>
 
 <body class="scrollbar" id="style-5">
-<?php include("logout_modal.php")?>
+    <?php include("logout_modal.php")?>
     <!-- Modal for Delete Confirmation -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -94,8 +94,11 @@
                                     <input type="text" id="search-input" name="search" class="form-control"
                                         placeholder="Search here"
                                         value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                                    <input type="hidden" name="applicants_page" value="<?php echo $page; ?>">
+                                    <input type="hidden" name="rows_per_page" value="<?php echo $rows_per_page; ?>">
                                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                                 </form>
+
                             </div>
                             <!-- END SEARCH -->
 
@@ -252,12 +255,12 @@
                             </table>
                         </div>
                         <!-- Pagination and rows per page controls -->
-                        <nav aria-label="Page navigation " class="mb-3 col-xl-12 d-flex justify-content-between ">
+                        <nav aria-label="Page navigation" class="mb-3 col-xl-12 d-flex justify-content-between">
                             <div class="col-lg-4"></div>
                             <ul class="pagination col-lg-4 align-self-center justify-content-center mt-3">
                                 <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
                                     <a class="page-link"
-                                        href="?applicants_page=<?php echo $page - 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($_GET['search'] ?? ''); ?>"
+                                        href="?applicants_page=<?php echo $page - 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"
                                         aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                         <span class="sr-only">Previous</span>
@@ -269,7 +272,7 @@
         $end = min($total_pages, $page + 1);
 
         if ($start > 1) {
-            echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '&search=' . urlencode($_GET['search'] ?? '') . '">1</a></li>';
+            echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">1</a></li>';
             if ($start > 2) {
                 echo '<li class="page-item"><span class="page-link">...</span></li>';
             }
@@ -278,7 +281,7 @@
         for ($i = $start; $i <= $end; $i++) : ?>
                                 <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
                                     <a class="page-link"
-                                        href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($_GET['search'] ?? ''); ?>"><?php echo $i; ?></a>
+                                        href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"><?php echo $i; ?></a>
                                 </li>
                                 <?php endfor;
 
@@ -286,24 +289,23 @@
             if ($end < $total_pages - 1) {
                 echo '<li class="page-item"><span class="page-link">...</span></li>';
             }
-            echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '&search=' . urlencode($_GET['search'] ?? '') . '">' . $total_pages . '</a></li>';
+            echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">' . $total_pages . '</a></li>';
         }
         ?>
 
                                 <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
                                     <a class="page-link"
-                                        href="?applicants_page=<?php echo $page + 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($_GET['search'] ?? ''); ?>"
+                                        href="?applicants_page=<?php echo $page + 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"
                                         aria-label="Next">
                                         <span aria-hidden="true">&raquo;</span>
                                         <span class="sr-only">Next</span>
                                     </a>
                                 </li>
                             </ul>
-                            <!-- Rows per page dropdown -->
                             <div class="rows_page d-flex col-lg-4 justify-content-end align-items-center mt-3">
                                 <div class="form-group d-flex align-items-center">
                                     <label for="rows_per_page" class="mr-2">Rows</label>
-                                    <select class="form-control " id="rows_per_page" onchange="changeRowsPerPage()"
+                                    <select class="form-control" id="rows_per_page" onchange="changeRowsPerPage()"
                                         style="width: auto; height: auto;">
                                         <option value="10" <?php echo $rows_per_page == 10 ? 'selected' : ''; ?>>10
                                         </option>
@@ -317,6 +319,7 @@
                                 </div>
                             </div>
                         </nav>
+
                     </div>
                 </div>
             </div>

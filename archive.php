@@ -186,7 +186,7 @@
                         <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                             <i class='fas fa-undo'></i>
                         </a>
-                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button'>
+                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                             <i class='fas fa-trash'></i>
                         </a>
                       </td>";
