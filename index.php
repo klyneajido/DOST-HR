@@ -1,6 +1,7 @@
 <?php
 include("PHP_Connections/fetch_homepage.php");
 include("PHP_Connections/recentActivities.php");
+include("PHP_Connections/upcomingInterview.php");
 
 ?>
 
@@ -256,63 +257,36 @@ include("PHP_Connections/recentActivities.php");
 							</div>
 						</div>
 					</div>
-
-					<!-- UPCOMING INTERVIEW CARD -->
-					<div class="col-xl-4 col-sm-12 col-12 d-flex">
-						<div class="card card-list flex-fill">
-							<div class="card-header ">
-								<h4 class="card-title-dash">Your Upcoming Interview</h4>
-								<div class="dropdown">
-									<button class="btn btn-action " type="button" id="roomsBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<i class="fas fa-ellipsis-h"></i>
-									</button>
-									<div class="dropdown-menu" aria-labelledby="roomsBtn">
-										<a class="dropdown-item" href="#">Action</a>
+			            <div class="col-xl-4 col-sm-12 col-12 d-flex">
+									<div class="card card-list flex-fill">
+										<div class="card-header">
+											<h4 class="card-title">Upcoming Interview</h4>
+										</div>
+										<div class="card-body p-0 ">
+											<?php if (!empty($upcoming_interviews)): ?>
+												<?php foreach ($upcoming_interviews as $interview): ?>
+													<div class="leave-set">
+														<span class="leave-active">
+															<i class="fas fa-briefcase"></i>
+														</span>
+														<label><?php echo $interview['application_date']; ?> - <?php echo $interview['full_name']; ?> - <?php echo $interview['job_title']; ?></label>							
+												<?php endforeach; ?>
+											<?php else: ?>
+												<div class="leave-set">
+													<span class="leave-inactive">
+														<i class="fas fa-briefcase"></i>
+													</span>
+													<label>No upcoming interviews</label>
+												</div>
+											<?php endif; ?>
+										</div>
+										<div class="leave-viewall">
+											<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+										</div>
 									</div>
 								</div>
-							</div>
 
-							<div class="card-body p-0">
-								<div class="leave-set">
-									<span class="leave-inactive">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Mon, 16 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Fri, 20 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Wed, 25 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Fri, 27 Dec 2021</label>
-								</div>
-								<div class="leave-set">
-									<span class="leave-active">
-										<i class="fas fa-briefcase"></i>
-									</span>
-									<label>Tue, 31 Dec 2021</label>
-								</div>
-
-							</div>
-							<div class="leave-viewall">
-								<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div>
+						<div>
 
 				</div>
 			</div>
