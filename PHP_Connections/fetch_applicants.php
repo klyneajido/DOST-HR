@@ -1,147 +1,136 @@
-
 <?php
-//eyyo 
-// Start session
 session_start();
 include_once 'db_connection.php';
 
-// Check if user is logged in
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit();
+// Check if the user is logged in
+if (isset($_SESSION['username'])) {
+    $user_name = $_SESSION['username'];
+    $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
+} else {
+    $user_name = 'Guest'; // Default value if user is not logged in
+    $profile_image_path = 'assets/img/profiles/default-profile.png';
 }
 
-$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-// Get user's username from session
-$username = $_SESSION['username'];
+function formatDate($date) {
+    return date("g:i A, F j, Y", strtotime($date));
+}
 
-// Fetch admin details from the database
-$query = "SELECT name, username, email, profile_image FROM admins WHERE username = ?";
+// Fetch job titles
+$job_titles_query = "SELECT DISTINCT job_title FROM job";
+$job_titles_result = $mysqli->query($job_titles_query);
+$job_titles = [];
+while ($row = $job_titles_result->fetch_assoc()) {
+    $job_titles[] = $row['job_title'];
+}
+
+// Fetch positions
+$positions_query = "SELECT DISTINCT position_or_unit FROM job";
+$positions_result = $mysqli->query($positions_query);
+$positions = [];
+while ($row = $positions_result->fetch_assoc()) {
+    $positions[] = $row['position_or_unit'];
+}
+
+// Get URL parameters
+$search_query = isset($_GET['search']) ? mysqli_real_escape_string($mysqli, $_GET['search']) : '';
+$job_title_filter = isset($_GET['job_title']) ? mysqli_real_escape_string($mysqli, $_GET['job_title']) : '';
+$position_filter = isset($_GET['position']) ? mysqli_real_escape_string($mysqli, $_GET['position']) : '';
+$status_filter = isset($_GET['status']) ? mysqli_real_escape_string($mysqli, $_GET['status']) : '';
+
+// Default rows per page
+$default_rows_per_page = 3;
+$page = isset($_GET['applicants_page']) ? intval($_GET['applicants_page']) : 1;
+$rows_per_page = isset($_GET['rows_per_page']) ? intval($_GET['rows_per_page']) : $default_rows_per_page;
+$page = max($page, 1);
+$rows_per_page = max($rows_per_page, 1);
+$offset = ($page - 1) * $rows_per_page;
+
+// Query for total number of applicants with filters
+$total_query = "SELECT COUNT(*) as total 
+                FROM applicants a 
+                LEFT JOIN job j ON a.job_id = j.job_id
+                WHERE 
+                    (a.lastname LIKE ? OR 
+                     a.firstname LIKE ? OR 
+                     a.email LIKE ? OR
+                     j.job_title LIKE ? OR
+                     j.position_or_unit LIKE ?)";
+
+$params = array_fill(0, 5, "%$search_query%");
+
+// Apply additional filters
+if ($job_title_filter) {
+    $total_query .= " AND j.job_title = ?";
+    $params[] = $job_title_filter;
+}
+if ($position_filter) {
+    $total_query .= " AND j.position_or_unit = ?";
+    $params[] = $position_filter;
+}
+if ($status_filter) {
+    $total_query .= " AND a.status = ?";
+    $params[] = $status_filter;
+}
+
+$stmt = $mysqli->prepare($total_query);
+$types = str_repeat('s', count($params));
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$total_result = $stmt->get_result();
+$total_row = $total_result->fetch_assoc();
+$total_applicants = $total_row['total'];
+$total_pages = ceil($total_applicants / $rows_per_page);
+
+// Query for applicants with filters
+$query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
+                 a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
+                 a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
+                 a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
+                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, a.application_date
+          FROM applicants a 
+          LEFT JOIN job j ON a.job_id = j.job_id
+          WHERE 
+              (a.lastname LIKE ? OR 
+               a.firstname LIKE ? OR 
+               a.email LIKE ? OR
+               j.job_title LIKE ? OR
+               j.position_or_unit LIKE ?)";
+
+$params = array_fill(0, 5, "%$search_query%");
+
+// Apply additional filters
+if ($job_title_filter) {
+    $query .= " AND j.job_title = ?";
+    $params[] = $job_title_filter;
+}
+if ($position_filter) {
+    $query .= " AND j.position_or_unit = ?";
+    $params[] = $position_filter;
+}
+if ($status_filter) {
+    $query .= " AND a.status = ?";
+    $params[] = $status_filter;
+}
+
+$query .= " LIMIT ?, ?";
+$params[] = $offset;
+$params[] = $rows_per_page;
+
 $stmt = $mysqli->prepare($query);
-$stmt->bind_param('s', $username);
+$types = str_repeat('s', count($params) - 2) . 'ii'; // Adjust for offset and limit
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
 $stmt->execute();
 $result = $stmt->get_result();
 
-if ($result->num_rows == 1) {
-    $admin = $result->fetch_assoc();
-} else {
-    echo "User not found.";
-    exit();
+$applicants = [];
+while ($row = $result->fetch_assoc()) {
+    $applicants[] = $row;
 }
 
-// Get search input if present
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
-
-// Pagination parameters for Jobs
-$jobs_limit = 10;
-$jobs_page = isset($_GET['jobs_page']) ? intval($_GET['jobs_page']) : 1;
-$jobs_offset = ($jobs_page - 1) * $jobs_limit;
-
-// Pagination parameters for Announcements
-$announcements_limit = 6;
-$announcements_page = isset($_GET['announcements_page']) ? intval($_GET['announcements_page']) : 1;
-$announcements_offset = ($announcements_page - 1) * $announcements_limit;
-
-// Modified query to join job_archive with department to get department name and paginate results
-// SQL query to join job_archive with job_requirements_archive and department
-$query_archive = "
-    SELECT ja.*, 
-           d.name AS department_name, 
-           jra.requirement_type, 
-           jra.requirement_text
-    FROM job_archive ja
-    LEFT JOIN department d ON ja.department_id = d.department_id
-    LEFT JOIN job_requirements_archive jra ON ja.jobarchive_id = jra.jobarchive_id
-    WHERE ja.job_title LIKE ? OR ja.description LIKE ?
-    LIMIT ?, ?
-";
-
-$search_term = '%' . $search . '%';
-$stmt_archive = $mysqli->prepare($query_archive);
-$stmt_archive->bind_param('ssii', $search_term, $search_term, $jobs_offset, $jobs_limit);
-$stmt_archive->execute();
-$result_archive = $stmt_archive->get_result();
-
-// Get total number of archived jobs for pagination
-$query_archive_count = "
-    SELECT COUNT(*) AS total 
-    FROM job_archive 
-    WHERE job_title LIKE ? OR description LIKE ?
-";
-$stmt_count = $mysqli->prepare($query_archive_count);
-$stmt_count->bind_param('ss', $search_term, $search_term);
-$stmt_count->execute();
-$result_archive_count = $stmt_count->get_result();
-$total_jobs = $result_archive_count->fetch_assoc()['total'];
-$total_pages_jobs = ceil($total_jobs / $jobs_limit);
-
-// Fetch paginated archived announcements
-$query_announcement_archive = "
-    SELECT * FROM announcement_archive
-    LIMIT ?, ?
-";
-$stmt_announcement = $mysqli->prepare($query_announcement_archive);
-$stmt_announcement->bind_param('ii', $announcements_offset, $announcements_limit);
-$stmt_announcement->execute();
-$result_announcement_archive = $stmt_announcement->get_result();
-
-// Get total number of archived announcements for pagination
-$query_announcement_count = "SELECT COUNT(*) AS total FROM announcement_archive";
-$result_announcement_count = $mysqli->query($query_announcement_count);
-$total_announcements = $result_announcement_count->fetch_assoc()['total'];
-$total_pages_announcements = ceil($total_announcements / $announcements_limit);
-
-// If the form is submitted, update the profile details
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    if (!empty($_FILES['profile_image']['name'])) {
-        $profile_image = addslashes(file_get_contents($_FILES['profile_image']['tmp_name']));
-    } else {
-        $profile_image = $admin['profile_image'];
-    }
-
-    $update_query = "UPDATE admins SET name = ?, email = ?, profile_image = ? WHERE username = ?";
-    $update_stmt = $mysqli->prepare($update_query);
-    $update_stmt->bind_param('ssss', $name, $email, $profile_image, $username);
-    if ($update_stmt->execute()) {
-        $_SESSION['name'] = $name;
-        $_SESSION['email'] = $email;
-        $_SESSION['profile_image'] = $profile_image;
-        echo "<script>window.addEventListener('load', function() { $('#successModal').modal('show'); });</script>";
-    } else {
-        echo "Error updating profile.";
-    }
-}
-
-// Get search input if present (for announcements)
-$search_announcement = isset($_GET['search_announcement']) ? trim($_GET['search_announcement']) : '';
-
-// Modified query to search within announcement_archive
-$query_announcement_archive = "
-    SELECT * FROM announcement_archive
-    WHERE title LIKE ? OR description_announcement LIKE ?
-    LIMIT ?, ?
-";
-$search_announcement_term = '%' . $search_announcement . '%';
-$stmt_announcement = $mysqli->prepare($query_announcement_archive);
-$stmt_announcement->bind_param('ssii', $search_announcement_term, $search_announcement_term, $announcements_offset, $announcements_limit);
-$stmt_announcement->execute();
-$result_announcement_archive = $stmt_announcement->get_result();
-
-// Get total number of matching announcements for pagination
-$query_announcement_count = "
-    SELECT COUNT(*) AS total
-    FROM announcement_archive
-    WHERE title LIKE ? OR description_announcement LIKE ?
-";
-$stmt_count_announcement = $mysqli->prepare($query_announcement_count);
-$stmt_count_announcement->bind_param('ss', $search_announcement_term, $search_announcement_term);
-$stmt_count_announcement->execute();
-$result_announcement_count = $stmt_count_announcement->get_result();
-$total_announcements = $result_announcement_count->fetch_assoc()['total'];
-$total_pages_announcements = ceil($total_announcements / $announcements_limit);
-
+// Output the results as JSON or other format as needed
 ?>
