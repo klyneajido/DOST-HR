@@ -48,15 +48,28 @@ $announcements_offset = ($announcements_page - 1) * $announcements_limit;
 // Modified query to join job_archive with department to get department name and paginate results
 // SQL query to join job_archive with job_requirements_archive and department
 $query_archive = "
-    SELECT ja.*, 
-           d.name AS department_name, 
-           jra.requirement_type, 
-           jra.requirement_text
-    FROM job_archive ja
-    LEFT JOIN department d ON ja.department_id = d.department_id
-    LEFT JOIN job_requirements_archive jra ON ja.jobarchive_id = jra.jobarchive_id
-    WHERE ja.job_title LIKE ? OR ja.description LIKE ?
-    LIMIT ?, ?
+SELECT ja.job_title, 
+       ja.position_or_unit, 
+       ja.description,
+       GROUP_CONCAT(CASE WHEN jra.requirement_type = 'education' THEN jra.requirement_text END SEPARATOR ', ') AS education_requirements,
+       GROUP_CONCAT(CASE WHEN jra.requirement_type = 'experience' THEN jra.requirement_text END SEPARATOR ', ') AS experience_requirements,
+       GROUP_CONCAT(CASE WHEN jra.requirement_type = 'duties' THEN jra.requirement_text END SEPARATOR ', ') AS duties_and_responsibilities,
+       ja.salary,
+       d.name AS department_name,
+       ja.place_of_assignment,
+       ja.status,
+       ja.created_at,
+       ja.updated_at,
+       ja.deadline,
+       ja.archived_by,
+       ja.jobarchive_id
+FROM job_archive ja
+LEFT JOIN department d ON ja.department_id = d.department_id
+LEFT JOIN job_requirements_archive jra ON ja.jobarchive_id = jra.jobarchive_id
+WHERE ja.job_title LIKE ? OR ja.description LIKE ?
+GROUP BY ja.jobarchive_id
+LIMIT ?, ?
+
 ";
 
 $search_term = '%' . $search . '%';

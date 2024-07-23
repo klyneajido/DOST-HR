@@ -39,7 +39,7 @@ try {
 
     // Check if job_id is set in the query string
     if (!isset($_GET['job_id'])) {
-        header('Location: ../archiveJobs.php');
+        header('Location: ../viewJobs.php');
         exit();
     }
 
