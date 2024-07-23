@@ -113,7 +113,6 @@ $total_rows = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_rows / $items_per_page);
 ?>
 
-<?php include("logout_modal.php") ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -157,7 +156,8 @@ $total_pages = ceil($total_rows / $items_per_page);
     </style>
 </head>
 
-<body>
+<body class="scrollbar" id="style-5">
+<?php include("logout_modal.php") ?>
     <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

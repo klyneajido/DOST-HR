@@ -136,6 +136,7 @@ $total_announcements = $result_announcement_count->fetch_assoc()['total'];
 $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,6 +153,7 @@ $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 </head>
 
 <body class="scrollbar" id="style-5">
+<?php include("logout_modal.php") ?>
     <div class="modal fade" id="passwordModalJob" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

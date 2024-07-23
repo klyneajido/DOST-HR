@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("PHP_Connections/fetch_homepage.php");
 include("PHP_Connections/recentActivities.php");
 
@@ -44,7 +44,7 @@ include("PHP_Connections/recentActivities.php");
 		</div>
 	</div>
 	<div class="main-wrapper">
-		<?php include("navbar.php")?>
+		<?php include("navbar.php") ?>
 		<div class="page-wrapper">
 			<div class="content container-fluid">
 				<div class="page-name 	mb-4">
@@ -112,96 +112,94 @@ include("PHP_Connections/recentActivities.php");
 					<div class="col-xl-12 col-sm-12 col-12">
 						<div class="card card-list py-3">
 							<div class="card-header d-flex">
-								<h4 class="col-md-8 pt-2">	<strong>
+								<h4 class="col-md-8 pt-2"> <strong>
 										Applicant by Job Title and Position</strong>
-									</h4>
-									<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
+								</h4>
+								<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
 									<a href="?filter=title#ap" class="btn btn-secondary float-right mx-1">Job Title</a>
 									<a href="index.php#ap" class="btn btn-secondary float-right mx-1">
 										<svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
-												<g stroke="white" stroke-linecap="round" stroke-width="1.5">
-														<path
-																d="m3.33337 10.8333c0 3.6819 2.98477 6.6667 6.66663 6.6667 3.682 0 6.6667-2.9848 6.6667-6.6667 0-3.68188-2.9847-6.66664-6.6667-6.66664-1.29938 0-2.51191.37174-3.5371 1.01468">
-														</path>
-														<path
-																d="m7.69867 1.58163-1.44987 3.28435c-.18587.42104.00478.91303.42582 1.0989l3.28438 1.44986">
-														</path>
-												</g>
-										</svg></a>								
-									</div>
+											<g stroke="white" stroke-linecap="round" stroke-width="1.5">
+												<path d="m3.33337 10.8333c0 3.6819 2.98477 6.6667 6.66663 6.6667 3.682 0 6.6667-2.9848 6.6667-6.6667 0-3.68188-2.9847-6.66664-6.6667-6.66664-1.29938 0-2.51191.37174-3.5371 1.01468">
+												</path>
+												<path d="m7.69867 1.58163-1.44987 3.28435c-.18587.42104.00478.91303.42582 1.0989l3.28438 1.44986">
+												</path>
+											</g>
+										</svg></a>
+								</div>
 							</div>
 
 							<div class="card-body overflow-auto">
 
-									<?php foreach ($positions_to_display as $general): ?>
-											<div>
-													<div class="team-list border-filter">
-															<div class="team-view justify-content-between">
-																	<div class="row col-md-auto">
-																			<div class="team-img px-2 btn-info rounded-circle mx-2 my-2 disabled">
-																					<h4 class="text-light"><?php echo $general['total_count']; ?></h4>
-																			</div>
-																			<div class="team-content my-auto">
-																					<label><?php echo $general['general_title']; ?></label>
-																			</div>
-																	</div>
-																	<div class="team-action">
-																			<ul>
-																					<li><a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a></li>
-																					<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
-																			</ul>
-																	</div>
-															</div>
+								<?php foreach ($positions_to_display as $general) : ?>
+									<div>
+										<div class="team-list border-filter">
+											<div class="team-view justify-content-between">
+												<div class="row col-md-auto">
+													<div class="team-img px-2 btn-info rounded-circle mx-2 my-2 disabled">
+														<h4 class="text-light"><?php echo $general['total_count']; ?></h4>
 													</div>
-
-													<div>
-															<div class="specific-positions" id="positions-<?php echo $general['general_title']; ?>" style="display: none; margin-left: 5%;">
-																	<?php foreach ($general['specific_positions'] as $specific): ?>
-																			<div class="mb-3 filter-content-indiv">
-																					<div class="team-view">
-																							<div class="team-img px-2 btn-light rounded-circle mx-2 disabled" style="background:lightblue;">
-																									<h4 class="text-body-tertiary"><?php echo $specific['specific_count']; ?></h4>
-																							</div>
-																							<div class="team-content my-auto">
-																									<label><?php echo $specific['specific_position']; ?></label>
-																							</div>
-																					</div>
-																			</div>
-																	<?php endforeach; ?>
-															</div>
+													<div class="team-content my-auto">
+														<label><?php echo $general['general_title']; ?></label>
 													</div>
-
+												</div>
+												<div class="team-action">
+													<ul>
+														<li><a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a></li>
+														<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
+													</ul>
+												</div>
 											</div>
-									<?php endforeach; ?>
+										</div>
+
+										<div>
+											<div class="specific-positions" id="positions-<?php echo $general['general_title']; ?>" style="display: none; margin-left: 5%;">
+												<?php foreach ($general['specific_positions'] as $specific) : ?>
+													<div class="mb-3 filter-content-indiv">
+														<div class="team-view">
+															<div class="team-img px-2 btn-light rounded-circle mx-2 disabled" style="background:lightblue;">
+																<h4 class="text-body-tertiary"><?php echo $specific['specific_count']; ?></h4>
+															</div>
+															<div class="team-content my-auto">
+																<label><?php echo $specific['specific_position']; ?></label>
+															</div>
+														</div>
+													</div>
+												<?php endforeach; ?>
+											</div>
+										</div>
+
+									</div>
+								<?php endforeach; ?>
 
 							</div>
 
-						<!-- Pagination Links -->
-						<nav aria-label="Page navigation example">
+							<!-- Pagination Links -->
+							<nav aria-label="Page navigation example">
 								<ul class="pagination justify-content-center">
-										<?php if ($page > 1): ?>
-												<li class="page-item">
-														<a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
-																<span aria-hidden="true">&laquo;</span>
-														</a>
-												</li>
-										<?php endif; ?>
+									<?php if ($page > 1) : ?>
+										<li class="page-item">
+											<a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
+												<span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+									<?php endif; ?>
 
-										<?php for ($i = 1; $i <= $total_pages; $i++): ?>
-												<li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-														<a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-												</li>
-										<?php endfor; ?>
+									<?php for ($i = 1; $i <= $total_pages; $i++) : ?>
+										<li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+											<a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+										</li>
+									<?php endfor; ?>
 
-										<?php if ($page < $total_pages): ?>
-												<li class="page-item">
-														<a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
-																<span aria-hidden="true">&raquo;</span>
-														</a>
-												</li>
-										<?php endif; ?>
+									<?php if ($page < $total_pages) : ?>
+										<li class="page-item">
+											<a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
+												<span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+									<?php endif; ?>
 								</ul>
-						</nav>
+							</nav>
 
 						</div>
 					</div>
@@ -209,55 +207,55 @@ include("PHP_Connections/recentActivities.php");
 
 				<script>
 					document.addEventListener('DOMContentLoaded', function() {
-							document.querySelectorAll('.toggle-positions').forEach(function(toggle) {
-									toggle.addEventListener('click', function(event) {
-											event.preventDefault();
-											var id = toggle.getAttribute('data-id');
-											var positionsDiv = document.getElementById('positions-' + id);
-											if (positionsDiv.style.display === 'none') {
-													positionsDiv.style.display = 'block';
-													toggle.querySelector('i').setAttribute('data-feather', 'chevron-up');
-											} else {
-													positionsDiv.style.display = 'none';
-													toggle.querySelector('i').setAttribute('data-feather', 'chevron-down');
-											}
-											feather.replace();
-									});
+						document.querySelectorAll('.toggle-positions').forEach(function(toggle) {
+							toggle.addEventListener('click', function(event) {
+								event.preventDefault();
+								var id = toggle.getAttribute('data-id');
+								var positionsDiv = document.getElementById('positions-' + id);
+								if (positionsDiv.style.display === 'none') {
+									positionsDiv.style.display = 'block';
+									toggle.querySelector('i').setAttribute('data-feather', 'chevron-up');
+								} else {
+									positionsDiv.style.display = 'none';
+									toggle.querySelector('i').setAttribute('data-feather', 'chevron-down');
+								}
+								feather.replace();
 							});
+						});
 					});
-			</script>
+				</script>
 
 				<!-- history and interview cards -->
 				<div class="row">
-<div class="col-xl-8 col-sm-12 col-12 d-flex">
-    <div class="card card-list flex-fill">
-        <div class="card-header">
-            <h4 class="card-title">5 Recent Activities</h4>
-        </div>
-        <div class="card-body dash-activity">
-            <div class="slimscroll activity_scroll">
-                <?php foreach ($recent_activities as $activity) : ?>
-                    <div class="activity-set d-flex align-items-start mb-3 w-100">
-                        <div class="activity-img mr-3">
-                            <img src="<?php echo htmlspecialchars($activity['profile_image']); ?>" alt="avatar" class="rounded-circle">
-                        </div>
-                        <div class="activity-content w-100">
-                            <div class="d-flex justify-content-between w-100 mb-1">
-                                <span class="font-weight-bold"><?php echo htmlspecialchars($activity['activity']); ?></span>
-                                <span class="text-muted small"><?php echo htmlspecialchars($activity['formatted_timestamp']); ?></span>
-                            </div>
-                            <div><?php echo htmlspecialchars($activity['name']) . ' has ' . htmlspecialchars($activity['activity']); ?></div>
-                            <div class="text-muted mt-1"><?php echo htmlspecialchars($activity['details']); ?></div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-            <div class="leave-viewall mt-3">
-                <a href="history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
-            </div>
-        </div>
-    </div>
-</div>
+					<div class="col-xl-8 col-sm-12 col-12 d-flex">
+						<div class="card card-list flex-fill">
+							<div class="card-header">
+								<h class="card-title">Recent Activities</h4>
+							</div>
+							<div class="card-body dash-activity">
+								<div class="slimscroll activity_scroll">
+									<?php foreach ($recent_activities as $activity) : ?>
+										<div class="activity-set d-flex align-items-start mb-3 w-100">
+											<div class="activity-img mr-3">
+												<img src="<?php echo htmlspecialchars($activity['profile_image']); ?>" alt="avatar" class="rounded-circle">
+											</div>
+											<div class="activity-content w-100">
+												<div class="d-flex justify-content-between w-100 mb-1">
+													<span class="font-weight-bold"><?php echo htmlspecialchars($activity['activity']); ?></span>
+													<span class="text-muted small"><?php echo htmlspecialchars($activity['formatted_timestamp']); ?></span>
+												</div>
+												<div><?php echo htmlspecialchars($activity['name']) . ' has ' . htmlspecialchars($activity['activity']); ?></div>
+												<div class="text-muted mt-1"><?php echo htmlspecialchars($activity['details']); ?></div>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								</div>
+								<div class="leave-viewall mt-3">
+									<a href="history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
+								</div>
+							</div>
+						</div>
+					</div>
 
 					<!-- UPCOMING INTERVIEW CARD -->
 					<div class="col-xl-4 col-sm-12 col-12 d-flex">
@@ -305,20 +303,20 @@ include("PHP_Connections/recentActivities.php");
 									</span>
 									<label>Tue, 31 Dec 2021</label>
 								</div>
-								
+
 							</div>
 							<div class="leave-viewall">
-									<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
-								</div>
+								<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+							</div>
 						</div>
 					</div>
 				</div>
 
 				<div>
-					
+
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
 

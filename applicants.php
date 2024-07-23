@@ -1,5 +1,5 @@
 <?php include_once("PHP_Connections/fetch_applicants.php")?>
-<?php include("logout_modal.php")?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,6 +24,7 @@
 </head>
 
 <body class="scrollbar" id="style-5">
+<?php include("logout_modal.php")?>
     <!-- Modal for Delete Confirmation -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog">
