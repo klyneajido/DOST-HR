@@ -39,7 +39,7 @@ $position_filter = isset($_GET['position']) ? mysqli_real_escape_string($mysqli,
 $status_filter = isset($_GET['status']) ? mysqli_real_escape_string($mysqli, $_GET['status']) : '';
 
 // Default rows per page
-$default_rows_per_page = 3;
+$default_rows_per_page = 4;
 $page = isset($_GET['applicants_page']) ? intval($_GET['applicants_page']) : 1;
 $rows_per_page = isset($_GET['rows_per_page']) ? intval($_GET['rows_per_page']) : $default_rows_per_page;
 $page = max($page, 1);
