@@ -186,7 +186,7 @@
                         <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                             <i class='fas fa-undo'></i>
                         </a>
-                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' >
+                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
                             <i class='fas fa-trash'></i>
                         </a>
                       </td>";
@@ -290,7 +290,7 @@
                                                     echo "<tr>";
                                                     echo "<td>" . htmlspecialchars($archive['title']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['description_announcement']) . "</td>";
-                                                    echo "<td><a href='" . htmlspecialchars($archive['link']) . "'>" . htmlspecialchars($archive['link']) . "</a></td>";
+                                                    echo "<td><a href='" . htmlspecialchars($archive['link']) . "' target='_blank'>" . htmlspecialchars($archive['link']) . "</a></td>";
                                                     // Use base64-encoded string as the src attribute of the img tag
                                                     echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='50' height='50'></td>";
                                                     echo "<td>" . htmlspecialchars($archive['created_at']) . "</td>";
