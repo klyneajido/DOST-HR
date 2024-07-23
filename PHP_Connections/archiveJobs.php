@@ -3,6 +3,10 @@
 session_start();
 include_once 'db_connection.php';
 
+// Enable error reporting
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
@@ -35,7 +39,7 @@ try {
 
     // Check if job_id is set in the query string
     if (!isset($_GET['job_id'])) {
-        header('Location: ../viewJob.php');
+        header('Location: ../archiveJobs.php');
         exit();
     }
 
@@ -74,6 +78,9 @@ try {
             throw new Exception("Error inserting job into archive: " . $stmt_insert->error);
         }
 
+        // Fetch the last inserted job archive ID
+        $archived_job_id = $mysqli->insert_id;
+
         // Fetch job requirements
         $sql_req_select = "SELECT * FROM job_requirements WHERE job_id = ?";
         $stmt_req_select = $mysqli->prepare($sql_req_select);
@@ -84,28 +91,33 @@ try {
         if ($result_req_select->num_rows > 0) {
             while ($req = $result_req_select->fetch_assoc()) {
                 // Debug output
-                error_log("Requirement: " . print_r($req, true));
+                echo "Requirement: " . print_r($req, true) . "<br>";
 
                 // Insert job requirements into job_requirements_archive table
-                $sql_req_insert = "INSERT INTO job_requirements_archive (job_id, requirement_type, requirement_text, archived_at)
-                VALUES (?, ?, ?, NOW())";
+                $sql_req_insert = "INSERT INTO job_requirements_archive (requirement_id, job_id, requirement_type, requirement_text, archived_at, jobarchive_id)
+                VALUES (?, ?, ?, ?, NOW(), ?)";
 
                 $stmt_req_insert = $mysqli->prepare($sql_req_insert);
-                $stmt_req_insert->bind_param("iss", 
-                    $req['job_id'], 
+                $stmt_req_insert->bind_param("iissi", 
+                    $req['requirement_id'],  // Assuming requirement_id is needed
+                    $archived_job_id,  // Use archived_job_id
                     $req['requirement_type'], 
-                    $req['requirement_text']
+                    $req['requirement_text'],
+                    $archived_job_id // Use archived_job_id for the new foreign key
                 );
 
                 if (!$stmt_req_insert->execute()) {
                     // Detailed error logging
+                    echo "Error inserting job requirement into archive: " . $stmt_req_insert->error . "<br>";
                     error_log("Error inserting job requirement into archive: " . $stmt_req_insert->error);
                     throw new Exception("Error inserting job requirement into archive: " . $stmt_req_insert->error);
                 } else {
+                    echo "Inserted requirement: " . print_r($req, true) . "<br>";
                     error_log("Inserted requirement: " . print_r($req, true));
                 }
             }
         } else {
+            echo "No requirements found for job_id: $job_id<br>";
             error_log("No requirements found for job_id: $job_id");
         }
 
@@ -129,14 +141,17 @@ try {
 
         // Commit transaction
         $mysqli->commit();
-        header('Location: ../viewJob.php?message=Job archived successfully');
+        echo "Job archived successfully<br>";
+        header('Location: ../viewJobs.php?message=Job archived successfully');
     } else {
         throw new Exception("Job not found");
     }
 } catch (Exception $e) {
     // Rollback transaction if any error occurs
     $mysqli->rollback();
+    // Display the error message directly
+    echo "Exception: " . $e->getMessage(); // Display exception message
     error_log("Exception: " . $e->getMessage()); // Log exception message
-    header('Location: ../viewJob.php?error=' . urlencode($e->getMessage()));
+    header('Location: ../viewJobs.php?error=' . urlencode($e->getMessage()));
 }
 ?>
