@@ -3750,13 +3750,8 @@ table.table-inbox tbody tr.checked {
   display: table;
   height: 100vh;
   min-height: 100vh;
-  background: rgb(7, 25, 82);
-  background: radial-gradient(
-    circle,
-    rgba(7, 25, 82, 1) 0%,
-    rgba(235, 244, 246, 1) 0%,
-    rgba(55, 183, 195, 1) 100%
-  );
+  background: url('../img/dostr1bg.png') no-repeat center center; /* Add your image URL */
+  background-size: cover; /* Ensure the image covers the entire background */
 }
 .logo-dark {
   max-width: 120px;

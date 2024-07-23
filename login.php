@@ -40,9 +40,10 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
     <div class="main-wrapper login-body">
         <div class="login-wrapper">
             <div class="container">
-                <img class="img-fluid logo-dark mb-2" src="assets/img/dost_logo.png" alt="Logo" />
-
+                
+            <img class="img-fluid logo-dark mb-2" src="assets/img/dost_logo.png" alt="Logo" />
                 <div class="loginbox">
+                    
                     <div class="login-right">
                         <div class="login-right-wrap">
                             <h1>Login</h1>
@@ -75,15 +76,15 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
                                 <?php endif; ?>
                                 <div class="form-group">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <!-- <div class="col-6">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="cb1" />
                                                 <label class="custom-control-label" for="cb1">Remember me</label>
                                             </div>
-                                        </div>
-                                        <div class="col-6 text-right">
+                                        </div> -->
+                                        <!-- <div class="col-6 text-right">
                                             <a class="forgot-link" href="forgot-password.html">Forgot Password?</a>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <button class="btn btn-lg btn-block btn-primary" type="submit">Login</button>
