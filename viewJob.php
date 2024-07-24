@@ -24,7 +24,7 @@
 </head>
 
 <body class="scrollbar" id="style-5">
-    <?php include("logout_modal.php") ?> -->
+    <?php include("logout_modal.php") ?>
     <!-- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
