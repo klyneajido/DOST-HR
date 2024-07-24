@@ -3,14 +3,12 @@ session_start();
 include_once 'db_connection.php';
 
 // Check if the user is logged in
-if (isset($_SESSION['username'])) {
-    $user_name = $_SESSION['username'];
-    $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
-} else {
-    $user_name = 'Guest'; // Default value if user is not logged in
-    $profile_image_path = 'assets/img/profiles/default-profile.png';
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit();
 }
-
+$user_name = $_SESSION['username'];
+$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
 function formatDate($date) {
     return date("g:i A, F j, Y", strtotime($date));

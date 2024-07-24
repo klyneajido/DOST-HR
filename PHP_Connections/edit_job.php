@@ -3,7 +3,7 @@ session_start();
 include_once 'db_connection.php';
 
 if (!isset($_SESSION['username'])) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit();
 }
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
