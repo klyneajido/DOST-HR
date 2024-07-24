@@ -5,7 +5,7 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
-$query = "SELECT firstname, lastname, application_date, job_title FROM applicants WHERE status = 'interview' ORDER BY application_date ASC";
+$query = "SELECT firstname, lastname, application_date, job_title, position_or_unit FROM applicants WHERE status = 'interview' ORDER BY application_date ASC";
 $result = $mysqli->query($query);
 
 $upcoming_interviews = [];
@@ -16,7 +16,8 @@ if ($result->num_rows > 0) {
         $upcoming_interviews[] = [
             'full_name' => $full_name,
             'application_date' => $formatted_date,
-            'job_title' => $row['job_title']
+            'job_title' => $row['job_title'],
+            'position_or_unit' => $row['position_or_unit']
         ];
     }
 }

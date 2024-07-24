@@ -258,35 +258,39 @@ include("PHP_Connections/upcomingInterview.php");
 						</div>
 					</div>
 			            <div class="col-xl-4 col-sm-12 col-12 d-flex">
-									<div class="card card-list flex-fill">
-										<div class="card-header">
-											<h4 class="card-title">Upcoming Interview</h4>
-										</div>
-										<div class="card-body p-0 ">
-											<?php if (!empty($upcoming_interviews)): ?>
-												<?php foreach ($upcoming_interviews as $interview): ?>
-													<div class="leave-set">
-														<span class="leave-active">
-															<i class="fas fa-briefcase"></i>
-														</span>
-														<label><?php echo $interview['application_date']; ?> - <?php echo $interview['full_name']; ?> - <?php echo $interview['job_title']; ?></label>							
-												<?php endforeach; ?>
-											<?php else: ?>
-												<div class="leave-set">
-													<span class="leave-inactive">
+							<div class="card card-list flex-fill">
+								<div class="card-header">
+									<h4 class="card-title">Upcoming Interview</h4>
+								</div>
+								<div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
+									<?php if (!empty($upcoming_interviews)): ?>
+										<?php foreach ($upcoming_interviews as $interview): ?>
+											<div class="leave-set d-flex align-items-center justify-content-between py-2 px-3">
+												<div class="d-flex align-items-center">
+													<span class="leave-active">
 														<i class="fas fa-briefcase"></i>
 													</span>
-													<label>No upcoming interviews</label>
+													<label class="ml-2 mb-0"><?php echo htmlspecialchars($interview['application_date']); ?> - <?php echo htmlspecialchars($interview['full_name']); ?></label>
 												</div>
-											<?php endif; ?>
+												<label class="mb-0"><?php echo htmlspecialchars($interview['job_title']);?> <?php echo htmlspecialchars($interview['position_or_unit']);  ?></label>
+											</div>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<div class="leave-set d-flex align-items-center justify-content-between py-2 px-3">
+											<div class="d-flex align-items-center">
+												<span class="leave-inactive">
+													<i class="fas fa-briefcase"></i>
+												</span>
+												<label class="ml-2 mb-0">No upcoming interviews</label>
+											</div>
 										</div>
-										<div class="leave-viewall">
-											<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
-										</div>
-									</div>
+									<?php endif; ?>
 								</div>
-
-						<div>
+								<div class="leave-viewall text-center py-2">
+									<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+								</div>
+							</div>
+						</div>
 
 				</div>
 			</div>
