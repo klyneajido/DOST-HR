@@ -1,7 +1,8 @@
 <?php
+// session_start(); 
 include_once 'db_connection.php';
 
-session_start(); // Ensure session is started to check authentication
+
 
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['username'])) {
