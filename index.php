@@ -24,8 +24,9 @@ include("PHP_Connections/upcomingInterview.php");
 </head>
 
 <body class="scrollbar" id="style-5">
+	<?php include("logout_modal.php") ?>
 	<!-- Logout Modal -->
-	<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+	<!-- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -43,7 +44,7 @@ include("PHP_Connections/upcomingInterview.php");
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="main-wrapper">
 		<?php include("navbar.php") ?>
 		<div class="page-wrapper">
@@ -257,40 +258,40 @@ include("PHP_Connections/upcomingInterview.php");
 							</div>
 						</div>
 					</div>
-<div class="col-xl-4 col-sm-12 col-12 d-flex">
-    <div class="card card-list flex-fill">
-        <div class="card-header">
-            <h4 class="card-title">Upcoming Interview</h4>
-        </div>
-        <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
-            <?php if (!empty($upcoming_interviews)): ?>
-                <?php foreach ($upcoming_interviews as $interview): ?>
-                    <div class="leave-set d-flex align-items-center justify-content-between py-2 px-3 mb-2" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border-radius: 5px;">
-                        <div class="d-flex align-items-center">
-                            <span class="leave-active">
-                                <i class="fas fa-briefcase"></i>
-                            </span>
-                            <label class="ml-2 mb-0"><?php echo htmlspecialchars($interview['application_date']); ?> - <?php echo htmlspecialchars($interview['full_name']); ?></label>
-                        </div>
-                        <label class="mb-0"><?php echo htmlspecialchars($interview['job_title']); ?> <?php echo htmlspecialchars($interview['position_or_unit']); ?></label>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <div class="leave-set d-flex align-items-center justify-content-between py-2 px-3 mb-2" style="box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); border-radius: 5px;">
-                    <div class="d-flex align-items-center">
-                        <span class="leave-inactive">
-                            <i class="fas fa-briefcase"></i>
-                        </span>
-                        <label class="ml-2 mb-0">No upcoming interviews</label>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-        <div class="leave-viewall text-center py-2">
-            <a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
-        </div>
-    </div>
-</div>
+			           <div class="col-xl-4 col-sm-12 col-12 d-flex">
+							<div class="card card-list flex-fill">
+								<div class="card-header">
+									<h4 class="card-title">Upcoming Interview</h4>
+								</div>
+								<div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
+									<?php if (!empty($upcoming_interviews)): ?>
+										<?php foreach ($upcoming_interviews as $interview): ?>
+											<div class="leave-set d-flex align-items-center justify-content-between py-2 px-3">
+												<div class="d-flex align-items-center">
+													<span class="leave-active">
+														<i class="fas fa-briefcase"></i>
+													</span>
+													<label class="ml-2 mb-0"><?php echo htmlspecialchars($interview['application_date']); ?> - <?php echo htmlspecialchars($interview['full_name']); ?></label>
+												</div>
+												<label class="mb-0"><?php echo htmlspecialchars($interview['job_title']); ?></label>
+											</div>
+										<?php endforeach; ?>
+									<?php else: ?>
+										<div class="leave-set d-flex align-items-center justify-content-between py-2 px-3">
+											<div class="d-flex align-items-center">
+												<span class="leave-inactive">
+													<i class="fas fa-briefcase"></i>
+												</span>
+												<label class="ml-2 mb-0">No upcoming interviews</label>
+											</div>
+										</div>
+									<?php endif; ?>
+								</div>
+								<div class="leave-viewall text-center py-2">
+									<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+								</div>
+							</div>
+						</div>
 
 				</div>
 			</div>
@@ -301,7 +302,7 @@ include("PHP_Connections/upcomingInterview.php");
 	</div>
 	<script src="assets/js/date.js"></script>
 	<script src="assets/js/jquery-3.6.0.min.js"></script>
-	<script>
+	<!-- <script>
 		document.getElementById('logoutLink').addEventListener('click', function(event) {
 			event.preventDefault();
 			$('#logoutModal').modal('show');
@@ -310,7 +311,7 @@ include("PHP_Connections/upcomingInterview.php");
 		document.getElementById('confirmLogout').addEventListener('click', function() {
 			window.location.href = 'PHP_Connections/logout.php';
 		});
-	</script>
+	</script> -->
 	
 <script src="assets/js/date.js"></script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
