@@ -92,7 +92,7 @@ if ($uploadStatus === 'failed') {
                     <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
                         <div class="form-group d-flex flex-column">
                             <div class="custom-file mb-3 flex-grow-1">
-                                <input type="file" class="custom-file-input" id="customFile" name="document" accept="application/pdf">
+                                <input type="file" class="custom-file-input" id="customFile" name="document">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                             <button type="submit" class="btn btn-primary flex-grow-1">Upload</button>
