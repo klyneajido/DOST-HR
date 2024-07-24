@@ -9,7 +9,7 @@ ini_set('display_errors', 1);
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit();
 }
 
