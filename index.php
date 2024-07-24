@@ -13,7 +13,7 @@ include("PHP_Connections/upcomingInterview.php");
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
 	<title>HRMO Admin Dashboard</title>
 
-	<link rel="shortcut icon" href="assets/img/dost_logo.png">
+	<link rel="shortcut icon" href="assets/img/dost_logo.png" type="image/png">
 
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 
@@ -268,10 +268,10 @@ include("PHP_Connections/upcomingInterview.php");
 										<?php foreach ($upcoming_interviews as $interview): ?>
 											<div class="leave-set d-flex align-items-center justify-content-between py-2 px-3">
 												<div class="d-flex align-items-center">
-													<span class="leave-active">
+													<span class="leave-active d-flex align-items-center justify-content-center rounded-circle shadow-sm bg-success text-white p-2 mr-2">
 														<i class="fas fa-briefcase"></i>
 													</span>
-													<label class="ml-2 mb-0"><?php echo htmlspecialchars($interview['application_date']); ?> - <?php echo htmlspecialchars($interview['full_name']); ?></label>
+													<label class="mb-0"><?php echo htmlspecialchars($interview['interview_date']); ?> - <?php echo htmlspecialchars($interview['full_name']); ?></label>
 												</div>
 												<label class="mb-0"><?php echo htmlspecialchars($interview['job_title']); ?></label>
 											</div>
@@ -279,10 +279,10 @@ include("PHP_Connections/upcomingInterview.php");
 									<?php else: ?>
 										<div class="leave-set d-flex align-items-center justify-content-between py-2 px-3">
 											<div class="d-flex align-items-center">
-												<span class="leave-inactive">
+												<span class="leave-inactive d-flex align-items-center justify-content-center rounded-circle shadow-sm bg-light text-muted p-2 mr-2">
 													<i class="fas fa-briefcase"></i>
 												</span>
-												<label class="ml-2 mb-0">No upcoming interviews</label>
+												<label class="mb-0">No upcoming interviews</label>
 											</div>
 										</div>
 									<?php endif; ?>
@@ -292,6 +292,7 @@ include("PHP_Connections/upcomingInterview.php");
 								</div>
 							</div>
 						</div>
+
 
 				</div>
 			</div>

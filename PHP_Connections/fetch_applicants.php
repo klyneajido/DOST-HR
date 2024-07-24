@@ -89,7 +89,7 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
                  a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
-                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, a.application_date
+                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, a.application_date, a.interview_date
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
