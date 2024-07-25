@@ -18,34 +18,36 @@ $headerStyle = [
     ],
     'fill' => [
         'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-        'startColor' => ['rgb' => '000000']
+        'startColor' => ['rgb' => '244062']
     ],
     'alignment' => [
         'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+    ],
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['rgb' => '000000']
+        ]
     ]
 ];
 
-// Add CSV column headers
-$headers = ['ID', 'Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards', 'Status'];
-$sheet->fromArray($headers, NULL, 'A1');
-$sheet->getStyle('A1:N1')->applyFromArray($headerStyle);
+// Set date of exportation
+$dateExported = date('F d, Y');
+
+// Merge and center the first row
+$sheet->mergeCells('A1:N1');
+$sheet->setCellValue('A1', 'Human Resource and Management Office List of Applicants - ' . $dateExported);
+$sheet->getStyle('A1')->applyFromArray($headerStyle);
 
 // Get sorting and filtering parameters from GET request
-$sortColumn = isset($_GET['sort_column']) ? $_GET['sort_column'] : 'id';
-$sortDirection = isset($_GET['sort_direction']) && $_GET['sort_direction'] === 'ASC' ? 'ASC' : 'DESC';
 $jobTitleFilter = isset($_GET['job_title']) ? $_GET['job_title'] : '';
 $positionFilter = isset($_GET['position']) ? $_GET['position'] : '';
 $searchFilter = isset($_GET['search']) ? $_GET['search'] : '';
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
 
-// Validate sort column
-$validSortColumns = ['id', 'lastname', 'firstname', 'middlename', 'sex', 'address', 'email', 'contact_number', 'course', 'years_of_experience', 'hours_of_training', 'eligibility', 'list_of_awards', 'status'];
-if (!in_array($sortColumn, $validSortColumns)) {
-    $sortColumn = 'id'; // Default to 'id' if invalid
-}
-
 // Prepare the SQL query with sorting and filtering
-$sql = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
+$sql = "SELECT CONCAT(j.job_title, ' ', j.position_or_unit) AS job_title_position, 
+               a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
                a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.status
         FROM applicants a 
         LEFT JOIN job j ON a.job_id = j.job_id
@@ -70,8 +72,8 @@ if (!empty($statusFilter)) {
     $params[] = $statusFilter;
 }
 
-// Add sorting
-$sql .= " ORDER BY $sortColumn $sortDirection";
+// Add sorting by job title first, then by ID
+$sql .= " ORDER BY j.job_title ASC, a.id ASC";
 
 // Prepare and execute the query
 $stmt = $mysqli->prepare($sql);
@@ -82,12 +84,51 @@ if (!empty($params)) {
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch the data and write to Excel
-$rowNumber = 2; // Start from row 2, since row 1 is for headers
+// Fetch job titles from the result
+$jobTitleList = [];
 while ($row = $result->fetch_assoc()) {
-    $sheet->fromArray($row, NULL, 'A' . $rowNumber);
+    if (!in_array($row['job_title_position'], $jobTitleList)) {
+        $jobTitleList[] = $row['job_title_position'];
+    }
+}
+
+// Set the job titles in the second row
+$jobTitles = implode(', ', $jobTitleList);
+$sheet->mergeCells('A2:N2');
+$sheet->setCellValue('A2', $jobTitles);
+$sheet->getStyle('A2')->applyFromArray($headerStyle);
+
+// Add CSV column headers
+$headers = ['Job Title', 'Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards', 'Status'];
+$sheet->fromArray($headers, NULL, 'A3');
+$sheet->getStyle('A3:N3')->applyFromArray($headerStyle);
+
+// Set column widths to auto size
+foreach (range('A', 'N') as $column) {
+    $sheet->getColumnDimension($column)->setAutoSize(true);
+}
+
+// Re-execute the query to fetch data for export
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Fetch the data and write to Excel
+$rowNumber = 4; // Start from row 4, since row 3 is for headers
+while ($row = $result->fetch_assoc()) {
+    $sheet->fromArray(array_values($row), NULL, 'A' . $rowNumber);
     $rowNumber++;
 }
+
+// Apply border to all data rows
+$dataRange = 'A1:N' . ($rowNumber - 1);
+$sheet->getStyle($dataRange)->applyFromArray([
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['rgb' => '000000']
+        ]
+    ]
+]);
 
 // Save Excel file
 $writer = new Xlsx($spreadsheet);
