@@ -7336,3 +7336,12 @@ padding: 10px;
 .header_1 .export:active {
   border: 1px solid #146c54;
 }
+.status-td{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center ;
+}
+.status-td .status-container, .date-container{
+  width: 90%;
+}

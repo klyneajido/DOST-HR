@@ -193,97 +193,82 @@
                                                 class="fas"></i></th>
                                         <th>Attachments</th>
                                         <th>Status</th>
-                                        <th>Interview Date</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-<tbody>
-    <?php if (!empty($applicants)) : ?>
-        <?php foreach ($applicants as $applicant) : ?>
-            <tr>
-                <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['position_or_unit']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['sex']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['address']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['email']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['course']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['years_of_experience']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['hours_of_training']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['eligibility']); ?></td>
-                <td><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
-                <td><?php echo formatDate($applicant['application_date']); ?></td>
-                <td>
-                    <a href="PHP_Connections/download_documents.php?id=<?php echo $applicant['id']; ?>">Download All</a>
-                </td>
-                <td>
-                    <select class="status-dropdown form-control" data-applicant-id="<?php echo $applicant['id']; ?>">
-                        <option value="Shortlisted" <?php echo ($applicant['status'] === 'Shortlisted') ? 'selected' : ''; ?>>Shortlisted</option>
-                        <option value="Interview" <?php echo ($applicant['status'] === 'Interview') ? 'selected' : ''; ?>>Interview</option>
-                        <option value="Endorsed" <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>Endorsed</option>
-                    </select>
-                </td>
-<td>
-    <?php if ($applicant['status'] === 'Interview') : ?>
-        <form id="interviewForm<?php echo $applicant['id']; ?>" method="POST" action="PHP_Connections/interviewDate.php" class="d-flex align-items-center">
-            <?php
-            $interviewDate = isset($applicant['interview_date']) ? htmlspecialchars($applicant['interview_date']) : '';
-            ?>
-            <input type="hidden" name="applicant_id" value="<?php echo $applicant['id']; ?>">
-            <input type="datetime-local" class="form-control me-2" name="interview_date" value="<?php echo $interviewDate; ?>" />
-            <button type="submit" class="btn btn-link" title="Save Interview Date">
-                <i class="fa fa-save"></i>
-            </button>
-        </form>
-    <?php else : ?>
-        <input type="text" class="form-control" value="Not for interview" disabled />
-    <?php endif; ?>
-</td>
+                                <tbody>
+                                    <?php if (!empty($applicants)) : ?>
+                                    <?php foreach ($applicants as $applicant) : ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['position_or_unit']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['sex']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['address']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['email']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['course']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['years_of_experience']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['hours_of_training']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['eligibility']); ?></td>
+                                        <td><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
+                                        <td><?php echo formatDate($applicant['application_date']); ?></td>
+                                        <td>
+                                            <a
+                                                href="PHP_Connections/download_documents.php?id=<?php echo $applicant['id']; ?>">Download
+                                                All</a>
+                                        </td>
+                                        <td class="status-td">
+                                            <div class="status-container text-center">
+                                                <select class="status-dropdown w-100"
+                                                    data-applicant-id="<?php echo $applicant['id']; ?>">
+                                                    <option value="Shortlisted" class="text-center"
+                                                        <?php echo ($applicant['status'] === 'Shortlisted') ? 'selected' : ''; ?>>
+                                                        Shortlisted</option>
+                                                    <option value="Interview" class="text-center"
+                                                        <?php echo ($applicant['status'] === 'Interview') ? 'selected' : ''; ?>>
+                                                        Interview</option>
+                                                    <option value="Endorsed" class="text-center"
+                                                        <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>
+                                                        Endorsed</option>
+                                                </select>
+                                            </div>
+                                            <div id="dateContainer<?php echo $applicant['id']; ?>"
+                                                class="date-container mt-1">
+                                                <!-- The form will be inserted here dynamically by jQuery -->
+                                                <?php if ($applicant['status'] === 'Interview') : ?>
+                                                <form id="interviewForm<?php echo $applicant['id']; ?>" method="POST"
+                                                    action="PHP_Connections/interviewDate.php"
+                                                    class="d-flex align-items-center w-100">
+                                                    <input type="hidden" name="applicant_id"
+                                                        value="<?php echo $applicant['id']; ?>">
+                                                    <input type="datetime-local" class="form-control w-100 me-2"
+                                                        name="interview_date"
+                                                        value="<?php echo isset($applicant['interview_date']) ? htmlspecialchars($applicant['interview_date']) : ''; ?>" />
+                                                </form>
+                                                <?php endif; ?>
+                                            </div>
+                                        </td>
 
-<script>
-function updateInterviewDate(applicantId) {
-    var form = document.getElementById('interviewForm' + applicantId);
-    var formData = new FormData(form);
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'PHP_Connections/interviewDate.php', true);
 
-    xhr.onload = function() {
-        if (xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                // Successfully updated, refresh the page
-                location.reload();
-            } else {
-                alert('Error: ' + response.message);
-            }
-        } else {
-            alert('Request failed. Returned status of ' + xhr.status);
-        }
-    };
-
-    xhr.send(formData);
-}
-</script>
-                <td>
-                    <button type="button" class="btn btn-danger delete-btn"
-                            data-applicant-id="<?php echo $applicant['id']; ?>" 
-                            data-toggle="modal" 
-                            data-target="#deleteModal">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    <?php else : ?>
-        <tr>
-            <td colspan="18">No applicants found.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
+                                        <td>
+                                            <button type="button" class="btn btn-danger delete-btn"
+                                                data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal"
+                                                data-target="#deleteModal">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                    <?php else : ?>
+                                    <tr>
+                                        <td colspan="18">No applicants found.</td>
+                                    </tr>
+                                    <?php endif; ?>
+                                </tbody>
                             </table>
                         </div>
                         <!-- Pagination and rows per page controls -->
