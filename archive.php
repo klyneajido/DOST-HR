@@ -139,65 +139,65 @@
 
                                 <div class="table-responsive">
                                 <table class="table table-striped">
-    <thead class="text-center">
-        <tr>
-            <th>Title</th>
-            <th>Position/Unit</th>
-            <th>Description</th>
-            <th class="w-25">Education Requirement</th>
-            <th>Experience or Training</th>
-            <th>Duties and Responsibilities</th>
-            <th>Salary</th>
-            <th>Department</th>
-            <th>Place of Assignment</th>
-            <th>Status</th>
-            <th>Created At</th>
-            <th>Updated At</th>
-            <th>Deadline</th>
-            <th>Archived By</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        if ($result_archive->num_rows > 0) {
-            while ($job = $result_archive->fetch_assoc()) {
-                // Convert comma-separated requirements into HTML lists
-                $education_list = !empty($job['education_requirements']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['education_requirements'])) . '</li></ul>' : '';
-                $experience_list = !empty($job['experience_requirements']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['experience_requirements'])) . '</li></ul>' : '';
-                $duties_list = !empty($job['duties_and_responsibilities']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['duties_and_responsibilities'])) . '</li></ul>' : '';
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Position/Unit</th>
+                                                <th>Description</th>
+                                                <th class="w-25">Education Requirement</th>
+                                                <th>Experience or Training</th>
+                                                <th>Duties and Responsibilities</th>
+                                                <th>Salary</th>
+                                                <th>Department</th>
+                                                <th>Place of Assignment</th>
+                                                <th>Status</th>
+                                                <th>Created At</th>
+                                                <th>Updated At</th>
+                                                <th>Deadline</th>
+                                                <th>Archived By</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            if ($result_archive->num_rows > 0) {
+                                                while ($job = $result_archive->fetch_assoc()) {
+                                                    // Convert comma-separated requirements into HTML lists
+                                                    $education_list = !empty($job['education_requirements']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['education_requirements'])) . '</li></ul>' : '';
+                                                    $experience_list = !empty($job['experience_requirements']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['experience_requirements'])) . '</li></ul>' : '';
+                                                    $duties_list = !empty($job['duties_and_responsibilities']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['duties_and_responsibilities'])) . '</li></ul>' : '';
 
-                echo "<tr class='text-center'>";
-                echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
-                echo "<td>" . $education_list . "</td>";
-                echo "<td>" . $experience_list . "</td>";
-                echo "<td>" . $duties_list . "</td>";
-                echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['department_name']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
-                echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
-                echo "<td>
-                        <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                            <i class='fas fa-undo'></i>
-                        </a>
-                        <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                            <i class='fas fa-trash'></i>
-                        </a>
-                      </td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "<tr class='text-center'><td colspan='14'>No archived Jobs found.</td></tr>";
-        }
-        ?>
-    </tbody>
-</table>
+                                                    echo "<tr class='text-center'>";
+                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
+                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
+                                                    echo "<td>" . $education_list . "</td>";
+                                                    echo "<td>" . $experience_list . "</td>";
+                                                    echo "<td>" . $duties_list . "</td>";
+                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['department_name']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
+                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
+                                                    echo "<td>
+                                                            <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                                                                <i class='fas fa-undo'></i>
+                                                            </a>
+                                                            <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
+                                                                <i class='fas fa-trash'></i>
+                                                            </a>
+                                                        </td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr class='text-center'><td colspan='14'>No archived Jobs found.</td></tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
 
 
                                 </div>
@@ -363,6 +363,112 @@
                                 </nav>
                             </div>
                         </div>
+<div class="card">
+    <div class="card-header">
+        <h4 class="card-title">Archived Applicants</h4>
+        <div class="search-container d-inline float-right" style="margin-left: 20px;">
+            <form action="archive.php" method="get" class="d-flex flex-wrap">
+                <input type="text" name="search_applicant" class="form-control mr-2"
+                    placeholder="Search Applicants"
+                    style="flex: 1; min-width: 400px; border-radius: 30px;"
+                    value="<?php echo htmlspecialchars($search_applicant); ?>">
+                <button class="btn" type="submit"
+                    style="background: none; border: none; padding: 0;">
+                    <i class="fas fa-search" style="color: #000;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="text-center">
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Position</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Contact Number</th>
+                        <th>Application Date</th>
+                        <th>Interview Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <?php
+                    if ($result_applicant_archive->num_rows > 0) {
+                        while ($applicant = $result_applicant_archive->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($applicant['job_title']) . "</td>";
+                            echo "<td>" . htmlspecialchars($applicant['position_or_unit']) . "</td>";
+                            echo "<td>" . htmlspecialchars($applicant['firstname']) . " " . htmlspecialchars($applicant['lastname']) . "</td>";
+                            echo "<td>" . htmlspecialchars($applicant['email']) . "</td>";
+                            echo "<td>" . htmlspecialchars($applicant['contact_number']) . "</td>";
+                            echo "<td>" . htmlspecialchars($applicant['application_date']) . "</td>";
+                            echo "<td>" . htmlspecialchars($applicant['interview_date']) . "</td>";
+                            echo "<td>  
+                                <a href='PHP_Connections/deleteApplicant.php' class='btn btn-danger btn-sm delete-applicant-button' data-id='" . htmlspecialchars($applicant['applicantarchive_id'], ENT_QUOTES, 'UTF-8') . "'>
+                                    <i class='fas fa-trash'></i>
+                                </a>
+                            </td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='8'>No archived applicants found.</td></tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center mt-3">
+                <li class="page-item <?php if ($applicants_page <= 1) echo 'disabled'; ?>">
+                    <a class="page-link"
+                        href="?applicants_page=<?php echo $applicants_page - 1; ?>"
+                        aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+
+                <?php
+                $applicants_start = max(1, $applicants_page - 1);
+                $applicants_end = min($total_pages_applicants, $applicants_page + 1);
+
+                if ($applicants_start > 1) {
+                    echo '<li class="page-item"><a class="page-link" href="?applicants_page=1">1</a></li>';
+                    if ($applicants_start > 2) {
+                        echo '<li class="page-item"><span class="page-link">...</span></li>';
+                    }
+                }
+
+                for ($i = $applicants_start; $i <= $applicants_end; $i++) : ?>
+                <li class="page-item <?php if ($applicants_page == $i) echo 'active'; ?>"><a
+                        class="page-link"
+                        href="?applicants_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                <?php endfor;
+
+                if ($applicants_end < $total_pages_applicants) {
+                    if ($applicants_end < $total_pages_applicants - 1) {
+                        echo '<li class="page-item"><span class="page-link">...</span></li>';
+                    }
+                    echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages_applicants . '">' . $total_pages_applicants . '</a></li>';
+                }
+                ?>
+
+                <li class="page-item <?php if ($applicants_page >= $total_pages_applicants) echo 'disabled'; ?>">
+                    <a class="page-link"
+                        href="?applicants_page=<?php echo $applicants_page + 1; ?>"
+                        aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
                     </div>
                 </div>
             </div>

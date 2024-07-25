@@ -157,4 +157,56 @@ $result_announcement_count = $stmt_count_announcement->get_result();
 $total_announcements = $result_announcement_count->fetch_assoc()['total'];
 $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 
+// Get total number of archived jobs for pagination
+$query_archive_count = "
+    SELECT COUNT(*) AS total 
+    FROM job_archive 
+    WHERE job_title LIKE ? OR description LIKE ?
+";
+$stmt_count = $mysqli->prepare($query_archive_count);
+$stmt_count->bind_param('ss', $search_term, $search_term);
+$stmt_count->execute();
+$result_archive_count = $stmt_count->get_result();
+$total_jobs = $result_archive_count->fetch_assoc()['total'];
+$total_pages_jobs = ($total_jobs > 0) ? ceil($total_jobs / $jobs_limit) : 1;
+
+// Get total number of archived announcements for pagination
+$query_announcement_count = "SELECT COUNT(*) AS total FROM announcement_archive";
+$result_announcement_count = $mysqli->query($query_announcement_count);
+$total_announcements = $result_announcement_count->fetch_assoc()['total'];
+$total_pages_announcements = ($total_announcements > 0) ? ceil($total_announcements / $announcements_limit) : 1;
+
+$search_applicant = isset($_GET['search_applicant']) ? trim($_GET['search_applicant']) : '';
+// Pagination parameters for Applicants
+$applicants_limit = 10;
+$applicants_page = isset($_GET['applicants_page']) ? intval($_GET['applicants_page']) : 1;
+$applicants_offset = ($applicants_page - 1) * $applicants_limit;
+
+// SQL query to search within applicant_archive with pagination
+$query_applicant_archive = "
+    SELECT applicantarchive_id, job_title, position_or_unit, lastname, firstname, middlename, sex, address, email, contact_number, course, years_of_experience, hours_of_training, eligibility, list_of_awards, status, application_letter, personal_data_sheet, performance_rating, eligibility_rating_license, transcript_of_records, certificate_of_employment, proof_of_trainings_seminars, proof_of_rewards, job_id, application_date, interview_date, archived_by
+    FROM applicant_archive
+    WHERE job_title LIKE ? OR lastname LIKE ? OR firstname LIKE ?
+    LIMIT ?, ?
+";
+$search_applicant_term = '%' . $search_applicant . '%';
+$stmt_applicant = $mysqli->prepare($query_applicant_archive);
+
+// Correct the bind_param to match the query
+$stmt_applicant->bind_param('sssii', $search_applicant_term, $search_applicant_term, $search_applicant_term, $applicants_offset, $applicants_limit);
+$stmt_applicant->execute();
+$result_applicant_archive = $stmt_applicant->get_result();
+
+// Get total number of matching applicants for pagination
+$query_applicant_count = "
+    SELECT COUNT(*) AS total
+    FROM applicant_archive
+    WHERE job_title LIKE ? OR lastname LIKE ? OR firstname LIKE ?
+";
+$stmt_count_applicant = $mysqli->prepare($query_applicant_count);
+$stmt_count_applicant->bind_param('sss', $search_applicant_term, $search_applicant_term, $search_applicant_term);
+$stmt_count_applicant->execute();
+$result_applicant_count = $stmt_count_applicant->get_result();
+$total_applicants = $result_applicant_count->fetch_assoc()['total'];
+$total_pages_applicants = ceil($total_applicants / $applicants_limit);
 ?>
