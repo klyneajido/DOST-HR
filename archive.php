@@ -63,6 +63,50 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="passwordModalApplicant" tabindex="-1" role="dialog"
+        aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="deleteApplicantForm">
+                        <input type="hidden" id="deleteApplicantId" name="id" value="">
+                        <div class="form-group">
+                            <label for="adminPasswordApplicant">Admin Password</label>
+                            <input type="password" class="form-control" id="adminPasswordApplicant" name="password"
+                                required>
+                        </div>
+                        <button type="submit" class="btn btn-danger">Delete Applicant</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="modal fade" id="successModalApplicant" tabindex="-1" role="dialog"
+        aria-labelledby="successModalApplicantLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalApplicantLabel">Applicant Deleted</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>The applicant has been deleted successfully.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="successModalJob" tabindex="-1" role="dialog" aria-labelledby="successModalJobLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -585,6 +629,47 @@
                         if (data.success) {
                             $('#passwordModalAnnouncement').modal('hide');
                             $('#successModalAnnouncement').modal('show');
+                            setTimeout(function() {
+                                location
+                            .reload(); // Refresh the page after showing the success message
+                            }, 2000);
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+            let deleteApplicantId = null;
+
+            document.querySelectorAll('.delete-applicant-button').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    deleteApplicantId = this.getAttribute('data-id');
+                    $('#passwordModalApplicant').modal('show');
+                });
+            });
+
+            document.getElementById('deleteApplicantForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const adminPassword = document.getElementById('adminPasswordApplicant').value;
+
+                fetch('PHP_Connections/deleteApplicant.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: deleteApplicantId,
+                            password: adminPassword
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            $('#passwordModalApplicant').modal('hide');
+                            $('#successModalApplicant').modal('show');
                             setTimeout(function() {
                                 location
                             .reload(); // Refresh the page after showing the success message
