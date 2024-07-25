@@ -3,12 +3,14 @@ session_start();
 include_once 'db_connection.php';
 
 // Check if the user is logged in
-if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit();
+if (isset($_SESSION['username'])) {
+    $user_name = $_SESSION['username'];
+    $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
+} else {
+    $user_name = 'Guest'; // Default value if user is not logged in
+    $profile_image_path = 'assets/img/profiles/default-profile.png';
 }
-$user_name = $_SESSION['username'];
-$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
+
 
 function formatDate($date) {
     return date("g:i A, F j, Y", strtotime($date));
@@ -82,12 +84,14 @@ $total_row = $total_result->fetch_assoc();
 $total_applicants = $total_row['total'];
 $total_pages = ceil($total_applicants / $rows_per_page);
 
+
 // Query for applicants with filters
 $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
                  a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
-                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, a.application_date, a.interview_date
+                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, 
+                 a.application_date, a.interview_date
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
@@ -113,7 +117,7 @@ if ($status_filter) {
     $params[] = $status_filter;
 }
 
-$query .= " LIMIT ?, ?";
+$query .= " ORDER BY a.application_date DESC LIMIT ?, ?";
 $params[] = $offset;
 $params[] = $rows_per_page;
 
@@ -129,6 +133,7 @@ $applicants = [];
 while ($row = $result->fetch_assoc()) {
     $applicants[] = $row;
 }
+
 
 // Output the results as JSON or other format as needed
 ?>
