@@ -17,10 +17,6 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/applicant.css">
     <script src="https://kit.fontawesome.com/0dcd39d035.js" crossorigin="anonymous"></script>
-    <!-- [if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif] -->
 </head>
 
 <body class="scrollbar" id="style-5">
