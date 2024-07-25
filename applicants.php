@@ -104,25 +104,9 @@
 
                             <!-- START FILTERS -->
                             <div class="filter d-flex row align-items-center">
-                                <!-- Status Dropdown -->
-                                <div class="dropdown mr-2">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="statusDropdown"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Status
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                                        <a class="dropdown-item" href="#" data-filter="status"
-                                            data-value="Shortlisted">Shortlisted</a>
-                                        <a class="dropdown-item" href="#" data-filter="status"
-                                            data-value="Interview">Interview</a>
-                                        <a class="dropdown-item" href="#" data-filter="status"
-                                            data-value="Endorsed">Endorsed</a>
-                                    </div>
-                                </div>
-
                                 <!-- Job Title Dropdown -->
-                                <div class="dropdown mr-2">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                <div class="filter-dropdown mr-2">
+                                    <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
                                         id="jobTitleDropdown" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
                                         Job Title
@@ -136,8 +120,8 @@
                                 </div>
 
                                 <!-- Position Dropdown -->
-                                <div class="dropdown mr-2">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                <div class="filter-dropdown mr-2">
+                                    <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
                                         id="positionDropdown" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
                                         Position
@@ -149,6 +133,25 @@
                                         <?php endforeach; ?>
                                     </div>
                                 </div>
+
+                                <!-- Status Dropdown -->
+                                <div class="filter-dropdown mr-2">
+                                    <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
+                                        id="statusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Status
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                                        <a class="dropdown-item dropdown-item-shortlisted" href="#" data-filter="status"
+                                            data-value="Shortlisted">Shortlisted</a>
+                                        <a class="dropdown-item dropdown-item-interview" href="#" data-filter="status"
+                                            data-value="Interview">Interview</a>
+                                        <a class="dropdown-item dropdown-item-endorsed" href="#" data-filter="status"
+                                            data-value="Endorsed">Endorsed</a>
+                                    </div>
+                                </div>
+
+
                                 <button id="reset-filters" class="button ">
                                     <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -223,18 +226,20 @@
                                         <td class="status-td">
                                             <div class="status-container text-center">
                                                 <select class="status-dropdown w-100"
-                                                    data-applicant-id="<?php echo $applicant['id']; ?>">
-                                                    <option value="Shortlisted" class="text-center"
+                                                    data-applicant-id="<?php echo $applicant['id']; ?>"
+                                                    onchange="updateStatusColor(this)">
+                                                    <option value="Shortlisted" class="text-center shortlist-opt"
                                                         <?php echo ($applicant['status'] === 'Shortlisted') ? 'selected' : ''; ?>>
                                                         Shortlisted</option>
-                                                    <option value="Interview" class="text-center"
+                                                    <option value="Interview" class="text-center interview-opt"
                                                         <?php echo ($applicant['status'] === 'Interview') ? 'selected' : ''; ?>>
                                                         Interview</option>
-                                                    <option value="Endorsed" class="text-center"
+                                                    <option value="Endorsed" class="text-center endorsed-opt"
                                                         <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>
                                                         Endorsed</option>
                                                 </select>
                                             </div>
+
                                             <div id="dateContainer<?php echo $applicant['id']; ?>"
                                                 class="date-container mt-1">
                                                 <!-- The form will be inserted here dynamically by jQuery -->
@@ -251,15 +256,39 @@
                                                 <?php endif; ?>
                                             </div>
                                         </td>
-
-
-
                                         <td>
-                                            <button type="button" class="btn btn-danger delete-btn"
+                                            <button class="delete-button"
                                                 data-applicant-id="<?php echo $applicant['id']; ?>" data-toggle="modal"
                                                 data-target="#deleteModal">
-                                                <i class="fas fa-trash"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
+                                                    class="svgIcon bin-top">
+                                                    <g clip-path="url(#clip0_35_24)">
+                                                        <path fill="blue"
+                                                            d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
+                                                        </path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_35_24">
+                                                            <rect fill="white" height="14" width="69"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
+                                                    class="svgIcon bin-bottom">
+                                                    <g clip-path="url(#clip0_35_22)">
+                                                        <path fill="black"
+                                                            d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
+                                                        </path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_35_22">
+                                                            <rect fill="white" height="57" width="69"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
                                             </button>
+
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -272,9 +301,10 @@
                             </table>
                         </div>
                         <!-- Pagination and rows per page controls -->
-                        <nav aria-label="Page navigation" class="mb-3 col-xl-12 d-flex justify-content-between">
-                            <div class="col-lg-4"></div>
-                            <ul class="pagination col-lg-4 align-self-center justify-content-center mt-3">
+                        <nav aria-label="Page navigation "
+                            class="mb-3 d-flex justify-content-between align-items-center mt-3">
+                            <!-- Pagination Controls -->
+                            <ul class="pagination d-flex justify-content-center flex-grow-1 mb-0 ">
                                 <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
                                     <a class="page-link"
                                         href="?applicants_page=<?php echo $page - 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"
@@ -318,24 +348,23 @@
                                         <span class="sr-only">Next</span>
                                     </a>
                                 </li>
+                                <!-- Rows per Page Control -->
+
                             </ul>
-                            <div class="rows_page d-flex col-lg-4 justify-content-end align-items-center mt-3">
-                                <div class="form-group d-flex align-items-center">
-                                    <label for="rows_per_page" class="mr-2">Rows</label>
-                                    <select class="form-control" id="rows_per_page" onchange="changeRowsPerPage()"
-                                        style="width: auto; height: auto;">
-                                        <option value="10" <?php echo $rows_per_page == 10 ? 'selected' : ''; ?>>10
-                                        </option>
-                                        <option value="20" <?php echo $rows_per_page == 20 ? 'selected' : ''; ?>>20
-                                        </option>
-                                        <option value="50" <?php echo $rows_per_page == 50 ? 'selected' : ''; ?>>50
-                                        </option>
-                                        <option value="100" <?php echo $rows_per_page == 100 ? 'selected' : ''; ?>>100
-                                        </option>
-                                    </select>
-                                </div>
+                            <div class="d-flex align-items-center justify-self-end  mx-3">
+                                <p class="mb-0 me-2 mr-2">Rows</p>
+                                <select class="form-select px-2 py-1 text-center" id="rows_per_page"
+                                    onchange="changeRowsPerPage()">
+                                    <option value="10" <?php echo $rows_per_page == 10 ? 'selected' : ''; ?>>10</option>
+                                    <option value="20" <?php echo $rows_per_page == 20 ? 'selected' : ''; ?>>20</option>
+                                    <option value="50" <?php echo $rows_per_page == 50 ? 'selected' : ''; ?>>50</option>
+                                    <option value="100" <?php echo $rows_per_page == 100 ? 'selected' : ''; ?>>100
+                                    </option>
+                                </select>
                             </div>
+
                         </nav>
+
 
                     </div>
                 </div>
