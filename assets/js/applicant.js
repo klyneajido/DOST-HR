@@ -1,4 +1,24 @@
 $(document).ready(function() {
+    // Function to update status color and border based on selected value
+    function updateStatusColor(selectElement) {
+        // Remove existing status-related classes
+        selectElement.removeClass('shortlist interview endorsed');
+        
+        // Add the class based on the selected value
+        if (selectElement.val() === 'Shortlisted') {
+            selectElement.addClass('shortlist');
+        } else if (selectElement.val() === 'Interview') {
+            selectElement.addClass('interview');
+        } else if (selectElement.val() === 'Endorsed') {
+            selectElement.addClass('endorsed');
+        }
+    }
+
+    // Initialize the color of the status dropdown on page load
+    $('.status-dropdown').each(function() {
+        updateStatusColor($(this));
+    });
+
     // Handle status dropdown change
     $('.status-dropdown').change(function() {
         var status = $(this).val();
@@ -18,6 +38,9 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log('Status updated successfully:', response);
+
+                // Update the status color
+                updateStatusColor($('.status-dropdown[data-applicant-id="' + applicantId + '"]'));
 
                 // Show/hide the interview date picker
                 if (status === 'Interview') {
