@@ -5,10 +5,39 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 require 'db_connection.php';
 
-// Load the template
-$templateFile = '../assets/Template.xlsx';
-$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($templateFile);
+// Create new Spreadsheet object
+$spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
+
+// Set header styles
+$headerStyle = [
+    'font' => [
+        'bold' => true,
+        'size' => 12,
+        'color' => ['rgb' => 'FFFFFF']
+    ],
+    'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+        'startColor' => ['rgb' => '244062']
+    ],
+    'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+    ],
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['rgb' => '000000']
+        ]
+    ]
+];
+
+// Set date of exportation
+$dateExported = date('F d, Y');
+
+// Merge and center the first row
+$sheet->mergeCells('A1:N1');
+$sheet->setCellValue('A1', 'Human Resource and Management Office List of Applicants - ' . $dateExported);
+$sheet->getStyle('A1')->applyFromArray($headerStyle);
 
 // Get sorting and filtering parameters from GET request
 $jobTitleFilter = isset($_GET['job_title']) ? $_GET['job_title'] : '';
@@ -86,13 +115,24 @@ $result = $stmt->get_result();
 // Fetch the data and write to Excel
 $rowNumber = 4; // Start from row 4, since row 3 is for headers
 while ($row = $result->fetch_assoc()) {
-    $sheet->fromArray($row, NULL, 'A' . $rowNumber);
+    $sheet->fromArray(array_values($row), NULL, 'A' . $rowNumber);
     $rowNumber++;
 }
 
-// Save the populated file
+// Apply border to all data rows
+$dataRange = 'A1:N' . ($rowNumber - 1);
+$sheet->getStyle($dataRange)->applyFromArray([
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+            'color' => ['rgb' => '000000']
+        ]
+    ]
+]);
+
+// Save Excel file
 $writer = new Xlsx($spreadsheet);
-$filename = 'populated_template.xlsx';
+$filename = 'applicants.xlsx';
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 $writer->save('php://output');
