@@ -25,26 +25,6 @@ include("PHP_Connections/upcomingInterview.php");
 
 <body class="scrollbar" id="style-5">
 	<?php include("logout_modal.php") ?>
-	<!-- Logout Modal -->
-	<!-- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					Are you sure you want to logout?
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-				</div>
-			</div>
-		</div>
-	</div> -->
 	<div class="main-wrapper">
 		<?php include("navbar.php") ?>
 		<div class="page-wrapper">
@@ -75,7 +55,7 @@ include("PHP_Connections/upcomingInterview.php");
 									<h4><?php echo $announcement_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
-									<img src="assets/img/dash1.png" alt="card-img" />
+									<img src="assets/img/announcement.png" alt="card-img" />
 								</div>
 							</div>
 						</div>
@@ -88,7 +68,7 @@ include("PHP_Connections/upcomingInterview.php");
 									<h4><?php echo $job_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
-									<img src="assets/img/dash2.png" alt="card-img" />
+									<img src="assets/img/job.png" alt="card-img" />
 								</div>
 							</div>
 						</div>
@@ -101,7 +81,7 @@ include("PHP_Connections/upcomingInterview.php");
 									<h4><?php echo $applicant_count; ?></h4>
 								</div>
 								<div class="card_widget_img">
-									<img src="assets/img/dash3.png" alt="card-img" />
+									<img src="assets/img/applicants.png" alt="card-img" />
 								</div>
 							</div>
 						</div>
@@ -118,16 +98,22 @@ include("PHP_Connections/upcomingInterview.php");
 										Applicant by Job Title and Position</strong>
 								</h4>
 								<div class="col-md-4 user-menu justify-content-end align-items-center z-4">
-									<a href="?filter=title#ap" class="btn btn-secondary float-right mx-1">Job Title</a>
-									<a href="index.php#ap" class="btn btn-secondary float-right mx-1">
-										<svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg">
-											<g stroke="white" stroke-linecap="round" stroke-width="1.5">
-												<path d="m3.33337 10.8333c0 3.6819 2.98477 6.6667 6.66663 6.6667 3.682 0 6.6667-2.9848 6.6667-6.6667 0-3.68188-2.9847-6.66664-6.6667-6.66664-1.29938 0-2.51191.37174-3.5371 1.01468">
-												</path>
-												<path d="m7.69867 1.58163-1.44987 3.28435c-.18587.42104.00478.91303.42582 1.0989l3.28438 1.44986">
-												</path>
-											</g>
-										</svg></a>
+									<a href="?filter=title#ap" class="sort-btn">Sort</a>
+									<a href="index.php#ap">
+									<button id="reset-filters" class="button ">
+                                    <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g stroke="#ff342b" stroke-linecap="round" stroke-width="1.5">
+                                            <path
+                                                d="m3.33337 10.8333c0 3.6819 2.98477 6.6667 6.66663 6.6667 3.682 0 6.6667-2.9848 6.6667-6.6667 0-3.68188-2.9847-6.66664-6.6667-6.66664-1.29938 0-2.51191.37174-3.5371 1.01468">
+                                            </path>
+                                            <path
+                                                d="m7.69867 1.58163-1.44987 3.28435c-.18587.42104.00478.91303.42582 1.0989l3.28438 1.44986">
+                                            </path>
+                                        </g>
+                                    </svg>
+                                </button>
+									</a>
 								</div>
 							</div>
 
@@ -145,11 +131,8 @@ include("PHP_Connections/upcomingInterview.php");
 														<label><?php echo $general['general_title']; ?></label>
 													</div>
 												</div>
-												<div class="team-action">
-													<ul>
-														<li><a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a></li>
-														<li><a href="applicants.php"><i data-feather="chevrons-right"></i></a></li>
-													</ul>
+												<div class="mx-3">
+												<a href="#" class="toggle-positions" data-id="<?php echo $general['general_title']; ?>"><i data-feather="chevron-down"></i></a>
 												</div>
 											</div>
 										</div>

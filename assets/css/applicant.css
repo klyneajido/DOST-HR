@@ -6492,6 +6492,9 @@ label.logo-upload {
   height: auto;
   width: auto;
 }
+.dropdown button{
+  font-size: 12px;
+}
 
 .filter .button {
   display: flex;
@@ -6505,9 +6508,6 @@ padding: 10px;
   background: #ff362b34;
   border-radius: 20px;
   cursor: pointer;
-}
-.dropdown button{
-  font-size: 12px;
 }
 
 

@@ -1,54 +1,4 @@
-<?php
-// Start session
-session_start();
-include_once 'PHP_Connections/db_connection.php';
-
-// Check if user is logged in
-if (!isset($_SESSION['username'])) {
-    // Redirect to login page if not logged in
-    header('Location: login.php');
-    exit();
-}
-
-// Get user's name from session
-$user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-$profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
-
-// Fetch uploaded documents
-$sql = "SELECT * FROM documents";
-$result = $mysqli->query($sql);
-
-// Array to store document cards HTML
-$documentCards = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $documentId = $row['doc_id']; // Assuming your table has an ID field
-        $documentName = $row['name'];
-        // Assuming documents are stored as PDFs or Word files
-        $icon = 'assets/img/pdf.png'; // Change this based on file type if needed
-
-        // Generate HTML for document card
-        $documentCard = '<div class="card m-2">
-                         
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <h6 class="card-title mb-0">' . $documentName . '</h6>
-                                                        <div class="document-buttons">
-                                                            <a href="download_document.php?id=' . $documentId . '" class="btn btn-primary py-3 px-4">Download</a>
-                                                            <a href="view_document.php?id=' . $documentId . '" class="btn btn-success px-4 py-3">View</a>
-                                                        </div>
-                            </div>
-                        </div>';
-
-        // Append card HTML to array
-        $documentCards[] = $documentCard;
-    }
-}
-$uploadStatus = isset($_GET['upload_status']) ? $_GET['upload_status'] : '';
-if ($uploadStatus === 'failed') {
-    $errorMsg = isset($_GET['error']) ? urldecode($_GET['error']) : 'Unknown error occurred.';
-    echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
-}
-?>
+<?php include("PHP_Connections/fetch_transparency_docs.php") ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -63,14 +13,10 @@ if ($uploadStatus === 'failed') {
 
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <!-- [if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif] -->
+    <link rel="stylesheet" href="assets/css/transparency.css">
 </head>
 
-<body>
+<body class="scrollbar" id="style-5">
     <?php include("logout_modal.php") ?>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
@@ -83,50 +29,107 @@ if ($uploadStatus === 'failed') {
             ?>
             <div class="container-fluid">
                 <div class="breadcrumb-path mb-4 my-4">
-                    <ul class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Legal</a>
-                        </li>
-                        <li class="breadcrumb-item active">Documents</li>
-                    </ul>
-                    <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-                        <div class="form-group d-flex flex-column">
-                            <div class="custom-file mb-3 flex-grow-1">
-                                <input type="file" class="custom-file-input" id="customFile" name="document">
-                                <label class="custom-file-label" for="customFile">Choose file</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary flex-grow-1">Upload</button>
-                        </div>
-                    </form>
+                    <div class="col-md-3 ">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Legal</a>
+                            </li>
+                            <li class="breadcrumb-item active">Documents</li>
+                        </ul>
+                    </div>
+                    <!-- Search Bar -->
+                    <div class="col-md-7 ">
+                        <input type="text" class="form-control" id="searchBar" placeholder="Search documents...">
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-end ">
+                        <button class="addfile-btn" data-toggle="modal" data-target="#uploadModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125" stroke="#fffffff" stroke-width="2"></path>
+                                <path d="M17 15V18M17 21V18M17 18H14M17 18H20" stroke="#fffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            ADD FILE
+                        </button>
+                    </div>
                 </div>
+                <div class="container text-center"></div>
             </div>
-            <h3 class="d-flex justify-content-center">Documents</h3>
-            <div class="display-documents">
+            <h3 class="d-flex justify-content-center my-3">Documents</h3>
+            <div class="display-documents pb-4">
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row" id="documentList">
                         <?php
-
                         foreach ($documentCards as $card) {
-
-                            echo '<div class="col-md-12">'
-
-                                . $card . '</div>';
+                            echo '<div class="col-md-6 document-item">' . $card . '</div>';
                         }
                         ?>
+                    </div>
+                    <div class="row" id="noDocumentsFound" style="display: none;">
+                        <div class="col-md-12 text-center">
+                            <p>No documents found.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script>
-            document.querySelector('.custom-file-input').addEventListener('change', function(e) {
-                var fileName = document.getElementById("customFile").files[0].name;
-                var nextSibling = e.target.nextElementSibling;
-                nextSibling.innerText = fileName;
-            });
-        </script>
-
     </div>
+
+    <!-- Modal for File Upload -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalLabel">Upload Document</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
+                        <div class="form-group col-md-12 mt-4">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" name="document">
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary col-md-12 mb-4">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Display selected file name in the custom file input
+    document.querySelector('.custom-file-input').addEventListener('change', function(e) {
+        var fileName = document.getElementById("customFile").files[0].name;
+        var nextSibling = e.target.nextElementSibling;
+        nextSibling.innerText = fileName;
+    });
+
+    // Filter documents based on search input
+    document.getElementById('searchBar').addEventListener('keyup', function() {
+        var searchValue = this.value.toLowerCase();
+        var documentItems = document.querySelectorAll('.document-item');
+        var noDocumentsFound = true;
+        
+        documentItems.forEach(function(item) {
+            var itemName = item.textContent.toLowerCase();
+            if (itemName.includes(searchValue)) {
+                item.style.display = 'block';
+                noDocumentsFound = false;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        if (noDocumentsFound) {
+            document.getElementById('noDocumentsFound').style.display = 'block';
+        } else {
+            document.getElementById('noDocumentsFound').style.display = 'none';
+        }
+    });
+    </script>
+
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
