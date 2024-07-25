@@ -5,30 +5,10 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 require 'db_connection.php';
 
-// Create new Spreadsheet object
-$spreadsheet = new Spreadsheet();
+// Load the template
+$templateFile = '../assets/Template.xlsx';
+$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($templateFile);
 $sheet = $spreadsheet->getActiveSheet();
-
-// Set header styles
-$headerStyle = [
-    'font' => [
-        'bold' => true,
-        'size' => 12,
-        'color' => ['rgb' => 'FFFFFF']
-    ],
-    'fill' => [
-        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-        'startColor' => ['rgb' => '000000']
-    ],
-    'alignment' => [
-        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
-    ]
-];
-
-// Add CSV column headers
-$headers = ['ID', 'Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards', 'Status'];
-$sheet->fromArray($headers, NULL, 'A1');
-$sheet->getStyle('A1:N1')->applyFromArray($headerStyle);
 
 // Get sorting and filtering parameters from GET request
 $sortColumn = isset($_GET['sort_column']) ? $_GET['sort_column'] : 'id';
@@ -45,8 +25,8 @@ if (!in_array($sortColumn, $validSortColumns)) {
 }
 
 // Prepare the SQL query with sorting and filtering
-$sql = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
-               a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.status
+$sql = "SELECT a.job_title,a.position_or_unit, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
+               a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.status, a.application_date
         FROM applicants a 
         LEFT JOIN job j ON a.job_id = j.job_id
         WHERE (a.lastname LIKE ? OR 
@@ -82,16 +62,22 @@ if (!empty($params)) {
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch the data and write to Excel
-$rowNumber = 2; // Start from row 2, since row 1 is for headers
+// Fetch the data and write to the template
+$rowNumber = 2; // Assuming headers are in row 1
 while ($row = $result->fetch_assoc()) {
-    $sheet->fromArray($row, NULL, 'A' . $rowNumber);
+    $column = 1; // Starting column
+    foreach ($row as $cell) {
+        // Convert column number to letter
+        $columnLetter = PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($column);
+        $sheet->setCellValue($columnLetter . $rowNumber, $cell);
+        $column++;
+    }
     $rowNumber++;
 }
 
-// Save Excel file
+// Save the populated file
 $writer = new Xlsx($spreadsheet);
-$filename = 'applicants.xlsx';
+$filename = 'populated_template.xlsx';
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 $writer->save('php://output');
