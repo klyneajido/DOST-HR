@@ -1,0 +1,12 @@
+{
+    "name": "user/dost-hr",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "User\\DostHr\\": "src/"
+        }
+    },
+    "require": {
+        "phpoffice/phpspreadsheet": "^2.2"
+    }
+}

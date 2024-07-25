@@ -1,13 +1,34 @@
 <?php
+require '../vendor/autoload.php'; // Path to Composer autoload file
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 require 'db_connection.php';
 
-// Output CSV headers
-header('Content-Type: text/csv; charset=utf-8');
-header('Content-Disposition: attachment; filename=applicants.csv');
-$output = fopen('php://output', 'w');
+// Create new Spreadsheet object
+$spreadsheet = new Spreadsheet();
+$sheet = $spreadsheet->getActiveSheet();
+
+// Set header styles
+$headerStyle = [
+    'font' => [
+        'bold' => true,
+        'size' => 12,
+        'color' => ['rgb' => 'FFFFFF']
+    ],
+    'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+        'startColor' => ['rgb' => '000000']
+    ],
+    'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER
+    ]
+];
 
 // Add CSV column headers
-fputcsv($output, array('ID', 'Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards', 'Status'));
+$headers = ['ID', 'Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards', 'Status'];
+$sheet->fromArray($headers, NULL, 'A1');
+$sheet->getStyle('A1:N1')->applyFromArray($headerStyle);
 
 // Get sorting and filtering parameters from GET request
 $sortColumn = isset($_GET['sort_column']) ? $_GET['sort_column'] : 'id';
@@ -61,11 +82,18 @@ if (!empty($params)) {
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Fetch the data and write to CSV
+// Fetch the data and write to Excel
+$rowNumber = 2; // Start from row 2, since row 1 is for headers
 while ($row = $result->fetch_assoc()) {
-    fputcsv($output, $row);
+    $sheet->fromArray($row, NULL, 'A' . $rowNumber);
+    $rowNumber++;
 }
 
-fclose($output);
+// Save Excel file
+$writer = new Xlsx($spreadsheet);
+$filename = 'applicants.xlsx';
+header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+$writer->save('php://output');
 $mysqli->close();
 ?>
