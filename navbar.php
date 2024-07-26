@@ -1,5 +1,4 @@
 <div class="header">
-
     <div class="header-left">
         <div class="logo-wrapper align-self-center">
             <a href="index.php" class="logo">
