@@ -49,6 +49,7 @@ if ($result && $result->num_rows > 0) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -60,50 +61,39 @@ if ($result && $result->num_rows > 0) {
 
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/announcement.css">
     <!-- [if lt IE 9]>
 			<script src="assets/js/html5shiv.min.js"></script>
 			<script src="assets/js/respond.min.js"></script>
 		<![endif] -->
 </head>
+
 <body class="scrollbar" id="style-5">
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php include("logout_modal.php")?>
     <div class="main-wrapper">
 
-    <?php include("navbar.php")?>
+        <?php include("navbar.php")?>
 
         <div class="page-wrapper">
             <div class="container-fluid">
-              <div class="breadcrumb-path mb-4 my-4" >
-                <ul class="breadcrumb">
-                  <li class="breadcrumb-item">
-                    <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
-                  </li>
-                  <li class="breadcrumb-item active">Posts</li>
-                </ul>
-                <div class="d-flex gap-3">
-                    <button class="btn btn-link" id="sortAsc"><i class="fas fa-arrow-up"></i> Oldest First</button>
-                    <button class="btn btn-link" id="sortDesc"><i class="fas fa-arrow-down"></i> Newest First</button>
-                </div>
-                <script>
+                <div class="breadcrumb-path mb-4 my-4">
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Announcements</a>
+                        </li>
+                        <li class="breadcrumb-item active">Posts</li>
+                    </ul>
+                    <div class="sort d-flex">
+                        <button type="button" id="sortAsc" data-toggle="tooltip" data-placement="top"
+                            title="Oldest First">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button type="button" id="sortDesc" data-toggle="tooltip" data-placement="top"
+                            title="Newest First">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                    </div>
+                    <script>
                     document.getElementById('sortAsc').addEventListener('click', function() {
                         window.location.href = 'announcements.php?order=asc';
                     });
@@ -111,65 +101,77 @@ if ($result && $result->num_rows > 0) {
                     document.getElementById('sortDesc').addEventListener('click', function() {
                         window.location.href = 'announcements.php?order=desc';
                     });
-                </script>
+                    </script>
 
-              </div>
+                </div>
 
-              <?php if (!empty($errors)) : ?>
-                    <div class="alert alert-danger">
-                        <?php foreach ($errors as $error) : ?>
-                            <p><?php echo htmlspecialchars($error); ?></p>
-                        <?php endforeach; ?>
-                    </div>
+                <?php if (!empty($errors)) : ?>
+                <div class="alert alert-danger text-center">
+                    <?php foreach ($errors as $error) : ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                    <?php endforeach; ?>
+                </div>
                 <?php endif; ?>
 
                 <!-- Display announcements -->
                 <div class="row">
                     <?php foreach ($announcements as $announcement) : ?>
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body shadow p-3">
-                                    <h5 class="card-header"><?php echo htmlspecialchars($announcement['title']); ?></h5>
-                                    <div class="row mx-3 my-2">
-                                    
-                                        <div class="col-md-8">
-                                            
-                                            <p class="card-text"><strong>Description:</strong> <?php echo htmlspecialchars($announcement['announcement']); ?></p>
-                                            <p class="card-text"><strong>Link:</strong> <?php echo htmlspecialchars($announcement['link']); ?></p>
-                                            <p class="card-text"><strong>Created:</strong> <?php echo htmlspecialchars($announcement['created_at']); ?></p>
-                                            <p class="card-text"><strong>Updated:</strong> <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
-                                            <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-primary py-3 px-3 w-25">Edit</a>
-                                            <a href="PHP_Connections/announcementArchive.php?announcement_id=<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger py-3 w-25 archive-button">Archive</a>                                        
-                                        </div>
-                                        <div class="col-md-4 text-right">
-                                            <br>
-                                            <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>" alt="Announcement Image" class="img-fluid">
-                                        </div>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body shadow p-3">
+                                <h5 class="card-header"><?php echo htmlspecialchars($announcement['title']); ?></h5>
+                                <div class="row mx-3 my-2">
+
+                                    <div class="col-md-8">
+
+                                        <p class="card-text"><strong>Description:</strong>
+                                            <?php echo htmlspecialchars($announcement['announcement']); ?></p>
+                                        <p class="card-text"><strong>Link:</strong>
+                                            <?php echo htmlspecialchars($announcement['link']); ?></p>
+                                        <p class="card-text"><strong>Created:</strong>
+                                            <?php echo htmlspecialchars($announcement['created_at']); ?></p>
+                                        <p class="card-text"><strong>Updated:</strong>
+                                            <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
+                                        <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>"
+                                            class="btn btn-primary py-3 px-3 w-25">Edit</a>
+                                        <a href="PHP_Connections/announcementArchive.php?announcement_id=<?php echo $announcement['announcement_id']; ?>"
+                                            class="btn btn-danger py-3 w-25 archive-button">Archive</a>
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <br>
+                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>"
+                                            alt="Announcement Image" class="img-fluid">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                     <?php endforeach; ?>
                 </div>
 
                 <!-- Add announcement button -->
                 <div class="user-menu">
-					<a href="addAnnouncement.php" class="btn btn-info btn-lg float-add-btn" title="Add Announcement">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
-									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-							</svg>
-							Add Announcement
-					</a>
-				</div>
+                    <a href="addAnnouncement.php" class="btn btn-info btn-lg float-add-btn" title="Add Announcement">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                            class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        Add Announcement
+                    </a>
+                </div>
 
-				<div class="mobile-user-menu show">
-					<a href="addAnnouncement.php" class="btn btn-info btn-lg float-add-btn px-3 py-2" title="Add Announcement">
-							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
-									<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z"/>
-							</svg>
-						
-					</a>
-				</div>
+                <div class="mobile-user-menu show">
+                    <a href="addAnnouncement.php" class="btn btn-info btn-lg float-add-btn px-3 py-2"
+                        title="Add Announcement">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                            class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+
+                    </a>
+                </div>
 
             </div>
         </div>
@@ -178,20 +180,21 @@ if ($result && $result->num_rows > 0) {
             const archiveButtons = document.querySelectorAll('.archive-button');
             archiveButtons.forEach(button => {
                 button.addEventListener('click', function(event) {
-                    const confirmed = confirm('Are you sure you want to archive this announcement?');
+                    const confirmed = confirm(
+                        'Are you sure you want to archive this announcement?');
                     if (!confirmed) {
                         event.preventDefault();
                     }
                 });
             });
         });
-    </script>
-    <!-- Pop-up notification -->
+        </script>
+        <!-- Pop-up notification -->
         <?php if (!empty($success_message)): ?>
         <script>
-            alert('<?php echo addslashes($success_message); ?>');
+        alert('<?php echo addslashes($success_message); ?>');
         </script>
-        <?php endif; ?>      
+        <?php endif; ?>
 
     </div>
     <script src="assets/js/date.js"></script>
@@ -212,4 +215,3 @@ if ($result && $result->num_rows > 0) {
 </body>
 
 </html>
-

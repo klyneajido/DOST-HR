@@ -245,7 +245,7 @@ p:last-child {
 table.table td h2 {
   display: inline-block;
   font-size: inherit;
-  font-weight: 400;
+  font-weight: 700;
   margin: 0;
   padding: 0;
   vertical-align: middle;
@@ -351,6 +351,7 @@ table.table td h2 span {
   vertical-align: middle;
   white-space: nowrap;
   font-size: 12px;
+  font-weight: 400;
 }
 .table-bordered {
   border: 1px solid rgba(0, 0, 0, 0.05) !important;
@@ -6432,13 +6433,13 @@ label.logo-upload {
       height: 100%;
   }
   .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #03346E;
+    border-color: #03346E;
     color: white;
 }
 
 .pagination .page-link {
-    color: #007bff;
+    color: #03346E;
 }
 
 .pagination .page-link:hover {
@@ -6477,10 +6478,21 @@ padding: 10px;
     transform: rotate(-360deg);
   }
 }
-
-
 .sort button{
   border-style: none;
-  color:#0052ea;
+  color:#03346E;
   background-color: white;
+}
+.dropdown-toggle{
+  border-style: none;
+  font-size: 16px;
+  background-color: white;
+}
+.dropdown-toggle::after {
+  display: none; /* Hides the arrow */
+}
+.dropdown .dropdown-menu {
+  right: 0;
+  left: auto;
+  text-align: center;
 }

@@ -715,8 +715,8 @@ button.bg-danger:hover {
   color: #fff;
 }
 .btn-info {
-  background-color: #009efb;
-  border: 1px solid #009efb;
+  background-color: #03346E;
+  border: 1px solid #03346E;
 }
 .btn-info:hover,
 .btn-info:focus,
@@ -1011,8 +1011,8 @@ button.bg-danger:hover {
 .pagination > .active > span,
 .pagination > .active > span:focus,
 .pagination > .active > span:hover {
-  background-color: #7638ff;
-  border-color: #7638ff;
+  background-color: #03346E;
+  border-color: #03346E;
 }
 .pagination > li > a,
 .pagination > li > span {
@@ -1020,14 +1020,14 @@ button.bg-danger:hover {
   font-weight: 700;
 }
 .page-link:hover {
-  color: #7638ff;
+  color: #03346E;
 }
 .page-link:focus {
   box-shadow: unset;
 }
 .page-item.active .page-link {
-  background-color: #7638ff;
-  border-color: #7638ff;
+  background-color: #03346E;
+  border-color:#03346E;
 }
 .dropdown-menu {
   border: 1px solid #eff2f7;
@@ -7190,13 +7190,13 @@ label.logo-upload {
       height: 100%;
   }
   .pagination .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #03346E;
+    border-color: #03346E;
     color: white;
 }
 
 .pagination .page-link {
-    color: #007bff;
+    color:#03346E;
 }
 
 .pagination .page-link:hover {

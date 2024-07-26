@@ -125,8 +125,8 @@ include_once 'PHP_Connections/fetch_history.php';?>
                                     </button>
                                 </div>
                             </div>
-                            <div class="reset-btn col-md-6 d-flex justify-content-end">
-                                <button id="resetFilters" class="button">
+                            <div class="reset-btn col-md-6 d-flex justify-content-end align-items-center">
+                                <button id="resetFilters" class="button mr-4">
                                     <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <g stroke="#ff342b" stroke-linecap="round" stroke-width="1.5">
@@ -139,7 +139,22 @@ include_once 'PHP_Connections/fetch_history.php';?>
                                         </g>
                                     </svg>
                                 </button>
+                                <div class="dropdown">
+                                <button class=" dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item"
+                                        href=""
+                                       >Clear History</a>
+                                </div>
                             </div>
+                            </div>
+
+
+
+
 
 
                         </div>

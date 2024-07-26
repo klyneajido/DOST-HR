@@ -17,33 +17,11 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/jobs.css">
-    <!-- [if lt IE 9]>
-			<script src="assets/js/html5shiv.min.js"></script>
-			<script src="assets/js/respond.min.js"></script>
-		<![endif] -->
 </head>
 
 <body class="scrollbar" id="style-5">
     <?php include("logout_modal.php") ?>
-    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
+
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -126,7 +104,7 @@
                                                 <p class="card-text"><strong>Updated At:</strong>
                                                     <?php echo formatDate($job['updated_at']); ?></p>
                                                 <p class="card-text"><strong>Deadline:</strong>
-                                                    <?php echo formatDate($job['deadline']); ?></p>
+                                                    <?php echo formatDateDeadline($job['deadline']); ?></p>
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +116,7 @@
 
                 </div>
                 <nav aria-label="Page navigation">
-                    <ul class="pagination justify-content-center mt-3">
+                    <ul class="pagination justify-content-center pb-4">
                         <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
                             <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
@@ -178,18 +156,26 @@
                     </ul>
                 </nav>
                 <div class="user-menu">
-                    <a href="addJob.php" class="btn btn-info float-add-btn" title="Add Job">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" class=" mb-1" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    <a href="addJob.php" class="btn btn-info btn-lg float-add-btn" title="Add Announcement">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                            class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                         </svg>
                         Add Job
                     </a>
                 </div>
+
                 <div class="mobile-user-menu show">
-                    <a href="addJob.php" class="btn btn-info btn-lg float-add-btn px-3 py-2" title="Add Job">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white" class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
-                            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                    <a href="addJob.php" class="btn btn-info btn-lg float-add-btn px-3 py-2"
+                        title="Add Announcement">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                            class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                         </svg>
+
+                    </a>
                 </div>
             </div>
         </div>
@@ -199,18 +185,13 @@
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-
-
     <script src="assets/js/feather.min.js"></script>
-
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="assets/plugins/apexchart/chart-data.js"></script>
+    <script src="assets/js/script.js"></script>
     <script src="assets/js/viewJob.js"></script>
-    <!-- sdsadasdasd -->
 
     
 

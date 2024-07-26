@@ -12,6 +12,16 @@ if (!isset($_SESSION['username'])) {
 function formatDate($date) {
     return date("g:i A, F j, Y", strtotime($date));
 }
+function formatDateDeadline($date) {
+    // Set the fixed time to 5:00 PM
+    $fixed_time = '17:00:00'; // 5:00 PM in 24-hour format
+
+    // Combine the provided date with the fixed time
+    $datetime = $date . ' ' . $fixed_time;
+
+    // Convert the combined datetime string to a timestamp and format it
+    return date("g:i A, F j, Y", strtotime($datetime));
+}
 
 // Get user's name from session
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
