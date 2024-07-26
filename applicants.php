@@ -188,7 +188,7 @@
                                         </th>
                                         <th data-column="list_of_awards" class="sortable">List of Awards <i
                                                 class="fas"></i></th>
-                                        <th data-column="application_date" class="sortable">Application Date <i
+                                        <th data-column="application_date" class="sortable">Applied On <i
                                                 class="fas"></i></th>
                                         <th>Attachments</th>
                                         <th>Status</th>
