@@ -75,7 +75,7 @@
                                         value="********" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 d-flex justify-content-end">
                                     <button type="submit" class="update-btn">Update</button>
                                     </div>
                                 </div>
@@ -129,7 +129,6 @@
             </div>
         </div>
     </div>
-
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
