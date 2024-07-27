@@ -73,7 +73,7 @@ include("PHP_Connections/checkUser.php");
                     </div>
                     <div class="card-body">
                         <!-- Search Form -->
-                        <form method="GET" action="">
+                        <form id="searchForm" method="GET" action="">
                             <div class="d-flex justify-content-end mb-3 search-actions">
                                 <?php
                                 // Initialize search term
@@ -219,6 +219,24 @@ include("PHP_Connections/checkUser.php");
 <script src="assets/plugins/apexchart/chart-data.js"></script>
 <script src="assets/js/script.js"></script>
 <script src="assets/js/announcements.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the clear button
+    var clearButton = document.getElementById('clearSearch');
+    
+    // Add click event listener
+    clearButton.addEventListener('click', function() {
+        // Get the search input field
+        var searchInput = document.getElementById('searchInput');
+
+        // Clear the input field
+        searchInput.value = '';
+
+        // Submit the form to refresh the page
+        document.getElementById('searchForm').submit();
+    });
+});
+</script>
 <script>
 $(document).ready(function() {
     $('#confirmDeleteModal').on('show.bs.modal', function (event) {
