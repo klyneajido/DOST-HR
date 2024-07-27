@@ -123,7 +123,7 @@ include("PHP_Connections/checkUser.php");
                                         echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
                                         echo "<td>
                                                 <a href='editAccount.php?id=" . $row['admin_id'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                <a href='deleteAdmin.php?id=" . $row['admin_id'] . "' class='btn btn-sm btn-danger'><i class='fas fa-trash-alt'></i></a>
+                                                <button type='button' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDeleteModal' data-admin-id='" . $row['admin_id'] . "'><i class='fas fa-trash-alt'></i></button>
                                               </td>";
                                         echo "</tr>";
                                     }
@@ -166,23 +166,95 @@ include("PHP_Connections/checkUser.php");
             </div>
         </div>
     </div>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/feather.min.js"></script>
-    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
-    <script src="assets/js/script.js"></script>
-    <script src="assets/js/announcements.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Clear search input
-            $('#clearSearch').on('click', function() {
-                $('#searchInput').val('');
-                $(this).closest('form').submit();
-            });
-        });
-    </script>
-</body>
 
+    <!-- Confirm Delete Modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="admin_id">
+                <div class="form-group">
+                    <label for="currentPassword">Enter your password to confirm:</label>
+                    <input type="password" class="form-control" id="currentPassword" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" id="deleteBtn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Success</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                The account has been deleted successfully.
+            </div>
+            <div class="modal-footer">
+                <a href="accounts.php" class="btn btn-primary">OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="assets/js/jquery-3.6.0.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/feather.min.js"></script>
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+<script src="assets/plugins/apexchart/chart-data.js"></script>
+<script src="assets/js/script.js"></script>
+<script src="assets/js/announcements.js"></script>
+<script>
+$(document).ready(function() {
+    $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var adminId = button.data('admin-id');
+        var modal = $(this);
+        modal.find('#admin_id').val(adminId);
+    });
+
+    $('#deleteBtn').on('click', function() {
+        var adminId = $('#admin_id').val();
+        var currentPassword = $('#currentPassword').val();
+
+        $.ajax({
+            url: 'PHP_Connections/deleteAccount.php',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                admin_id: adminId,
+                currentPassword: currentPassword
+            }),
+            success: function(response) {
+                var result = JSON.parse(response);
+                if (result.success) {
+                    $('#confirmDeleteModal').modal('hide');
+                    $('#successModal').modal('show');
+                } else {
+                    alert(result.message);
+                }
+            },
+            error: function() {
+                alert('An error occurred.');
+            }
+        });
+    });
+});
+</script>
+</body>
 </html>
