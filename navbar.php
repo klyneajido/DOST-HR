@@ -80,35 +80,35 @@
                 </div>
                 <ul>
                     <li>
-                        <a href="index.php"><img src="assets/img/home.svg" alt="sidebar_img">
+                        <a href="index.php"><img src="assets/img/chart.svg" alt="sidebar_img">
                             <span>Dashboard</span></a>
                     </li>
                     <li class="">
-                        <a href="applicants.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+                        <a href="applicants.php"><img src="assets/img/users.svg" alt="sidebar_img"><span>
                                 Applicants</span></a>
                     </li>
                     <li>
-                        <a href="viewJob.php"><img src="assets/img/company.svg" alt="sidebar_img"> <span>
+                        <a href="viewJob.php"><img src="assets/img/case.svg" alt="sidebar_img"> <span>
                                 Jobs</span></a>
                     </li>
                     <li>
-                        <a href="announcements.php"><img src="assets/img/manage.svg" alt="sidebar_img">
+                        <a href="announcements.php"><img src="assets/img/bullhorn.svg" alt="sidebar_img">
                             <span>Announcements</span></a>
                     </li>
                     <li>
-                        <a href="transparency.php"><img src="assets/img/employee.svg" alt="sidebar_img"><span>
+                        <a href="transparency.php"><img src="assets/img/folder.svg" alt="sidebar_img"><span>
                                 Transparency</span></a>
                     </li>
                     <li>
-                        <a href="archive.php"><img src="assets/img/report.svg" alt="sidebar_img">
+                        <a href="archive.php"><img src="assets/img/archive.svg" alt="sidebar_img">
                             <span>Archive</span></a>
                     </li>
                     <li>
-                        <a href="history.php"><img src="assets/img/review.svg" alt="sidebar_img">
+                        <a href="history.php"><img src="assets/img/clock.svg" alt="sidebar_img">
                             <span>History</span></a>
                     </li>
                     <li>
-                        <a href="profile.php"><img src="assets/img/profile.svg" alt="sidebar_img">
+                        <a href="profile.php"><img src="assets/img/profile-icon.svg" alt="sidebar_img">
                             <span>Profile</span></a>
                     </li>
 
