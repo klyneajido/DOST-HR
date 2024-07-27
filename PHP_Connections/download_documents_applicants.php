@@ -45,8 +45,8 @@ if (isset($_GET['id'])) {
 
             foreach ($files as $label => $fileData) {
                 if (!empty($fileData)) {
-                    // Define file path within the ZIP
-                    $filePath = "$folderName/{$label}.pdf"; // Assuming PDF format
+                    // Define file path within the ZIP with applicant's name
+                    $filePath = "$folderName/{$row['lastname']}_{$row['firstname']}_{$label}.pdf"; // Assuming PDF format
                     // Add the file to the ZIP
                     $zip->addFromString($filePath, $fileData);
                 }

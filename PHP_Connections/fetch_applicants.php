@@ -82,7 +82,7 @@ $total_row = $total_result->fetch_assoc();
 $total_applicants = $total_row['total'];
 $total_pages = ceil($total_applicants / $rows_per_page);
 
-// Query for applicants with filters
+// Query for applicants with filters, sorted by application date
 $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
@@ -113,7 +113,8 @@ if ($status_filter) {
     $params[] = $status_filter;
 }
 
-$query .= " LIMIT ?, ?";
+// Order by application_date in descending order and apply pagination
+$query .= " ORDER BY a.application_date DESC LIMIT ?, ?";
 $params[] = $offset;
 $params[] = $rows_per_page;
 

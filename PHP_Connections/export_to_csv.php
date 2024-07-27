@@ -130,9 +130,12 @@ $sheet->getStyle($dataRange)->applyFromArray([
     ]
 ]);
 
+// Generate filename with applicant name and date
+$applicantName = 'applicants'; // Default or placeholder name, adjust if necessary
+$filename = "{$applicantName}_{$dateExported}.xlsx";
+
 // Save Excel file
 $writer = new Xlsx($spreadsheet);
-$filename = 'applicants.xlsx';
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 $writer->save('php://output');
