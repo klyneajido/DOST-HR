@@ -1,6 +1,9 @@
 <?php
-// session_start();
+// Start session
+session_start();
 include_once 'db_connection.php';
+
+// Check if user is logged in
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
@@ -18,9 +21,19 @@ $result = $stmt->get_result();
 
 if ($result->num_rows === 1) {
     $user = $result->fetch_assoc();
-    $user_authority = $user['authority']; 
+    $user_authority = $user['authority']; // Set the authority variable
 } else {
-    echo "User not found.";
+    // User not found
+    header('Location: login.php');
     exit();
 }
+
+// Check if user is a superadmin
+if ($user_authority !== 'superadmin') {
+    // Redirect non-superadmin users
+    header('Location: index.php'); // or another appropriate page
+    exit();
+}
+
+// Continue with the rest of your accounts page logic here
 ?>

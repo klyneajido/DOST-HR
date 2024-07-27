@@ -1,10 +1,11 @@
+
+<?php include("PHP_Connections/verifyUser.php");?>
 <div class="header">
     <div class="header-left">
         <div class="logo-wrapper align-self-center">
             <a href="index.php" class="logo">
                 <img src="assets/img/DOST.png" alt="Logo">
             </a>
-
         </div>
 
         <a href="index.php" class="logo logo-small">
@@ -47,8 +48,6 @@
             });
             </script>
         </li>
-        </li>
-
     </ul>
     <div class="dropdown mobile-user-menu show">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
@@ -59,8 +58,8 @@
             <a class="dropdown-item" href="PHP_Connections/logout.php">Logout</a>
         </div>
     </div>
-
 </div>
+
 <div class="sidebar" id="sidebar">
     <div class="sidebar-inner slimscroll">
         <div class="sidebar-contents">
@@ -83,7 +82,7 @@
                         <a href="index.php"><img src="assets/img/chart.svg" alt="sidebar_img">
                             <span>Dashboard</span></a>
                     </li>
-                    <li class="">
+                    <li>
                         <a href="applicants.php"><img src="assets/img/users.svg" alt="sidebar_img"><span>
                                 Applicants</span></a>
                     </li>
@@ -116,6 +115,12 @@
                         <a href="profile.php"><img src="assets/img/profile-icon.svg" alt="sidebar_img">
                             <span>Profile</span></a>
                     </li>
+                     <?php if ($user_authority === 'superadmin'): ?>
+                    <li>
+                        <a href="accounts.php"><img src="assets/img/profile.svg" alt="sidebar_img">
+                            <span>Accounts</span></a>
+                    </li>
+                    <?php endif; ?>
 
                 </ul>
                 <ul class="logout">
@@ -128,6 +133,7 @@
         </div>
     </div>
 </div>
+
 <script>
 document.getElementById('sidebarLogoutLink').addEventListener('click', function(event) {
     event.preventDefault();
