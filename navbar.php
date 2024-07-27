@@ -112,7 +112,7 @@
                     </li>
                      <?php if ($user_authority === 'superadmin'): ?>
                     <li>
-                        <a href="accounts.php"><img src="assets/img/accounts.svg" alt="sidebar_img">
+                        <a href="accounts.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                             <span>Accounts</span></a>
                     </li>
                     <?php endif; ?>
