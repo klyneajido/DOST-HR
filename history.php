@@ -39,6 +39,27 @@ include_once 'PHP_Connections/fetch_history.php';?>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="clearHistoryModal" tabindex="-1" aria-labelledby="clearHistoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="clearHistoryForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="clearHistoryModalLabel">Confirm Clear History</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="adminPasswordClear" class="form-label">Admin Password</label>
+                            <input type="password" class="form-control" id="adminPasswordClear" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">Clear History</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -55,6 +76,22 @@ include_once 'PHP_Connections/fetch_history.php';?>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="clearHistorySuccessModal" tabindex="-1" aria-labelledby="clearHistorySuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="clearHistorySuccessModalLabel">History Cleared</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body">
+                The history has been successfully cleared.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -97,6 +134,12 @@ include_once 'PHP_Connections/fetch_history.php';?>
                                         <option value="Updated Announcement"
                                             <?php echo $action_filter === 'Updated Announcement' ? 'selected' : ''; ?>>
                                             Updated Announcement</option>
+                                        <option value="Updated Job"
+                                            <?php echo $action_filter === 'Updated Job' ? 'selected' : ''; ?>>
+                                            Updated Job</option>
+                                        <option value="Archived Applicant"
+                                            <?php echo $action_filter === 'Archived Applicant' ? 'selected' : ''; ?>>
+                                            Archived Applicant</option>
                                         <!-- Add other actions here -->
                                     </select>
                                 </div>
@@ -145,9 +188,9 @@ include_once 'PHP_Connections/fetch_history.php';?>
                                     <i class="fas fa-ellipsis-v"></i>
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item"
-                                        href=""
-                                       >Clear History</a>
+                                    <button class="dropdown-item" id="clearHistoryBtn" type="button" data-bs-toggle="modal" data-bs-target="#clearHistoryModal">
+                                        Clear History
+                                    </button>
                                 </div>
                             </div>
                             </div>
@@ -254,47 +297,12 @@ include_once 'PHP_Connections/fetch_history.php';?>
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/js/script.js"></script>
-    <script>
+    
+     <script>
     $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-    });
-
-    document.getElementById('sortAsc').addEventListener('click', function() {
-        window.location.href =
-            'history.php?sort=asc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
-    });
-
-    document.getElementById('sortDesc').addEventListener('click', function() {
-        window.location.href =
-            'history.php?sort=desc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
-    });
-
-    document.getElementById('filterAction').addEventListener('change', function() {
-        const action = this.value;
-        const adminId = document.getElementById('filterAdmin').value;
-        window.location.href =
-            'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' +
-            encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
-    });
-
-    document.getElementById('filterAdmin').addEventListener('change', function() {
-        const action = document.getElementById('filterAction').value;
-        const adminId = this.value;
-        window.location.href =
-            'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' +
-            encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
-    });
-
-    document.getElementById('resetFilters').addEventListener('click', function() {
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>';
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Initialize Bootstrap modals
         const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
         const successModal = new bootstrap.Modal(document.getElementById('successModal'));
 
-        // Attach click event listener to all delete buttons
         document.querySelectorAll('.delete-history-btn').forEach(button => {
             button.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -304,39 +312,110 @@ include_once 'PHP_Connections/fetch_history.php';?>
             });
         });
 
-        // Handle form submission for password verification and deletion
         document.getElementById('passwordForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const historyId = document.getElementById('deleteHistoryId').value;
             const adminPassword = document.getElementById('adminPassword').value;
 
             fetch('PHP_Connections/deleteHistory.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        id: historyId,
-                        password: adminPassword
-                    })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: historyId,
+                    password: adminPassword
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Show success modal
-                        successModal.show();
-                        // Optional: Reload the page after a delay to let user see the success message
-                        setTimeout(() => window.location.reload(), 2000);
-                    } else {
-                        alert('Invalid password.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    passwordModal.hide(); 
+                    successModal.show();
+                    setTimeout(() => window.location.reload(), 2000);
+                } else {
+                    alert('Invalid password.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         });
     });
+    </script>
 
+    <!-- Separate script for clear history -->
+    <script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const clearHistoryModal = new bootstrap.Modal(document.getElementById('clearHistoryModal'));
+    const clearHistorySuccessModal = new bootstrap.Modal(document.getElementById('clearHistorySuccessModal'));
+
+    document.getElementById('clearHistoryBtn').addEventListener('click', function() {
+        clearHistoryModal.show(); // Show the clear history modal
+    });
+
+    document.getElementById('clearHistoryForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const adminPasswordClear = document.getElementById('adminPasswordClear').value;
+
+        fetch('PHP_Connections/clearHistory.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                password: adminPasswordClear
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                clearHistoryModal.hide(); 
+                clearHistorySuccessModal.show();
+                setTimeout(() => window.location.reload(), 2000); // Optional: Reload after a delay
+            } else {
+                alert('Invalid password.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+    </script>
+
+    <script>
+    // Initialize Bootstrap tooltips
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    document.getElementById('sortAsc').addEventListener('click', function() {
+        window.location.href = 'history.php?sort=asc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
+    });
+
+    document.getElementById('sortDesc').addEventListener('click', function() {
+        window.location.href = 'history.php?sort=desc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
+    });
+
+    document.getElementById('filterAction').addEventListener('change', function() {
+        const action = this.value;
+        const adminId = document.getElementById('filterAdmin').value;
+        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
+    });
+
+    document.getElementById('filterAdmin').addEventListener('change', function() {
+        const action = document.getElementById('filterAction').value;
+        const adminId = this.value;
+        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
+    });
+
+    document.getElementById('resetFilters').addEventListener('click', function() {
+        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>';
+    });
+    </script>
+
+    <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         var scrollpos = localStorage.getItem('scrollpos');
         if (scrollpos) window.scrollTo(0, scrollpos);
