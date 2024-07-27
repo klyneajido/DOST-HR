@@ -8,9 +8,7 @@
     <title>HRMO Admin</title>
 
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
-
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/transparency.css">
@@ -56,13 +54,21 @@
             <h3 class="d-flex justify-content-center my-3">Documents</h3>
             <div class="display-documents pb-4">
                 <div class="container-fluid">
-                    <div class="row" id="documentList">
-                        <?php
-                        foreach ($documentCards as $card) {
-                            echo '<div class="col-md-6 document-item">' . $card . '</div>';
-                        }
-                        ?>
-                    </div>
+                    <?php if (empty($documentCards)): ?>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <p>No documents uploaded.</p>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div class="row" id="documentList">
+                            <?php
+                            foreach ($documentCards as $card) {
+                                echo '<div class="col-md-6 document-item">' . $card . '</div>';
+                            }
+                            ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="row" id="noDocumentsFound" style="display: none;">
                         <div class="col-md-12 text-center">
                             <p>No documents found.</p>
