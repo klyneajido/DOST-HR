@@ -99,6 +99,11 @@
                                 Transparency</span></a>
                     </li>
                     <li>
+                        <a href="departments.php"><img src="assets/img/department.svg" alt="sidebar_img"><span>
+                                Departments</span></a>
+                    </li>
+
+                    <li>
                         <a href="archive.php"><img src="assets/img/archive.svg" alt="sidebar_img">
                             <span>Archive</span></a>
                     </li>

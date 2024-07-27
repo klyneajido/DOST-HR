@@ -38,81 +38,82 @@
                 </div>
 
                 <?php if (!empty($errors)) : ?>
-                    <div class="alert alert-danger">
-                        <?php foreach ($errors as $error) : ?>
-                            <p><?php echo htmlspecialchars($error); ?></p>
-                        <?php endforeach; ?>
-                    </div>
+                <div class="alert alert-danger">
+                    <?php foreach ($errors as $error) : ?>
+                    <p><?php echo htmlspecialchars($error); ?></p>
+                    <?php endforeach; ?>
+                </div>
                 <?php endif; ?>
 
                 <div class="row">
                     <?php foreach ($jobs as $job) : ?>
-                        <div class="col-lg-6">
+                    <div class="col-lg-6">
 
-                            <div class="card">
-                                <div class="card-body shadow p-3">
-                                    <div class="p-3 d-flex justify-content-between align-items-center">
-                                        <h5 class=""><strong>
-                                                <?php
+                        <div class="card">
+                            <div class="card-body shadow p-3">
+                                <div class="p-3 d-flex justify-content-between align-items-center">
+                                    <h5 class=""><strong>
+                                            <?php
                                                 if (empty($job['position_or_unit'])) :
                                                     $position = ' ';
                                                 else :
                                                     $position = $job['position_or_unit'];
                                                 endif;
                                                 echo htmlspecialchars($job['job_title'] . " " . $position); ?>
-                                            </strong></h5>
-                                        <div class="dropdown">
-                                            <button class=" dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-ellipsis-v"></i>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="PHP_Connections/archiveJobs.php?job_id=<?php echo $job['job_id']; ?>" onclick="return confirm('Are you sure you want to archive this job?');">Archive</a>
-                                                <a class="dropdown-item" href="detailJob.php?job_id=<?php echo $job['job_id']; ?>">Edit</a>
-                                            </div>
+                                        </strong></h5>
+                                    <div class="dropdown">
+                                        <button class=" dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item"
+                                                href="PHP_Connections/archiveJobs.php?job_id=<?php echo $job['job_id']; ?>"
+                                                onclick="return confirm('Are you sure you want to archive this job?');">Archive</a>
+                                            <a class="dropdown-item"
+                                                href="detailJob.php?job_id=<?php echo $job['job_id']; ?>">Edit</a>
                                         </div>
-
                                     </div>
 
-                                    <div class="mx-3 py-2">
-                                        <p class="card-text pt-3"><strong>Description:</strong>
-                                            <?php echo $job['description']; ?></p>
+                                </div>
+
+                                <div class="mx-3 py-2">
+                                    <p class="card-text pt-3"><strong>Description:</strong>
+                                        <?php echo $job['description']; ?></p>
 
 
-                                        <div class="row ">
-                                            <div class="col-md-6">
-                                                <p class="card-text"><strong>Department:</strong>
-                                                    <?php echo htmlspecialchars($job['department_name']); ?></p>
-                                                <?php if (!empty($job['place_of_assignment'])) : ?>
-                                                    <p class="card-text"><strong>Place of Assignment:</strong>
-                                                        <?php echo htmlspecialchars($job['place_of_assignment']); ?></p>
-                                                <?php endif; ?>
-                                                <?php if ("COS" == ($job['status'])) : ?>
-                                                    <p class="card-text"><strong>Daily Salary:</strong>₱
-                                                        <?php echo htmlspecialchars(number_format($job['salary'], 2)); ?>
-                                                    </p>
-                                                <?php else : ?>
-                                                    <p class="card-text"><strong>Monthly Salary:</strong>₱
-                                                        <?php echo htmlspecialchars(number_format($job['salary'], 2)); ?>
-                                                    </p>
-                                                <?php endif; ?>
-                                                <p class="card-text"><strong>Status:</strong>
-                                                    <?php echo htmlspecialchars($job['status']); ?></p>
-                                            </div>
+                                    <div class="row ">
+                                        <div class="col-md-6">
+                                            <p class="card-text"><strong>Department:</strong>
+                                                <?php echo htmlspecialchars($job['department_name']); ?></p>
+                                            <?php if (!empty($job['place_of_assignment'])) : ?>
+                                            <p class="card-text"><strong>Place of Assignment:</strong>
+                                                <?php echo htmlspecialchars($job['place_of_assignment']); ?></p>
+                                            <?php endif; ?>
+                                            <p class="card-text">
+                                                <strong>Salary:</strong>
+                                                ₱<?php echo htmlspecialchars(number_format($job['salary'], 2)); ?>
+                                                /<?php echo ($job['status'] == "COS") ? "day" : "month"; ?>
+                                            </p>
 
-                                            <div class="col-md-6">
-                                                <p class="card-text"><strong>Created At:</strong>
-                                                    <?php echo formatDate($job['created_at']); ?></p>
-                                                <p class="card-text"><strong>Updated At:</strong>
-                                                    <?php echo formatDate($job['updated_at']); ?></p>
-                                                <p class="card-text"><strong>Deadline:</strong>
-                                                    <?php echo formatDateDeadline($job['deadline']); ?></p>
-                                            </div>
+                                            <p class="card-text"><strong>Status:</strong>
+                                                <?php echo htmlspecialchars($job['status']); ?></p>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <p class="card-text"><strong>Posted:</strong>
+                                                <?php echo formatDate($job['created_at']); ?></p>
+                                            <p class="card-text"><strong>Last Updated:</strong>
+                                                <?php echo formatDate($job['updated_at']); ?></p>
+                                            <p class="card-text"><strong>Deadline:</strong>
+                                                <?php echo formatDateDeadline($job['deadline']); ?></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            </a>
                         </div>
+                        </a>
+                    </div>
                     <?php endforeach; ?>
 
                 </div>
@@ -136,9 +137,9 @@
                         }
 
                         for ($i = $start; $i <= $end; $i++) : ?>
-                            <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
-                                <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                            </li>
+                        <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+                            <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
                         <?php endfor;
 
                         if ($end < $total_pages) {
@@ -168,8 +169,7 @@
                 </div>
 
                 <div class="mobile-user-menu show">
-                    <a href="addJob.php" class="btn btn-info btn-lg float-add-btn px-3 py-2"
-                        title="Add Announcement">
+                    <a href="addJob.php" class="btn btn-info btn-lg float-add-btn px-3 py-2" title="Add Announcement">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
                             class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
                             <path
@@ -194,7 +194,7 @@
     <script src="assets/js/script.js"></script>
     <script src="assets/js/viewJob.js"></script>
 
-    
+
 
 </body>
 

@@ -1055,7 +1055,7 @@ button.bg-danger:hover {
 .card-body {
   position: relative;
   padding: 25px;
-  min-height: 420px; 
+  min-height: 360px; 
 }
 .card .card-header {
   border-color: rgba(137, 137, 137, 0.25);
@@ -7226,4 +7226,9 @@ button {
 .dropdown-menu {
   right: 0;
   left: auto;
+}
+
+
+.card-text{
+  font-size: 13px;
 }
