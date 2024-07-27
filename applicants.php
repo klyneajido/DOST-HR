@@ -20,27 +20,6 @@
 
 <body class="scrollbar" id="style-5">
     <?php include("logout_modal.php")?>
-    <!-- Modal for Delete Confirmation -->
-    <!-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete this applicant?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <div class="main-wrapper">
 
         <?php include("navbar.php") ?>
@@ -219,8 +198,8 @@
                                                 All</a>
                                         </td>
                                         <td class="status-td">
-                                            <div class="status-container text-center">
-                                                <select class="status-dropdown w-100"
+                                            <div class="status-container text-center col-md-12">
+                                                <select class="status-dropdown"
                                                     data-applicant-id="<?php echo $applicant['id']; ?>"
                                                     onchange="updateStatusColor(this)">
                                                     <option value="Shortlisted" class="text-center shortlist-opt"

@@ -70,6 +70,7 @@
                             </div>
                             <?php endif; ?>
                             <div class="container">
+                                <!-- START FORM -->
                                 <form method="POST" action="addJob.php"
                                     onsubmit="return confirm('Are you sure you want to add this job?');"
                                     class="needs-validation" novalidate>
