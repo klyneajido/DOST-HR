@@ -9,6 +9,9 @@ if (!isset($_SESSION['username'])) {
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
+// Get the ID of the currently logged-in superadmin
+$current_admin_id = $_SESSION['admin_id'];
+
 // Function to validate password
 function validatePassword($password) {
     if (strlen($password) < 8) {
@@ -26,53 +29,52 @@ function validatePassword($password) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $admin_id = intval($_POST['admin_id']);
     $name = $_POST['name'];
-    $authority = $_POST['authority'];
     $newPassword = $_POST['newPassword'];
     $confirmPassword = $_POST['confirmPassword'];
 
     // Error message array
     $errors = [];
 
-    // Validate password
-    if ($newPassword !== $confirmPassword) {
-        $errors['confirmPassword'] = "Passwords do not match.";
-    } else {
-        $passwordError = validatePassword($newPassword);
-        if ($passwordError) {
-            $errors['newPassword'] = $passwordError;
+    // Check if password fields are empty
+    if (!empty($newPassword) || !empty($confirmPassword)) {
+        // Validate password
+        if ($newPassword !== $confirmPassword) {
+            $errors['confirmPassword'] = "Passwords do not match.";
+        } else {
+            $passwordError = validatePassword($newPassword);
+            if ($passwordError) {
+                $errors['newPassword'] = $passwordError;
+            }
         }
     }
 
-    // Check if the user is attempting to downgrade to admin while being the only superadmin
     if (empty($errors)) {
-        // Check the current number of superadmins
-        $sql = "SELECT COUNT(*) AS superadmin_count FROM admins WHERE authority = 'superadmin'";
-        $result = $mysqli->query($sql);
-        $row = $result->fetch_assoc();
-        $superadmin_count = $row['superadmin_count'];
-
-        // If the user is the only superadmin and is trying to change authority to admin
-        if ($superadmin_count <= 1 && $authority === 'admin') {
-            $errors['authority'] = "You cannot downgrade to admin as you are the only superadmin. Please ensure there is at least one superadmin.";
-        } else {
+        // Prepare to update the record
+        if (!empty($newPassword) && !empty($confirmPassword)) {
             // Hash the new password
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-
-            // Prepare the SQL update statement
-            $sql = "UPDATE admins SET name = ?, authority = ?, password = ? WHERE admin_id = ?";
+            $sql = "UPDATE admins SET name = ?, password = ? WHERE admin_id = ?";
             if ($stmt = $mysqli->prepare($sql)) {
-                $stmt->bind_param("sssi", $name, $authority, $hashedPassword, $admin_id);
-
-                if ($stmt->execute()) {
-                    $success_message = "Account updated successfully.";
-                } else {
-                    $errors['general'] = "Error updating account: " . $mysqli->error;
-                }
-                $stmt->close();
+                $stmt->bind_param("ssi", $name, $hashedPassword, $admin_id);
+            } else {
+                $errors['general'] = "Error preparing statement: " . $mysqli->error;
+            }
+        } else {
+            // Update name only
+            $sql = "UPDATE admins SET name = ? WHERE admin_id = ?";
+            if ($stmt = $mysqli->prepare($sql)) {
+                $stmt->bind_param("si", $name, $admin_id);
             } else {
                 $errors['general'] = "Error preparing statement: " . $mysqli->error;
             }
         }
+
+        if (isset($stmt) && $stmt->execute()) {
+            $success_message = "Account updated successfully.";
+        } else {
+            $errors['general'] = "Error updating account: " . $mysqli->error;
+        }
+        $stmt->close();
     }
 
     // Redirect back to the edit page with errors or success message

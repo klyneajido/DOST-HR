@@ -45,42 +45,20 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                         <li class="breadcrumb-item">
                             <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Accounts</a>
                         </li>
-                        <li class="breadcrumb-item active">Edit Admin</li>
+                        <li class="breadcrumb-item active">Add Admin</li>
                     </ul>
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Edit Admin Account</h3>
+                        <h3 class="card-title">Add New Admin Account</h3>
                     </div>
                     <div class="card-body">
-                        <?php
-                        if (isset($_GET['id'])) {
-                            $admin_id = intval($_GET['id']);
-                            $sql = "SELECT * FROM admins WHERE admin_id = ?";
-                            $stmt = $mysqli->prepare($sql);
-                            if ($stmt) {
-                                $stmt->bind_param("i", $admin_id);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                if ($result->num_rows > 0) {
-                                    $admin = $result->fetch_assoc();
-                                } else {
-                                    die("Admin not found.");
-                                }
-                                $stmt->close();
-                            } else {
-                                die("Error in preparing statement: " . $mysqli->error);
-                            }
-                        } else {
-                            die("No admin ID provided.");
-                        }
-                        ?>
-                        <form id="updateForm" action="PHP_Connections/updateAccount.php" method="POST">
+                        <form id="addForm" action="PHP_Connections/insertAccount.php" method="POST">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($admin['name']); ?>" required>
+                                        <input type="text" class="form-control" id="name" name="name" required>
                                         <?php if (isset($errors['name'])): ?>
                                             <div class="text-danger"><?php echo htmlspecialchars($errors['name']); ?></div>
                                         <?php endif; ?>
@@ -89,15 +67,35 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input type="text" class="form-control" id="username" name="username" value="<?php echo htmlspecialchars($admin['username']); ?>" disabled>
+                                        <input type="text" class="form-control" id="username" name="username" required>
+                                        <?php if (isset($errors['username'])): ?>
+                                            <div class="text-danger"><?php echo htmlspecialchars($errors['username']); ?></div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="newPassword">New Password</label>
-                                        <input type="password" class="form-control <?php echo isset($errors['newPassword']) ? 'is-invalid' : ''; ?>" id="newPassword" name="newPassword">
-                                        <?php if (isset($errors['newPassword'])): ?>
-                                            <div class="invalid-feedback"><?php echo htmlspecialchars($errors['newPassword']); ?></div>
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                        <?php if (isset($errors['email'])): ?>
+                                            <div class="text-danger"><?php echo htmlspecialchars($errors['email']); ?></div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="authority">Authority</label>
+                                        <select class="form-control" id="authority" name="authority" required>
+                                            <option value="admin">Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control <?php echo isset($errors['password']) ? 'is-invalid' : ''; ?>" id="password" name="password">
+                                        <?php if (isset($errors['password'])): ?>
+                                            <div class="invalid-feedback"><?php echo htmlspecialchars($errors['password']); ?></div>
                                         <?php endif; ?>
                                     </div>
                                 </div>
@@ -110,9 +108,9 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                                         <?php endif; ?>
                                     </div>
                                 </div>
+                                
                             </div>
-                            <input type="hidden" name="admin_id" value="<?php echo htmlspecialchars($admin['admin_id']); ?>">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">Update Account</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">Add Account</button>
                             <a href="accounts.php" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
@@ -122,18 +120,18 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="confirmationModalLabel">Confirm Update</h5>
+                                <h5 class="modal-title" id="confirmationModalLabel">Confirm Addition</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <p>Are you sure you want to update the admin account?</p>
-                                <p>Make sure you have permission first before updating this account.</p>
+                                <p>Are you sure you want to add this admin account?</p>
+                                <p>Ensure you have the required permissions before proceeding.</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" onclick="submitForm()">Yes, Update</button>
+                                <button type="button" class="btn btn-primary" onclick="submitForm()">Yes, Add</button>
                             </div>
                         </div>
                     </div>
@@ -160,13 +158,19 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
             </div>
         </div>
     </div>
+    <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/announcements.js"></script>
     <script>
         function submitForm() {
-            document.getElementById("updateForm").submit();
+            document.getElementById("addForm").submit();
         }
 
         // Display success modal if success message is present

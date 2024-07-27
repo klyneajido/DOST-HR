@@ -18,6 +18,34 @@ include("PHP_Connections/checkUser.php");
         .password-cover {
             -webkit-text-security: disc;
         }
+        .form-control-rounded {
+            border-radius: 50px;
+        }
+        .filter-dropdown {
+            width: 150px; /* Adjust the width as needed */
+        }
+        .btn-reset {
+            border-radius: 50px;
+        }
+        .btn-search {
+            border-radius: 0;
+            background-color: transparent; /* No background color */
+            color: #007bff; /* Icon color */
+        }
+        .input-group {
+            width: 50%; /* Adjust the width as needed */
+        }
+        .input-group .form-control {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .input-group .btn {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .btn-reset {
+            border-radius: 50px;
+        }
     </style>
 </head>
 
@@ -40,7 +68,33 @@ include("PHP_Connections/checkUser.php");
                         <h3 class="card-title">Admin Accounts</h3>
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <!-- Filter Dropdown and Reset Button -->
+                        <form method="GET" action="">
+                            <div class="d-flex justify-content-end mb-3">
+                                <?php
+                                // Initialize filters with default values
+                                $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+                                $filterAuthority = isset($_GET['authority']) ? $_GET['authority'] : '';
+                                ?>
+                                <div class="input-group">
+                                    <input type="text" id="searchInput" name="search" value="<?php echo htmlspecialchars($searchTerm); ?>" class="form-control form-control-rounded" placeholder="Search by name or email">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-search"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column mr-2">
+                                    <select id="filterAuthority" name="authority" class="form-control filter-dropdown">
+                                        <option value="">Authority</option>
+                                        <option value="admin" <?php echo $filterAuthority == 'admin' ? 'selected' : ''; ?>>Admin</option>
+                                        <option value="superadmin" <?php echo $filterAuthority == 'superadmin' ? 'selected' : ''; ?>>Superadmin</option>
+                                    </select>
+                                </div>
+                                <button type="button" id="resetFilters" class="btn btn-secondary btn-reset"><i class="fas fa-undo"></i></button>
+                            </div>
+                        </form>
+
+                        <!-- Table -->
+                        <table class="table table-striped" id="adminTable">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -52,9 +106,29 @@ include("PHP_Connections/checkUser.php");
                             </thead>
                             <tbody>
                                 <?php
-                                $query = "SELECT admin_id, name, username, email, password, profile_image, authority FROM admins";
-                                $result = $mysqli->query($query);
+                                // Build query with filters
+                                $query = "SELECT admin_id, name, username, email, authority FROM admins WHERE 1";
+                                if ($searchTerm) {
+                                    $searchTerm = '%' . $mysqli->real_escape_string($searchTerm) . '%';
+                                    $query .= " AND (name LIKE ? OR email LIKE ?)";
+                                }
+                                if ($filterAuthority) {
+                                    $query .= " AND authority = ?";
+                                }
 
+                                // Prepare and execute statement
+                                $stmt = $mysqli->prepare($query);
+                                if ($searchTerm && $filterAuthority) {
+                                    $stmt->bind_param("sss", $searchTerm, $searchTerm, $filterAuthority);
+                                } elseif ($searchTerm) {
+                                    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+                                } elseif ($filterAuthority) {
+                                    $stmt->bind_param("s", $filterAuthority);
+                                }
+                                $stmt->execute();
+                                $result = $stmt->get_result();
+
+                                // Display results
                                 if ($result->num_rows > 0) {
                                     while ($row = $result->fetch_assoc()) {
                                         echo "<tr>";
@@ -76,6 +150,28 @@ include("PHP_Connections/checkUser.php");
                         </table>
                     </div>
                 </div>
+                <div class="user-menu">
+                    <a href="addAccount.php" class="btn btn-info btn-lg float-add-btn" title="Add Account">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white"
+                            class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+                        Add Account
+                    </a>
+                </div>
+
+                <div class="mobile-user-menu show">
+                    <a href="addAccount.php" class="btn btn-info btn-lg float-add-btn px-3 py-2"
+                        title="Add Account">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="white"
+                            class="bi bi-plus-circle-fill mb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
+                        </svg>
+
+                    </a>
+                </div>
                 <!-- Pop-up notification -->
                 <?php if (!empty($success_message)) : ?>
                     <script>
@@ -85,9 +181,7 @@ include("PHP_Connections/checkUser.php");
             </div>
         </div>
     </div>
-    <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
@@ -96,14 +190,21 @@ include("PHP_Connections/checkUser.php");
     <script src="assets/js/script.js"></script>
     <script src="assets/js/announcements.js"></script>
     <script>
-        function togglePassword(adminId) {
-            var passwordField = document.getElementById('password-' + adminId);
-            if (passwordField.classList.contains('password-cover')) {
-                passwordField.classList.remove('password-cover');
-            } else {
-                passwordField.classList.add('password-cover');
+        $(document).ready(function() {
+            // Function to apply filters
+            function applyFilters() {
+                const authority = $('#filterAuthority').val();
+                window.location.href = `?search=${encodeURIComponent($('#searchInput').val())}&authority=${encodeURIComponent(authority)}`;
             }
-        }
+
+            // Event listeners
+            $('#filterAuthority').on('change', applyFilters);
+            $('#resetFilters').on('click', function() {
+                $('#filterAuthority').val('');
+                $('#searchInput').val('');
+                applyFilters();
+            });
+        });
     </script>
 </body>
 
