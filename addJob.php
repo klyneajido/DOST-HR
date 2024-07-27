@@ -1,4 +1,6 @@
-<?php include("PHP_Connections/insert_job.php")?>
+<?php include("PHP_Connections/insert_job.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
