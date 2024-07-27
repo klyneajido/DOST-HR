@@ -9,6 +9,9 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
+function formatDate($date) {
+    return date("F j, Y, g:i A", strtotime($date));
+}
 
 // Get user's name from session
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';

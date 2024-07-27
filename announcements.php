@@ -60,11 +60,11 @@
                                         <p class="card-text"><strong>Description:</strong>
                                             <?php echo htmlspecialchars($announcement['announcement']); ?></p>
                                         <p class="card-text"><strong>Link:</strong>
-                                            <?php echo htmlspecialchars($announcement['link']); ?></p>
+                                           <a href="<?php echo htmlspecialchars($announcement['link']); ?>" target="_blank"> <?php echo htmlspecialchars($announcement['link']); ?></a></p>
                                         <p class="card-text"><strong>Created:</strong>
-                                            <?php echo htmlspecialchars($announcement['created_at']); ?></p>
+                                            <?php echo formatDate($announcement['created_at']); ?></p>
                                         <p class="card-text"><strong>Updated:</strong>
-                                            <?php echo htmlspecialchars($announcement['updated_at']); ?></p>
+                                            <?php echo formatDate($announcement['updated_at']); ?></p>
                                     </div>
                                     <div class="col-md-4 text-end rounded">
                                         <img src="data:image/jpeg;base64,<?php echo base64_encode($announcement['image_shown']); ?>"
