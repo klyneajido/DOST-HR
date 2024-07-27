@@ -86,53 +86,55 @@ include("PHP_Connections/checkUser.php");
                         </form>
 
                         <!-- Table -->
-                        <table class="table table-striped" id="adminTable">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Authority</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                // Build query with search filter
-                                $query = "SELECT admin_id, name, username, email, authority FROM admins WHERE authority != 'superadmin'";
-                                if ($searchTerm) {
-                                    $searchTerm = '%' . $mysqli->real_escape_string($searchTerm) . '%';
-                                    $query .= " AND (name LIKE ? OR email LIKE ?)";
-                                }
-
-                                // Prepare and execute statement
-                                $stmt = $mysqli->prepare($query);
-                                if ($searchTerm) {
-                                    $stmt->bind_param("ss", $searchTerm, $searchTerm);
-                                }
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-
-                                // Display results
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        echo "<tr>";
-                                        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($row['username']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                                        echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
-                                        echo "<td>
-                                                <a href='editAccount.php?id=" . $row['admin_id'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                <button type='button' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDeleteModal' data-admin-id='" . $row['admin_id'] . "'><i class='fas fa-trash-alt'></i></button>
-                                              </td>";
-                                        echo "</tr>";
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="adminTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Authority</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    // Build query with search filter
+                                    $query = "SELECT admin_id, name, username, email, authority FROM admins WHERE authority != 'superadmin'";
+                                    if ($searchTerm) {
+                                        $searchTerm = '%' . $mysqli->real_escape_string($searchTerm) . '%';
+                                        $query .= " AND (name LIKE ? OR email LIKE ?)";
                                     }
-                                } else {
-                                    echo "<tr><td colspan='5' class='text-center'>No accounts found.</td></tr>";
-                                }
-                                ?>
-                            </tbody>
-                        </table>
+
+                                    // Prepare and execute statement
+                                    $stmt = $mysqli->prepare($query);
+                                    if ($searchTerm) {
+                                        $stmt->bind_param("ss", $searchTerm, $searchTerm);
+                                    }
+                                    $stmt->execute();
+                                    $result = $stmt->get_result();
+
+                                    // Display results
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo "<tr>";
+                                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['username']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
+                                            echo "<td>
+                                                    <a href='editAccount.php?id=" . $row['admin_id'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                                                    <button type='button' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDeleteModal' data-admin-id='" . $row['admin_id'] . "'><i class='fas fa-trash-alt'></i></button>
+                                                  </td>";
+                                            echo "</tr>";
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='5' class='text-center'>No accounts found.</td></tr>";
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="user-menu">
