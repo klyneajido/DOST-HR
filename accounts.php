@@ -93,7 +93,7 @@ include("PHP_Connections/checkUser.php");
                                         <th>Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <!-- <th>Authority</th> -->
+                                        <th>User Type</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -121,7 +121,7 @@ include("PHP_Connections/checkUser.php");
                                             echo "<td>" . htmlspecialchars($row['name']) . "</td>";
                                             echo "<td>" . htmlspecialchars($row['username']) . "</td>";
                                             echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                                            // echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
+                                            echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
                                             echo "<td>
                                                     <a href='editAccount.php?id=" . $row['admin_id'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
                                                     <button type='button' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDeleteModal' data-admin-id='" . $row['admin_id'] . "'><i class='fas fa-trash-alt'></i></button>
