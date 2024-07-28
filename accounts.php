@@ -93,7 +93,7 @@ include("PHP_Connections/checkUser.php");
                                         <th>Name</th>
                                         <th>Username</th>
                                         <th>Email</th>
-                                        <th>Authority</th>
+                                        <th>User Type</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
