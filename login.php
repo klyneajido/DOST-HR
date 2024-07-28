@@ -88,9 +88,9 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
                                     </div>
                                 </div>
                                 <button class="btn btn-lg btn-block btn-primary" type="submit">Login</button>
-                                <div class="text-center dont-have">
+                                <!-- <div class="text-center dont-have">
                                     Don't have an account yet? <a href="register.php">Register</a>
-                                </div>
+                                </div> -->
                             </form>
                             <!-- END FORM -->
                         </div>
