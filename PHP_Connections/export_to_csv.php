@@ -46,25 +46,24 @@ $searchFilter = isset($_GET['search']) ? $_GET['search'] : '';
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
 
 // Prepare the SQL query with sorting and filtering
-$sql = "SELECT CONCAT(j.job_title, ' ', j.position_or_unit) AS job_title_position, 
-               a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
-               a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.status
+$sql = "SELECT 
+            a.job_title AS job_title_position, 
+            a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
+            a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.status
         FROM applicants a 
-        LEFT JOIN job j ON a.job_id = j.job_id
         WHERE (a.lastname LIKE ? OR 
                a.firstname LIKE ? OR 
                a.email LIKE ? OR
-               j.job_title LIKE ? OR
-               j.position_or_unit LIKE ?)";
+               a.job_title LIKE ?)";
 
 // Apply additional filters
-$params = array_fill(0, 5, "%$searchFilter%");
+$params = array_fill(0, 4, "%$searchFilter%");
 if (!empty($jobTitleFilter)) {
-    $sql .= " AND j.job_title = ?";
+    $sql .= " AND a.job_title = ?";
     $params[] = $jobTitleFilter;
 }
 if (!empty($positionFilter)) {
-    $sql .= " AND j.position_or_unit = ?";
+    $sql .= " AND a.position_or_unit = ?";
     $params[] = $positionFilter;
 }
 if (!empty($statusFilter)) {
@@ -73,7 +72,7 @@ if (!empty($statusFilter)) {
 }
 
 // Add sorting by job title first, then by ID
-$sql .= " ORDER BY j.job_title ASC, a.id ASC";
+$sql .= " ORDER BY a.job_title ASC, a.id ASC";
 
 // Prepare and execute the query
 $stmt = $mysqli->prepare($sql);

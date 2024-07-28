@@ -15,7 +15,7 @@ function formatDate($date) {
 }
 
 // Fetch job titles
-$job_titles_query = "SELECT DISTINCT job_title FROM job";
+$job_titles_query = "SELECT DISTINCT job_title FROM job WHERE status != 'archived'";
 $job_titles_result = $mysqli->query($job_titles_query);
 $job_titles = [];
 while ($row = $job_titles_result->fetch_assoc()) {
@@ -23,7 +23,7 @@ while ($row = $job_titles_result->fetch_assoc()) {
 }
 
 // Fetch positions
-$positions_query = "SELECT DISTINCT position_or_unit FROM job";
+$positions_query = "SELECT DISTINCT position_or_unit FROM job WHERE status != 'archived'";
 $positions_result = $mysqli->query($positions_query);
 $positions = [];
 while ($row = $positions_result->fetch_assoc()) {
@@ -52,18 +52,18 @@ $total_query = "SELECT COUNT(*) as total
                     (a.lastname LIKE ? OR 
                      a.firstname LIKE ? OR 
                      a.email LIKE ? OR
-                     j.job_title LIKE ? OR
-                     j.position_or_unit LIKE ?)";
+                     a.job_title LIKE ? OR
+                     a.position_or_unit LIKE ?)";
 
 $params = array_fill(0, 5, "%$search_query%");
 
 // Apply additional filters
 if ($job_title_filter) {
-    $total_query .= " AND j.job_title = ?";
+    $total_query .= " AND a.job_title = ?";
     $params[] = $job_title_filter;
 }
 if ($position_filter) {
-    $total_query .= " AND j.position_or_unit = ?";
+    $total_query .= " AND a.position_or_unit = ?";
     $params[] = $position_filter;
 }
 if ($status_filter) {
@@ -87,25 +87,25 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
                  a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
-                 a.proof_of_trainings_seminars, a.proof_of_rewards, j.job_title, j.position_or_unit, a.application_date, a.interview_date
+                 a.proof_of_trainings_seminars, a.proof_of_rewards, a.job_title, a.position_or_unit, a.application_date, a.interview_date
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
               (a.lastname LIKE ? OR 
                a.firstname LIKE ? OR 
                a.email LIKE ? OR
-               j.job_title LIKE ? OR
-               j.position_or_unit LIKE ?)";
+               a.job_title LIKE ? OR
+               a.position_or_unit LIKE ?)";
 
 $params = array_fill(0, 5, "%$search_query%");
 
 // Apply additional filters
 if ($job_title_filter) {
-    $query .= " AND j.job_title = ?";
+    $query .= " AND a.job_title = ?";
     $params[] = $job_title_filter;
 }
 if ($position_filter) {
-    $query .= " AND j.position_or_unit = ?";
+    $query .= " AND a.position_or_unit = ?";
     $params[] = $position_filter;
 }
 if ($status_filter) {

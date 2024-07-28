@@ -1,7 +1,4 @@
-<?php include("PHP_Connections/fetch_jobs.php");
-
-?>
-
+<?php include("PHP_Connections/fetch_jobs.php"); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,9 +9,7 @@
     <title>HRMO Admin</title>
 
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
-
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/jobs.css">
@@ -34,7 +29,6 @@
                         </li>
                         <li class="breadcrumb-item active">Position</li>
                     </ul>
-
                 </div>
 
                 <?php if (!empty($errors)) : ?>
@@ -48,7 +42,6 @@
                 <div class="row">
                     <?php foreach ($jobs as $job) : ?>
                     <div class="col-lg-6">
-
                         <div class="card">
                             <div class="card-body shadow p-3">
                                 <div class="p-3 d-flex justify-content-between align-items-center">
@@ -67,20 +60,19 @@
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item"
-                                                href="PHP_Connections/archiveJobs.php?job_id=<?php echo $job['job_id']; ?>"
-                                                onclick="return confirm('Are you sure you want to archive this job?');">Archive</a>
+                                            <a class="dropdown-item" href="#"
+                                                data-toggle="modal"
+                                                data-target="#confirmArchiveModal"
+                                                data-job-id="<?php echo $job['job_id']; ?>">Archive</a>
                                             <a class="dropdown-item"
                                                 href="detailJob.php?job_id=<?php echo $job['job_id']; ?>">Edit</a>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="mx-3 py-2">
                                     <p class="card-text pt-3"><strong>Description:</strong>
                                         <?php echo $job['description']; ?></p>
-
 
                                     <div class="row ">
                                         <div class="col-md-6">
@@ -115,7 +107,6 @@
                         </a>
                     </div>
                     <?php endforeach; ?>
-
                 </div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center pb-4">
@@ -182,11 +173,31 @@
         </div>
     </div>
 
+    <!-- Archive Confirmation Modal -->
+    <div class="modal fade" id="confirmArchiveModal" tabindex="-1" role="dialog" aria-labelledby="confirmArchiveModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmArchiveModalLabel">Confirm Archive</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to archive this job?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="#" id="confirmArchiveButton" class="btn btn-danger">Archive</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
@@ -194,8 +205,15 @@
     <script src="assets/js/script.js"></script>
     <script src="assets/js/viewJob.js"></script>
 
-
-
+    <script>
+        $('#confirmArchiveModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var jobId = button.data('job-id'); // Extract info from data-* attributes
+            var modal = $(this);
+            var confirmBtn = modal.find('#confirmArchiveButton');
+            confirmBtn.attr('href', 'PHP_Connections/archiveJobs.php?job_id=' + jobId);
+        });
+    </script>
 </body>
 
 </html>

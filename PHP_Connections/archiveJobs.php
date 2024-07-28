@@ -1,5 +1,4 @@
 <?php
-// Start session
 session_start();
 include_once 'db_connection.php';
 
@@ -54,10 +53,25 @@ try {
 
     if ($result_select->num_rows > 0) {
         $job = $result_select->fetch_assoc();
-        
+
+        // Update applicants table with job details
+        $sql_update_applicants = "UPDATE applicants 
+                                  SET job_title = ?, position_or_unit = ? 
+                                  WHERE job_id = ?";
+        $stmt_update_applicants = $mysqli->prepare($sql_update_applicants);
+        $stmt_update_applicants->bind_param("ssi", 
+            $job['job_title'], 
+            $job['position_or_unit'], 
+            $job_id
+        );
+
+        if (!$stmt_update_applicants->execute()) {
+            throw new Exception("Error updating applicants with job details: " . $stmt_update_applicants->error);
+        }
+
         // Insert job into job_archive
         $sql_insert = "INSERT INTO job_archive (job_title, position_or_unit, description, salary, department_id, place_of_assignment, status, created_at, updated_at, deadline, archived_by)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt_insert = $mysqli->prepare($sql_insert);
         $stmt_insert->bind_param("sssddssssss", 
@@ -90,12 +104,9 @@ try {
 
         if ($result_req_select->num_rows > 0) {
             while ($req = $result_req_select->fetch_assoc()) {
-                // Debug output
-                echo "Requirement: " . print_r($req, true) . "<br>";
-
                 // Insert job requirements into job_requirements_archive table
                 $sql_req_insert = "INSERT INTO job_requirements_archive (requirement_id, job_id, requirement_type, requirement_text, archived_at, jobarchive_id)
-                VALUES (?, ?, ?, ?, NOW(), ?)";
+                                   VALUES (?, ?, ?, ?, NOW(), ?)";
 
                 $stmt_req_insert = $mysqli->prepare($sql_req_insert);
                 $stmt_req_insert->bind_param("iissi", 
@@ -107,18 +118,9 @@ try {
                 );
 
                 if (!$stmt_req_insert->execute()) {
-                    // Detailed error logging
-                    echo "Error inserting job requirement into archive: " . $stmt_req_insert->error . "<br>";
-                    error_log("Error inserting job requirement into archive: " . $stmt_req_insert->error);
                     throw new Exception("Error inserting job requirement into archive: " . $stmt_req_insert->error);
-                } else {
-                    echo "Inserted requirement: " . print_r($req, true) . "<br>";
-                    error_log("Inserted requirement: " . print_r($req, true));
                 }
             }
-        } else {
-            echo "No requirements found for job_id: $job_id<br>";
-            error_log("No requirements found for job_id: $job_id");
         }
 
         // Record action in history table
@@ -131,7 +133,7 @@ try {
             throw new Exception("Error recording action in history: " . $stmt_history->error);
         }
 
-        // Delete job from job table
+        // Delete job row from job table
         $sql_delete = "DELETE FROM job WHERE job_id = ?";
         $stmt_delete = $mysqli->prepare($sql_delete);
         $stmt_delete->bind_param("i", $job_id);
