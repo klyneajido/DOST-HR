@@ -143,6 +143,7 @@
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
+                                    
                                     <div class="row py-2">
                                         <div class="form-group col-md-6">
                                             <label for="poa">Place of Assignment</label>

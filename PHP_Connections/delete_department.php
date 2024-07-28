@@ -12,29 +12,41 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the department ID from the POST request
-    $department_id = isset($_POST['department_id']) ? intval($_POST['department_id']) : 0;
+// Check if the department_id is set
+if (isset($_POST['department_id'])) {
+    $department_id = intval($_POST['department_id']);
 
-    // Prepare and execute the delete statement
-    if ($department_id > 0) {
-        $query = "DELETE FROM department WHERE department_id = ?";
-        $stmt = $mysqli->prepare($query);
+    // Check if there are jobs associated with this department
+    $check_query = "SELECT COUNT(*) AS job_count FROM job WHERE department_id = ?";
+    $stmt = $mysqli->prepare($check_query);
+    $stmt->bind_param('i', $department_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($row['job_count'] > 0) {
+        $_SESSION['error'] = "Cannot delete department. There are job posts associated with this department. Delete the jobs first.";
+    } else {
+        // If no jobs are associated, delete the department
+        $delete_query = "DELETE FROM department WHERE department_id = ?";
+        $stmt = $mysqli->prepare($delete_query);
         $stmt->bind_param('i', $department_id);
 
         if ($stmt->execute()) {
             $_SESSION['success'] = "Department deleted successfully.";
         } else {
-            $_SESSION['errors'] = ["Failed to delete department."];
+            $_SESSION['error'] = "Failed to delete department.";
         }
 
         $stmt->close();
     }
+} else {
+    $_SESSION['error'] = "Invalid request.";
 }
 
 $mysqli->close();
 
-// Redirect back to departments page
 header('Location: ../departments.php');
 exit();
 ?>

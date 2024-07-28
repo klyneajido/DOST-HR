@@ -10,6 +10,9 @@ if (!isset($_SESSION['username'])) {
 if (isset($_GET['id'])) {
     $jobarchive_id = intval($_GET['id']); // Use intval to ensure it's an integer
 
+    // Define the default department ID
+    $default_department_id = 5;
+
     // Begin transaction
     $mysqli->begin_transaction();
 
@@ -25,6 +28,20 @@ if (isset($_GET['id'])) {
 
         if ($result && $result->num_rows === 1) {
             $job = $result->fetch_assoc();
+
+            // Check if the department still exists
+            $check_department_query = "SELECT COUNT(*) AS dept_count FROM department WHERE department_id = ?";
+            $stmt_check_dept = $mysqli->prepare($check_department_query);
+            $stmt_check_dept->bind_param('i', $job['department_id']);
+            $stmt_check_dept->execute();
+            $result_check_dept = $stmt_check_dept->get_result();
+            $dept_row = $result_check_dept->fetch_assoc();
+            $stmt_check_dept->close();
+
+            if ($dept_row['dept_count'] == 0) {
+                // Set department_id to the default value if the department does not exist
+                $job['department_id'] = $default_department_id;
+            }
 
             // Insert the job details into the job table
             $insert_query = "
@@ -104,9 +121,13 @@ if (isset($_GET['id'])) {
     } catch (Exception $e) {
         // Rollback transaction if any error occurs
         $mysqli->rollback();
-        echo "Error: " . $e->getMessage();
+        $_SESSION['error'] = $e->getMessage();
+        header('Location: ../archive.php?tab=jobs&msg=error');
+        exit();
     }
 } else {
-    echo "ID parameter is missing.";
+    $_SESSION['error'] = "ID parameter is missing.";
+    header('Location: ../archive.php?tab=jobs&msg=error');
+    exit();
 }
 ?>

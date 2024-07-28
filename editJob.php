@@ -183,7 +183,7 @@
                                             <label for="poa">Place of Assignment</label>
                                             <input type="text" name="poa" id="poa" class="form-control"
                                                 value="<?php echo htmlspecialchars($job['place_of_assignment']); ?>"
-                                                autocomplete="off" required>
+                                                autocomplete="off">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="monthlysalary">Salary</label>
