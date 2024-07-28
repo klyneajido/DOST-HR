@@ -1,6 +1,7 @@
 <?php include("PHP_Connections/fetch_departments.php") ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -12,6 +13,7 @@
     <link rel="stylesheet" href="assets/css/departments.css">
     <script src="https://kit.fontawesome.com/0dcd39d035.js" crossorigin="anonymous"></script>
 </head>
+
 <body class="scrollbar" id="style-5">
     <?php include("logout_modal.php") ?>
     <div class="main-wrapper">
@@ -22,7 +24,8 @@
                     <div class="col-md-3">
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item">
-                                <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Departments</a>
+                                <a href=""><img src="assets/img/dash.png" class="mr-2"
+                                        alt="breadcrumb" />Departments</a>
                             </li>
                         </ul>
                     </div>
@@ -37,19 +40,25 @@
                             <!-- START SEARCH -->
                             <div class="top-nav-search col-md-10">
                                 <div class="">
-                                    <input type="text" id="search-input" name="search" class="form-control" placeholder="Search here">
+                                    <input type="text" id="search-input" name="search" class="form-control"
+                                        placeholder="Search here">
                                     <button class="btn" type="submit"><i class="fas fa-search"></i></button>
                                 </div>
                             </div>
                             <!-- END SEARCH -->
                             <div class="add-dept col-md-2 d-flex justify-content-end">
-                                <button class="addfile-btn" data-toggle="modal" data-target="#uploadModal">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125" stroke="#ffffff" stroke-width="2"></path>
-                                        <path d="M17 15V18M17 21V18M17 18H14M17 18H20" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    </svg>
-                                    ADD
-                                </button>
+                                <a href="addDepartment.php"> <button class="addfile-btn" data-toggle="modal" data-target="#uploadModal">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125"
+                                                stroke="#ffffff" stroke-width="2"></path>
+                                            <path d="M17 15V18M17 21V18M17 18H14M17 18H20" stroke="#ffffff"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                        ADD
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -65,7 +74,8 @@
                             <tbody>
                                 <?php if (!empty($departments)) : ?>
                                 <?php foreach ($departments as $department) : ?>
-                                <tr data-department-id="<?php echo $department['department_id']; ?>" data-search="<?php echo htmlspecialchars($department['name'] . ' ' . $department['location']); ?>">
+                                <tr data-department-id="<?php echo $department['department_id']; ?>"
+                                    data-search="<?php echo htmlspecialchars($department['name'] . ' ' . $department['location']); ?>">
                                     <td><?php echo htmlspecialchars($department['name']); ?></td>
                                     <td><?php echo htmlspecialchars($department['location']); ?></td>
                                     <td>
@@ -94,7 +104,8 @@
         </div>
     </div>
     <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -149,4 +160,5 @@
     });
     </script>
 </body>
+
 </html>
