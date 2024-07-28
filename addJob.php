@@ -19,10 +19,6 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
 
     <link rel="stylesheet" href="assets/css/jobs.css" />
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.min.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 
@@ -151,7 +147,7 @@
                                         <div class="form-group col-md-6">
                                             <label for="poa">Place of Assignment</label>
                                             <input type="text" name="poa" id="poa" class="form-control" value=""
-                                                autocomplete="off" required>
+                                                autocomplete="off">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="monthlysalary">Salary</label>
