@@ -9,9 +9,11 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
+
 function formatDate($date) {
     return date("g:i A, F j, Y", strtotime($date));
 }
+
 function formatDateDeadline($date) {
     // Set the fixed time to 5:00 PM
     $fixed_time = '17:00:00'; // 5:00 PM in 24-hour format
@@ -43,6 +45,9 @@ $sql = "SELECT j.job_id, j.job_title, j.position_or_unit, j.description, d.name 
 if (!empty($search)) {
     $sql .= " WHERE j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
 }
+
+// Add order by clause to sort by created_at or updated_at in descending order
+$sql .= " ORDER BY j.updated_at DESC, j.created_at DESC";
 
 // Add pagination to the query
 $sql .= " LIMIT $limit OFFSET $offset";

@@ -233,7 +233,7 @@
                                             </div>
                                         </td>
                                         <td class="d-flex justify-content-center align-items-center"> 
-                                            <button class="delete-button border border-danger align-self-center"
+                                            <button class="delete-button align-self-center"
                                                 data-applicant-id="<?php echo $applicant['id']; ?>"
                                                 onclick="confirmArchive(<?php echo $applicant['id']; ?>)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
