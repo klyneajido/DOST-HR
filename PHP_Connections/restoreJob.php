@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
 
     try {
         // Fetch the job details from the job_archive table
-        $fetch_query = "SELECT job_title, position_or_unit, description, salary, department_id, place_of_assignment, status, created_at, updated_at, deadline 
+        $fetch_query = "SELECT job_title, position_or_unit, description, salary, department_id, place_of_assignment, status, created_at, deadline 
                         FROM job_archive 
                         WHERE jobarchive_id = ?";
         $stmt = $mysqli->prepare($fetch_query);
@@ -43,6 +43,9 @@ if (isset($_GET['id'])) {
                 $job['department_id'] = $default_department_id;
             }
 
+            // Set the current timestamp for updated_at
+            $current_time = date("Y-m-d H:i:s");
+
             // Insert the job details into the job table
             $insert_query = "
                 INSERT INTO job (job_title, position_or_unit, description, salary, department_id, place_of_assignment, status, created_at, updated_at, deadline)
@@ -59,7 +62,7 @@ if (isset($_GET['id'])) {
                 $job['place_of_assignment'],
                 $job['status'],
                 $job['created_at'],
-                $job['updated_at'],
+                $current_time, // Use current timestamp for updated_at
                 $job['deadline']
             );
 

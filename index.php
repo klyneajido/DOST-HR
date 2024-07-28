@@ -2,9 +2,7 @@
 include("PHP_Connections/fetch_homepage.php");
 include("PHP_Connections/recentActivities.php");
 include("PHP_Connections/upcomingInterview.php");
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -120,11 +118,10 @@ include("PHP_Connections/upcomingInterview.php");
 							</div>
 
 							<div class="card-body overflow-auto">
-
 								<?php foreach ($positions_to_display as $general) : ?>
 									<div>
-										<div class="team-list border-filter">
-											<div class="team-view justify-content-between">
+										<div class="team-list ">
+											<div class="team-view justify-content-between shadow-sm">
 												<div class="row col-md-auto">
 													<div class="team-img px-2 btn-info rounded-circle mx-2 my-2 disabled">
 														<h4 class="text-light"><?php echo $general['total_count']; ?></h4>
@@ -143,12 +140,12 @@ include("PHP_Connections/upcomingInterview.php");
 											<div class="specific-positions" id="positions-<?php echo $general['general_title']; ?>" style="display: none; margin-left: 5%;">
 												<?php foreach ($general['specific_positions'] as $specific) : ?>
 													<div class="mb-3 filter-content-indiv">
-														<div class="team-view">
+														<div class="team-view shadow-sm">
 															<div class="team-img px-2 btn-light rounded-circle mx-2 disabled" style="background:lightblue;">
-																<h4 class="text-body-tertiary"><?php echo $specific['specific_count']; ?></h4>
+																<h4 class="text-body-tertiary"><?php echo $specific['specific_position']; ?></h4>
 															</div>
 															<div class="team-content my-auto">
-																<label><?php echo $specific['specific_position']; ?></label>
+																<label><?php echo $specific['specific_count']; ?></label>
 															</div>
 														</div>
 													</div>

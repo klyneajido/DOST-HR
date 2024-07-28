@@ -1,5 +1,3 @@
-
-
 <?php
 //eyyo 
 // Start session
@@ -10,6 +8,19 @@ include_once 'db_connection.php';
 if (!isset($_SESSION['username'])) {
     header('Location: ../login.php');
     exit();
+}
+function formatDate($date) {
+    return date("F j, Y, g:i A", strtotime($date));
+}
+function formatDateDeadline($date) {
+    // Set the fixed time to 5:00 PM
+    $fixed_time = '17:00:00'; // 5:00 PM in 24-hour format
+
+    // Combine the provided date with the fixed time
+    $datetime = $date . ' ' . $fixed_time;
+
+    // Convert the combined datetime string to a timestamp and format it
+    return date(" F j, Y, g:i A", strtotime($datetime));
 }
 
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -46,7 +57,6 @@ $announcements_page = isset($_GET['announcements_page']) ? intval($_GET['announc
 $announcements_offset = ($announcements_page - 1) * $announcements_limit;
 
 // Modified query to join job_archive with department to get department name and paginate results
-// SQL query to join job_archive with job_requirements_archive and department
 $query_archive = "
 SELECT ja.job_title, 
        ja.position_or_unit, 
@@ -88,7 +98,7 @@ $stmt_count->bind_param('ss', $search_term, $search_term);
 $stmt_count->execute();
 $result_archive_count = $stmt_count->get_result();
 $total_jobs = $result_archive_count->fetch_assoc()['total'];
-$total_pages_jobs = ceil($total_jobs / $jobs_limit);
+$total_pages_jobs = ($total_jobs > 0) ? ceil($total_jobs / $jobs_limit) : 1;
 
 // Fetch paginated archived announcements
 $query_announcement_archive = "
@@ -104,7 +114,7 @@ $result_announcement_archive = $stmt_announcement->get_result();
 $query_announcement_count = "SELECT COUNT(*) AS total FROM announcement_archive";
 $result_announcement_count = $mysqli->query($query_announcement_count);
 $total_announcements = $result_announcement_count->fetch_assoc()['total'];
-$total_pages_announcements = ceil($total_announcements / $announcements_limit);
+$total_pages_announcements = ($total_announcements > 0) ? ceil($total_announcements / $announcements_limit) : 1;
 
 // If the form is submitted, update the profile details
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -157,26 +167,8 @@ $result_announcement_count = $stmt_count_announcement->get_result();
 $total_announcements = $result_announcement_count->fetch_assoc()['total'];
 $total_pages_announcements = ceil($total_announcements / $announcements_limit);
 
-// Get total number of archived jobs for pagination
-$query_archive_count = "
-    SELECT COUNT(*) AS total 
-    FROM job_archive 
-    WHERE job_title LIKE ? OR description LIKE ?
-";
-$stmt_count = $mysqli->prepare($query_archive_count);
-$stmt_count->bind_param('ss', $search_term, $search_term);
-$stmt_count->execute();
-$result_archive_count = $stmt_count->get_result();
-$total_jobs = $result_archive_count->fetch_assoc()['total'];
-$total_pages_jobs = ($total_jobs > 0) ? ceil($total_jobs / $jobs_limit) : 1;
-
-// Get total number of archived announcements for pagination
-$query_announcement_count = "SELECT COUNT(*) AS total FROM announcement_archive";
-$result_announcement_count = $mysqli->query($query_announcement_count);
-$total_announcements = $result_announcement_count->fetch_assoc()['total'];
-$total_pages_announcements = ($total_announcements > 0) ? ceil($total_announcements / $announcements_limit) : 1;
-
 $search_applicant = isset($_GET['search_applicant']) ? trim($_GET['search_applicant']) : '';
+
 // Pagination parameters for Applicants
 $applicants_limit = 10;
 $applicants_page = isset($_GET['applicants_page']) ? intval($_GET['applicants_page']) : 1;
@@ -191,8 +183,6 @@ $query_applicant_archive = "
 ";
 $search_applicant_term = '%' . $search_applicant . '%';
 $stmt_applicant = $mysqli->prepare($query_applicant_archive);
-
-// Correct the bind_param to match the query
 $stmt_applicant->bind_param('sssii', $search_applicant_term, $search_applicant_term, $search_applicant_term, $applicants_offset, $applicants_limit);
 $stmt_applicant->execute();
 $result_applicant_archive = $stmt_applicant->get_result();

@@ -1,6 +1,4 @@
-<?php include("PHP_Connections/insert_job.php");
-?>
-
+<?php include("PHP_Connections/insert_job.php");?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,38 +10,15 @@
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
-
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
-
     <link rel="stylesheet" href="assets/css/jobs.css" />
-
 </head>
 
 <body class="scrollbar" id="style-5">
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="main-wrapper">
-        <?php include("navbar.php")?>
+        <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-md-9 mx-auto my-5">
@@ -69,16 +44,14 @@
                             <?php endif; ?>
                             <div class="container">
                                 <!-- START FORM -->
-                                <form method="POST" action="addJob.php"
-                                    onsubmit="return confirm('Are you sure you want to add this job?');"
-                                    class="needs-validation" novalidate>
+                                <form id="addJobForm" method="POST" action="addJob.php" class="needs-validation" novalidate>
                                     <div class="row py-2">
-                                        <div class="form-group col-md-6 ">
+                                        <div class="form-group col-md-6">
                                             <label for="job_title">Job Title</label>
                                             <input type="text" name="job_title" id="job_title" class="form-control"
                                                 value="" autocomplete="off" required>
                                             <div class="invalid-feedback">
-                                                Please Enter a Job.
+                                                Please Enter a Job Title.
                                             </div>
                                         </div>
                                         <div class="form-group col-md-6">
@@ -97,9 +70,8 @@
                                         <label for="educationrequirement">Education Requirement/s</label>
                                         <div id="educationrequirement-container" class="d-flex flex-column">
                                             <div class="d-flex mb-2">
-                                                <input type="text" name="educationrequirement[]"
-                                                    class="form-control" placeholder="Enter Education Requirement"
-                                                    autocomplete="off" required>
+                                                <input type="text" name="educationrequirement[]" class="form-control"
+                                                    placeholder="Enter Education Requirement" autocomplete="off" required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('educationrequirement')">+</button>
                                             </div>
@@ -110,22 +82,20 @@
                                         <label for="experienceortraining">Experience or Training</label>
                                         <div id="experienceortraining-container" class="d-flex flex-column">
                                             <div class="d-flex mb-2">
-                                                <input type="text" name="experienceortraining[]"
-                                                    class="form-control" placeholder="Enter experience or training requirement"
-                                                    autocomplete="off" required>
+                                                <input type="text" name="experienceortraining[]" class="form-control"
+                                                    placeholder="Enter Experience or Training Requirement" autocomplete="off" required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('experienceortraining')">+</button>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Duties and Responsibilities -->
-                                    <div class="form-group">
+                                    <div class="form-group py-2">
                                         <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
                                         <div id="dutiesandresponsibilities-container" class="d-flex flex-column">
                                             <div class="d-flex mb-2">
-                                                <input type="text" name="dutiesandresponsibilities[]"
-                                                    class="form-control" placeholder="Enter duty or responsibility"
-                                                    autocomplete="off" required>
+                                                <input type="text" name="dutiesandresponsibilities[]" class="form-control"
+                                                    placeholder="Enter Duty or Responsibility" autocomplete="off" required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('dutiesandresponsibilities')">+</button>
                                             </div>
@@ -134,10 +104,9 @@
 
                                     <div class="form-group py-2">
                                         <label for="department_id">Department</label>
-                                        <select name="department_id" id="department_id" class="form-control  form-select" required>
+                                        <select name="department_id" id="department_id" class="form-control form-select" required>
                                             <?php foreach ($departments as $department) : ?>
-                                            <option
-                                                value="<?php echo htmlspecialchars($department['department_id']); ?>">
+                                            <option value="<?php echo htmlspecialchars($department['department_id']); ?>">
                                                 <?php echo htmlspecialchars($department['name']); ?>
                                             </option>
                                             <?php endforeach; ?>
@@ -172,7 +141,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between mx-1">
-                                        <button class="col-md-5 btn btn-info" type="submit">Add Job</button>
+                                        <button class="col-md-5 btn btn-info" type="button" data-toggle="modal" data-target="#confirmModal">Add Job</button>
                                         <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
                                 </form>
@@ -182,23 +151,70 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-    <script>
 
-    </script>
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirm Add Job</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to add this job?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmAddJob">Add Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
-
     <script src="assets/js/feather.min.js"></script>
-
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-
     <script src="assets/plugins/select2/js/select2.min.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/addJob.js"></script>
+
+    <script>
+        // Function to add field dynamically
+        function addField(section) {
+            const container = document.getElementById(`${section}-container`);
+            const div = document.createElement('div');
+            div.className = 'd-flex mb-2';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = `${section}[]`;
+            input.className = 'form-control';
+            input.placeholder = `Enter ${section.replace(/([A-Z])/g, ' $1').toLowerCase()} requirement`;
+            input.autocomplete = 'off';
+            input.required = true;
+
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'btn btn-outline-secondary ml-2';
+            button.textContent = '-';
+            button.onclick = () => container.removeChild(div);
+
+            div.appendChild(input);
+            div.appendChild(button);
+            container.appendChild(div);
+        }
+
+        // Handle confirmation modal
+        document.getElementById('confirmAddJob').addEventListener('click', function () {
+            document.getElementById('addJobForm').submit();
+        });
+    </script>
 </body>
 
 </html>

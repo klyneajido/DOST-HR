@@ -223,9 +223,9 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                                     echo "<td>" . htmlspecialchars($job['department_name']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['created_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['updated_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['deadline']) . "</td>";
+                                                    echo "<td>" . formatDate($job['created_at']) . "</td>";
+                                                    echo "<td>" . formatDate($job['updated_at']) . "</td>";
+                                                    echo "<td>" . formatDateDeadline($job['deadline']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
                                                     echo "<td>
                                                             <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
@@ -338,8 +338,8 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                                     echo "<td><a href='" . htmlspecialchars($archive['link']) . "' target='_blank'>" . htmlspecialchars($archive['link']) . "</a></td>";
                                                     // Use base64-encoded string as the src attribute of the img tag
                                                     echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='50' height='50'></td>";
-                                                    echo "<td>" . htmlspecialchars($archive['created_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($archive['updated_at']) . "</td>";
+                                                    echo "<td>" . formatDate($archive['created_at']) . "</td>";
+                                                    echo "<td>" . formatDate($archive['updated_at']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
                                                     echo "<td>
                                                     <a href='#' class='btn btn-success btn-sm restore-announcement-button' onclick='confirmRestore(" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "); return false;'>
@@ -449,8 +449,8 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                             echo "<td>" . htmlspecialchars($applicant['firstname']) . " " . htmlspecialchars($applicant['lastname']) . "</td>";
                             echo "<td>" . htmlspecialchars($applicant['email']) . "</td>";
                             echo "<td>" . htmlspecialchars($applicant['contact_number']) . "</td>";
-                            echo "<td>" . htmlspecialchars($applicant['application_date']) . "</td>";
-                            echo "<td>" . htmlspecialchars($applicant['interview_date']) . "</td>";
+                            echo "<td>" . formatDate($applicant['application_date']) . "</td>";
+                            echo "<td>" . formatDate($applicant['interview_date']) . "</td>";
                             echo "<td>  
                                 <a href='PHP_Connections/deleteApplicant.php' class='btn btn-danger btn-sm delete-applicant-button' data-id='" . htmlspecialchars($applicant['applicantarchive_id'], ENT_QUOTES, 'UTF-8') . "'>
                                     <i class='fas fa-trash'></i>

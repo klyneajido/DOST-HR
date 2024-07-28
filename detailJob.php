@@ -138,15 +138,15 @@
                                     </div>
                                     <div class="pl-4 mb-2">
                                         <h6><strong>Created</strong></h6>
-                                        <p><?php echo htmlspecialchars($job['created_at']); ?></p>
+                                        <p><?php echo formatDate($job['created_at']); ?></p>
                                     </div>
                                     <div class="pl-4 mb-2">
                                         <h6><strong>Updated</strong></h6>
-                                        <p><?php echo htmlspecialchars($job['updated_at']); ?></p>
+                                        <p><?php echo formatDate($job['updated_at']); ?></p>
                                     </div>
                                     <div class="pl-4">
                                         <h6><strong>Deadline</strong></h6>
-                                        <p><?php echo htmlspecialchars($job['deadline']); ?> 5:00 PM</p>
+                                        <p><?php echo formatDateDeadline($job['deadline']); ?></p>
                                     </div>
                                 </div>
                             </div>

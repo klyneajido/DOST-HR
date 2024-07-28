@@ -6491,7 +6491,7 @@ label.logo-upload {
     box-shadow: 0 4px 6px -1px #45474B, 0 2px 4px -1px #488aec17;
 }
 
-.Btn {
+.dl-btn {
     width: 50px;
     height: 50px;
     border: 2px solid rgb(214, 214, 214);
@@ -6518,18 +6518,18 @@ label.logo-upload {
     border-right: 2px solid rgb(70, 70, 70);
   }
   
-  .Btn:hover {
+  .dl-btn:hover {
     background-color: rgb(7, 25, 82);
     transition-duration: 0.3s;
   }
   
-  .Btn:hover .icon2 {
+  .dl-btn:hover .icon2 {
     border-bottom: 2px solid rgb(235, 235, 235);
     border-left: 2px solid rgb(235, 235, 235);
     border-right: 2px solid rgb(235, 235, 235);
   }
   
-  .Btn:hover .svgIcon {
+  .dl-btn  .Btn:hover .svgIcon {
     fill: rgb(255, 255, 255);
     animation: slide-in-top 1s linear infinite;
   }

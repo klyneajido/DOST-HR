@@ -29,11 +29,11 @@ if ($result->num_rows > 0) {
 
         // Generate HTML for document card
         $documentCard = '<div class="document-card shadow-sm m-2">
-                            <div class="card-body d-flex justify-content-between align-items-center">
+                            <div class="card-body d-flex justify-content-between">
                                 <h6 class="card-title mb-0">' . $documentName . '</h6>
                                 <div class="document-buttons ml-2">
                                     <a href="PHP_Connections/download_document_transparency.php?id=' . $documentId . '">
-                                        <button class="Btn">
+                                        <button class="dl-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" class="svgIcon">
                                                 <path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
                                             </svg>
@@ -41,6 +41,14 @@ if ($result->num_rows > 0) {
                                         </button>
                                     </a>
                                 </div>
+                                <div class="dropdown ml-2">
+                                        <button class="btn btn-link p-0" type="button" id="dropdownMenuButton' . $documentId . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton' . $documentId . '">
+                                            <a class="dropdown-item" href="PHP_Connections/delete_document_transparency.php?id=' . $documentId . '">Delete</a>
+                                        </div>
+                                    </div>
                             </div>
                         </div>';
 

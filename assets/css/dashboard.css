@@ -4510,15 +4510,11 @@ a.delete {
 .team-view {
   width: 100%;
   display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
   align-items: center;
-  padding: 10px;
+  padding: 5px;
   background: #fff;
-  transition: all 0.5s;
-  border-radius: 20px;
+  border:1px solid lightgray;
+  border-radius: 6px;
 }
 .team-img {
   margin-right: 13px;
@@ -4700,7 +4696,6 @@ a.delete {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 0px;
-  color: #343434;
 }
 
 .team-view span {
@@ -7121,7 +7116,6 @@ label.logo-upload {
 
 .filter-content-indiv{
   margin-left:5%; 
-  border: 1px solid #ccc; 
   border-radius: 15px
 }
 
@@ -7155,8 +7149,7 @@ label.logo-upload {
 				color-stop(.5, transparent), to(transparent));
 	}
 	.filter-content-indiv{
-  margin-left:5%; 
-  border: 1px solid #ccc; 
+
   border-radius: 15px
 }
 
@@ -7176,7 +7169,7 @@ label.logo-upload {
 
     .filter-content-indiv {
         margin-left: 5%;
-        border: 1px solid #ccc;
+
         border-radius: 15px
     }
 

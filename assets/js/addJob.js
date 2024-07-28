@@ -18,6 +18,7 @@
       }, false)
     })
 })()
+
 function addField(containerId) {
   const container = document.getElementById(containerId + '-container');
   const input = document.createElement('input');

@@ -11,29 +11,13 @@
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="assets/css/jobs.css" />
+    <link rel="stylesheet" href="assets/css/jobs.css" />s
 </head>
 
 <body class="scrollbar" id="style-5">
-    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmLogout">Logout</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php include("logout_modal.php") ?>
+
+
     <div class="main-wrapper">
         <?php include("navbar.php")?>
 
@@ -61,8 +45,7 @@
                             </div>
                             <?php endif; ?>
                             <div class="container">
-                                <form method="POST" action="editJob.php?job_id=<?php echo $job_id; ?>"
-                                    onsubmit="return confirm('Are you sure you want to update this job?');"
+                                <form method="POST" id="editJobForm" action="editJob.php?job_id=<?php echo $job_id; ?>"
                                     class="needs-validation" novalidate>
                                     <div class="row py-2">
                                         <div class="form-group col-md-6 ">
@@ -91,22 +74,24 @@
                                     <div class="form-group py-2">
                                         <label for="educationrequirement">Education Requirement/s</label>
                                         <div id="educationrequirement-container" class="d-flex flex-column">
-                                            <?php foreach ($requirements['education'] as $req) : ?>
+                                            <?php foreach ($requirements['education'] as $index => $req) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="educationrequirement[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
                                                     placeholder="Enter Education Requirement" autocomplete="off"
                                                     required>
-                                                <button type="button" class="btn btn-outline-secondary ml-2"
-                                                    onclick="addField('educationrequirement')">+</button>
+                                                <button type="button"
+                                                    class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'educationrequirement\')' : 'removeField(this)'; ?>">
+                                                    <?php echo $index === 0 ? '+' : '-'; ?>
+                                                </button>
                                             </div>
                                             <?php endforeach; ?>
-                                            <!-- Add an empty field if no requirements exist -->
                                             <?php if (empty($requirements['education'])) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="educationrequirement[]" class="form-control"
                                                     placeholder="Enter Education Requirement" autocomplete="off"
-                                                   >
+                                                    required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('educationrequirement')">+</button>
                                             </div>
@@ -117,14 +102,17 @@
                                     <div class="form-group py-2">
                                         <label for="experienceortraining">Experience or Training</label>
                                         <div id="experienceortraining-container" class="d-flex flex-column">
-                                            <?php foreach ($requirements['experience'] as $req) : ?>
+                                            <?php foreach ($requirements['experience'] as $index => $req) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="experienceortraining[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
                                                     placeholder="Enter experience or training requirement"
                                                     autocomplete="off" required>
-                                                <button type="button" class="btn btn-outline-secondary ml-2"
-                                                    onclick="addField('experienceortraining')">+</button>
+                                                <button type="button"
+                                                    class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'experienceortraining\')' : 'removeField(this)'; ?>">
+                                                    <?php echo $index === 0 ? '+' : '-'; ?>
+                                                </button>
                                             </div>
                                             <?php endforeach; ?>
                                             <?php if (empty($requirements['experience'])) : ?>
@@ -142,14 +130,17 @@
                                     <div class="form-group">
                                         <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
                                         <div id="dutiesandresponsibilities-container" class="d-flex flex-column">
-                                            <?php foreach ($requirements['duties'] as $req) : ?>
+                                            <?php foreach ($requirements['duties'] as $index => $req) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="dutiesandresponsibilities[]"
                                                     class="form-control" value="<?php echo htmlspecialchars($req); ?>"
                                                     placeholder="Enter duty or responsibility" autocomplete="off"
                                                     required>
-                                                <button type="button" class="btn btn-outline-secondary ml-2"
-                                                    onclick="addField('dutiesandresponsibilities')">+</button>
+                                                <button type="button"
+                                                    class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'dutiesandresponsibilities\')' : 'removeField(this)'; ?>">
+                                                    <?php echo $index === 0 ? '+' : '-'; ?>
+                                                </button>
                                             </div>
                                             <?php endforeach; ?>
                                             <?php if (empty($requirements['duties'])) : ?>
@@ -163,6 +154,7 @@
                                             <?php endif; ?>
                                         </div>
                                     </div>
+
 
 
                                     <div class="form-group py-2">
@@ -213,7 +205,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between mx-1">
-                                        <button class="col-md-5 btn btn-info" type="submit">Update</button>
+                                    <button class="col-md-5 btn btn-info" type="button" data-toggle="modal" data-target="#confirmModal">Update</button>
                                         <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
                                 </form>
@@ -226,7 +218,29 @@
 
         </div>
     </div>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
+
+    
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Confirm Update Job</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to Update this job?
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="confirmUpdateJob">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
@@ -235,7 +249,8 @@
     <script src="assets/js/script.js"></script>
     <script src="assets/js/editJob.js"></script>
 
-
+    <script>
+    </script>
 </body>
 
 </html>

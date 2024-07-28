@@ -19,12 +19,6 @@
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
-            <?php
-            // Place the error message display here
-            if ($uploadStatus === 'failed') {
-                echo '<div class="alert alert-danger mt-3 mb-3" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
-            }
-            ?>
             <div class="container-fluid">
                 <div class="breadcrumb-path mb-4 my-4">
                     <div class="col-md-3 ">
@@ -49,6 +43,12 @@
                         </button>
                     </div>
                 </div>
+                <?php
+            // Place the error message display here
+            if ($uploadStatus === 'failed') {
+                echo '<div class="alert alert-danger mt-3 mb-3" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
+            }
+            ?>
                 <div class="container text-center"></div>
             </div>
             <h3 class="d-flex justify-content-center my-3">Documents</h3>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-body">
                     <form action="uploadDocument.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-                        <div class="form-group col-md-12 mt-4">
+                        <div class="form-group col-md-12">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="customFile" name="document">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
