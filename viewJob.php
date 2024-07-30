@@ -22,13 +22,46 @@
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="container-fluid">
-                <div class="breadcrumb-path mb-4 my-4">
+                <div class="breadcrumb-path mb-4 my-4 d-flex justify-content-between">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
                             <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
                         </li>
                         <li class="breadcrumb-item active">Position</li>
                     </ul>
+
+                    <!-- Status Dropdown -->
+                    <div class="row">
+                    <div class="filter-dropdown mr-2">
+                        <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
+                            id="statusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            Status
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                            <a class="dropdown-item dropdown-item-cos" href="#" data-filter="status"
+                                data-value="COS">COS</a>
+                            <a class="dropdown-item dropdown-item-permanent" href="#" data-filter="status"
+                                data-value="Permanent">Permanent</a>
+                        </div>
+                    </div>
+                    <!-- Reset Search -->
+                    <button id="reset-filters" class="button">
+                        <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <g stroke="#ff342b" stroke-linecap="round" stroke-width="1.5">
+                                <path
+                                    d="m3.33337 10.8333c0 3.6819 2.98477 6.6667 6.66663 6.6667 3.682 0 6.6667-2.9848 6.6667-6.6667 0-3.68188-2.9847-6.66664-6.6667-6.66664-1.29938 0-2.51191.37174-3.5371 1.01468">
+                                </path>
+                                <path
+                                    d="m7.69867 1.58163-1.44987 3.28435c-.18587.42104.00478.91303.42582 1.0989l3.28438 1.44986">
+                                </path>
+                            </g>
+                        </svg>
+                    </button>
+                    <div class="px-2"></div>
+                    </div>
+                    
                 </div>
 
                 <?php if (!empty($errors)) : ?>
@@ -213,6 +246,7 @@
             var confirmBtn = modal.find('#confirmArchiveButton');
             confirmBtn.attr('href', 'PHP_Connections/archiveJobs.php?job_id=' + jobId);
         });
+    
     </script>
 </body>
 
