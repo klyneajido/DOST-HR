@@ -100,33 +100,89 @@
                                     </div>
 
                                     <div class="form-group py-2">
-                                        <label for="experienceortraining">Experience or Training</label>
-                                        <div id="experienceortraining-container" class="d-flex flex-column">
+                                        <label for="experienceortraining">Experience</label>
+                                        <div id="experience-container" class="d-flex flex-column">
                                             <?php foreach ($requirements['experience'] as $index => $req) : ?>
                                             <div class="d-flex mb-2">
-                                                <input type="text" name="experienceortraining[]" class="form-control"
+                                                <input type="text" name="experience[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
-                                                    placeholder="Enter experience or training requirement"
+                                                    placeholder="Enter experience requirement"
                                                     autocomplete="off" required>
                                                 <button type="button"
                                                     class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
-                                                    onclick="<?php echo $index === 0 ? 'addField(\'experienceortraining\')' : 'removeField(this)'; ?>">
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'experience\')' : 'removeField(this)'; ?>">
                                                     <?php echo $index === 0 ? '+' : '-'; ?>
                                                 </button>
                                             </div>
                                             <?php endforeach; ?>
                                             <?php if (empty($requirements['experience'])) : ?>
                                             <div class="d-flex mb-2">
-                                                <input type="text" name="experienceortraining[]" class="form-control"
-                                                    placeholder="Enter experience or training requirement"
+                                                <input type="text" name="experience[]" class="form-control"
+                                                    placeholder="Enter experience requirement"
                                                     autocomplete="off" required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
-                                                    onclick="addField('experienceortraining')">+</button>
+                                                    onclick="addField('experience')">+</button>
                                             </div>
                                             <?php endif; ?>
                                         </div>
                                     </div>
 
+                                    <div class="form-group py-2">
+                                        <label for="training">Training</label>
+                                        <div id="training-container" class="d-flex flex-column">
+                                            <?php foreach ($requirements['training'] as $index => $req) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="training[]" class="form-control"
+                                                    value="<?php echo htmlspecialchars($req); ?>"
+                                                    placeholder="Enter training requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button"
+                                                    class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'training\')' : 'removeField(this)'; ?>">
+                                                    <?php echo $index === 0 ? '+' : '-'; ?>
+                                                </button>
+                                            </div>
+                                            <?php endforeach; ?>
+                                            <?php if (empty($requirements['training'])) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="training[]" class="form-control"
+                                                    placeholder="Enter training requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('training')">+</button>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group py-2">
+                                        <label for="eligibility">Eligibility</label>
+                                        <div id="eligibility-container" class="d-flex flex-column">
+                                            <?php foreach ($requirements['eligibility'] as $index => $req) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="eligibility[]" class="form-control"
+                                                    value="<?php echo htmlspecialchars($req); ?>"
+                                                    placeholder="Enter eligibility requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button"
+                                                    class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'eligibility\')' : 'removeField(this)'; ?>">
+                                                    <?php echo $index === 0 ? '+' : '-'; ?>
+                                                </button>
+                                            </div>
+                                            <?php endforeach; ?>
+                                            <?php if (empty($requirements['eligibility'])) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="eligibility[]" class="form-control"
+                                                    placeholder="Enter eligibility requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('eligibility')">+</button>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="form-group">
                                         <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
                                         <div id="dutiesandresponsibilities-container" class="d-flex flex-column">
@@ -155,6 +211,33 @@
                                         </div>
                                     </div>
 
+                                    <div class="form-group py-2">
+                                        <label for="competencies">Preferred Competencies</label>
+                                        <div id="competencies-container" class="d-flex flex-column">
+                                            <?php foreach ($requirements['competencies'] as $index => $req) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="competencies[]" class="form-control"
+                                                    value="<?php echo htmlspecialchars($req); ?>"
+                                                    placeholder="Enter competencies requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button"
+                                                    class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
+                                                    onclick="<?php echo $index === 0 ? 'addField(\'competencies\')' : 'removeField(this)'; ?>">
+                                                    <?php echo $index === 0 ? '+' : '-'; ?>
+                                                </button>
+                                            </div>
+                                            <?php endforeach; ?>
+                                            <?php if (empty($requirements['competencies'])) : ?>
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="competencies[]" class="form-control"
+                                                    placeholder="Enter competencies requirement"
+                                                    autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('competencies')">+</button>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
 
 
                                     <div class="form-group py-2">
@@ -178,12 +261,11 @@
                                                 autocomplete="off">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="monthlysalary">Salary</label>
-                                            <input type="number" step="0.01" name="monthlysalary" id="monthly_salary"
+                                            <label for="salary">Salary</label>
+                                            <input type="number" step="0.01" name="salary" id="monthly_salary"
                                                 class="form-control" min="0" max="9999999.99"
                                                 oninput="validateSalaryInput(this)"
                                                 value="<?php echo htmlspecialchars($job['salary']); ?>" required>
-
                                         </div>
                                     </div>
                                     <div class="row">
@@ -205,7 +287,8 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between mx-1">
-                                    <button class="col-md-5 btn btn-info" type="button" data-toggle="modal" data-target="#confirmModal">Update</button>
+                                        <button class="col-md-5 btn btn-info" type="button" data-toggle="modal"
+                                            data-target="#confirmModal">Update</button>
                                         <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
                                 </form>
@@ -219,28 +302,28 @@
         </div>
     </div>
 
-    
+
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Confirm Update Job</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to Update this job?
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="confirmUpdateJob">Update</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Confirm Update Job</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to Update this job?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="confirmUpdateJob">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
