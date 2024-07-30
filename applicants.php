@@ -122,6 +122,8 @@
                                             data-value="Interview">Interview</a>
                                         <a class="dropdown-item dropdown-item-endorsed" href="#" data-filter="status"
                                             data-value="Endorsed">Endorsed</a>
+                                        <a class="dropdown-item dropdown-item-hired" href="#" data-filter="status"
+                                            data-value="Hired">Hired</a>
                                     </div>
                                 </div>
 
