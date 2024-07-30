@@ -30,8 +30,8 @@ if ($result->num_rows > 0) {
         // Generate HTML for document card
         $documentCard = '<div class="document-card shadow-sm m-2">
                             <div class="card-body d-flex justify-content-between">
-                                <h6 class="card-title mb-0">' . $documentName . '</h6>
-                                <div class="document-buttons ml-2">
+                                <h6 class="card-title col-md-10 mb-0 border border-danger">' . $documentName . '</h6>
+                                <div class="document-buttons col-md-2 d-flex border border-warning">
                                     <a href="PHP_Connections/download_document_transparency.php?id=' . $documentId . '">
                                         <button class="dl-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" class="svgIcon">
@@ -40,8 +40,7 @@ if ($result->num_rows > 0) {
                                             <span class="icon2"></span>
                                         </button>
                                     </a>
-                                </div>
-                                <div class="dropdown ml-2">
+                                                                    <div class="dropdown ml-2">
                                         <button class="btn btn-link p-0" type="button" id="dropdownMenuButton' . $documentId . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
@@ -49,6 +48,8 @@ if ($result->num_rows > 0) {
                                             <a class="dropdown-item" href="PHP_Connections/delete_document_transparency.php?id=' . $documentId . '">Delete</a>
                                         </div>
                                     </div>
+                                </div>
+
                             </div>
                         </div>';
 
