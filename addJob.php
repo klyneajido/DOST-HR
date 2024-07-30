@@ -105,6 +105,20 @@
                                         </div>
                                     </div>
 
+                                    
+                                    <!--Eligibility Requirements -->
+                                    <div class="form-group py-2">
+                                        <label for="eligibility">Eligibility</label>
+                                        <div id="eligibility-container" class="d-flex flex-column">
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="eligibility[]" class="form-control"
+                                                    placeholder="Enter Eligibility Requirement" autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('eligibility')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Duties and Responsibilities -->
                                     <div class="form-group py-2">
                                         <label for="dutiesandresponsibilities">Duties and Responsibilities</label>

@@ -52,6 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $education_requirement = array_filter($education_requirement, fn($value) => !empty(trim($value)));
     $experience = array_filter($experience, fn($value) => !empty(trim($value)));
     $training = array_filter($training, fn($value) => !empty(trim($value)));
+    $eligibility = array_filter($eligibility, fn($value) => !empty(trim($value)));
     $duties_and_responsibilities = array_filter($duties_and_responsibilities, fn($value) => !empty(trim($value)));
     $competencies = array_filter($competencies, fn($value)=>!empty(trim($value)));
 
@@ -65,6 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($education_requirement)) $errors['education_requirement'] = "At least one educational requirement is required";
     if (empty($experience)) $errors['experience'] = "At least one experience requirement is required";
     if (empty($training)) $errors['training'] = "At least one training requirement is required";
+    if (empty($eligibility)) $errors['eligibility'] = "At least one eligibility requirement is required";
     if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
     if (empty($competencies)) $errors['competencies'] = "At least one competency requirement is required";
 
@@ -95,6 +97,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              // Insert training requirements
             foreach ($training as $requirement) {
                 $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'training')");
+                $stmt_req->bind_param("is", $job_id, $requirement);
+                $stmt_req->execute();
+                $stmt_req->close();
+                }
+
+             // Insert eligibility requirements
+             foreach ($eligibility as $requirement) {
+                $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'eligibility')");
                 $stmt_req->bind_param("is", $job_id, $requirement);
                 $stmt_req->execute();
                 $stmt_req->close();
