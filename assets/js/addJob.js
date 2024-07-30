@@ -29,8 +29,10 @@ function addField(containerId) {
   // Set placeholder based on containerId
   const placeholders = {
       'educationrequirement': 'Enter Education Requirement',
-      'experienceortraining': 'Enter Experience or Training Requirement',
-      'dutiesandresponsibilities': 'Enter Duty or Responsibility'
+      'experience': 'Enter Experience Requirement',
+      'training': 'Enter Training Requirement',
+      'dutiesandresponsibilities': 'Enter Duty or Responsibility',
+      'competencies': 'Enter Preffered Comptencies',
   };
   
   input.placeholder = placeholders[containerId] || 'Enter Requirement';
@@ -51,6 +53,11 @@ function addField(containerId) {
   container.appendChild(div);
 }
 
+
+// Handle confirmation modal
+document.getElementById('confirmAddJob').addEventListener('click', function () {
+    document.getElementById('addJobForm').submit();
+});
 
 function validateSalaryInput(input) {
   const maxDigits = 7;

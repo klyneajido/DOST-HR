@@ -21,6 +21,7 @@
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
             <div class="row">
+
                 <div class="col-md-9 mx-auto my-5">
                     <div class="card">
                         <div class="card-header">
@@ -33,8 +34,12 @@
                             </div>
                             <?php endif; ?>
 
-                            <?php if (!empty($errors)) : ?>
-                            <div class="alert alert-danger">
+
+                            <div class="container">
+                                <!-- START FORM -->
+                                <form id="addJobForm" method="POST" action="addJob.php" class="needs-validation" novalidate>
+                                <?php if (!empty($errors)) : ?>
+                            <div class=" col-md-12 alert alert-danger">
                                 <ul>
                                     <?php foreach ($errors as $error) : ?>
                                     <li><?php echo htmlspecialchars($error); ?></li>
@@ -42,9 +47,6 @@
                                 </ul>
                             </div>
                             <?php endif; ?>
-                            <div class="container">
-                                <!-- START FORM -->
-                                <form id="addJobForm" method="POST" action="addJob.php" class="needs-validation" novalidate>
                                     <div class="row py-2">
                                         <div class="form-group col-md-6">
                                             <label for="job_title">Job Title</label>
@@ -77,18 +79,32 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Experience or Training Requirements -->
+                                    <!-- Experience Requirements -->
                                     <div class="form-group py-2">
-                                        <label for="experienceortraining">Experience or Training</label>
-                                        <div id="experienceortraining-container" class="d-flex flex-column">
+                                        <label for="experience">Experience</label>
+                                        <div id="experience-container" class="d-flex flex-column">
                                             <div class="d-flex mb-2">
-                                                <input type="text" name="experienceortraining[]" class="form-control"
-                                                    placeholder="Enter Experience or Training Requirement" autocomplete="off" required>
+                                                <input type="text" name="experience[]" class="form-control"
+                                                    placeholder="Enter Experience Requirement" autocomplete="off" required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
-                                                    onclick="addField('experienceortraining')">+</button>
+                                                    onclick="addField('experience')">+</button>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!--Training Requirements -->
+                                    <div class="form-group py-2">
+                                        <label for="training">Training</label>
+                                        <div id="training-container" class="d-flex flex-column">
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="training[]" class="form-control"
+                                                    placeholder="Enter Training Requirement" autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('training')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <!-- Duties and Responsibilities -->
                                     <div class="form-group py-2">
                                         <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
@@ -98,6 +114,18 @@
                                                     placeholder="Enter Duty or Responsibility" autocomplete="off" required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('dutiesandresponsibilities')">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group py-2">
+                                        <label for="comptencies">Preffered Competencies</label>
+                                        <div id="competencies-container" class="d-flex flex-column">
+                                            <div class="d-flex mb-2">
+                                                <input type="text" name="competencies[]" class="form-control"
+                                                    placeholder="Enter Preffered Competencies Requirement" autocomplete="off" required>
+                                                <button type="button" class="btn btn-outline-secondary ml-2"
+                                                    onclick="addField('competencies')">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -120,8 +148,8 @@
                                                 autocomplete="off">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="monthlysalary">Salary</label>
-                                            <input type="number" step="0.01" name="monthlysalary" id="monthly_salary"
+                                            <label for="salary">Salary</label>
+                                            <input type="number" step="0.01" name="salary" id="salary"
                                                 class="form-control" value="" min="0" max="9999999.99"
                                                 oninput="validateSalaryInput(this)" required>
                                         </div>
@@ -185,35 +213,35 @@
     <script src="assets/js/addJob.js"></script>
 
     <script>
-        // Function to add field dynamically
-        function addField(section) {
-            const container = document.getElementById(`${section}-container`);
-            const div = document.createElement('div');
-            div.className = 'd-flex mb-2';
+        // // Function to add field dynamically
+        // function addField(section) {
+        //     const container = document.getElementById(`${section}-container`);
+        //     const div = document.createElement('div');
+        //     div.className = 'd-flex mb-2';
 
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = `${section}[]`;
-            input.className = 'form-control';
-            input.placeholder = `Enter ${section.replace(/([A-Z])/g, ' $1').toLowerCase()} requirement`;
-            input.autocomplete = 'off';
-            input.required = true;
+        //     const input = document.createElement('input');
+        //     input.type = 'text';
+        //     input.name = `${section}[]`;
+        //     input.className = 'form-control';
+        //     input.placeholder = `Enter ${section.replace(/([A-Z])/g, ' $1').toLowerCase()} requirement`;
+        //     input.autocomplete = 'off';
+        //     input.required = true;
 
-            const button = document.createElement('button');
-            button.type = 'button';
-            button.className = 'btn btn-outline-secondary ml-2';
-            button.textContent = '-';
-            button.onclick = () => container.removeChild(div);
+        //     const button = document.createElement('button');
+        //     button.type = 'button';
+        //     button.className = 'btn btn-outline-secondary ml-2';
+        //     button.textContent = '-';
+        //     button.onclick = () => container.removeChild(div);
 
-            div.appendChild(input);
-            div.appendChild(button);
-            container.appendChild(div);
-        }
+        //     div.appendChild(input);
+        //     div.appendChild(button);
+        //     container.appendChild(div);
+        // }
 
-        // Handle confirmation modal
-        document.getElementById('confirmAddJob').addEventListener('click', function () {
-            document.getElementById('addJobForm').submit();
-        });
+        // // Handle confirmation modal
+        // document.getElementById('confirmAddJob').addEventListener('click', function () {
+        //     document.getElementById('addJobForm').submit();
+        // });
     </script>
 </body>
 
