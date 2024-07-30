@@ -82,9 +82,9 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
                                                 <label class="custom-control-label" for="cb1">Remember me</label>
                                             </div>
                                         </div> -->
-                                        <!-- <div class="col-6 text-right">
-                                            <a class="forgot-link" href="forgot-password.html">Forgot Password?</a>
-                                        </div> -->
+                                        <div class="col-12 text-center">
+                                            <a class="forgot-link" href="PHP_Connections">Forgot Password?</a>
+                                        </div> 
                                     </div>
                                 </div>
                                 <button class="btn btn-lg btn-block btn-primary" type="submit">Login</button>
