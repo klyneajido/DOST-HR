@@ -2270,11 +2270,6 @@ html.menu-opened body {
   white-space: nowrap;
   font-weight: 600;
 }
-.sidebar .sidebar-menu > ul > li > a span.chat-user {
-  margin-left: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .sidebar .sidebar-menu > ul > li > a span.badge {
   margin-left: auto;
 }
@@ -5940,39 +5935,6 @@ label.logo-upload {
     -moz-transition: all 0.4s ease;
     transition: all 0.4s ease;
   }
-  .chat-window .chat-scroll {
-    max-height: calc(100vh - 255px);
-  }
-  .chat-window .chat-cont-left,
-  .chat-window .chat-cont-right {
-    flex: 0 0 100%;
-    max-width: 100%;
-    transition: left 0.3s ease-in-out 0s, right 0.3s ease-in-out 0s;
-    width: 100%;
-  }
-  .chat-window .chat-cont-left {
-    border-right: 0;
-  }
-  .chat-window .chat-cont-right {
-    position: absolute;
-    right: calc(-100% + -1.875rem);
-    top: 0;
-  }
-  .chat-window .chat-cont-right .chat-header {
-    justify-content: start;
-  }
-  .chat-window .chat-cont-right .chat-header .back-user-list {
-    display: block;
-  }
-  .chat-window .chat-cont-right .chat-header .chat-options {
-    margin-left: auto;
-  }
-  .chat-window.chat-slide .chat-cont-left {
-    left: calc(-100% + -1.875rem);
-  }
-  .chat-window.chat-slide .chat-cont-right {
-    right: 0;
-  }
   input.input-form {
     margin-bottom: 20px;
     height: 50px;
@@ -6197,9 +6159,6 @@ label.logo-upload {
   .page-wrapper > .content {
     padding: 0.9375rem 0.9375rem 0;
   }
-  .chat-window {
-    margin-bottom: 0.9375rem;
-  }
   .card-body {
     padding: 1.25rem;
   }
@@ -6263,25 +6222,6 @@ label.logo-upload {
     width: 100%;
   }
 
-  .chat-window .chat-cont-right .chat-header .media .media-body {
-    display: none;
-  }
-  .chat-window
-    .chat-cont-left
-    .chat-users-list
-    a.media
-    .media-body
-    > div:first-child
-    .user-name,
-  .chat-window
-    .chat-cont-left
-    .chat-users-list
-    a.media
-    .media-body
-    > div:first-child
-    .user-last-chat {
-    max-width: 160px;
-  }
   .page-header .breadcrumb {
     display: none;
   }
@@ -6763,4 +6703,9 @@ table thead .wider-column {
 }
 .wider-column-address {
   width: 200px;
+}
+
+.plantilla{
+  border: 2px solid lightgray;
+  border-radius: 6px;
 }

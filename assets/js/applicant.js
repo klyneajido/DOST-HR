@@ -274,3 +274,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return new Date(dateString);
     }
 });
+
+function updatePlantilla(applicantId, plantilla) {
+    // Create an XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+
+    // Define the function to be executed when the request receives an answer
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log('Plantilla updated successfully!');
+        }
+    };
+
+    // Configure the request
+    xhr.open("POST", "PHP_Connections/update_plantilla.php", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    // Send the request
+    xhr.send("applicant_id=" + encodeURIComponent(applicantId) + "&plantilla=" + encodeURIComponent(plantilla || ''));
+}

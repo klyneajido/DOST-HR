@@ -128,6 +128,23 @@
                                 </div>
 
 
+                                <!-- Job Status Dropdown -->
+                                <div class="filter-dropdown mr-2">
+                                    <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
+                                        id="statusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        Job Status
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                                        <a class="dropdown-item" href="#" data-filter="status" data-value="">All</a>
+                                        <a class="dropdown-item" href="#" data-filter="status"
+                                            data-value="Permanent">Permanent</a>
+                                        <a class="dropdown-item" href="#" data-filter="status" data-value="COS">COS</a>
+                                    </div>
+                                </div>
+
+
+
                                 <button id="reset-filters" class="button ">
                                     <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -150,6 +167,8 @@
                                         <th data-column="job_title" class="sortable">Job Title <i class="fas"></i></th>
                                         <th data-column="position_or_unit" class="sortable">Position <i class="fas"></i>
                                         </th>
+                                        <th data-column="plantilla" class="sortable">Plantilla No. <i class="fas"></i>
+                                        </th>
                                         <th data-column="lastname" class="sortable">Last Name <i class="fas"></i></th>
                                         <th data-column="firstname" class="sortable">First Name <i class="fas"></i></th>
                                         <th data-column="middlename" class="sortable">Middle Name <i class="fas"></i>
@@ -160,11 +179,13 @@
                                         <th data-column="contact_number px-5" class="sortable">Contact Number <i
                                                 class="fas"></i></th>
                                         <th data-column="course" class="sortable px-5">Course <i class="fas"></i></th>
-                                        <th data-column="years_of_experience" class="sortable px-5">Years of Experience <i
-                                                class="fas"></i></th>
+                                        <th data-column="years_of_experience" class="sortable px-5">Years of Experience
+                                            <i class="fas"></i>
+                                        </th>
                                         <th data-column="hours_of_training" class="sortable px-5">Hours of Training <i
                                                 class="fas"></i></th>
-                                        <th data-column="eligibility" class="sortable px-5">Eligibility <i class="fas"></i>
+                                        <th data-column="eligibility" class="sortable px-5">Eligibility <i
+                                                class="fas"></i>
                                         </th>
                                         <th data-column="list_of_awards" class="sortable px-5">List of Awards <i
                                                 class="fas"></i></th>
@@ -181,6 +202,16 @@
                                     <tr>
                                         <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['position_or_unit']); ?></td>
+                                        <td>
+                                            <?php if ($applicant['job_status'] === 'Permanent') : ?>
+                                            <input class="rounded border border-secondary shadow-sm" type="text"
+                                                name="plantilla"
+                                                value="<?php echo htmlspecialchars($applicant['plantilla']); ?>"
+                                                onblur="updatePlantilla(<?php echo htmlspecialchars($applicant['id']); ?>, this.value)">
+                                            <?php else : ?>
+                                            <div class="font-italic font-weight-light">N/A</div>
+                                            <?php endif; ?>
+                                        </td>
                                         <td><?php echo htmlspecialchars($applicant['lastname']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['firstname']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['middlename']); ?></td>
@@ -192,52 +223,54 @@
                                         <td><?php echo htmlspecialchars($applicant['years_of_experience']); ?></td>
                                         <td><?php echo htmlspecialchars($applicant['hours_of_training']); ?></td>
                                         <td class="wrap"><?php echo htmlspecialchars($applicant['eligibility']); ?></td>
-                                        <td class="wrap"><?php echo htmlspecialchars($applicant['list_of_awards']); ?></td>
+                                        <td class="wrap"><?php echo htmlspecialchars($applicant['list_of_awards']); ?>
+                                        </td>
                                         <td class="wrap"><?php echo formatDate($applicant['application_date']); ?></td>
-                                        <td >
+                                        <td>
                                             <a class="mx-5"
                                                 href="PHP_Connections/download_documents_applicants.php?id=<?php echo $applicant['id']; ?>">Download
                                                 All</a>
                                         </td>
                                         <td>
                                             <div class="d-flex row align-items-center justify-content-center">
-                                            <div class="status-container text-center">
-                                                <select class="status-dropdown"
-                                                    data-applicant-id="<?php echo $applicant['id']; ?>"
-                                                    onchange="updateStatusColor(this)">
-                                                    <option value="Shortlisted" class="text-center shortlist-opt  col-md-12"
-                                                        <?php echo ($applicant['status'] === 'Shortlisted') ? 'selected' : ''; ?>>
-                                                        Shortlisted</option>
-                                                    <option value="Interview" class="text-center interview-opt"
-                                                        <?php echo ($applicant['status'] === 'Interview') ? 'selected' : ''; ?>>
-                                                        Interview</option>
-                                                    <option value="Endorsed" class="text-center endorsed-opt"
-                                                        <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>
-                                                        Endorsed</option>
-                                                    <option value="Hired" class="text-center hired-opt"
-                                                        <?php echo ($applicant['status'] === 'Hired') ? 'selected' : ''; ?>>
-                                                        Hired</option>
-                                                </select>
-                                            </div>
+                                                <div class="status-container text-center">
+                                                    <select class="status-dropdown"
+                                                        data-applicant-id="<?php echo $applicant['id']; ?>"
+                                                        onchange="updateStatusColor(this)">
+                                                        <option value="Shortlisted"
+                                                            class="text-center shortlist-opt  col-md-12"
+                                                            <?php echo ($applicant['status'] === 'Shortlisted') ? 'selected' : ''; ?>>
+                                                            Shortlisted</option>
+                                                        <option value="Interview" class="text-center interview-opt"
+                                                            <?php echo ($applicant['status'] === 'Interview') ? 'selected' : ''; ?>>
+                                                            Interview</option>
+                                                        <option value="Endorsed" class="text-center endorsed-opt"
+                                                            <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>
+                                                            Endorsed</option>
+                                                        <option value="Hired" class="text-center hired-opt"
+                                                            <?php echo ($applicant['status'] === 'Hired') ? 'selected' : ''; ?>>
+                                                            Hired</option>
+                                                    </select>
+                                                </div>
 
-                                            <div id="dateContainer<?php echo $applicant['id']; ?>"
-                                                class="date-container mt-1">
-                                                <!-- The form will be inserted here dynamically by jQuery -->
-                                                <?php if ($applicant['status'] === 'Interview') : ?>
-                                                <form id="interviewForm<?php echo $applicant['id']; ?>" method="POST"
-                                                    action="PHP_Connections/interviewDate.php"
-                                                    class="d-flex align-items-center w-100">
-                                                    <input type="hidden" name="applicant_id"
-                                                        value="<?php echo $applicant['id']; ?>">
-                                                    <input type="datetime-local" class="form-control w-100 me-2"
-                                                        name="interview_date"
-                                                        value="<?php echo isset($applicant['interview_date']) ? htmlspecialchars($applicant['interview_date']) : ''; ?>" />
-                                                </form>
-                                                <?php endif; ?>
-                                            </div>
+                                                <div id="dateContainer<?php echo $applicant['id']; ?>"
+                                                    class="date-container mt-1">
+                                                    <!-- The form will be inserted here dynamically by jQuery -->
+                                                    <?php if ($applicant['status'] === 'Interview') : ?>
+                                                    <form id="interviewForm<?php echo $applicant['id']; ?>"
+                                                        method="POST" action="PHP_Connections/interviewDate.php"
+                                                        class="d-flex align-items-center w-100">
+                                                        <input type="hidden" name="applicant_id"
+                                                            value="<?php echo $applicant['id']; ?>">
+                                                        <input type="datetime-local" class="form-control w-100 me-2"
+                                                            name="interview_date"
+                                                            value="<?php echo isset($applicant['interview_date']) ? htmlspecialchars($applicant['interview_date']) : ''; ?>" />
+                                                    </form>
+                                                    <?php endif; ?>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td class="d-flex justify-content-center align-items-center"> 
+                                        <td class="d-flex justify-content-center align-items-center">
                                             <button class="delete-button align-self-center"
                                                 data-applicant-id="<?php echo $applicant['id']; ?>"
                                                 onclick="confirmArchive(<?php echo $applicant['id']; ?>)">
@@ -295,41 +328,40 @@
                                 </li>
 
                                 <?php
-        $start = max(1, $page - 1);
-        $end = min($total_pages, $page + 1);
+                                $start = max(1, $page - 1);
+                                $end = min($total_pages, $page + 1);
 
-        if ($start > 1) {
-            echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">1</a></li>';
-            if ($start > 2) {
-                echo '<li class="page-item"><span class="page-link">...</span></li>';
-            }
-        }
+                                if ($start > 1) {
+                                    echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">1</a></li>';
+                                    if ($start > 2) {
+                                        echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                    }
+                                }
 
-        for ($i = $start; $i <= $end; $i++) : ?>
+                                 for ($i = $start; $i <= $end; $i++) : ?>
                                 <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
                                     <a class="page-link"
                                         href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"><?php echo $i; ?></a>
                                 </li>
                                 <?php endfor;
 
-        if ($end < $total_pages) {
-            if ($end < $total_pages - 1) {
-                echo '<li class="page-item"><span class="page-link">...</span></li>';
-            }
-            echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">' . $total_pages . '</a></li>';
-        }
-        ?>
+                                    if ($end < $total_pages) {
+                                        if ($end < $total_pages - 1) {
+                                            echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                        }
+                                        echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">' . $total_pages . '</a></li>';
+                                    }
+                                    ?>
 
                                 <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
                                     <a class="page-link"
                                         href="?applicants_page=<?php echo $page + 1; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"
                                         aria-label="Next">
-                                       <span>&raquo;</span>
+                                        <span>&raquo;</span>
                                         <span class="sr-only">Next</span>
                                     </a>
                                 </li>
                                 <!-- Rows per Page Control -->
-
                             </ul>
                             <div class="d-flex align-items-center justify-self-end  mx-3">
                                 <p class="mb-0 me-2 mr-2">Rows</p>
@@ -344,8 +376,6 @@
                             </div>
 
                         </nav>
-
-
                     </div>
                 </div>
             </div>

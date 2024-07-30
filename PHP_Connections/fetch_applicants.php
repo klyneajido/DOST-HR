@@ -22,6 +22,8 @@ while ($row = $job_titles_result->fetch_assoc()) {
     $job_titles[] = $row['job_title'];
 }
 
+
+
 // Fetch positions
 $positions_query = "SELECT DISTINCT position_or_unit FROM job WHERE status != 'archived'";
 $positions_result = $mysqli->query($positions_query);
@@ -83,11 +85,12 @@ $total_applicants = $total_row['total'];
 $total_pages = ceil($total_applicants / $rows_per_page);
 
 // Query for applicants with filters, sorted by application date
-$query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
+$query = "SELECT a.id, a.lastname, a.firstname, a.middlename,a.plantilla, a.sex, a.address, a.email, a.contact_number, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
                  a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
-                 a.proof_of_trainings_seminars, a.proof_of_rewards, a.job_title, a.position_or_unit, a.application_date, a.interview_date
+                 a.proof_of_trainings_seminars, a.proof_of_rewards, a.job_title, a.position_or_unit, a.application_date, a.interview_date,
+                 j.status as job_status
           FROM applicants a 
           LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
@@ -130,6 +133,4 @@ $applicants = [];
 while ($row = $result->fetch_assoc()) {
     $applicants[] = $row;
 }
-
-// Output the results as JSON or other format as needed
 ?>
