@@ -83,7 +83,7 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
                                             </div>
                                         </div> -->
                                         <div class="col-12 text-center">
-                                            <a class="forgot-link" href="PHP_Connections">Forgot Password?</a>
+                                            <a class="forgot-link" href="forgotPassword.php">Forgot Password?</a>
                                         </div> 
                                     </div>
                                 </div>
