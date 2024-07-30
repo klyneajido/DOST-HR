@@ -122,6 +122,8 @@
                                             data-value="Interview">Interview</a>
                                         <a class="dropdown-item dropdown-item-endorsed" href="#" data-filter="status"
                                             data-value="Endorsed">Endorsed</a>
+                                        <a class="dropdown-item dropdown-item-hired" href="#" data-filter="status"
+                                            data-value="Hired">Hired</a>
                                     </div>
                                 </div>
 
@@ -212,6 +214,9 @@
                                                     <option value="Endorsed" class="text-center endorsed-opt"
                                                         <?php echo ($applicant['status'] === 'Endorsed') ? 'selected' : ''; ?>>
                                                         Endorsed</option>
+                                                    <option value="Hired" class="text-center hired-opt"
+                                                        <?php echo ($applicant['status'] === 'Hired') ? 'selected' : ''; ?>>
+                                                        Hired</option>
                                                 </select>
                                             </div>
 
