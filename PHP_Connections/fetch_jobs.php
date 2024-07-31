@@ -32,6 +32,9 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 // Check if search query is set
 $search = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['search']) : '';
 
+// Check if status filter is set
+$status_filter = isset($_GET['status']) ? $mysqli->real_escape_string($_GET['status']) : '';
+
 // Pagination setup
 $limit = 6; // Number of items per page
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -40,10 +43,15 @@ $offset = ($page - 1) * $limit;
 // Prepare SQL query
 $sql = "SELECT j.job_id, j.job_title, j.position_or_unit, j.description, d.name as department_name, j.place_of_assignment, d.abbrev, j.salary, j.status, j.created_at, j.updated_at, j.deadline 
         FROM job j
-        INNER JOIN department d ON j.department_id = d.department_id";
+        INNER JOIN department d ON j.department_id = d.department_id
+        WHERE 1=1"; // Use WHERE 1=1 to simplify appending additional conditions
 
 if (!empty($search)) {
-    $sql .= " WHERE j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
+    $sql .= " AND (j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%' OR j.status LIKE '%$search%')";
+}
+
+if (!empty($status_filter)) {
+    $sql .= " AND j.status = '$status_filter'";
 }
 
 // Add order by clause to sort by created_at or updated_at in descending order
@@ -55,7 +63,7 @@ $sql .= " LIMIT $limit OFFSET $offset";
 $result = $mysqli->query($sql);
 
 // Fetch total number of jobs for pagination
-$total_result = $mysqli->query("SELECT COUNT(*) as total FROM job j INNER JOIN department d ON j.department_id = d.department_id" . (empty($search) ? "" : " WHERE j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'"));
+$total_result = $mysqli->query("SELECT COUNT(*) as total FROM job j INNER JOIN department d ON j.department_id = d.department_id WHERE 1=1" . (empty($search) ? "" : " AND (j.job_title LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%' OR j.status LIKE '%$search%')") . (empty($status_filter) ? "" : " AND j.status = '$status_filter'"));
 $total_row = $total_result->fetch_assoc();
 $total_jobs = $total_row['total'];
 $total_pages = ceil($total_jobs / $limit);
@@ -65,7 +73,7 @@ $jobs = [];
 
 if ($result && $result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-        // Truncate description to 300 characters
+        // Truncate description to 100 characters
         $max_description_length = 100;
         $description = htmlspecialchars($row['description']);
         if (strlen($description) > $max_description_length) {

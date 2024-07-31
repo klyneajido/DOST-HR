@@ -7278,3 +7278,26 @@ padding: 10px;
   #reset-filters:hover {
     background: #ff362b52;
   }
+
+
+  .filter-dropdown {
+    position: relative; /* Ensure the parent div is positioned */
+}
+
+.dropdown-filter-menu {
+    position: absolute;
+    top: 100%; /* Position the dropdown below the button */
+    right:5%;
+    z-index: 2; /* Ensure the dropdown appears above other elements */
+    display: none; /* Hide the dropdown by default */
+    background-color: #fff; /* Background color of the dropdown */
+    border: 1px solid #ccc; /* Border for the dropdown */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175); /* Add shadow for better visibility */
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dropdown-item:hover{
+  color:#03346E;
+  background-color: lightgray;
+}

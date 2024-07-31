@@ -32,19 +32,16 @@
 
                     <!-- Status Dropdown -->
                     <div class="row">
-                    <div class="filter-dropdown mr-2">
-                        <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
-                            id="statusDropdown" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
+                        <div class="filter-dropdown mr-2">
+                        <button class="filter-btn dropdown-filter-toggle py-1 px-2" type="button"
+                            id="statusDropdown" aria-haspopup="true" aria-expanded="false">
                             Status
                         </button>
-                        <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                            <a class="dropdown-item dropdown-item-cos" href="#" data-filter="status"
-                                data-value="COS">COS</a>
-                            <a class="dropdown-item dropdown-item-permanent" href="#" data-filter="status"
-                                data-value="Permanent">Permanent</a>
+                        <div class="dropdown-filter-menu" aria-labelledby="statusDropdown">
+                            <a class="dropdown-item dropdown-item-cos" href="?status=COS">COS</a>
+                            <a class="dropdown-item dropdown-item-permanent" href="?status=Permanent">Permanent</a>
                         </div>
-                    </div>
+                        </div>
                     <!-- Reset Search -->
                     <button id="reset-filters" class="button">
                         <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
