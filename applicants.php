@@ -16,14 +16,17 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/applicant.css">
     <script src="https://kit.fontawesome.com/0dcd39d035.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body class="scrollbar" id="style-5">
+    
     <?php include("logout_modal.php")?>
     <div class="main-wrapper">
 
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
+            
             <div class="container-fluid">
                 <!-- Breadcrumb section -->
                 <div class="breadcrumb-path mb-4 my-4">
@@ -34,6 +37,22 @@
                     </ul>
                 </div>
                 <!-- Table section -->
+                 <div class="col-md-12">
+                 <?php if (!empty($_SESSION['success_message'])) : ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?php echo htmlspecialchars($_SESSION['success_message']); ?>
+        </div>
+        <?php unset($_SESSION['success_message']); ?>
+    <?php endif; ?>
+
+    <!-- Display error message -->
+    <?php if (!empty($_SESSION['error_message'])) : ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?php echo htmlspecialchars($_SESSION['error_message']); ?>
+        </div>
+        <?php unset($_SESSION['error_message']); ?>
+    <?php endif; ?>
+                 </div>
                 <div class="col-xl-12 col-sm-12 col-12 pb-3">
                     <div class="card ">
                         <div class="header_1 card-header  d-flex justify-content-between">
@@ -116,13 +135,13 @@
                                         Status
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                                        <a class="dropdown-item dropdown-item-shortlisted" href="#" data-filter="status"
+                                        <a class="dropdown-item " href="#" data-filter="status"
                                             data-value="Shortlisted">Shortlisted</a>
-                                        <a class="dropdown-item dropdown-item-interview" href="#" data-filter="status"
+                                        <a class="dropdown-item" href="#" data-filter="status"
                                             data-value="Interview">Interview</a>
-                                        <a class="dropdown-item dropdown-item-endorsed" href="#" data-filter="status"
+                                        <a class="dropdown-item " href="#" data-filter="status"
                                             data-value="Endorsed">Endorsed</a>
-                                        <a class="dropdown-item dropdown-item-hired" href="#" data-filter="status"
+                                        <a class="dropdown-item" href="#" data-filter="status"
                                             data-value="Hired">Hired</a>
                                     </div>
                                 </div>
@@ -270,10 +289,10 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="d-flex justify-content-center align-items-center">
-                                            <button class="delete-button align-self-center"
+                                        <td class="d-flex justify-content-center align-items-center h-100">
+                                            <button class="delete-button"
                                                 data-applicant-id="<?php echo $applicant['id']; ?>"
-                                                onclick="confirmArchive(<?php echo $applicant['id']; ?>)">
+                                                onclick="showArchiveModal(<?php echo $applicant['id']; ?>)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
                                                     class="svgIcon bin-top">
                                                     <g clip-path="url(#clip0_35_24)">
@@ -380,29 +399,31 @@
                 </div>
             </div>
         </div>
+
+
+<!-- Modal HTML -->
+<div class="modal fade" id="archiveModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="archiveModalLabel">Confirm Archive</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                Are you sure you want to archive this applicant?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="confirmArchiveButton">Archive</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelArchiveButton">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 
-<script>
-function confirmArchive(applicantId) {
-    if (confirm("Are you sure you want to archive this applicant?")) {
-        // Create a form dynamically
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.action = "PHP_Connections/applicantArchive.php"; // Change to your actual PHP file handling archiving
-
-        // Add the applicant ID as a hidden input field
-        var input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "applicant_id";
-        input.value = applicantId;
-        form.appendChild(input);
-
-        // Append the form to the body and submit
-        document.body.appendChild(form);
-        form.submit();
-    }
-}
-</script>
 <script src="assets/js/date.js"></script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/applicant.js"></script>
@@ -411,5 +432,6 @@ function confirmArchive(applicantId) {
 <script src="assets/js/feather.min.js"></script>
 <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="assets/js/script.js"></script>
+<script src="assets/js/applicant.js"></script>
 
 </html>

@@ -293,3 +293,29 @@ function updatePlantilla(applicantId, plantilla) {
     // Send the request
     xhr.send("applicant_id=" + encodeURIComponent(applicantId) + "&plantilla=" + encodeURIComponent(plantilla || ''));
 }
+
+
+var applicantIdToArchive;
+
+// Function to open the modal
+function showArchiveModal(applicantId) {
+    applicantIdToArchive = applicantId;
+    $('#archiveModal').modal('show');
+}
+
+// Event listener for confirm button
+$('#confirmArchiveButton').click(function() {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "PHP_Connections/applicantArchive.php"; // Change to your actual PHP file handling archiving
+
+    var input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "applicant_id";
+    input.value = applicantIdToArchive;
+    form.appendChild(input);
+
+    document.body.appendChild(form);
+    form.submit();
+    $('#archiveModal').modal('hide'); // Hide the modal after submitting
+});s

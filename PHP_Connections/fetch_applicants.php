@@ -22,8 +22,6 @@ while ($row = $job_titles_result->fetch_assoc()) {
     $job_titles[] = $row['job_title'];
 }
 
-
-
 // Fetch positions
 $positions_query = "SELECT DISTINCT position_or_unit FROM job WHERE status != 'archived'";
 $positions_result = $mysqli->query($positions_query);
@@ -49,7 +47,7 @@ $offset = ($page - 1) * $rows_per_page;
 // Query for total number of applicants with filters
 $total_query = "SELECT COUNT(*) as total 
                 FROM applicants a 
-                LEFT JOIN job j ON a.job_id = j.job_id
+                LEFT JOIN job j ON a.job_title = j.job_title
                 WHERE 
                     (a.lastname LIKE ? OR 
                      a.firstname LIKE ? OR 
@@ -57,6 +55,7 @@ $total_query = "SELECT COUNT(*) as total
                      a.job_title LIKE ? OR
                      a.position_or_unit LIKE ?)";
 
+// Bind parameters
 $params = array_fill(0, 5, "%$search_query%");
 
 // Apply additional filters
@@ -69,7 +68,7 @@ if ($position_filter) {
     $params[] = $position_filter;
 }
 if ($status_filter) {
-    $total_query .= " AND a.status = ?";
+    $total_query .= " AND j.status = ?";
     $params[] = $status_filter;
 }
 
@@ -85,14 +84,14 @@ $total_applicants = $total_row['total'];
 $total_pages = ceil($total_applicants / $rows_per_page);
 
 // Query for applicants with filters, sorted by application date
-$query = "SELECT a.id, a.lastname, a.firstname, a.middlename,a.plantilla, a.sex, a.address, a.email, a.contact_number, 
+$query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.plantilla, a.sex, a.address, a.email, a.contact_number, 
                  a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, 
                  a.status, a.application_letter, a.personal_data_sheet, a.performance_rating, 
                  a.eligibility_rating_license, a.transcript_of_records, a.certificate_of_employment, 
                  a.proof_of_trainings_seminars, a.proof_of_rewards, a.job_title, a.position_or_unit, a.application_date, a.interview_date,
                  j.status as job_status
           FROM applicants a 
-          LEFT JOIN job j ON a.job_id = j.job_id
+          LEFT JOIN job j ON a.job_title = j.job_title
           WHERE 
               (a.lastname LIKE ? OR 
                a.firstname LIKE ? OR 
@@ -100,6 +99,7 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename,a.plantilla, a.sex,
                a.job_title LIKE ? OR
                a.position_or_unit LIKE ?)";
 
+// Bind parameters
 $params = array_fill(0, 5, "%$search_query%");
 
 // Apply additional filters
@@ -112,7 +112,7 @@ if ($position_filter) {
     $params[] = $position_filter;
 }
 if ($status_filter) {
-    $query .= " AND a.status = ?";
+    $query .= " AND j.status = ?";
     $params[] = $status_filter;
 }
 

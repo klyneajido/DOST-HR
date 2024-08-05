@@ -25,7 +25,8 @@ if ($result_user->num_rows > 0) {
     $user_id = $user['admin_id'];
 } else {
     // Redirect to applicants page with error message if user is not found
-    header('Location: ../applicants.php?error=User not found.');
+    $_SESSION['error_message'] = 'User not found.';
+    header('Location: ../applicants.php');
     exit();
 }
 
@@ -50,9 +51,9 @@ if ($result && $result->num_rows > 0) {
     $applicant = $result->fetch_assoc();
 
     // Prepare the archive query
-$archive_query = "INSERT INTO applicant_archive 
-    (job_title, position_or_unit, lastname, firstname, middlename, sex, address, email, contact_number, course, years_of_experience, hours_of_training, eligibility, list_of_awards, status, application_letter, personal_data_sheet, performance_rating, eligibility_rating_license, transcript_of_records, certificate_of_employment, proof_of_trainings_seminars, proof_of_rewards, job_id, application_date, interview_date, archived_by) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $archive_query = "INSERT INTO applicant_archive 
+        (job_title, position_or_unit, lastname, firstname, middlename, sex, address, email, contact_number, course, years_of_experience, hours_of_training, eligibility, list_of_awards, status, application_letter, personal_data_sheet, performance_rating, eligibility_rating_license, transcript_of_records, certificate_of_employment, proof_of_trainings_seminars, proof_of_rewards, job_id, application_date, interview_date, archived_by) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt_archive = $mysqli->prepare($archive_query);
     if (!$stmt_archive) {
@@ -117,17 +118,20 @@ $archive_query = "INSERT INTO applicant_archive
     }
     $stmt_delete->bind_param('i', $applicant_id);
     if ($stmt_delete->execute()) {
-        // Redirect to applicants page with success message
-        header('Location: ../applicants.php?success=Applicant archived successfully.');
+        // Set success message and redirect
+        $_SESSION['success_message'] = 'Applicant archived successfully.';
+        header('Location: ../applicants.php');
         exit();
     } else {
-        // Redirect to applicants page with error message
-        header('Location: ../applicants.php?error=Failed to delete applicant.');
+        // Set error message and redirect
+        $_SESSION['error_message'] = 'Failed to delete applicant.';
+        header('Location: ../applicants.php');
         exit();
     }
 } else {
-    // Redirect to applicants page with error message
-    header('Location: ../applicants.php?error=Applicant not found.');
+    // Set error message and redirect
+    $_SESSION['error_message'] = 'Applicant not found.';
+    header('Location: ../applicants.php');
     exit();
 }
 ?>
