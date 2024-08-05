@@ -165,6 +165,23 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
         </div>
     </div>
 </div>
+    <div class="modal fade" id="restoreAnnouncementModal" tabindex="-1" aria-labelledby="restoreAnnouncementModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restoreAnnouncementModalLabel">Restore Announcement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to restore this job?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="confirmAnnouncementRestore" href="#" class="btn btn-primary">Restore</a>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
@@ -359,9 +376,9 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                                     echo "<td>" . formatDate($archive['updated_at']) . "</td>";
                                                     echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
                                                     echo "<td>
-                                                    <a href='#' class='btn btn-success btn-sm restore-announcement-button' onclick='confirmRestore(" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "); return false;'>
-                                                        <i class='fas fa-undo'></i>
-                                                    </a>
+                                                   <a href='#' class='btn btn-success btn-sm restore-announcement-button' data-id='" . htmlspecialchars($archive['announcement_id']) . "'>
+                                                                <i class='fas fa-undo'></i>
+                                                            </a>
                                                     <a href='PHP_Connections/deleteAnnouncement.php' class='btn btn-danger btn-sm delete-announcement-button' data-id='" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "'>
                                                         <i class='fas fa-trash'></i>
                                                     </a>
@@ -560,11 +577,19 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
         });
         </script>
         <script>
-        function confirmRestore(id) {
-            if (confirm("Are you sure you want to restore this announcement?")) {
-                window.location.href = 'PHP_Connections/restoreAnnouncement.php?id=' + id;
-            }
-        }
+       document.addEventListener('DOMContentLoaded', function() {
+            var restoreAnnouncementModal = new bootstrap.Modal(document.getElementById('restoreAnnouncementModal'));
+            var confirmAnnouncementRestoreLink = document.getElementById('confirmAnnouncementRestore');
+            
+            document.querySelectorAll('.restore-announcement-button').forEach(function(button) {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var announcementId = this.getAttribute('data-id');
+                    confirmAnnouncementRestoreLink.setAttribute('href', 'PHP_Connections/restoreAnnouncement.php?id=' + announcementId);
+                    restoreAnnouncementModal.show();
+                });
+            });
+        });
         </script>
         <script>
         document.addEventListener('DOMContentLoaded', function() {
