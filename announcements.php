@@ -14,6 +14,26 @@
 </head>
 
 <body class="scrollbar" id="style-5">
+    <div class="modal fade" id="archiveAnnouncementModal" tabindex="-1" aria-labelledby="archiveAnnouncementModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="archiveAnnouncementModalLabel">Confirm Archive</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to archive this announcement?
+            </div>
+            <div class="modal-footer">
+                <form id="archiveForm" method="get" action="PHP_Connections/announcementArchive.php">
+                    <input type="hidden" id="announcement_id" name="announcement_id" value="">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Archive</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
     <?php include("logout_modal.php")?>
     <div class="main-wrapper">
         <?php include("navbar.php")?>
@@ -74,8 +94,7 @@
                                 <div class="d-flex">
                                     <a href="editAnnouncement.php?announcement_id=<?php echo $announcement['announcement_id']; ?>"
                                         class="btn btn-info me-2 mr-2">Edit</a>
-                                    <a href="PHP_Connections/announcementArchive.php?announcement_id=<?php echo $announcement['announcement_id']; ?>"
-                                        class="btn btn-danger archive-button">Archive</a>
+                                    <a href="#" data-id="<?php echo $announcement['announcement_id']; ?>" class="btn btn-danger archive-button">Archive</a>
                                 </div>
                             </div>
                         </div>
@@ -109,14 +128,24 @@
 
             </div>
         </div>
-        <!-- Pop-up notification -->
-        <?php if (!empty($success_message)): ?>
-        <script>
-        alert('<?php echo addslashes($success_message); ?>');
-        </script>
-        <?php endif; ?>
 
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        var archiveAnnouncementModal = new bootstrap.Modal(document.getElementById('archiveAnnouncementModal'));
+        var archiveForm = document.getElementById('archiveForm');
+        var announcementIdInput = document.getElementById('announcement_id');
+
+        document.querySelectorAll('.archive-button').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                var announcementId = this.getAttribute('data-id');
+                announcementIdInput.value = announcementId;
+                archiveAnnouncementModal.show();
+            });
+        });
+    });
+    </script>
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
@@ -126,7 +155,7 @@
     <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
     <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/announcements.js"></script>
+    <!-- <script src="assets/js/announcements.js"></script> -->
 </body>
 
 </html>
