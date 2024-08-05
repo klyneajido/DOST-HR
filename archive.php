@@ -148,6 +148,23 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="restoreJobModal" tabindex="-1" aria-labelledby="restoreJobModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="restoreJobModalLabel">Restore Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to restore this job?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <a id="confirmRestore" href="#" class="btn btn-primary">Restore</a>
+            </div>
+        </div>
+    </div>
+</div>
 
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
@@ -528,26 +545,18 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
         }
         </script>
         <script>
-        document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('DOMContentLoaded', function() {
+            var restoreJobModal = new bootstrap.Modal(document.getElementById('restoreJobModal'));
+            var confirmRestoreLink = document.getElementById('confirmRestore');
+            
             document.querySelectorAll('.restore-button').forEach(function(button) {
                 button.addEventListener('click', function(event) {
                     event.preventDefault();
                     var jobId = this.getAttribute('data-id');
-                    if (confirm('Are you sure you want to restore this job?')) {
-                        window.location.href = 'PHP_Connections/restoreJob.php?id=' + jobId;
-                    }
+                    confirmRestoreLink.setAttribute('href', 'PHP_Connections/restoreJob.php?id=' + jobId);
+                    restoreJobModal.show();
                 });
             });
-
-            // document.querySelectorAll('.delete-button').forEach(function(button) {
-            //     button.addEventListener('click', function(event) {
-            //         event.preventDefault();
-            //         var jobId = this.getAttribute('data-id');
-            //         if (confirm('Are you sure you want to delete this job?')) {
-            //             window.location.href = 'deleteJob.php?id=' + jobId;
-            //         }
-            //     });
-            // });
         });
         </script>
         <script>
