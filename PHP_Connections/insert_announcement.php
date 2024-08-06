@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $history_stmt->execute();
                 $history_stmt->close();
 
-                header('Location: announcements.php?success=Announcement added successfully');
+                header('Location: view_announcements.php?success=Announcement added successfully');
                 exit();
             } else {
                 $errors['database'] = "Error executing statement: " . $stmt->error;

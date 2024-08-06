@@ -1,7 +1,7 @@
 <?php
 include("PHP_Connections/fetch_homepage.php");
-include("PHP_Connections/recentActivities.php");
-include("PHP_Connections/upcomingInterview.php");
+include("PHP_Connections/recent_activities.php");
+include("PHP_Connections/upcoming_interview.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,7 @@ include("PHP_Connections/upcomingInterview.php");
 </head>
 
 <body class="scrollbar" id="style-5">
-	<?php include("logout_modal.php") ?>
+	<?php include("modal_logout.php") ?>
 	<div class="main-wrapper">
 		<?php include("navbar.php") ?>
 		<div class="page-wrapper">
@@ -244,7 +244,7 @@ include("PHP_Connections/upcomingInterview.php");
                 <?php endif; ?>
             </div>
             <div class="leave-viewall mt-3">
-                <a href="history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
+                <a href="view_history.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow"></a>
             </div>
         </div>
     </div>
@@ -281,7 +281,7 @@ include("PHP_Connections/upcomingInterview.php");
 									<?php endif; ?>
 								</div>
 								<div class="leave-viewall text-center py-2">
-									<a href="applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
+									<a href="view_applicants.php">View all <img src="assets/img/right-arrow.png" class="ml-2" alt="arrow" /></a>
 								</div>
 							</div>
 						</div>

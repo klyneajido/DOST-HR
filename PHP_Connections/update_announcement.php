@@ -14,7 +14,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $announcement_id = isset($_GET['announcement_id']) ? (int)$_GET['announcement_id'] : 0;
 
 if ($announcement_id === 0) {
-    header('Location: announcements.php');
+    header('Location: view_view_announcements.php');
     exit();
 }
 
@@ -26,7 +26,7 @@ $result = $stmt->get_result();
 $announcement = $result->fetch_assoc();
 
 if (!$announcement) {
-    header('Location: announcements.php');
+    header('Location: view_announcements.php');
     exit();
 }
 
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $history_stmt->execute();
             $history_stmt->close();
 
-            header('Location: announcements.php?success=Announcement updated successfully');
+            header('Location: view_announcements.php?success=Announcement updated successfully');
             exit();
         } else {
             $errors['database'] = "Error updating announcement: " . $mysqli->error;

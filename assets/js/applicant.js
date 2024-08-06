@@ -46,7 +46,7 @@ $(document).ready(function() {
                 if (status === 'Interview') {
                     // Create the date picker form
                     var interviewFormHtml = `
-                        <form id="interviewForm${applicantId}" method="POST" action="PHP_Connections/interviewDate.php" class="d-flex align-items-center w-100">
+                        <form id="interviewForm${applicantId}" method="POST" action="PHP_Connections/interview_date.php" class="d-flex align-items-center w-100">
                             <input type="hidden" name="applicant_id" value="${applicantId}">
                             <input type="datetime-local" class="form-control w-100 me-2" name="interview_date" />
                         </form>
@@ -209,7 +209,7 @@ function updateInterviewDate(applicantId) {
     var formData = new FormData(form);
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'PHP_Connections/interviewDate.php', true);
+    xhr.open('POST', 'PHP_Connections/interview_date.php', true);
 
     xhr.onload = function() {
         if (xhr.status === 200) {
@@ -312,7 +312,7 @@ $(document).ready(function() {
         console.log('Archiving applicant ID:', applicantId);
         
         $.ajax({
-            url: 'PHP_Connections/applicantArchive.php',
+            url: 'PHP_Connections/archive_applicant.php',
             type: 'POST',
             data: { applicant_id: applicantId },
             success: function(response) {

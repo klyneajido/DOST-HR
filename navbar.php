@@ -83,41 +83,41 @@
                             <span>Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="applicants.php"><img src="assets/img/users.svg" alt="sidebar_img"><span>
+                        <a href="view_applicants.php"><img src="assets/img/users.svg" alt="sidebar_img"><span>
                                 Applicants</span></a>
                     </li>
                     <li>
-                        <a href="viewJob.php"><img src="assets/img/case.svg" alt="sidebar_img"> <span>
+                        <a href="view_jobs.php"><img src="assets/img/case.svg" alt="sidebar_img"> <span>
                                 Jobs</span></a>
                     </li>
                     <li>
-                        <a href="announcements.php"><img src="assets/img/bullhorn.svg" alt="sidebar_img">
+                        <a href="view_announcements.php"><img src="assets/img/bullhorn.svg" alt="sidebar_img">
                             <span>Announcements</span></a>
                     </li>
                     <li>
-                        <a href="transparency.php"><img src="assets/img/folder.svg" alt="sidebar_img"><span>
+                        <a href="view_transparency.php"><img src="assets/img/folder.svg" alt="sidebar_img"><span>
                                 Transparency</span></a>
                     </li>
                     <li>
-                        <a href="departments.php"><img src="assets/img/department.svg" alt="sidebar_img"><span>
+                        <a href="view_departments.php"><img src="assets/img/department.svg" alt="sidebar_img"><span>
                                 Departments</span></a>
                     </li>
 
                     <li>
-                        <a href="archive.php"><img src="assets/img/archive.svg" alt="sidebar_img">
+                        <a href="view_archives.php"><img src="assets/img/archive.svg" alt="sidebar_img">
                             <span>Archive</span></a>
                     </li>
                     <li>
-                        <a href="history.php"><img src="assets/img/clock.svg" alt="sidebar_img">
+                        <a href="view_history.php"><img src="assets/img/clock.svg" alt="sidebar_img">
                             <span>History</span></a>
                     </li>
                     <li>
-                        <a href="profile.php"><img src="assets/img/profile-icon.svg" alt="sidebar_img">
+                        <a href="view_profile.php"><img src="assets/img/profile-icon.svg" alt="sidebar_img">
                             <span>Profile</span></a>
                     </li>
                      <?php if ($user_authority === 'superadmin'): ?>
                     <li>
-                        <a href="accounts.php"><img src="assets/img/profile.svg" alt="sidebar_img">
+                        <a href="view_accounts.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                             <span>Accounts</span></a>
                     </li>
                     <?php endif; ?>

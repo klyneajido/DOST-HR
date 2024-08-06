@@ -88,5 +88,5 @@ if (isset($_POST['department_id'])) {
 
 $mysqli->close();
 
-header('Location: ../departments.php');
+header('Location: ../view_departments.php');
 exit();

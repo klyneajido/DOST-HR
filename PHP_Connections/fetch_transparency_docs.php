@@ -30,9 +30,9 @@ if ($result->num_rows > 0) {
 
         // Generate HTML for document card
         $documentCard = '<div class="document-card shadow-sm m-2">
-                            <div class="card-body d-flex justify-content-between">
+                            <div class="card-body d-flex justify-content-between  rounded shadow-md">
                                 <h6 class="card-title col-md-10 mb-0">' . $documentName . '</h6>
-                                <div class="document-buttons col-md-2 d-flex">
+                                <div class="document-buttons col-md-2 d-flex d-flex justify-content-end">
                                     <a href="PHP_Connections/download_document_transparency.php?id=' . $documentId . '">
                                         <button class="dl-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512" class="svgIcon">
