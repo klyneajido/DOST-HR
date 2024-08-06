@@ -9,6 +9,10 @@ require 'db_connection.php';
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
+function formatDate($date) {
+    return date("F j, Y, g:i A", strtotime($date));
+}
+
 // Set header styles
 $headerStyle = [
     'font' => [
@@ -35,7 +39,7 @@ $headerStyle = [
 $dateExported = date('F d, Y');
 
 // Merge and center the first row
-$sheet->mergeCells('A1:N1');
+$sheet->mergeCells('A1:Q1');
 $sheet->setCellValue('A1', 'Human Resource and Management Office List of Applicants - ' . $dateExported);
 $sheet->getStyle('A1')->applyFromArray($headerStyle);
 
@@ -44,13 +48,15 @@ $jobTitleFilter = isset($_GET['job_title']) ? $_GET['job_title'] : '';
 $positionFilter = isset($_GET['position']) ? $_GET['position'] : '';
 $searchFilter = isset($_GET['search']) ? $_GET['search'] : '';
 $statusFilter = isset($_GET['status']) ? $_GET['status'] : '';
+$jobstatusFilter = isset($_GET['job_status']) ? $_GET['job_status'] : '';
 
 // Prepare the SQL query with sorting and filtering
 $sql = "SELECT 
-            a.job_title AS job_title_position, 
+            a.job_title, a.position_or_unit, a.plantilla, 
             a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
-            a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.status
+            a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.application_date, a.status
         FROM applicants a 
+        JOIN job j ON a.job_id = j.job_id
         WHERE (a.lastname LIKE ? OR 
                a.firstname LIKE ? OR 
                a.email LIKE ? OR
@@ -70,6 +76,10 @@ if (!empty($statusFilter)) {
     $sql .= " AND a.status = ?";
     $params[] = $statusFilter;
 }
+if (!empty($jobstatusFilter)) {
+    $sql .= " AND j.status = ?";
+    $params[] = $jobstatusFilter;
+}
 
 // Add sorting by job title first, then by ID
 $sql .= " ORDER BY a.job_title ASC, a.id ASC";
@@ -86,24 +96,24 @@ $result = $stmt->get_result();
 // Fetch job titles from the result
 $jobTitleList = [];
 while ($row = $result->fetch_assoc()) {
-    if (!in_array($row['job_title_position'], $jobTitleList)) {
-        $jobTitleList[] = $row['job_title_position'];
+    if (!in_array($row['job_title'], $jobTitleList)) {
+        $jobTitleList[] = $row['job_title'];
     }
 }
 
 // Set the job titles in the second row
 $jobTitles = implode(', ', $jobTitleList);
-$sheet->mergeCells('A2:N2');
+$sheet->mergeCells('A2:Q2');
 $sheet->setCellValue('A2', $jobTitles);
 $sheet->getStyle('A2')->applyFromArray($headerStyle);
 
 // Add CSV column headers
-$headers = ['Job Title', 'Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards', 'Status'];
+$headers = ['Job Title', 'Position', 'Plantilla No.','Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards','Application Date', 'Status'];
 $sheet->fromArray($headers, NULL, 'A3');
-$sheet->getStyle('A3:N3')->applyFromArray($headerStyle);
+$sheet->getStyle('A3:Q3')->applyFromArray($headerStyle);
 
 // Set column widths to auto size
-foreach (range('A', 'N') as $column) {
+foreach (range('A', 'Q') as $column) {
     $sheet->getColumnDimension($column)->setAutoSize(true);
 }
 
@@ -114,12 +124,13 @@ $result = $stmt->get_result();
 // Fetch the data and write to Excel
 $rowNumber = 4; // Start from row 4, since row 3 is for headers
 while ($row = $result->fetch_assoc()) {
+    $row['application_date'] = formatDate($row['application_date']);
     $sheet->fromArray(array_values($row), NULL, 'A' . $rowNumber);
     $rowNumber++;
 }
 
 // Apply border to all data rows
-$dataRange = 'A1:N' . ($rowNumber - 1);
+$dataRange = 'A1:Q' . ($rowNumber - 1);
 $sheet->getStyle($dataRange)->applyFromArray([
     'borders' => [
         'allBorders' => [

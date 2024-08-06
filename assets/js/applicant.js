@@ -71,26 +71,29 @@ $(document).ready(function() {
         });
     });
 
-    // Handle dropdown filters
-    $('.dropdown-item').click(function(e) {
-        e.preventDefault(); // Prevent default anchor click behavior
+   // Handle dropdown filters
+$('.dropdown-item').click(function(e) {
+    e.preventDefault(); // Prevent default anchor click behavior
 
-        var filterType = $(this).data('filter');
-        var filterValue = $(this).data('value');
-        var url = new URL(window.location.href);
+    var filterType = $(this).data('filter');
+    var filterValue = $(this).data('value');
+    var url = new URL(window.location.href);
 
-        // Update URL parameters
-        if (filterType === 'status') {
-            url.searchParams.set('status', filterValue);
-        } else if (filterType === 'job_title') {
-            url.searchParams.set('job_title', filterValue);
-        } else if (filterType === 'position') {
-            url.searchParams.set('position', filterValue);
-        }
+    // Update URL parameters
+    if (filterType === 'status') {
+        url.searchParams.set('status', filterValue);
+    } else if (filterType === 'job_title') {
+        url.searchParams.set('job_title', filterValue);
+    } else if (filterType === 'position') {
+        url.searchParams.set('position', filterValue);
+    } else if (filterType === 'job_status'){
+        url.searchParams.set('job_status', filterValue);
+    }
 
-        // Redirect to updated URL
-        window.location.href = url.toString();
-    });
+    // Redirect to updated URL
+    window.location.href = url.toString();
+});
+
 
     // Handle search input
     $('#search-input').on('input', function() {
@@ -121,8 +124,9 @@ $(document).ready(function() {
         var jobTitle = getUrlParameter('job_title') || '';
         var position = getUrlParameter('position') || '';
         var status = getUrlParameter('status') || '';
+        var jobStatus = getUrlParameter('job_status') || '';
 
-        window.location.href = `PHP_Connections/export_to_csv.php?export=true&sort_column=${sortColumn}&sort_direction=${sortDirection}&search=${searchValue}&job_title=${jobTitle}&position=${position}&status=${status}`;
+        window.location.href = `PHP_Connections/export_to_csv.php?export=true&sort_column=${sortColumn}&sort_direction=${sortDirection}&search=${searchValue}&job_title=${jobTitle}&position=${position}&status=${status}&job_status=${jobStatus}`;
     });
 
     // Change rows per page
@@ -135,6 +139,7 @@ $(document).ready(function() {
         var url = new URL(window.location.href);
         url.searchParams.delete('search');
         url.searchParams.delete('status');
+        url.searchParams.delete('job_status');
         url.searchParams.delete('job_title');
         url.searchParams.delete('position');
         url.searchParams.delete('rows_per_page');
@@ -293,29 +298,3 @@ function updatePlantilla(applicantId, plantilla) {
     // Send the request
     xhr.send("applicant_id=" + encodeURIComponent(applicantId) + "&plantilla=" + encodeURIComponent(plantilla || ''));
 }
-
-
-var applicantIdToArchive;
-
-// Function to open the modal
-function showArchiveModal(applicantId) {
-    applicantIdToArchive = applicantId;
-    $('#archiveModal').modal('show');
-}
-
-// Event listener for confirm button
-$('#confirmArchiveButton').click(function() {
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = "PHP_Connections/applicantArchive.php"; // Change to your actual PHP file handling archiving
-
-    var input = document.createElement("input");
-    input.type = "hidden";
-    input.name = "applicant_id";
-    input.value = applicantIdToArchive;
-    form.appendChild(input);
-
-    document.body.appendChild(form);
-    form.submit();
-    $('#archiveModal').modal('hide'); // Hide the modal after submitting
-});s

@@ -20,13 +20,13 @@
 </head>
 
 <body class="scrollbar" id="style-5">
-    
+
     <?php include("logout_modal.php")?>
     <div class="main-wrapper">
 
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
-            
+
             <div class="container-fluid">
                 <!-- Breadcrumb section -->
                 <div class="breadcrumb-path mb-4 my-4">
@@ -37,22 +37,22 @@
                     </ul>
                 </div>
                 <!-- Table section -->
-                 <div class="col-md-12">
-                 <?php if (!empty($_SESSION['success_message'])) : ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?php echo htmlspecialchars($_SESSION['success_message']); ?>
-        </div>
-        <?php unset($_SESSION['success_message']); ?>
-    <?php endif; ?>
+                <div class="col-md-12">
+                    <?php if (!empty($_SESSION['success_message'])) : ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <?php echo htmlspecialchars($_SESSION['success_message']); ?>
+                    </div>
+                    <?php unset($_SESSION['success_message']); ?>
+                    <?php endif; ?>
 
-    <!-- Display error message -->
-    <?php if (!empty($_SESSION['error_message'])) : ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <?php echo htmlspecialchars($_SESSION['error_message']); ?>
-        </div>
-        <?php unset($_SESSION['error_message']); ?>
-    <?php endif; ?>
-                 </div>
+                    <!-- Display error message -->
+                    <?php if (!empty($_SESSION['error_message'])) : ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <?php echo htmlspecialchars($_SESSION['error_message']); ?>
+                    </div>
+                    <?php unset($_SESSION['error_message']); ?>
+                    <?php endif; ?>
+                </div>
                 <div class="col-xl-12 col-sm-12 col-12 pb-3">
                     <div class="card ">
                         <div class="header_1 card-header  d-flex justify-content-between">
@@ -150,19 +150,18 @@
                                 <!-- Job Status Dropdown -->
                                 <div class="filter-dropdown mr-2">
                                     <button class="filter-btn dropdown-toggle py-1 px-2" type="button"
-                                        id="statusDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                        id="jobStatusDropdown" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
                                         Job Status
                                     </button>
-                                    <div class="dropdown-menu" aria-labelledby="statusDropdown">
-                                        <a class="dropdown-item" href="#" data-filter="status" data-value="">All</a>
-                                        <a class="dropdown-item" href="#" data-filter="status"
+                                    <div class="dropdown-menu" aria-labelledby="jobStatusDropdown">
+                                        <a class="dropdown-item" href="#" data-filter="job_status" data-value="">All</a>
+                                        <a class="dropdown-item" href="#" data-filter="job_status"
                                             data-value="Permanent">Permanent</a>
-                                        <a class="dropdown-item" href="#" data-filter="status" data-value="COS">COS</a>
+                                        <a class="dropdown-item" href="#" data-filter="job_status"
+                                            data-value="COS">COS</a>
                                     </div>
                                 </div>
-
-
 
                                 <button id="reset-filters" class="button ">
                                     <svg class="svg-icon" fill="none" height="20" viewBox="0 0 20 20" width="20"
@@ -401,26 +400,27 @@
         </div>
 
 
-<!-- Modal HTML -->
-<div class="modal fade" id="archiveModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="archiveModalLabel">Confirm Archive</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                Are you sure you want to archive this applicant?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="confirmArchiveButton">Archive</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelArchiveButton">Cancel</button>
+        <!-- Modal HTML -->
+        <div class="modal fade" id="archiveModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="archiveModalLabel">Confirm Archive</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        Are you sure you want to archive this applicant?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="confirmArchiveButton">Archive</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            id="cancelArchiveButton">Cancel</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 </body>
 

@@ -4,7 +4,7 @@ include_once 'db_connection.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['username'])) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit();
 }
 $user_name = $_SESSION['username'];
@@ -30,11 +30,20 @@ while ($row = $positions_result->fetch_assoc()) {
     $positions[] = $row['position_or_unit'];
 }
 
+// Fetch job statuses
+$job_statuses_query = "SELECT DISTINCT status FROM job WHERE status != 'archived'";
+$job_statuses_result = $mysqli->query($job_statuses_query);
+$job_statuses = [];
+while ($row = $job_statuses_result->fetch_assoc()) {
+    $job_statuses[] = $row['status'];
+}
+
 // Get URL parameters
 $search_query = isset($_GET['search']) ? mysqli_real_escape_string($mysqli, $_GET['search']) : '';
 $job_title_filter = isset($_GET['job_title']) ? mysqli_real_escape_string($mysqli, $_GET['job_title']) : '';
 $position_filter = isset($_GET['position']) ? mysqli_real_escape_string($mysqli, $_GET['position']) : '';
 $status_filter = isset($_GET['status']) ? mysqli_real_escape_string($mysqli, $_GET['status']) : '';
+$job_status_filter = isset($_GET['job_status']) ? mysqli_real_escape_string($mysqli, $_GET['job_status']) : '';
 
 // Default rows per page
 $default_rows_per_page = 10;
@@ -47,7 +56,7 @@ $offset = ($page - 1) * $rows_per_page;
 // Query for total number of applicants with filters
 $total_query = "SELECT COUNT(*) as total 
                 FROM applicants a 
-                LEFT JOIN job j ON a.job_title = j.job_title
+                LEFT JOIN job j ON a.job_id = j.job_id
                 WHERE 
                     (a.lastname LIKE ? OR 
                      a.firstname LIKE ? OR 
@@ -55,7 +64,6 @@ $total_query = "SELECT COUNT(*) as total
                      a.job_title LIKE ? OR
                      a.position_or_unit LIKE ?)";
 
-// Bind parameters
 $params = array_fill(0, 5, "%$search_query%");
 
 // Apply additional filters
@@ -68,8 +76,12 @@ if ($position_filter) {
     $params[] = $position_filter;
 }
 if ($status_filter) {
-    $total_query .= " AND j.status = ?";
+    $total_query .= " AND a.status = ?";
     $params[] = $status_filter;
+}
+if ($job_status_filter) {
+    $total_query .= " AND j.status = ?";
+    $params[] = $job_status_filter;
 }
 
 $stmt = $mysqli->prepare($total_query);
@@ -91,7 +103,7 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.plantilla, a.sex
                  a.proof_of_trainings_seminars, a.proof_of_rewards, a.job_title, a.position_or_unit, a.application_date, a.interview_date,
                  j.status as job_status
           FROM applicants a 
-          LEFT JOIN job j ON a.job_title = j.job_title
+          LEFT JOIN job j ON a.job_id = j.job_id
           WHERE 
               (a.lastname LIKE ? OR 
                a.firstname LIKE ? OR 
@@ -99,7 +111,6 @@ $query = "SELECT a.id, a.lastname, a.firstname, a.middlename, a.plantilla, a.sex
                a.job_title LIKE ? OR
                a.position_or_unit LIKE ?)";
 
-// Bind parameters
 $params = array_fill(0, 5, "%$search_query%");
 
 // Apply additional filters
@@ -112,8 +123,12 @@ if ($position_filter) {
     $params[] = $position_filter;
 }
 if ($status_filter) {
-    $query .= " AND j.status = ?";
+    $query .= " AND a.status = ?";
     $params[] = $status_filter;
+}
+if ($job_status_filter) {
+    $query .= " AND j.status = ?";
+    $params[] = $job_status_filter;
 }
 
 // Order by application_date in descending order and apply pagination
