@@ -2222,7 +2222,7 @@ html.menu-opened body {
   font-size: 15px;
   list-style-type: none;
   margin: 0;
-  padding: 25px 0 95px;
+  padding: 25px 0;
   position: relative;
 }
 .member-row {
@@ -2307,9 +2307,21 @@ html.menu-opened body {
   padding: 7px 10px 7px 45px;
   position: relative;
 }
-.sidebar-menu ul ul a span {
-  float: right;
-  color: #ff9800;
+
+.sub-menu-archive > li > a img {
+  width: 25px;
+  background: #cbd1ee;
+  padding: 5px;
+  height: 25px;
+  border-radius: 5px;
+}
+.sub-menu-archive > li > a span {
+  transition: all 0.2s ease-in-out 0s;
+  display: inline-block;
+  margin-left: 15px;
+  white-space: nowrap;
+  font-weight: 300;
+  font-size: 14px;
 }
 .sidebar-menu ul ul {
   display: none;

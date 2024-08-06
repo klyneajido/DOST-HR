@@ -16,7 +16,7 @@ include_once 'PHP_Connections/fetch_history.php';?>
 </head>
 
 <body class="scrollbar" id="style-5">
-    <?php include("logout_modal.php") ?>
+    <?php include("modal_logout.php") ?>
     <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

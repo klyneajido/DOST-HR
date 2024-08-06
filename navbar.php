@@ -1,4 +1,3 @@
-
 <?php include("PHP_Connections/verifyUser.php");?>
 <div class="header">
     <div class="header-left">
@@ -54,7 +53,6 @@
                 class="fa fa-ellipsis-v"></i></a>
         <div class="dropdown-menu dropdown-menu-right ">
             <a class="dropdown-item" href="profile.php">My Profile</a>
-            <!-- <a class="dropdown-item" href="settings.html">Settings</a> -->
             <a class="dropdown-item" href="PHP_Connections/logout.php">Logout</a>
         </div>
     </div>
@@ -102,10 +100,16 @@
                         <a href="view_departments.php"><img src="assets/img/department.svg" alt="sidebar_img"><span>
                                 Departments</span></a>
                     </li>
-
                     <li>
-                        <a href="view_archives.php"><img src="assets/img/archive.svg" alt="sidebar_img">
+                        <a href="#" class="sub-menu-toggle"><img src="assets/img/archive.svg" alt="sidebar_img">
                             <span>Archive</span></a>
+                        <ul class="sub-menu-archive bg-light">
+                            <li><a href="view_archives_jobs.php"><img src="assets/img/case.svg"
+                                        alt="sidebar_img"><span>Jobs</span></a></li>
+                            <li><a href="view_archives_applicants.php"><img src="assets/img/users.svg" alt="sidebar_img"><span>
+                            Applicants</span></a></li>
+                            <li><a href="view_archives_announcements.php"><img src="assets/img/bullhorn.svg" alt="sidebar_img"><span>Announcements</span></a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="view_history.php"><img src="assets/img/clock.svg" alt="sidebar_img">
@@ -115,13 +119,12 @@
                         <a href="view_profile.php"><img src="assets/img/profile-icon.svg" alt="sidebar_img">
                             <span>Profile</span></a>
                     </li>
-                     <?php if ($user_authority === 'superadmin'): ?>
+                    <?php if ($user_authority === 'superadmin'): ?>
                     <li>
                         <a href="view_accounts.php"><img src="assets/img/profile.svg" alt="sidebar_img">
                             <span>Accounts</span></a>
                     </li>
                     <?php endif; ?>
-
                 </ul>
                 <ul class="logout">
                     <li>
@@ -142,5 +145,12 @@ document.getElementById('sidebarLogoutLink').addEventListener('click', function(
 
 document.getElementById('confirmLogout').addEventListener('click', function() {
     window.location.href = 'PHP_Connections/logout.php';
+});
+
+document.querySelector('.sub-menu-toggle').addEventListener('click', function(event) {
+    event.preventDefault();
+    const subMenu = document.querySelector('.sub-menu');
+    subMenu.classList.toggle('active');
+    this.classList.toggle('active');
 });
 </script>

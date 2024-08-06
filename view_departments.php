@@ -136,11 +136,16 @@ if (!empty($departments)) :
         </div>
     </div>
 
+
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
+    <script src="assets/plugins/apexchart/chart-data.js"></script>
+    <script src="assets/js/script.js"></script>
     <script>
         // Script to pass department_id to delete modal
         $('#deleteModal').on('show.bs.modal', function (event) {

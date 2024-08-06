@@ -1,6 +1,6 @@
 <?php include("PHP_Connections/update_profile.php") ?>
 <!DOCTYPE html>
-<?php include("logout_modal.php")?>
+<?php include("modal_logout.php")?>
 <html lang="en">
 
 <head>
