@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'db_connection.php';
 
@@ -10,7 +11,8 @@ if (!isset($_SESSION['username'])) {
 $user_name = $_SESSION['username'];
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
-function formatDate($date) {
+function formatDate($date)
+{
     return date("F j, Y, g:i A", strtotime($date));
 }
 
@@ -148,4 +150,3 @@ $applicants = [];
 while ($row = $result->fetch_assoc()) {
     $applicants[] = $row;
 }
-?>

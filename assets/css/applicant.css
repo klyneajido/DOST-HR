@@ -666,9 +666,6 @@ button.bg-danger:hover {
 }
 .btn-primary {
   background-color: #071952;
-  padding: 5px 10px;
-  font-size: 12px;
-
 }
 .btn-primary a {
   color: white;
@@ -4811,7 +4808,7 @@ a.btn.btn-apply:hover {
   border: 1px solid #00882e;
 }
 .btn-secondary {
-  background: #dc3545;
+  background:  gray
 }
 .customize_popup button.btn.btn-secondary:hover {
   background: transparent;

@@ -35,7 +35,7 @@
                         <div class="filter-dropdown mr-2">
                         <button class="filter-btn dropdown-filter-toggle py-1 px-2" type="button"
                             id="statusDropdown" aria-haspopup="true" aria-expanded="false">
-                            Status
+                           Job Status
                         </button>
                         <div class="dropdown-filter-menu" aria-labelledby="statusDropdown">
                             <a class="dropdown-item dropdown-item-cos" href="?status=COS">COS</a>
@@ -82,7 +82,7 @@
                                                 else :
                                                     $position = $job['position_or_unit'];
                                                 endif;
-                                                echo htmlspecialchars($job['job_title'] . " " . $position); ?>
+                        echo htmlspecialchars($job['job_title'] . " " . $position); ?>
                                         </strong></h5>
                                     <div class="dropdown">
                                         <button class=" dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -140,7 +140,9 @@
                 </div>
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center pb-4">
-                        <li class="page-item <?php if ($page <= 1) echo 'disabled'; ?>">
+                        <li class="page-item <?php if ($page <= 1) {
+                            echo 'disabled';
+                        } ?>">
                             <a class="page-link" href="?page=<?php echo $page - 1; ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
@@ -148,29 +150,33 @@
                         </li>
                         <?php
                         $start = max(1, $page - 2);
-                        $end = min($total_pages, $page + 2);
+$end = min($total_pages, $page + 2);
 
-                        if ($start > 1) {
-                            echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
-                            if ($start > 2) {
-                                echo '<li class="page-item"><span class="page-link">...</span></li>';
-                            }
-                        }
+if ($start > 1) {
+    echo '<li class="page-item"><a class="page-link" href="?page=1">1</a></li>';
+    if ($start > 2) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+}
 
-                        for ($i = $start; $i <= $end; $i++) : ?>
-                        <li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+for ($i = $start; $i <= $end; $i++) : ?>
+                        <li class="page-item <?php if ($i == $page) {
+                            echo 'active';
+                        } ?>">
                             <a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                         </li>
                         <?php endfor;
 
-                        if ($end < $total_pages) {
-                            if ($end < $total_pages - 1) {
-                                echo '<li class="page-item"><span class="page-link">...</span></li>';
-                            }
-                            echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
-                        }
-                        ?>
-                        <li class="page-item <?php if ($page >= $total_pages) echo 'disabled'; ?>">
+if ($end < $total_pages) {
+    if ($end < $total_pages - 1) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+    echo '<li class="page-item"><a class="page-link" href="?page=' . $total_pages . '">' . $total_pages . '</a></li>';
+}
+?>
+                        <li class="page-item <?php if ($page >= $total_pages) {
+                            echo 'disabled';
+                        } ?>">
                             <a class="page-link" href="?page=<?php echo $page + 1; ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
@@ -217,8 +223,8 @@
                     Are you sure you want to archive this job?
                 </div>
                 <div class="modal-footer">
+                    <button id="confirmArchiveButton" type="button" class="btn btn-info">Archive</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <a href="#" id="confirmArchiveButton" class="btn btn-danger">Archive</a>
                 </div>
             </div>
         </div>
@@ -234,17 +240,6 @@
     <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/viewJob.js"></script>
-
-    <script>
-        $('#confirmArchiveModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var jobId = button.data('job-id'); // Extract info from data-* attributes
-            var modal = $(this);
-            var confirmBtn = modal.find('#confirmArchiveButton');
-            confirmBtn.attr('href', 'PHP_Connections/archiveJobs.php?job_id=' + jobId);
-        });
-    
-    </script>
 </body>
 
 </html>

@@ -123,12 +123,12 @@
                                         <?php if ("COS" == ($job['status'])) : ?>
                                         <div class="mb-2">
                                             <h6><strong>Daily Salary</strong></h6>
-                                            <p>₱<?php echo number_format($job['salary'],2); ?></p>
+                                            <p>₱<?php echo number_format($job['salary'], 2); ?></p>
                                         </div>
                                         <?php else : ?>
                                         <div class="mb-2">
                                             <h6><strong>Monthly Salary</strong></h6>
-                                            <p>₱<?php echo number_format($job['salary'],2); ?></p>
+                                            <p>₱<?php echo number_format($job['salary'], 2); ?></p>
                                         </div>
                                         <?php endif; ?>
                                     </div>

@@ -48,7 +48,7 @@
             if ($uploadStatus === 'failed') {
                 echo '<div class="alert alert-danger mt-3 mb-3" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
             }
-            ?>
+?>
                 <div class="container text-center"></div>
             </div>
             <h3 class="d-flex justify-content-center my-3">Documents</h3>
@@ -63,10 +63,10 @@
                     <?php else: ?>
                         <div class="row" id="documentList">
                             <?php
-                            foreach ($documentCards as $card) {
-                                echo '<div class="col-md-6 document-item">' . $card . '</div>';
-                            }
-                            ?>
+                foreach ($documentCards as $card) {
+                    echo '<div class="col-md-6 document-item">' . $card . '</div>';
+                }
+                        ?>
                         </div>
                     <?php endif; ?>
                     <div class="row" id="noDocumentsFound" style="display: none;">

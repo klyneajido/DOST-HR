@@ -1,4 +1,5 @@
 <?php
+
 include_once 'db_connection.php';
 
 if (isset($_GET['id'])) {
@@ -20,7 +21,7 @@ if (isset($_GET['id'])) {
         // Create a ZIP file to store all documents
         $zip = new ZipArchive();
         $zipFileName = tempnam(sys_get_temp_dir(), 'zip');
-        if ($zip->open($zipFileName, ZipArchive::CREATE) === TRUE) {
+        if ($zip->open($zipFileName, ZipArchive::CREATE) === true) {
 
             // Add files to the ZIP
             $files = [
@@ -65,4 +66,3 @@ if (isset($_GET['id'])) {
 } else {
     echo "No applicant ID provided.";
 }
-?>

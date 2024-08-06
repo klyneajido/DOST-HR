@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'db_connection.php';
 
@@ -53,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $monthly_salary = $_POST['monthlysalary'];
     $status = $_POST['status'];
     $deadline = $_POST['deadline'];
-    $description= $_POST['description'];
+    $description = $_POST['description'];
 
     if (empty($job_title)) {
         $errors['job_title'] = "Position is required";
@@ -83,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($errors)) {
         $sql = "UPDATE job SET job_title = ?, position_or_unit = ?, department_id = ?, salary = ?, status = ?, description = ?, education_requirement = ?, experience_or_training = ?, duties_and_responsibilities = ?, place_of_assignment = ?, deadline = ?, updated_at = NOW()  WHERE job_id = ?";
         $stmt = $mysqli->prepare($sql);
-        $stmt->bind_param('ssidsssssssi',$job_title,  $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
+        $stmt->bind_param('ssidsssssssi', $job_title, $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
 
         if ($stmt->execute()) {
             header('Location: viewJob.php?success=Job updated successfully');
@@ -93,4 +94,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
-?>

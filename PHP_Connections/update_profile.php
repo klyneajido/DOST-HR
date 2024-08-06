@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'PHP_Connections/db_connection.php';
@@ -53,5 +54,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error updating profile.";
     }
 }
-
-?>

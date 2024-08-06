@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -9,7 +10,8 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
-function formatDate($date) {
+function formatDate($date)
+{
     return date("F j, Y, g:i A", strtotime($date));
 }
 
@@ -47,5 +49,3 @@ if ($result && $result->num_rows > 0) {
 } else {
     $errors['database'] = "No announcements found.";
 }
-
-?>

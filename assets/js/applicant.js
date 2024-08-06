@@ -298,3 +298,32 @@ function updatePlantilla(applicantId, plantilla) {
     // Send the request
     xhr.send("applicant_id=" + encodeURIComponent(applicantId) + "&plantilla=" + encodeURIComponent(plantilla || ''));
 }
+
+
+function showArchiveModal(applicantId) {
+    console.log('Showing archive modal for applicant ID:', applicantId);
+    $('#archiveModal').modal('show');
+    $('#confirmArchiveButton').data('applicant-id', applicantId);
+}
+
+$(document).ready(function() {
+    $('#confirmArchiveButton').click(function() {
+        var applicantId = $(this).data('applicant-id');
+        console.log('Archiving applicant ID:', applicantId);
+        
+        $.ajax({
+            url: 'PHP_Connections/applicantArchive.php',
+            type: 'POST',
+            data: { applicant_id: applicantId },
+            success: function(response) {
+                console.log('Archive successful:', response);
+                $('#archiveModal').modal('hide');
+                location.reload();  // Reloads the page
+            },
+            error: function(xhr, status, error) {
+                console.error('Failed to archive applicant:', xhr.responseText, status, error);
+            }
+        });
+    });
+});
+

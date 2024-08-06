@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -43,4 +44,3 @@ if ($result->num_rows > 0) {
 
 $stmt->close();
 $mysqli->close();
-?>

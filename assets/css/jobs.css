@@ -622,7 +622,7 @@ button.bg-danger:hover {
   color: #757575 !important;
 }
 .btn-primary {
-  background-color: #e67d8e;
+  background-color: #071952;
   padding: 5px 10px;
 }
 .btn-primary a {
@@ -5503,7 +5503,7 @@ a.btn.btn-apply:hover {
   border: 1px solid #00882e;
 }
 .btn-secondary {
-  background: #dc3545;
+  background: gray;
 }
 .customize_popup button.btn.btn-secondary:hover {
   background: transparent;

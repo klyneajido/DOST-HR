@@ -1,5 +1,5 @@
-xx<?php include("PHP_Connections/fetch_archives.php")?>
-<!-- eyyoo -->
+<?php include("PHP_Connections/fetch_archives.php")?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,177 +12,11 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
 </head>
 
 <body class="scrollbar" id="style-5">
     <?php include("logout_modal.php");?>
-    <div class="modal fade" id="passwordModalJob" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="deleteForm">
-                        <input type="hidden" id="deleteJobId" name="id" value="">
-                        <div class="form-group">
-                            <label for="adminPassword">Admin Password</label>
-                            <input type="password" class="form-control" id="adminPassword" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-danger">Delete Job</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="passwordModalAnnouncement" tabindex="-1" role="dialog"
-        aria-labelledby="passwordModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="deleteAnnouncementForm">
-                        <input type="hidden" id="deleteAnnouncementId" name="id" value="">
-                        <div class="form-group">
-                            <label for="adminPasswordAnnouncement">Admin Password</label>
-                            <input type="password" class="form-control" id="adminPasswordAnnouncement" name="password"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-danger">Delete Announcement</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="passwordModalApplicant" tabindex="-1" role="dialog"
-        aria-labelledby="passwordModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="deleteApplicantForm">
-                        <input type="hidden" id="deleteApplicantId" name="id" value="">
-                        <div class="form-group">
-                            <label for="adminPasswordApplicant">Admin Password</label>
-                            <input type="password" class="form-control" id="adminPasswordApplicant" name="password"
-                                required>
-                        </div>
-                        <button type="submit" class="btn btn-danger">Delete Applicant</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-        <div class="modal fade" id="successModalApplicant" tabindex="-1" role="dialog"
-        aria-labelledby="successModalApplicantLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalApplicantLabel">Applicant Deleted</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>The applicant has been deleted successfully.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="successModalJob" tabindex="-1" role="dialog" aria-labelledby="successModalJobLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalJobLabel">Job Deleted</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>The job has been deleted successfully.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Success Deletion Modal for Announcements -->
-    <div class="modal fade" id="successModalAnnouncement" tabindex="-1" role="dialog"
-        aria-labelledby="successModalAnnouncementLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalAnnouncementLabel">Announcement Deleted</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>The announcement has been deleted successfully.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="restoreJobModal" tabindex="-1" aria-labelledby="restoreJobModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="restoreJobModalLabel">Restore Job</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to restore this job?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a id="confirmRestore" href="#" class="btn btn-primary">Restore</a>
-            </div>
-        </div>
-    </div>
-</div>
-    <div class="modal fade" id="restoreAnnouncementModal" tabindex="-1" aria-labelledby="restoreAnnouncementModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="restoreAnnouncementModalLabel">Restore Announcement</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to restore this job?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <a id="confirmAnnouncementRestore" href="#" class="btn btn-primary">Restore</a>
-            </div>
-        </div>
-    </div>
-</div>
-
+    <?php include("archive_modals.php");?>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -217,7 +51,7 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                             <div class="card-body">
 
                                 <div class="table-responsive">
-                                <table class="table table-striped">
+                                    <table class="table table-striped">
                                         <thead class="text-center">
                                             <tr>
                                                 <th>Title</th>
@@ -238,51 +72,63 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            <?php if ($result_archive->num_rows > 0): ?>
+                                            <?php while ($job = $result_archive->fetch_assoc()): ?>
                                             <?php
-                                            if ($result_archive->num_rows > 0) {
-                                                while ($job = $result_archive->fetch_assoc()) {
-                                                    // Convert comma-separated requirements into HTML lists
-                                                    $education_list = !empty($job['education_requirements']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['education_requirements'])) . '</li></ul>' : '';
-                                                    $experience_list = !empty($job['experience_requirements']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['experience_requirements'])) . '</li></ul>' : '';
-                                                    $duties_list = !empty($job['duties_and_responsibilities']) ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['duties_and_responsibilities'])) . '</li></ul>' : '';
-
-                                                    echo "<tr class='text-center'>";
-                                                    echo "<td>" . htmlspecialchars($job['job_title']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['position_or_unit']) . "</td>";
-                                                    echo "<td class='description-column'>" . htmlspecialchars($job['description']) . "</td>";
-                                                    echo "<td>" . $education_list . "</td>";
-                                                    echo "<td>" . $experience_list . "</td>";
-                                                    echo "<td>" . $duties_list . "</td>";
-                                                    echo "<td>₱" . htmlspecialchars($job['salary']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['department_name']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['place_of_assignment']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['status']) . "</td>";
-                                                    echo "<td>" . formatDate($job['created_at']) . "</td>";
-                                                    echo "<td>" . formatDate($job['updated_at']) . "</td>";
-                                                    echo "<td>" . formatDateDeadline($job['deadline']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($job['archived_by']) . "</td>";
-                                                    echo "<td>
-                                                            <a href='#' class='btn btn-success btn-sm restore-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                                                                <i class='fas fa-undo'></i>
-                                                            </a>
-                                                            <a href='PHP_Connections/deleteJob.php?id=" . htmlspecialchars($job['jobarchive_id']) . "' class='btn btn-danger btn-sm delete-button' data-id='" . htmlspecialchars($job['jobarchive_id']) . "'>
-                                                                <i class='fas fa-trash'></i>
-                                                            </a>
-                                                        </td>";
-                                                    echo "</tr>";
-                                                }
-                                            } else {
-                                                echo "<tr class='text-center'><td colspan='14'>No archived Jobs found.</td></tr>";
-                                            }
-                                            ?>
+                        // Convert comma-separated requirements into HTML lists
+                        $education_list = !empty($job['education_requirements']) 
+                            ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['education_requirements'])) . '</li></ul>' 
+                            : '';
+                        $experience_list = !empty($job['experience_requirements']) 
+                            ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['experience_requirements'])) . '</li></ul>' 
+                            : '';
+                        $duties_list = !empty($job['duties_and_responsibilities']) 
+                            ? '<ul><li>' . str_replace(', ', '</li><li>', htmlspecialchars($job['duties_and_responsibilities'])) . '</li></ul>' 
+                            : '';
+                    ?>
+                                            <tr class="text-center">
+                                                <td><?php echo htmlspecialchars($job['job_title']); ?></td>
+                                                <td><?php echo htmlspecialchars($job['position_or_unit']); ?></td>
+                                                <td class="description-column">
+                                                    <?php echo htmlspecialchars($job['description']); ?></td>
+                                                <td><?php echo $education_list; ?></td>
+                                                <td><?php echo $experience_list; ?></td>
+                                                <td><?php echo $duties_list; ?></td>
+                                                <td>₱<?php echo htmlspecialchars($job['salary']); ?></td>
+                                                <td><?php echo htmlspecialchars($job['department_name']); ?></td>
+                                                <td><?php echo htmlspecialchars($job['place_of_assignment']); ?></td>
+                                                <td><?php echo htmlspecialchars($job['status']); ?></td>
+                                                <td><?php echo formatDate($job['created_at']); ?></td>
+                                                <td><?php echo formatDate($job['updated_at']); ?></td>
+                                                <td><?php echo formatDateDeadline($job['deadline']); ?></td>
+                                                <td><?php echo htmlspecialchars($job['archived_by']); ?></td>
+                                                <td>
+                                                    <a href="#" class="btn btn-success btn-sm restore-button"
+                                                        data-id="<?php echo htmlspecialchars($job['jobarchive_id']); ?>">
+                                                        <i class="fas fa-undo"></i>
+                                                    </a>
+                                                    <a href="PHP_Connections/deleteJob.php?id=<?php echo htmlspecialchars($job['jobarchive_id']); ?>"
+                                                        class="btn btn-danger btn-sm delete-button"
+                                                        data-id="<?php echo htmlspecialchars($job['jobarchive_id']); ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php endwhile; ?>
+                                            <?php else: ?>
+                                            <tr class="text-center">
+                                                <td colspan="14">No archived Jobs found.</td>
+                                            </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
-
-
                                 </div>
+
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center mt-3">
-                                        <li class="page-item <?php if ($jobs_page <= 1) echo 'disabled'; ?>">
+                                        <li class="page-item <?php if ($jobs_page <= 1) {
+                                            echo 'disabled';
+                                        } ?>">
                                             <a class="page-link" href="?jobs_page=<?php echo $jobs_page - 1; ?>"
                                                 aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
@@ -291,32 +137,34 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                         </li>
 
                                         <?php
-                                        $jobs_start = max(1, $jobs_page - 1);
-                                        $jobs_end = min($total_pages_jobs, $jobs_page + 1);
+                                                                            $jobs_start = max(1, $jobs_page - 1);
+                                    $jobs_end = min($total_pages_jobs, $jobs_page + 1);
 
-                                        if ($jobs_start > 1) {
-                                            echo '<li class="page-item"><a class="page-link" href="?jobs_page=1">1</a></li>';
-                                            if ($jobs_start > 2) {
-                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
-                                            }
+                                    if ($jobs_start > 1) {
+                                        echo '<li class="page-item"><a class="page-link" href="?jobs_page=1">1</a></li>';
+                                        if ($jobs_start > 2) {
+                                            echo '<li class="page-item"><span class="page-link">...</span></li>';
                                         }
+}
 
-                                        for ($i = $jobs_start; $i <= $jobs_end; $i++) : ?>
-                                        <li class="page-item <?php if ($jobs_page == $i) echo 'active'; ?>"><a
-                                                class="page-link"
+for ($i = $jobs_start; $i <= $jobs_end; $i++) : ?>
+                                        <li class="page-item <?php if ($jobs_page == $i) {
+                                            echo 'active';
+                                        } ?>"><a class="page-link"
                                                 href="?jobs_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
                                         <?php endfor;
 
-                                        if ($jobs_end < $total_pages_jobs) {
-                                            if ($jobs_end < $total_pages_jobs - 1) {
-                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
-                                            }
-                                            echo '<li class="page-item"><a class="page-link" href="?jobs_page=' . $total_pages_jobs . '">' . $total_pages_jobs . '</a></li>';
-                                        }
-                                        ?>
+if ($jobs_end < $total_pages_jobs) {
+    if ($jobs_end < $total_pages_jobs - 1) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+    echo '<li class="page-item"><a class="page-link" href="?jobs_page=' . $total_pages_jobs . '">' . $total_pages_jobs . '</a></li>';
+}
+?>
 
-                                        <li
-                                            class="page-item <?php if ($jobs_page >= $total_pages_jobs) echo 'disabled'; ?>">
+                                        <li class="page-item <?php if ($jobs_page >= $total_pages_jobs) {
+                                                echo 'disabled';
+                                            } ?>">
                                             <a class="page-link" href="?jobs_page=<?php echo $jobs_page + 1; ?>"
                                                 aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
@@ -345,11 +193,12 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                 </div>
                             </div>
                             <div class="card-body">
-                            <div class="table-responsive">
+
+
+                                <div class="table-responsive">
                                     <table class="table table-striped">
                                         <thead class="text-center">
                                             <tr>
-                                                <!-- <th>ID</th> -->
                                                 <th>Title</th>
                                                 <th>Description</th>
                                                 <th>Link</th>
@@ -361,41 +210,59 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
+                                            <?php if ($result_announcement_archive->num_rows > 0): ?>
+                                            <?php while ($archive = $result_announcement_archive->fetch_assoc()): ?>
                                             <?php
-                                            if ($result_announcement_archive->num_rows > 0) {
-                                                while ($archive = $result_announcement_archive->fetch_assoc()) {
-                                                    // Encode the image_announcement BLOB data to base64
-                                                    $image_data = base64_encode($archive['image_announcement']);
-                                                    echo "<tr>";
-                                                    echo "<td>" . htmlspecialchars($archive['title']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($archive['description_announcement']) . "</td>";
-                                                    echo "<td><a href='" . htmlspecialchars($archive['link']) . "' target='_blank'>" . htmlspecialchars($archive['link']) . "</a></td>";
-                                                    // Use base64-encoded string as the src attribute of the img tag
-                                                    echo "<td><img src='data:image/jpeg;base64," . $image_data . "' alt='Image' width='50' height='50'></td>";
-                                                    echo "<td>" . formatDate($archive['created_at']) . "</td>";
-                                                    echo "<td>" . formatDate($archive['updated_at']) . "</td>";
-                                                    echo "<td>" . htmlspecialchars($archive['archived_by']) . "</td>";
-                                                    echo "<td>
-                                                   <a href='#' class='btn btn-success btn-sm restore-announcement-button' data-id='" . htmlspecialchars($archive['announcement_id']) . "'>
-                                                                <i class='fas fa-undo'></i>
-                                                            </a>
-                                                    <a href='PHP_Connections/deleteAnnouncement.php' class='btn btn-danger btn-sm delete-announcement-button' data-id='" . htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8') . "'>
-                                                        <i class='fas fa-trash'></i>
+                        // Encode the image_announcement BLOB data to base64
+                        $image_data = base64_encode($archive['image_announcement']);
+                    ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($archive['title']); ?></td>
+                                                <td><?php echo htmlspecialchars($archive['description_announcement']); ?>
+                                                </td>
+                                                <td>
+                                                    <a href="<?php echo htmlspecialchars($archive['link']); ?>"
+                                                        target="_blank">
+                                                        <?php echo htmlspecialchars($archive['link']); ?>
                                                     </a>
-                                                </td>";
-
-                                                    echo "</tr>";
-                                                }
-                                            } else {
-                                                echo "<tr><td colspan='8'>No archived announcements found.</td></tr>";
-                                            }
-                                            ?>
+                                                </td>
+                                                <td>
+                                                    <img src="data:image/jpeg;base64,<?php echo $image_data; ?>"
+                                                        alt="Image" width="50" height="50">
+                                                </td>
+                                                <td><?php echo formatDate($archive['created_at']); ?></td>
+                                                <td><?php echo formatDate($archive['updated_at']); ?></td>
+                                                <td><?php echo htmlspecialchars($archive['archived_by']); ?></td>
+                                                <td>
+                                                    <a href="#"
+                                                        class="btn btn-success btn-sm restore-announcement-button"
+                                                        data-id="<?php echo htmlspecialchars($archive['announcement_id']); ?>">
+                                                        <i class="fas fa-undo"></i>
+                                                    </a>
+                                                    <a href="PHP_Connections/deleteAnnouncement.php?id=<?php echo htmlspecialchars($archive['announcement_id']); ?>"
+                                                        class="btn btn-danger btn-sm delete-announcement-button"
+                                                        data-id="<?php echo htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php endwhile; ?>
+                                            <?php else: ?>
+                                            <tr>
+                                                <td colspan="8">No archived announcements found.</td>
+                                            </tr>
+                                            <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
+
+
+
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center mt-3">
-                                        <li class="page-item <?php if ($announcements_page <= 1) echo 'disabled'; ?>">
+                                        <li class="page-item <?php if ($announcements_page <= 1) {
+                                            echo 'disabled';
+                                        } ?>">
                                             <a class="page-link"
                                                 href="?announcements_page=<?php echo $announcements_page - 1; ?>"
                                                 aria-label="Previous">
@@ -406,31 +273,33 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
 
                                         <?php
                                         $announcements_start = max(1, $announcements_page - 1);
-                                        $announcements_end = min($total_pages_announcements, $announcements_page + 1);
+$announcements_end = min($total_pages_announcements, $announcements_page + 1);
 
-                                        if ($announcements_start > 1) {
-                                            echo '<li class="page-item"><a class="page-link" href="?announcements_page=1">1</a></li>';
-                                            if ($announcements_start > 2) {
-                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
-                                            }
-                                        }
+if ($announcements_start > 1) {
+    echo '<li class="page-item"><a class="page-link" href="?announcements_page=1">1</a></li>';
+    if ($announcements_start > 2) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+}
 
-                                        for ($i = $announcements_start; $i <= $announcements_end; $i++) : ?>
-                                        <li class="page-item <?php if ($announcements_page == $i) echo 'active'; ?>"><a
-                                                class="page-link"
+for ($i = $announcements_start; $i <= $announcements_end; $i++) : ?>
+                                        <li class="page-item <?php if ($announcements_page == $i) {
+                                            echo 'active';
+                                        } ?>"><a class="page-link"
                                                 href="?announcements_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
                                         <?php endfor;
 
-                                        if ($announcements_end < $total_pages_announcements) {
-                                            if ($announcements_end < $total_pages_announcements - 1) {
-                                                echo '<li class="page-item"><span class="page-link">...</span></li>';
-                                            }
-                                            echo '<li class="page-item"><a class="page-link" href="?announcements_page=' . $total_pages_announcements . '">' . $total_pages_announcements . '</a></li>';
-                                        }
-                                        ?>
+if ($announcements_end < $total_pages_announcements) {
+    if ($announcements_end < $total_pages_announcements - 1) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+    echo '<li class="page-item"><a class="page-link" href="?announcements_page=' . $total_pages_announcements . '">' . $total_pages_announcements . '</a></li>';
+}
+?>
 
-                                        <li
-                                            class="page-item <?php if ($announcements_page >= $total_pages_announcements) echo 'disabled'; ?>">
+                                        <li class="page-item <?php if ($announcements_page >= $total_pages_announcements) {
+                                                echo 'disabled';
+                                            } ?>">
                                             <a class="page-link"
                                                 href="?announcements_page=<?php echo $announcements_page + 1; ?>"
                                                 aria-label="Next">
@@ -442,360 +311,152 @@ xx<?php include("PHP_Connections/fetch_archives.php")?>
                                 </nav>
                             </div>
                         </div>
-<div class="card">
-    <div class="card-header">
-        <h4 class="card-title">Archived Applicants</h4>
-        <div class="search-container d-inline float-right" style="margin-left: 20px;">
-            <form action="archive.php" method="get" class="d-flex flex-wrap">
-                <input type="text" name="search_applicant" class="form-control mr-2"
-                    placeholder="Search Applicants"
-                    style="flex: 1; min-width: 400px; border-radius: 30px;"
-                    value="<?php echo htmlspecialchars($search_applicant); ?>">
-                <button class="btn" type="submit"
-                    style="background: none; border: none; padding: 0;">
-                    <i class="fas fa-search" style="color: #000;"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead class="text-center">
-                    <tr>
-                        <th>Job Title</th>
-                        <th>Position</th>
-                        <th>Full Name</th>
-                        <th>Email</th>
-                        <th>Contact Number</th>
-                        <th>Application Date</th>
-                        <th>Interview Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <?php
-                    if ($result_applicant_archive->num_rows > 0) {
-                        while ($applicant = $result_applicant_archive->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($applicant['job_title']) . "</td>";
-                            echo "<td>" . htmlspecialchars($applicant['position_or_unit']) . "</td>";
-                            echo "<td>" . htmlspecialchars($applicant['firstname']) . " " . htmlspecialchars($applicant['lastname']) . "</td>";
-                            echo "<td>" . htmlspecialchars($applicant['email']) . "</td>";
-                            echo "<td>" . htmlspecialchars($applicant['contact_number']) . "</td>";
-                            echo "<td>" . formatDate($applicant['application_date']) . "</td>";
-                            echo "<td>" . formatDate($applicant['interview_date']) . "</td>";
-                            echo "<td>  
-                                <a href='PHP_Connections/deleteApplicant.php' class='btn btn-danger btn-sm delete-applicant-button' data-id='" . htmlspecialchars($applicant['applicantarchive_id'], ENT_QUOTES, 'UTF-8') . "'>
-                                    <i class='fas fa-trash'></i>
-                                </a>
-                            </td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='8'>No archived applicants found.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center mt-3">
-                <li class="page-item <?php if ($applicants_page <= 1) echo 'disabled'; ?>">
-                    <a class="page-link"
-                        href="?applicants_page=<?php echo $applicants_page - 1; ?>"
-                        aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Archived Applicants</h4>
+                                <div class="search-container d-inline float-right" style="margin-left: 20px;">
+                                    <form action="archive.php" method="get" class="d-flex flex-wrap">
+                                        <input type="text" name="search_applicant" class="form-control mr-2"
+                                            placeholder="Search Applicants"
+                                            style="flex: 1; min-width: 400px; border-radius: 30px;"
+                                            value="<?php echo htmlspecialchars($search_applicant); ?>">
+                                        <button class="btn" type="submit"
+                                            style="background: none; border: none; padding: 0;">
+                                            <i class="fas fa-search" style="color: #000;"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th>Job Title</th>
+                                                <th>Position</th>
+                                                <th>Plantilla No.</th>
+                                                <th>Full Name</th>
+                                                <th>Email</th>
+                                                <th>Contact Number</th>
+                                                <th>Application Date</th>
+                                                <th>Interview Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <?php if ($result_applicant_archive->num_rows > 0): ?>
+                                            <?php while ($applicant = $result_applicant_archive->fetch_assoc()): ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['position_or_unit']); ?></td>
+                                                <td><?php echo isset($applicant['plantilla']) && !empty($applicant['plantilla']) ? htmlspecialchars($applicant['plantilla']) : 'N/A'; ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($applicant['firstname']) . ' ' . htmlspecialchars($applicant['lastname']); ?>
+                                                </td>
+                                                <td><?php echo htmlspecialchars($applicant['email']); ?></td>
+                                                <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
+                                                <td><?php echo isset($applicant['application_date']) ? formatDate($applicant['application_date']) : 'N/A'; ?>
+                                                </td>
+                                                <td><?php echo isset($applicant['interview_date']) ? formatDate($applicant['interview_date']) : 'N/A'; ?>
+                                                </td>
+                                                <td>
+                                                    <a href="PHP_Connections/deleteApplicant.php?id=<?php echo htmlspecialchars($applicant['applicantarchive_id']); ?>"
+                                                        class="btn btn-danger btn-sm delete-applicant-button"
+                                                        data-id="<?php echo htmlspecialchars($applicant['applicantarchive_id'], ENT_QUOTES, 'UTF-8'); ?>">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <?php endwhile; ?>
+                                            <?php else: ?>
+                                            <tr>
+                                                <td colspan="9">No archived applicants found.</td>
+                                            </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
 
-                <?php
+
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mt-3">
+                                        <li class="page-item <?php if ($applicants_page <= 1) {
+                    echo 'disabled';
+                } ?>">
+                                            <a class="page-link"
+                                                href="?applicants_page=<?php echo $applicants_page - 1; ?>"
+                                                aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                        </li>
+
+                                        <?php
                 $applicants_start = max(1, $applicants_page - 1);
-                $applicants_end = min($total_pages_applicants, $applicants_page + 1);
+$applicants_end = min($total_pages_applicants, $applicants_page + 1);
 
-                if ($applicants_start > 1) {
-                    echo '<li class="page-item"><a class="page-link" href="?applicants_page=1">1</a></li>';
-                    if ($applicants_start > 2) {
-                        echo '<li class="page-item"><span class="page-link">...</span></li>';
-                    }
-                }
+if ($applicants_start > 1) {
+    echo '<li class="page-item"><a class="page-link" href="?applicants_page=1">1</a></li>';
+    if ($applicants_start > 2) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+}
 
-                for ($i = $applicants_start; $i <= $applicants_end; $i++) : ?>
-                <li class="page-item <?php if ($applicants_page == $i) echo 'active'; ?>"><a
-                        class="page-link"
-                        href="?applicants_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
-                <?php endfor;
+for ($i = $applicants_start; $i <= $applicants_end; $i++) : ?>
+                                        <li class="page-item <?php if ($applicants_page == $i) {
+                    echo 'active';
+                } ?>"><a class="page-link" href="?applicants_page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+                                        <?php endfor;
 
-                if ($applicants_end < $total_pages_applicants) {
-                    if ($applicants_end < $total_pages_applicants - 1) {
-                        echo '<li class="page-item"><span class="page-link">...</span></li>';
-                    }
-                    echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages_applicants . '">' . $total_pages_applicants . '</a></li>';
-                }
-                ?>
+if ($applicants_end < $total_pages_applicants) {
+    if ($applicants_end < $total_pages_applicants - 1) {
+        echo '<li class="page-item"><span class="page-link">...</span></li>';
+    }
+    echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages_applicants . '">' . $total_pages_applicants . '</a></li>';
+}
+?>
 
-                <li class="page-item <?php if ($applicants_page >= $total_pages_applicants) echo 'disabled'; ?>">
-                    <a class="page-link"
-                        href="?applicants_page=<?php echo $applicants_page + 1; ?>"
-                        aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+                                        <li class="page-item <?php if ($applicants_page >= $total_pages_applicants) {
+                    echo 'disabled';
+                } ?>">
+                                            <a class="page-link"
+                                                href="?applicants_page=<?php echo $applicants_page + 1; ?>"
+                                                aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-        function confirmAction(action, event) {
-            event.preventDefault(); // Prevent the default link behavior
-            const confirmed = confirm(`Are you sure you want to ${action} this item?`);
-            if (confirmed) {
-                window.location.href = event.target.href; // Redirect to the link if confirmed
-            }
-        }
-        </script>
-        <script>
-                document.addEventListener('DOMContentLoaded', function() {
-            var restoreJobModal = new bootstrap.Modal(document.getElementById('restoreJobModal'));
-            var confirmRestoreLink = document.getElementById('confirmRestore');
-            
-            document.querySelectorAll('.restore-button').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    var jobId = this.getAttribute('data-id');
-                    confirmRestoreLink.setAttribute('href', 'PHP_Connections/restoreJob.php?id=' + jobId);
-                    restoreJobModal.show();
-                });
-            });
-        });
-        </script>
-        <script>
-       document.addEventListener('DOMContentLoaded', function() {
-            var restoreAnnouncementModal = new bootstrap.Modal(document.getElementById('restoreAnnouncementModal'));
-            var confirmAnnouncementRestoreLink = document.getElementById('confirmAnnouncementRestore');
-            
-            document.querySelectorAll('.restore-announcement-button').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    var announcementId = this.getAttribute('data-id');
-                    confirmAnnouncementRestoreLink.setAttribute('href', 'PHP_Connections/restoreAnnouncement.php?id=' + announcementId);
-                    restoreAnnouncementModal.show();
-                });
-            });
-        });
-        </script>
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            let deleteJobId = null;
-
-            document.querySelectorAll('.delete-button').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    deleteJobId = this.getAttribute('data-id');
-                    $('#passwordModalJob').modal('show');
-                });
-            });
-
-            document.getElementById('deleteForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const password = document.getElementById('adminPassword').value;
-
-                fetch('PHP_Connections/deleteJob.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: deleteJobId,
-                            password: password
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            $('#passwordModalJob').modal('hide');
-                            $('#successModalJob').modal('show');
-                            setTimeout(function() {
-                                location
-                            .reload(); // Refresh the page after showing the success message
-                            }, 2000);
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-
-            let deleteAnnouncementId = null;
-
-            document.querySelectorAll('.delete-announcement-button').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    deleteAnnouncementId = this.getAttribute('data-id');
-                    $('#passwordModalAnnouncement').modal('show');
-                });
-            });
-
-            document.getElementById('deleteAnnouncementForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const adminPassword = document.getElementById('adminPasswordAnnouncement').value;
-
-                fetch('PHP_Connections/deleteAnnouncement.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: deleteAnnouncementId,
-                            password: adminPassword
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            $('#passwordModalAnnouncement').modal('hide');
-                            $('#successModalAnnouncement').modal('show');
-                            setTimeout(function() {
-                                location
-                            .reload(); // Refresh the page after showing the success message
-                            }, 2000);
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-            let deleteApplicantId = null;
-
-            document.querySelectorAll('.delete-applicant-button').forEach(function(button) {
-                button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    deleteApplicantId = this.getAttribute('data-id');
-                    $('#passwordModalApplicant').modal('show');
-                });
-            });
-
-            document.getElementById('deleteApplicantForm').addEventListener('submit', function(event) {
-                event.preventDefault();
-                const adminPassword = document.getElementById('adminPasswordApplicant').value;
-
-                fetch('PHP_Connections/deleteApplicant.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            id: deleteApplicantId,
-                            password: adminPassword
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            $('#passwordModalApplicant').modal('hide');
-                            $('#successModalApplicant').modal('show');
-                            setTimeout(function() {
-                                location
-                            .reload(); // Refresh the page after showing the success message
-                            }, 2000);
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-        });
-        </script>
-        <!-- <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                let deleteAnnouncementId = null;
-
-                document.querySelectorAll('.delete-announcement-button').forEach(function(button) {
-                    button.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        deleteAnnouncementId = this.getAttribute('data-id');
-                        $('#passwordModalAnnouncement').modal('show');
-                    });
-                });
-
-                document.getElementById('deleteAnnouncementForm').addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    const adminPassword = document.getElementById('adminPasswordAnnouncement').value;
-
-                    fetch('PHP_Connections/deleteAnnouncement.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                id: deleteAnnouncementId,
-                                password: adminPassword
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                alert('Announcement deleted successfully');
-                                location.reload();
-                            } else {
-                                alert('Error: ' + data.message);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        })
-                        .finally(() => {
-                            $('#passwordModalAnnouncement').modal('hide');
-                        });
-                });
-            });
-        </script> -->
-        <script>
-        document.addEventListener("DOMContentLoaded", function(event) { 
-            var scrollpos = localStorage.getItem('scrollpos');
-            if (scrollpos) window.scrollTo(0, scrollpos);
-        });
-
-        window.onbeforeunload = function(e) {
-            localStorage.setItem('scrollpos', window.scrollY);
-        };
-    </script>
         <script src="assets/js/date.js"></script>
         <script src="assets/js/jquery-3.6.0.min.js"></script>
         <script src="assets/js/popper.min.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-        <script src="assets/plugins/apexchart/chart-data.js"></script>
         <script src="assets/js/script.js"></script>
+        <script src="assets/js/archive.js"></script>
         <?php
         if (isset($_GET['restored']) && $_GET['restored'] == 1) {
             echo "<div class='alert alert-success'>Announcement restored successfully!</div>";
         }
-        if (isset($_GET['error']) && $_GET['error'] == 1) {
-            echo "<div class='alert alert-danger'>Failed to restore announcement.</div>";
-        }
-        if (isset($_GET['notfound']) && $_GET['notfound'] == 1) {
-            echo "<div class='alert alert-warning'>Announcement not found in archive.</div>";
-        }
-        if (isset($_GET['invalid']) && $_GET['invalid'] == 1) {
-            echo "<div class='alert alert-danger'>Invalid request.</div>";
-        }
-        ?>
+if (isset($_GET['error']) && $_GET['error'] == 1) {
+    echo "<div class='alert alert-danger'>Failed to restore announcement.</div>";
+}
+if (isset($_GET['notfound']) && $_GET['notfound'] == 1) {
+    echo "<div class='alert alert-warning'>Announcement not found in archive.</div>";
+}
+if (isset($_GET['invalid']) && $_GET['invalid'] == 1) {
+    echo "<div class='alert alert-danger'>Invalid request.</div>";
+}
+?>
 
 </body>
 

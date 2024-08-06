@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require '../vendor/autoload.php'; // Include PHPMailer
 require 'db_connection.php';   // Include your database connection
@@ -27,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert into password_resets table
     $stmt = $mysqli->prepare("INSERT INTO password_resets (email, verification_code, expires_at, created_at) VALUES (?, ?, ?, ?)");
     $stmt->bind_param('ssss', $email, $verification_code, $expires_at, $created_at);
-    
+
     if ($stmt->execute()) {
         // Send verification email
         $mail = new PHPMailer(true);
-        
+
         try {
             // Server settings
             $mail->isSMTP();
@@ -50,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->isHTML(true);
             $mail->Subject = 'Password Reset Verification Code';
             $mail->Body    = "You have requested a password reset. Your verification code is <strong>$verification_code</strong>. This code will expire in 15 minutes. <br>";
-            
+
             $mail->send();
             header('Location: ../verifyCode.php?status=Verification code sent');
         } catch (Exception $e) {

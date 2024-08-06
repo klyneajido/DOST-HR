@@ -1,9 +1,11 @@
 <?php
+
 session_start();
 require('db_connection.php'); // Include your database connection file
 
 // Function to generate a hash of the new password
-function hashPassword($password) {
+function hashPassword($password)
+{
     return password_hash($password, PASSWORD_BCRYPT);
 }
 

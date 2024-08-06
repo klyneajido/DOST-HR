@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 
@@ -51,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if (!$stmt->execute()) {
                 throw new Exception('Failed to add department: ' . htmlspecialchars($stmt->error));
             }
-            
+
             // Get the last inserted ID for history logging
             $department_id = $mysqli->insert_id;
 
@@ -94,4 +95,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 }
-?>

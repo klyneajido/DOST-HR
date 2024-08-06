@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -9,7 +10,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-function formatDate($date) {
+function formatDate($date)
+{
     return date("F j, Y, g:i A", strtotime($date));
 }
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
@@ -114,4 +116,3 @@ $stmt->execute();
 $count_result = $stmt->get_result();
 $total_rows = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_rows / $items_per_page);
-?>

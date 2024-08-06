@@ -1,4 +1,5 @@
 <?php
+
 include("checkUser.php");
 include("db_connection.php");
 
@@ -13,7 +14,8 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $current_admin_id = $_SESSION['admin_id'];
 
 // Function to validate password
-function validatePassword($password) {
+function validatePassword($password)
+{
     if (strlen($password) < 8) {
         return "Password must be at least 8 characters long.";
     }
@@ -84,4 +86,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]));
     exit();
 }
-?>

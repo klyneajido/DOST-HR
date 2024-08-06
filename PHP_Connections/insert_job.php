@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -49,26 +50,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'] ?? '';
 
     // Filter out empty values from arrays
-    $education_requirement = array_filter($education_requirement, fn($value) => !empty(trim($value)));
-    $experience = array_filter($experience, fn($value) => !empty(trim($value)));
-    $training = array_filter($training, fn($value) => !empty(trim($value)));
-    $eligibility = array_filter($eligibility, fn($value) => !empty(trim($value)));
-    $duties_and_responsibilities = array_filter($duties_and_responsibilities, fn($value) => !empty(trim($value)));
-    $competencies = array_filter($competencies, fn($value)=>!empty(trim($value)));
+    $education_requirement = array_filter($education_requirement, fn ($value) => !empty(trim($value)));
+    $experience = array_filter($experience, fn ($value) => !empty(trim($value)));
+    $training = array_filter($training, fn ($value) => !empty(trim($value)));
+    $eligibility = array_filter($eligibility, fn ($value) => !empty(trim($value)));
+    $duties_and_responsibilities = array_filter($duties_and_responsibilities, fn ($value) => !empty(trim($value)));
+    $competencies = array_filter($competencies, fn ($value) => !empty(trim($value)));
 
     // Validate inputs
-    if (empty($job_title)) $errors['job_title'] = "Job Title is required";
-    if (empty($description)) $errors['description'] = "Description is required";
-    if (empty($department_id)) $errors['department_id'] = "Department is required";
-    if (empty($salary)) $errors['salary'] = "Monthly Salary is required";
-    if (empty($status)) $errors['status'] = "Status is required";
-    if (empty($deadline)) $errors['deadline'] = "Deadline is required";
-    if (empty($education_requirement)) $errors['education_requirement'] = "At least one educational requirement is required";
-    if (empty($experience)) $errors['experience'] = "At least one experience requirement is required";
-    if (empty($training)) $errors['training'] = "At least one training requirement is required";
-    if (empty($eligibility)) $errors['eligibility'] = "At least one eligibility requirement is required";
-    if (empty($duties_and_responsibilities)) $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
-    if (empty($competencies)) $errors['competencies'] = "At least one competency requirement is required";
+    if (empty($job_title)) {
+        $errors['job_title'] = "Job Title is required";
+    }
+    if (empty($description)) {
+        $errors['description'] = "Description is required";
+    }
+    if (empty($department_id)) {
+        $errors['department_id'] = "Department is required";
+    }
+    if (empty($salary)) {
+        $errors['salary'] = "Monthly Salary is required";
+    }
+    if (empty($status)) {
+        $errors['status'] = "Status is required";
+    }
+    if (empty($deadline)) {
+        $errors['deadline'] = "Deadline is required";
+    }
+    if (empty($education_requirement)) {
+        $errors['education_requirement'] = "At least one educational requirement is required";
+    }
+    if (empty($experience)) {
+        $errors['experience'] = "At least one experience requirement is required";
+    }
+    if (empty($training)) {
+        $errors['training'] = "At least one training requirement is required";
+    }
+    if (empty($eligibility)) {
+        $errors['eligibility'] = "At least one eligibility requirement is required";
+    }
+    if (empty($duties_and_responsibilities)) {
+        $errors['duties_and_responsibilities'] = "At least one duty or responsibility is required";
+    }
+    if (empty($competencies)) {
+        $errors['competencies'] = "At least one competency requirement is required";
+    }
 
     if (empty($errors)) {
         // Insert job details into the job table
@@ -94,21 +119,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt_req->close();
             }
 
-             // Insert training requirements
+            // Insert training requirements
             foreach ($training as $requirement) {
                 $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'training')");
                 $stmt_req->bind_param("is", $job_id, $requirement);
                 $stmt_req->execute();
                 $stmt_req->close();
-                }
+            }
 
-             // Insert eligibility requirements
-             foreach ($eligibility as $requirement) {
+            // Insert eligibility requirements
+            foreach ($eligibility as $requirement) {
                 $stmt_req = $mysqli->prepare("INSERT INTO job_requirements (job_id, requirement_text, requirement_type) VALUES (?, ?, 'eligibility')");
                 $stmt_req->bind_param("is", $job_id, $requirement);
                 $stmt_req->execute();
                 $stmt_req->close();
-                }
+            }
 
             // Insert duties and responsibilities
             foreach ($duties_and_responsibilities as $requirement) {
@@ -124,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt_req->bind_param("is", $job_id, $requirement);
                 $stmt_req->execute();
                 $stmt_req->close();
-                }
+            }
 
             // Record action in the history table
             $history_stmt = $mysqli->prepare("
@@ -149,4 +174,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $mysqli->close();
-?>

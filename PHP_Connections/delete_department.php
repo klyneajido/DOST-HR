@@ -1,4 +1,5 @@
 <?php
+
 // Include the database connection
 include_once 'db_connection.php';
 
@@ -89,4 +90,3 @@ $mysqli->close();
 
 header('Location: ../departments.php');
 exit();
-?>

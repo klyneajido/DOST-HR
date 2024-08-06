@@ -56,12 +56,14 @@
                     <div class="table-responsive">
                         <?php if (isset($_SESSION['error'])) : ?>
                             <div class="alert alert-danger text-center">
-                                <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
+                                <?php echo $_SESSION['error'];
+                            unset($_SESSION['error']); ?>
                             </div>
                         <?php endif; ?>
                         <?php if (isset($_SESSION['success'])) : ?>
                             <div class="alert alert-success">
-                                <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+                                <?php echo $_SESSION['success'];
+                            unset($_SESSION['success']); ?>
                             </div>
                         <?php endif; ?>
                         <table class="table custom-table no-footer text-center">
@@ -73,10 +75,10 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php 
-                                $default_department_id = 5; // Define your default department ID
-                                if (!empty($departments)) : 
-                                ?>
+                                <?php
+                            $default_department_id = 5; // Define your default department ID
+if (!empty($departments)) :
+    ?>
                                 <?php foreach ($departments as $department) : ?>
                                 <tr data-search="<?php echo htmlspecialchars($department['name'] . ' ' . $department['location']); ?>">
                                     <td><?php echo htmlspecialchars($department['name']); ?></td>
@@ -123,11 +125,12 @@
                     Are you sure you want to delete this department?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    
                     <form action="PHP_Connections/delete_department.php" method="post">
                         <input type="hidden" name="department_id" id="delete-department-id">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>

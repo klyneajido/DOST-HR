@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'db_connection.php';
 
@@ -59,9 +60,10 @@ try {
                                   SET job_title = ?, position_or_unit = ? 
                                   WHERE job_id = ?";
         $stmt_update_applicants = $mysqli->prepare($sql_update_applicants);
-        $stmt_update_applicants->bind_param("ssi", 
-            $job['job_title'], 
-            $job['position_or_unit'], 
+        $stmt_update_applicants->bind_param(
+            "ssi",
+            $job['job_title'],
+            $job['position_or_unit'],
             $job_id
         );
 
@@ -74,17 +76,18 @@ try {
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt_insert = $mysqli->prepare($sql_insert);
-        $stmt_insert->bind_param("sssddssssss", 
-            $job['job_title'], 
-            $job['position_or_unit'], 
-            $job['description'], 
-            $job['salary'], 
-            $job['department_id'], 
-            $job['place_of_assignment'], 
-            $job['status'], 
-            $job['created_at'], 
-            $job['updated_at'], 
-            $job['deadline'], 
+        $stmt_insert->bind_param(
+            "sssddssssss",
+            $job['job_title'],
+            $job['position_or_unit'],
+            $job['description'],
+            $job['salary'],
+            $job['department_id'],
+            $job['place_of_assignment'],
+            $job['status'],
+            $job['created_at'],
+            $job['updated_at'],
+            $job['deadline'],
             $archived_by_name
         );
 
@@ -109,10 +112,11 @@ try {
                                    VALUES (?, ?, ?, ?, NOW(), ?)";
 
                 $stmt_req_insert = $mysqli->prepare($sql_req_insert);
-                $stmt_req_insert->bind_param("iissi", 
+                $stmt_req_insert->bind_param(
+                    "iissi",
                     $req['requirement_id'],  // Assuming requirement_id is needed
                     $archived_job_id,  // Use archived_job_id
-                    $req['requirement_type'], 
+                    $req['requirement_type'],
                     $req['requirement_text'],
                     $archived_job_id // Use archived_job_id for the new foreign key
                 );
@@ -156,4 +160,3 @@ try {
     error_log("Exception: " . $e->getMessage()); // Log exception message
     header('Location: ../viewJob.php?error=' . urlencode($e->getMessage()));
 }
-?>

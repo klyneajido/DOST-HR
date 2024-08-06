@@ -149,12 +149,12 @@ include_once 'PHP_Connections/fetch_history.php';?>
                                         <?php
                                     // Fetch all admins for filter options
                                     $admins_query = "SELECT admin_id, name FROM admins";
-                                    $admins_result = $mysqli->query($admins_query);
-                                    while ($admin = $admins_result->fetch_assoc()) {
-                                        $selected = isset($_GET['admin_id']) && $_GET['admin_id'] == $admin['admin_id'] ? 'selected' : '';
-                                        echo "<option value=\"" . $admin['admin_id'] . "\" $selected>" . htmlspecialchars($admin['name']) . "</option>";
-                                    }
-                                    ?>
+$admins_result = $mysqli->query($admins_query);
+while ($admin = $admins_result->fetch_assoc()) {
+    $selected = isset($_GET['admin_id']) && $_GET['admin_id'] == $admin['admin_id'] ? 'selected' : '';
+    echo "<option value=\"" . $admin['admin_id'] . "\" $selected>" . htmlspecialchars($admin['name']) . "</option>";
+}
+?>
                                     </select>
                                 </div>
                                 <div class="sort d-flex">
@@ -255,31 +255,31 @@ include_once 'PHP_Connections/fetch_history.php';?>
                                 <?php
                                 // Display page numbers with a limit of 3 numbers around the current page
                                 $start_page = max(1, $page - 1);
-                                $end_page = min($total_pages, $page + 1);
+$end_page = min($total_pages, $page + 1);
 
-                                if ($start_page > 1) {
-                                    echo '<li class="page-item"><a class="page-link" href="history.php?page=1&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">1</a></li>';
-                                    if ($start_page > 2) {
-                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
-                                    }
-                                }
+if ($start_page > 1) {
+    echo '<li class="page-item"><a class="page-link" href="history.php?page=1&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">1</a></li>';
+    if ($start_page > 2) {
+        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+    }
+}
 
-                                for ($i = $start_page; $i <= $end_page; $i++) {
-                                    echo '<li class="page-item' . ($i === $page ? ' active' : '') . '"><a class="page-link" href="history.php?page=' . $i . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $i . '</a></li>';
-                                }
+for ($i = $start_page; $i <= $end_page; $i++) {
+    echo '<li class="page-item' . ($i === $page ? ' active' : '') . '"><a class="page-link" href="history.php?page=' . $i . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $i . '</a></li>';
+}
 
-                                if ($end_page < $total_pages) {
-                                    if ($end_page < $total_pages - 1) {
-                                        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
-                                    }
-                                    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $total_pages . '</a></li>';
-                                }
+if ($end_page < $total_pages) {
+    if ($end_page < $total_pages - 1) {
+        echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+    }
+    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $total_pages . '</a></li>';
+}
 
-                                if ($page < $total_pages) {
-                                    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . ($page + 1) . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Next</a></li>';
-                                    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Last</a></li>';
-                                }
-                                ?>
+if ($page < $total_pages) {
+    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . ($page + 1) . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Next</a></li>';
+    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Last</a></li>';
+}
+?>
                             </ul>
                         </nav>
                     </div>

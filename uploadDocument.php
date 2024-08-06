@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'PHP_Connections/db_connection.php';  // Ensure this path is correct
 
@@ -49,4 +50,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Redirect back to transparency.php with error message as query parameter
 header('Location: transparency.php?upload_status=failed&error=' . urlencode($errorMsg));
 exit();
-?>

@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -62,4 +63,3 @@ if ($uploadStatus === 'failed') {
     $errorMsg = isset($_GET['error']) ? urldecode($_GET['error']) : 'Unknown error occurred.';
     echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($errorMsg) . '</div>';
 }
-?>

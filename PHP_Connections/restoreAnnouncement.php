@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'db_connection.php';
 
@@ -49,4 +50,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
 } else {
     header('Location: ../archive.php?tab=jobs&msg=invalid');
 }
-?>

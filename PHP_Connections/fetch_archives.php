@@ -1,5 +1,6 @@
 <?php
-//eyyo 
+
+//eyyo
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -9,10 +10,12 @@ if (!isset($_SESSION['username'])) {
     header('Location: ../login.php');
     exit();
 }
-function formatDate($date) {
+function formatDate($date)
+{
     return date("F j, Y, g:i A", strtotime($date));
 }
-function formatDateDeadline($date) {
+function formatDateDeadline($date)
+{
     // Set the fixed time to 5:00 PM
     $fixed_time = '17:00:00'; // 5:00 PM in 24-hour format
 
@@ -176,7 +179,7 @@ $applicants_offset = ($applicants_page - 1) * $applicants_limit;
 
 // SQL query to search within applicant_archive with pagination
 $query_applicant_archive = "
-    SELECT applicantarchive_id, job_title, position_or_unit, lastname, firstname, middlename, sex, address, email, contact_number, course, years_of_experience, hours_of_training, eligibility, list_of_awards, status, application_letter, personal_data_sheet, performance_rating, eligibility_rating_license, transcript_of_records, certificate_of_employment, proof_of_trainings_seminars, proof_of_rewards, job_id, application_date, interview_date, archived_by
+    SELECT applicantarchive_id, job_title, position_or_unit,plantilla, lastname, firstname, middlename, sex, address, email, contact_number, course, years_of_experience, hours_of_training, eligibility, list_of_awards, status, application_letter, personal_data_sheet, performance_rating, eligibility_rating_license, transcript_of_records, certificate_of_employment, proof_of_trainings_seminars, proof_of_rewards, job_id, application_date, interview_date, archived_by
     FROM applicant_archive
     WHERE job_title LIKE ? OR lastname LIKE ? OR firstname LIKE ?
     LIMIT ?, ?
@@ -199,4 +202,3 @@ $stmt_count_applicant->execute();
 $result_applicant_count = $stmt_count_applicant->get_result();
 $total_applicants = $result_applicant_count->fetch_assoc()['total'];
 $total_pages_applicants = ceil($total_applicants / $applicants_limit);
-?>

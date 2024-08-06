@@ -1,4 +1,5 @@
 <?php
+
 $errors = array();
 $input_data = array();
 
@@ -145,4 +146,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-?>

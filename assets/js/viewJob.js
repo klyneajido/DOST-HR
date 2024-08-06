@@ -54,3 +54,11 @@ document.querySelectorAll('.archive-btn').forEach(function(button) {
         }
     });
 });
+
+$('#confirmArchiveModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var jobId = button.data('job-id'); // Extract info from data-* attributes
+    var modal = $(this);
+    var confirmBtn = modal.find('#confirmArchiveButton');
+    confirmBtn.attr('href', 'PHP_Connections/archiveJobs.php?job_id=' + jobId);
+});

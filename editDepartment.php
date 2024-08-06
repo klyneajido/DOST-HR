@@ -63,7 +63,7 @@
                                     </div>
                                     <div class="d-flex justify-content-between mx-1 col-md-12">
                                         <button class="col-md-5 bwtn btn-info" type="submit">Update</button>
-                                        <a href="departments.php" class="col-md-5 btn btn-danger">Cancel</a>
+                                        <a href="departments.php" class="col-md-5 btn btn-secondary">Cancel</a>
                                     </div>
                                 </div>
                             </form>

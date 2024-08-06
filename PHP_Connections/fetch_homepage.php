@@ -1,12 +1,13 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-	// Redirect to login page if not logged in
-	header('Location: login.php');
-	exit();
+    // Redirect to login page if not logged in
+    header('Location: login.php');
+    exit();
 }
 
 // Get user's name from session
@@ -18,10 +19,10 @@ $result = $mysqli->query($sql);
 $applicant_count = 0;
 
 if ($result) {
-	$row = $result->fetch_assoc();
-	$applicant_count = $row['count'];
+    $row = $result->fetch_assoc();
+    $applicant_count = $row['count'];
 } else {
-	echo "Error retrieving applicant count: " . $mysqli->error;
+    echo "Error retrieving applicant count: " . $mysqli->error;
 }
 
 $sql = "SELECT COUNT(*) as count FROM job";
@@ -29,10 +30,10 @@ $result = $mysqli->query($sql);
 $job_count = 0;
 
 if ($result) {
-	$row = $result->fetch_assoc();
-	$job_count = $row['count'];
+    $row = $result->fetch_assoc();
+    $job_count = $row['count'];
 } else {
-	echo "Error retrieving job count: " . $mysqli->error;
+    echo "Error retrieving job count: " . $mysqli->error;
 }
 
 $sql = "SELECT COUNT(*) as count FROM announcements";
@@ -40,13 +41,13 @@ $result = $mysqli->query($sql);
 $announcement_count = 0;
 
 if ($result) {
-	$row = $result->fetch_assoc();
-	$announcement_count = $row['count'];
+    $row = $result->fetch_assoc();
+    $announcement_count = $row['count'];
 } else {
-	echo "Error retrieving announcement count: " . $mysqli->error;
+    echo "Error retrieving announcement count: " . $mysqli->error;
 }
 
-//APPLICATION FILTER 
+//APPLICATION FILTER
 // Determine filter criteria
 $filter = isset($_GET['filter']) ? $_GET['filter'] : 'count';
 
@@ -115,7 +116,3 @@ $start_limit = ($page - 1) * $results_per_page;
 
 // Slice the positions array to get only the results for the current page
 $positions_to_display = array_slice($positions, $start_limit, $results_per_page);
-
-
-
-?>

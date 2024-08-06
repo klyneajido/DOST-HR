@@ -5,9 +5,9 @@ include_once 'PHP_Connections\db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
-	// Redirect to login page if not logged in
-	header('Location: login.php');
-	exit();
+    // Redirect to login page if not logged in
+    header('Location: login.php');
+    exit();
 }
 
 // Get user's name from session
@@ -23,7 +23,7 @@ $sql = "SELECT j.job_id, j.position, d.name as department_name, d.abbrev, j.mont
         INNER JOIN department d ON j.department_id = d.department_id";
 
 if (!empty($search)) {
-	$sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
+    $sql .= " WHERE j.position LIKE '%$search%' OR d.name LIKE '%$search%' OR d.abbrev LIKE '%$search%'";
 }
 
 $result = $mysqli->query($sql);
@@ -32,11 +32,11 @@ $result = $mysqli->query($sql);
 $jobs = [];
 
 if ($result && $result->num_rows > 0) {
-	while ($row = $result->fetch_assoc()) {
-		$jobs[] = $row;
-	}
+    while ($row = $result->fetch_assoc()) {
+        $jobs[] = $row;
+    }
 } else {
-	$errors['database'] = "No jobs found.";
+    $errors['database'] = "No jobs found.";
 }
 ?>
 <!DOCTYPE html>

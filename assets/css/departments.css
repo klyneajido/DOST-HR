@@ -4805,7 +4805,7 @@ a.btn.btn-apply:hover {
   border: 1px solid #00882e;
 }
 .btn-secondary {
-  background: #dc3545;
+  background: gray;
 }
 .customize_popup button.btn.btn-secondary:hover {
   background: transparent;

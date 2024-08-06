@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'db_connection.php';
 
@@ -43,4 +44,3 @@ if ($stmt_archive->execute()) {
 $stmt_archive->close();
 $stmt_log->close();
 $mysqli->close();
-?>

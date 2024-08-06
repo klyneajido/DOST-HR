@@ -1,5 +1,5 @@
-<?php 
-include("PHP_Connections/checkUser.php"); 
+<?php
+include("PHP_Connections/checkUser.php");
 
 // Retrieve error messages from query string
 $errors = isset($_GET['errors']) ? json_decode($_GET['errors'], true) : [];
@@ -74,7 +74,7 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                         } else {
                             die("No admin ID provided.");
                         }
-                        ?>
+?>
                         <form id="updateForm" action="PHP_Connections/updateAccount.php" method="POST">
                             <div class="row">
                                 <div class="col-md-6">

@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -9,10 +10,12 @@ if (!isset($_SESSION['username'])) {
     header('Location: login.php');
     exit();
 }
-function formatDate($date) {
+function formatDate($date)
+{
     return date("F j, Y, g:i A", strtotime($date));
 }
-function formatDateDeadline($date) {
+function formatDateDeadline($date)
+{
     // Set the fixed time to 5:00 PM
     $fixed_time = '17:00:00'; // 5:00 PM in 24-hour format
 

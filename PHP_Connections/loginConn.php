@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 // Verify CSRF token
@@ -56,7 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit();
 }
 
-function validateUser($username, $password) {
+function validateUser($username, $password)
+{
     include_once 'db_connection.php';
 
     // Query to retrieve hashed password from the database
@@ -94,4 +96,3 @@ function validateUser($username, $password) {
         return array('success' => false, 'error' => 'Invalid username or password.');
     }
 }
-

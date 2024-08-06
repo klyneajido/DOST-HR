@@ -27,8 +27,8 @@
             <div class="modal-footer">
                 <form id="archiveForm" method="get" action="PHP_Connections/announcementArchive.php">
                     <input type="hidden" id="announcement_id" name="announcement_id" value="">
+                     <button type="submit" class="btn btn-primary">Archive</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Archive</button>
                 </form>
             </div>
         </div>

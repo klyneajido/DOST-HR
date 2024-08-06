@@ -210,8 +210,8 @@
                     Are you sure you want to add this job?
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="confirmAddJob">Add Job</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="confirmAddJob">Add Job</button>
                 </div>
             </div>
         </div>

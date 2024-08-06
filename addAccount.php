@@ -1,5 +1,5 @@
-<?php 
-include("PHP_Connections/checkUser.php"); 
+<?php
+include("PHP_Connections/checkUser.php");
 
 // Retrieve error messages from query string
 $errors = isset($_GET['errors']) ? json_decode($_GET['errors'], true) : [];

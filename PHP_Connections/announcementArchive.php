@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -96,4 +97,3 @@ if ($result && $result->num_rows > 0) {
     header('Location: ../announcements.php?error=Announcement not found.');
     exit();
 }
-?>

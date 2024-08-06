@@ -1,5 +1,6 @@
 <?php
-// session_start(); 
+
+// session_start();
 include_once 'db_connection.php';
 
 
@@ -33,4 +34,3 @@ if ($result->num_rows > 0) {
         ];
     }
 }
-?>

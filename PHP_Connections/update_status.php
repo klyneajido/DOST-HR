@@ -1,4 +1,5 @@
 <?php
+
 include_once("db_connection.php");
 
 // Enable error reporting
@@ -12,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($id) && !empty($status)) {
         $query = "UPDATE applicants SET status='$status' WHERE id=$id";
-        
+
         if ($mysqli->query($query)) {
             echo 'Status updated successfully';
         } else {
@@ -26,4 +27,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo 'Invalid request method';
 }
-?>

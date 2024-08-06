@@ -1,4 +1,5 @@
 <?php
+
 // Include the database connection
 include_once 'db_connection.php';
 
@@ -40,4 +41,3 @@ if ($department_id > 0) {
 }
 
 $mysqli->close();
-?>

@@ -1,4 +1,5 @@
 <?php
+
 include_once 'db_connection.php';
 
 // Check if user is logged in
@@ -31,4 +32,3 @@ if ($result) {
     echo "Error fetching recent activities: " . $mysqli->error;
     exit();
 }
-?>

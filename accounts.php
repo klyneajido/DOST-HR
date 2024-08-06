@@ -1,5 +1,5 @@
-<?php 
-include("PHP_Connections/checkUser.php"); 
+<?php
+include("PHP_Connections/checkUser.php");
 ?>
 
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ include("PHP_Connections/checkUser.php");
                                 <?php
                                 // Initialize search term
                                 $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
-                                ?>
+?>
                                 <input type="text" id="searchInput" name="search" value="<?php echo htmlspecialchars($searchTerm); ?>" class="form-control form-control-rounded" placeholder="Search by name or email">
                                 <button type="submit" class="btn btn-search"><i class="fas fa-search"></i></button>
                                 <button type="button" id="clearSearch" class="btn btn-clear"><i class="fas fa-times"></i></button>
@@ -99,39 +99,39 @@ include("PHP_Connections/checkUser.php");
                                 </thead>
                                 <tbody>
                                     <?php
-                                    // Build query with search filter
-                                    $query = "SELECT admin_id, name, username, email, authority FROM admins WHERE authority != 'superadmin'";
-                                    if ($searchTerm) {
-                                        $searchTerm = '%' . $mysqli->real_escape_string($searchTerm) . '%';
-                                        $query .= " AND (name LIKE ? OR email LIKE ?)";
-                                    }
+    // Build query with search filter
+    $query = "SELECT admin_id, name, username, email, authority FROM admins WHERE authority != 'superadmin'";
+if ($searchTerm) {
+    $searchTerm = '%' . $mysqli->real_escape_string($searchTerm) . '%';
+    $query .= " AND (name LIKE ? OR email LIKE ?)";
+}
 
-                                    // Prepare and execute statement
-                                    $stmt = $mysqli->prepare($query);
-                                    if ($searchTerm) {
-                                        $stmt->bind_param("ss", $searchTerm, $searchTerm);
-                                    }
-                                    $stmt->execute();
-                                    $result = $stmt->get_result();
+// Prepare and execute statement
+$stmt = $mysqli->prepare($query);
+if ($searchTerm) {
+    $stmt->bind_param("ss", $searchTerm, $searchTerm);
+}
+$stmt->execute();
+$result = $stmt->get_result();
 
-                                    // Display results
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<tr>";
-                                            echo "<td>" . htmlspecialchars($row['name']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($row['username']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
-                                            echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
-                                            echo "<td>
+// Display results
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . htmlspecialchars($row['name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['username']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['authority']) . "</td>";
+        echo "<td>
                                                     <a href='editAccount.php?id=" . $row['admin_id'] . "' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
                                                     <button type='button' class='btn btn-sm btn-danger' data-toggle='modal' data-target='#confirmDeleteModal' data-admin-id='" . $row['admin_id'] . "'><i class='fas fa-trash-alt'></i></button>
                                                   </td>";
-                                            echo "</tr>";
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='5' class='text-center'>No accounts found.</td></tr>";
-                                    }
-                                    ?>
+        echo "</tr>";
+    }
+} else {
+    echo "<tr><td colspan='5' class='text-center'>No accounts found.</td></tr>";
+}
+?>
                                 </tbody>
                             </table>
                         </div>

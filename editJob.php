@@ -287,7 +287,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between mx-1">
-                                        <button class="col-md-5 btn btn-info" type="button" data-toggle="modal"
+                                        <button class="col-md-5 btn btn-primary" type="button" data-toggle="modal"
                                             data-target="#confirmModal">Update</button>
                                         <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
@@ -316,7 +316,7 @@
                     Are you sure you want to Update this job?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="confirmUpdateJob">Update</button>
+                    <button type="button" class="btn btn-primary" id="confirmUpdateJob">Update</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>

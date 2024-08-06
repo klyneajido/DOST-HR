@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 include_once 'db_connection.php';
 
@@ -133,4 +134,3 @@ if (isset($_GET['id'])) {
     header('Location: ../archive.php?tab=jobs&msg=error');
     exit();
 }
-?>

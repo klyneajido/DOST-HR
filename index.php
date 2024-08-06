@@ -170,7 +170,9 @@ include("PHP_Connections/upcomingInterview.php");
 									<?php endif; ?>
 
 									<?php for ($i = 1; $i <= $total_pages; $i++) : ?>
-										<li class="page-item <?php if ($i == $page) echo 'active'; ?>">
+										<li class="page-item <?php if ($i == $page) {
+										    echo 'active';
+										} ?>">
 											<a class="page-link" href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
 										</li>
 									<?php endfor; ?>

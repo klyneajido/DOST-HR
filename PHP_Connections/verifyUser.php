@@ -1,4 +1,5 @@
 <?php
+
 include('db_connection.php');
 
 if (!isset($_SESSION['username'])) {
@@ -34,5 +35,3 @@ if ($mysqli->ping()) {
     echo "Database connection is not valid.";
     exit();
 }
-
-?>

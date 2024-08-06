@@ -1,4 +1,5 @@
 <?php
+
 require '../vendor/autoload.php'; // Path to Composer autoload file
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -9,7 +10,8 @@ require 'db_connection.php';
 $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
-function formatDate($date) {
+function formatDate($date)
+{
     return date("F j, Y, g:i A", strtotime($date));
 }
 
@@ -109,7 +111,7 @@ $sheet->getStyle('A2')->applyFromArray($headerStyle);
 
 // Add CSV column headers
 $headers = ['Job Title', 'Position', 'Plantilla No.','Last Name', 'First Name', 'Middle Name', 'Sex', 'Address', 'Email', 'Contact Number', 'Course', 'Years of Experience', 'Hours of Training', 'Eligibility', 'List of Awards','Application Date', 'Status'];
-$sheet->fromArray($headers, NULL, 'A3');
+$sheet->fromArray($headers, null, 'A3');
 $sheet->getStyle('A3:Q3')->applyFromArray($headerStyle);
 
 // Set column widths to auto size
@@ -125,7 +127,7 @@ $result = $stmt->get_result();
 $rowNumber = 4; // Start from row 4, since row 3 is for headers
 while ($row = $result->fetch_assoc()) {
     $row['application_date'] = formatDate($row['application_date']);
-    $sheet->fromArray(array_values($row), NULL, 'A' . $rowNumber);
+    $sheet->fromArray(array_values($row), null, 'A' . $rowNumber);
     $rowNumber++;
 }
 
@@ -150,4 +152,3 @@ header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetm
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 $writer->save('php://output');
 $mysqli->close();
-?>

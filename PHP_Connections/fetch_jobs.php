@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -10,11 +11,13 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-function formatDate($date) {
+function formatDate($date)
+{
     return date("g:i A, F j, Y", strtotime($date));
 }
 
-function formatDateDeadline($date) {
+function formatDateDeadline($date)
+{
     // Set the fixed time to 5:00 PM
     $fixed_time = '17:00:00'; // 5:00 PM in 24-hour format
 
@@ -85,4 +88,3 @@ if ($result && $result->num_rows > 0) {
 } else {
     $errors['database'] = "No jobs found.";
 }
-?>

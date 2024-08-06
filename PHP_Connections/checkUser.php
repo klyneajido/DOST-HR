@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -36,4 +37,3 @@ if ($user_authority !== 'superadmin') {
 }
 
 // Continue with the rest of your accounts page logic here
-?>

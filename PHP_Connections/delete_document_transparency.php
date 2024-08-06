@@ -1,4 +1,5 @@
 <?php
+
 // Start session
 session_start();
 include_once 'db_connection.php';
@@ -52,4 +53,3 @@ if (isset($_GET['id'])) {
     header('Location: ../transparency.php?delete_status=failed&error=' . urlencode('No document ID provided.'));
     exit();
 }
-?>
