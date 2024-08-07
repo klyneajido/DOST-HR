@@ -39,14 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
             $stmt_delete->bind_param('i', $announcement_id);
             $stmt_delete->execute();
 
-            header('Location: ../archive.php?tab=jobs&msg=restored');
+            header('Location: ../view_archives_announcements.php?tab=jobs&msg=restored');
         } else {
             error_log("Error restoring announcement: " . $stmt_restore->error);
-            header('Location: ../archive.php?tab=jobs&msg=error');
+            header('Location: ../view_archives_announcements.php?tab=jobs&msg=error');
         }
     } else {
-        header('Location: ../archive.php?tab=jobs&msg=notfound');
+        header('Location: ../view_archives_announcements.php?tab=jobs&msg=notfound');
     }
 } else {
-    header('Location: ../archive.php?tab=jobs&msg=invalid');
+    header('Location: ../view_archives_announcements.php?tab=jobs&msg=invalid');
 }

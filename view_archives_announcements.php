@@ -1,5 +1,4 @@
-<?php include("PHP_Connections/fetch_archives.php")?>
-
+<?php include("PHP_Connections/fetch_archives_announcements.php")?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +12,9 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
 <body class="scrollbar" id="style-5">
-    <?php include("modal_logout.php");?>
-    <?php include("modals_archive.php");?>
+    <?php include("modal_logout.php"); ?>
+    <?php include("modals_archive.php"); ?>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -36,23 +34,15 @@
                             <div class="card-header">
                                 <h4 class="card-title">Archived Announcements</h4>
                                 <div class="search-container d-inline float-right" style="margin-left: 20px;">
-                                    <form action="view_archives_announcements.php" method="get" class="d-flex flex-wrap">
-                                        <input type="text" name="search_announcement" class="form-control mr-2"
-                                            placeholder="Search Announcements"
-                                            style="flex: 1; min-width: 400px; border-radius: 30px;"
-                                            value="<?php echo htmlspecialchars($search_announcement); ?>">
-                                        <button class="btn" type="submit"
-                                            style="background: none; border: none; padding: 0;">
-                                            <i class="fas fa-search" style="color: #000;"></i>
-                                        </button>
-                                    </form>
+                                    <input type="text" id="searchInput" class="form-control mr-2"
+                                        placeholder="Search Announcements"
+                                        style="flex: 1; min-width: 400px; border-radius: 30px;"
+                                        value="<?php echo htmlspecialchars($search_announcement); ?>">
                                 </div>
                             </div>
-                            <div class="card-body">
-
-
+                            <div>
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table id="announcementsTable" class="table table-striped">
                                         <thead class="text-center">
                                             <tr>
                                                 <th>Title</th>
@@ -83,7 +73,7 @@
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <img src="data:image/jpeg;base64,<?php echo $image_data; ?>"
+                                                    <img class="rounded"src="data:image/jpeg;base64,<?php echo $image_data; ?>"
                                                         alt="Image" width="50" height="50">
                                                 </td>
                                                 <td><?php echo formatDate($archive['created_at']); ?></td>
@@ -95,7 +85,7 @@
                                                         data-id="<?php echo htmlspecialchars($archive['announcement_id']); ?>">
                                                         <i class="fas fa-undo"></i>
                                                     </a>
-                                                    <a href="PHP_Connections/deleteAnnouncement.php?id=<?php echo htmlspecialchars($archive['announcement_id']); ?>"
+                                                    <a href="#"
                                                         class="btn btn-danger btn-sm delete-announcement-button"
                                                         data-id="<?php echo htmlspecialchars($archive['announcement_id'], ENT_QUOTES, 'UTF-8'); ?>">
                                                         <i class="fas fa-trash"></i>
@@ -112,10 +102,8 @@
                                     </table>
                                 </div>
 
-
-
                                 <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center mt-3">
+                                    <ul class="pagination justify-content-center my-3">
                                         <li class="page-item <?php if ($announcements_page <= 1) {
                                             echo 'disabled';
                                         } ?>">
@@ -178,7 +166,8 @@ if ($announcements_end < $total_pages_announcements) {
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="assets/js/script.js"></script>
-        <script src="assets/js/archive.js"></script>
+        <script src="assets/js/archives_announcements.js"></script>
+
         <?php
         if (isset($_GET['restored']) && $_GET['restored'] == 1) {
             echo "<div class='alert alert-success'>Announcement restored successfully!</div>";

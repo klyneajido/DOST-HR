@@ -20,14 +20,14 @@
 </div>
 
 <!-- Announcement Deletion Modal -->
-<div class="modal fade" id="passwordModalAnnouncement" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteAnnouncementModal" tabindex="-1" role="dialog" aria-labelledby="deleteAnnouncementModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="passwordModalLabel">Confirm Deletion</h5>
+                <h5 class="modal-title" id="deleteAnnouncementModalLabel">Confirm Deletion</h5>
             </div>
             <div class="modal-body">
-                <form id="deleteAnnouncementForm">
+                <form id="deleteAnnouncementForm" action="PHP_Connections/delete_announcement.php" method="POST">
                     <input type="hidden" id="deleteAnnouncementId" name="id" value="">
                     <div class="form-group">
                         <label for="adminPasswordAnnouncement">Admin Password</label>

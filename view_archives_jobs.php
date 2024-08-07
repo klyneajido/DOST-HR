@@ -201,8 +201,6 @@
         <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="assets/js/script.js"></script>
         <script src="assets/js/archives_jobs.js"></script>
-
-
     </div>
 </body>
 
