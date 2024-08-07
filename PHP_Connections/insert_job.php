@@ -163,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $history_stmt->close();
 
             $success = "Job added successfully with requirements.";
-            header('Location: ./viewJob.php');
+            header('Location: ./view_jobs.php');
             exit();
         } else {
             $errors['database'] = "Error adding job: " . $stmt->error;

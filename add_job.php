@@ -5,17 +5,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
-    <title>DOST-HRMO</title>
-
+    <title>Add Job</title>
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
-
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/jobs.css" />
 </head>
-
 <body class="scrollbar" id="style-5">
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
@@ -37,7 +34,7 @@
 
                             <div class="container">
                                 <!-- START FORM -->
-                                <form id="addJobForm" method="POST" action="addJob.php" class="needs-validation" novalidate>
+                                <form id="addJobForm" method="POST" action="add_job.php" class="needs-validation" novalidate>
                                 <?php if (!empty($errors)) : ?>
                             <div class=" col-md-12 alert alert-danger">
                                 <ul>
@@ -184,7 +181,7 @@
                                     </div>
                                     <div class="d-flex justify-content-between mx-1">
                                         <button class="col-md-5 btn btn-info" type="button" data-toggle="modal" data-target="#confirmModal">Add Job</button>
-                                        <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
+                                        <a href="view_jobs.php" class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
                                 </form>
                             </div>
@@ -224,7 +221,7 @@
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/select2/js/select2.min.js"></script>
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/addJob.js"></script>
+    <script src="assets/js/add_job.js"></script>
 
     <script>
         // // Function to add field dynamically

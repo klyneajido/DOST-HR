@@ -12,6 +12,7 @@ if (!isset($_SESSION['username'])) {
 
 // Get user's name from session
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+$name = isset($_SESSION['name']) ? $_SESSION['name'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 
 $sql = "SELECT COUNT(*) as count FROM applicants";
