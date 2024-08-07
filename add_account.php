@@ -1,15 +1,11 @@
 <?php
-include("PHP_Connections/checkUser.php");
-
+include("PHP_Connections/check_user.php");
 // Retrieve error messages from query string
 $errors = isset($_GET['errors']) ? json_decode($_GET['errors'], true) : [];
 $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : '';
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -18,24 +14,11 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/announcement.css">
-    <style>
-        .password-cover {
-            -webkit-text-security: disc;
-        }
-        .form-control[disabled] {
-            background-color: #e9ecef;
-            cursor: not-allowed;
-        }
-        .error-message {
-            color: red;
-            font-size: 0.875em;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/accounts.css">
 </head>
 
 <body class="scrollbar" id="style-5">
-    <?php include("logout_modal.php") ?>
+    <?php include("modal_logout.php") ?>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -53,7 +36,7 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                         <h3 class="card-title">Add New Admin Account</h3>
                     </div>
                     <div class="card-body">
-                        <form id="addForm" action="PHP_Connections/insertAccount.php" method="POST">
+                        <form id="addForm" action="PHP_Connections/insert_account.php" method="POST">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -111,7 +94,7 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                                 
                             </div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">Add Account</button>
-                            <a href="accounts.php" class="btn btn-secondary">Cancel</a>
+                            <a href="view_accounts.php" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
                 </div>
@@ -130,8 +113,8 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                                 <p>Ensure you have the required permissions before proceeding.</p>
                             </div>
                             <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" onclick="submitForm()">Add</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" onclick="submitForm()">Yes, Add</button>
                             </div>
                         </div>
                     </div>
@@ -164,10 +147,8 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/announcements.js"></script>
+    <script src="assets/js/accounts.js"></script>
     <script>
         function submitForm() {
             document.getElementById("addForm").submit();

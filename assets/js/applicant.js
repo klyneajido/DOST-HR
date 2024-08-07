@@ -95,26 +95,26 @@ $('.dropdown-item').click(function(e) {
 });
 
 
-    // Handle search input
-    $('#search-input').on('input', function() {
-        var searchValue = $(this).val();
+    // // Handle search input
+    // $('#search-input').on('input', function() {
+    //     var searchValue = $(this).val();
 
-        $.ajax({
-            url: 'PHP_Connections/search.php', // Your search endpoint
-            type: 'GET',
-            data: {
-                search: searchValue,
-                job_title: getUrlParameter('job_title'),
-                position: getUrlParameter('position')
-            },
-            success: function(response) {
-                $('#table-container').html(response); // Update the table container with new data
-            },
-            error: function(xhr, status, error) {
-                console.error('Search request failed:', error);
-            }
-        });
-    });
+    //     $.ajax({
+    //         url: 'PHP_Connections/search.php', // Your search endpoint
+    //         type: 'GET',
+    //         data: {
+    //             search: searchValue,
+    //             job_title: getUrlParameter('job_title'),
+    //             position: getUrlParameter('position')
+    //         },
+    //         success: function(response) {
+    //             $('#table-container').html(response); // Update the table container with new data
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error('Search request failed:', error);
+    //         }
+    //     });
+    // });
 
     // Handle export button click
     $('#export-button').click(function() {

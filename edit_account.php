@@ -98,7 +98,7 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                             </div>
                             <input type="hidden" name="admin_id" value="<?php echo htmlspecialchars($admin['admin_id']); ?>">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#confirmationModal">Update Account</button>
-                            <a href="accounts.php" class="btn btn-secondary">Cancel</a>
+                            <a href="view_accounts.php" class="btn btn-secondary">Cancel</a>
                         </form>
                     </div>
                 </div>
@@ -116,9 +116,9 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                                 <p>Are you sure you want to update the admin account?</p>
                                 <p>Make sure you have permission first before updating this account.</p>
                             </div>
-                            <div class="modal-footer">
+                            <div class="modal-footer">  
+                                <button type="button" class="btn btn-primary" onclick="submitForm()">Update</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary" onclick="submitForm()">Yes, Update</button>
                             </div>
                         </div>
                     </div>
@@ -145,10 +145,14 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
             </div>
         </div>
     </div>
+    <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/accounts.js"></script>
     <script>
         function submitForm() {
             document.getElementById("updateForm").submit();

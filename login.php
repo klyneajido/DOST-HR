@@ -76,21 +76,12 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
                                 <?php endif; ?>
                                 <div class="form-group">
                                     <div class="row">
-                                        <!-- <div class="col-6">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="cb1" />
-                                                <label class="custom-control-label" for="cb1">Remember me</label>
-                                            </div>
-                                        </div> -->
                                         <div class="col-12 text-center">
-                                            <a class="forgot-link" href="forgotPassword.php">Forgot Password?</a>
+                                            <a class="forgot-link" href="forgot_password.php">Forgot Password?</a>
                                         </div> 
                                     </div>
                                 </div>
                                 <button class="btn btn-lg btn-block btn-primary" type="submit">Login</button>
-                                <!-- <div class="text-center dont-have">
-                                    Don't have an account yet? <a href="register.php">Register</a>
-                                </div> -->
                             </form>
                             <!-- END FORM -->
                         </div>
@@ -99,6 +90,12 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
             </div>
         </div>
     </div>
+
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/feather.min.js"></script>
+    <script src="assets/js/script.js"></script>
     <script>
         var myInput = document.getElementById('password'),
             myIcon = document.getElementById('icon');
@@ -115,11 +112,6 @@ $password_error = isset($errors['password']) ? $errors['password'] : '';
             }
         };
     </script>
-    <script src="assets/js/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/feather.min.js"></script>
-    <script src="assets/js/script.js"></script>
 </body>
 
 </html>

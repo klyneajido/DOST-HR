@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Redirect back to the edit page with errors or success message
-    header("Location: ../editAccount.php?id=$admin_id&" . http_build_query([
+    header("Location: ../edit_account.php?id=$admin_id&" . http_build_query([
         'success_message' => $success_message ?? '',
         'errors' => json_encode($errors)
     ]));

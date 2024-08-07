@@ -63,7 +63,7 @@ $email = isset($input_data['email']) ? htmlspecialchars($input_data['email'], EN
                             <p class="account-subtitle">Enter your email to receive a verification code</p>
 
                             <!-- FORM -->
-                            <form action="PHP_Connections/sendVerification.php" method="POST">
+                            <form action="PHP_Connections/send_verification.php" method="POST">
                                 <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
                                 <div class="form-group">
                                     <label class="form-control-label">Email</label>

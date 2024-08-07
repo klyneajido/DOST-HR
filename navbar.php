@@ -32,10 +32,7 @@
                 </span>
                 <span><?php echo htmlspecialchars($user_name); ?></span>
             </a>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="profile.php"><i data-feather="user" class="mr-1"></i> Profile</a>
-                <a class="dropdown-item" href="#" id="logoutLink"><i data-feather="log-out" class="mr-1"></i> Logout</a>
-            </div>
+
             <script>
             document.getElementById('logoutLink').addEventListener('click', function(event) {
                 event.preventDefault();
@@ -51,10 +48,6 @@
     <div class="dropdown mobile-user-menu show">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i
                 class="fa fa-ellipsis-v"></i></a>
-        <div class="dropdown-menu dropdown-menu-right ">
-            <a class="dropdown-item" href="profile.php">My Profile</a>
-            <a class="dropdown-item" href="PHP_Connections/logout.php">Logout</a>
-        </div>
     </div>
 </div>
 

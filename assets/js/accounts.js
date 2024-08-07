@@ -27,7 +27,7 @@ $(document).ready(function() {
         var currentPassword = $('#currentPassword').val();
 
         $.ajax({
-            url: 'PHP_Connections/deleteAccount.php',
+            url: 'PHP_Connections/delete_account.php',
             type: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({

@@ -178,8 +178,8 @@ include("PHP_Connections/check_user.php");
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" id="deleteBtn" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
         </div>
@@ -213,7 +213,6 @@ include("PHP_Connections/check_user.php");
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/accounts.js"></script>
-
 </body>
 
 </html>
