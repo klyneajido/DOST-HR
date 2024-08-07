@@ -44,7 +44,7 @@ $errors = isset($_GET['errors']) ? $_GET['errors'] : '';
                             <p class="account-subtitle">Enter the 6-digit verification code sent to your email</p>
 
                             <!-- FORM -->
-                            <form id="verifyForm" action="PHP_Connections/verifyCodeProcess.php" method="POST">
+                            <form id="verifyForm" action="PHP_Connections/verify_code_process.php" method="POST">
                                 <div class="form-group">
                                     <label class="form-control-label">Verification Code</label>
                                     <div style="display: flex; justify-content: center;">
@@ -64,7 +64,7 @@ $errors = isset($_GET['errors']) ? $_GET['errors'] : '';
                             <!-- END FORM -->
 
                             <div class="text-center dont-have mt-3">
-                                <a href="forgotPassword.php" class="back-to-login-icon">
+                                <a href="forgot_password.php" class="back-to-login-icon">
                                     <i class="fas fa-arrow-left"></i> Back to Forgot Password
                                 </a>
                             </div>

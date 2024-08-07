@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validate email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header('Location: forgotPassword.php?errors=Invalid email address&input_data[email]=' . urlencode($email));
+        header('Location: forgot_password.php?errors=Invalid email address&input_data[email]=' . urlencode($email));
         exit();
     }
 
@@ -53,20 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail->Body    = "You have requested a password reset. Your verification code is <strong>$verification_code</strong>. This code will expire in 15 minutes. <br>";
 
             $mail->send();
-            header('Location: ../verifyCode.php?status=Verification code sent');
+            header('Location: ../verify_code.php?status=Verification code sent');
         } catch (Exception $e) {
             // Handle email sending error
-            header('Location: forgotPassword.php?errors=Email could not be sent. Mailer Error: ' . $mail->ErrorInfo . '&input_data[email]=' . urlencode($email));
+            header('Location: forgot_password.php?errors=Email could not be sent. Mailer Error: ' . $mail->ErrorInfo . '&input_data[email]=' . urlencode($email));
         }
     } else {
         // Handle database insertion error
-        header('Location: forgotPassword.php?errors=Failed to generate verification code&input_data[email]=' . urlencode($email));
+        header('Location: forgot_password.php?errors=Failed to generate verification code&input_data[email]=' . urlencode($email));
     }
 
     $stmt->close();
     $mysqli->close();
 } else {
     // If not POST request, redirect to the forgot password page
-    header('Location: forgotPassword.php');
+    header('Location: forgot_password.php');
     exit();
 }

@@ -1,4 +1,4 @@
-<?php include("PHP_Connections/verifyUser.php");?>
+<?php include("PHP_Connections/verify_user.php");?>
 <div class="header">
     <div class="header-left">
         <div class="logo-wrapper align-self-center">

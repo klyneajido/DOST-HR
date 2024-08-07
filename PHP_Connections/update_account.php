@@ -1,6 +1,6 @@
 <?php
 
-include("checkUser.php");
+include("check_user.php");
 include("db_connection.php");
 
 if (!isset($_SESSION['username'])) {

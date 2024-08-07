@@ -11,7 +11,6 @@ if (isset($_SESSION['username'])) {
     header('Location: index.php');
     exit();
 }
-
 $errors = isset($_GET['errors']) ? $_GET['errors'] : '';
 $input_data = isset($_GET['input_data']) ? $_GET['input_data'] : '';
 

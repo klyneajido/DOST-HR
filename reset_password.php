@@ -44,7 +44,7 @@ $csrf_token = $_SESSION['csrf_token'];
                             <p class="account-subtitle">Enter your new password below</p>
 
                             <!-- FORM -->
-                            <form id="resetPasswordForm" action="PHP_Connections/resetPasswordProcess.php" method="POST">
+                            <form id="resetPasswordForm" action="PHP_Connections/reset_password_process.php" method="POST">
                                 <div class="form-group">
                                     <label class="form-control-label">New Password</label>
                                     <input class="form-control<?php echo !empty($errors) ? ' is-invalid' : ''; ?>" name="new_password" type="password" required>

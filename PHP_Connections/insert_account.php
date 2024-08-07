@@ -98,16 +98,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("ssssss", $name, $username, $email, $hashedPassword, $authority, $profile_image_path);
 
         if ($stmt->execute()) {
-            header("Location: ../addAccount.php?success_message=Account added successfully.");
+            header("Location: ../add_account.php?success_message=Account added successfully.");
         } else {
-            header("Location: ../addAccount.php?errors=" . urlencode(json_encode(['general' => "Error adding account."])));
+            header("Location: ../add_account.php?errors=" . urlencode(json_encode(['general' => "Error adding account."])));
         }
         $stmt->close();
     } else {
-        header("Location: ../addAccount.php?errors=" . urlencode(json_encode($errors)));
+        header("Location: ../add_account.php?errors=" . urlencode(json_encode($errors)));
     }
     exit();
 } else {
-    header("Location: ../addAccount.php");
+    header("Location: ../add_account.php");
     exit();
 }

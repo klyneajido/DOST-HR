@@ -53,10 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Redirect back to the form with errors
     $queryString = http_build_query(['errors' => implode(', ', $errors)]);
-    header('Location: ../resetPassword.php?' . $queryString);
+    header('Location: ../reset_password.php?' . $queryString);
     exit();
 } else {
     // If the request method is not POST, redirect to the reset password page
-    header('Location: ../resetPassword.php');
+    header('Location: ../reset_password.php');
     exit();
 }

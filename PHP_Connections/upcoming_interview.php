@@ -1,10 +1,6 @@
 <?php
-
 // session_start();
 include_once 'db_connection.php';
-
-
-
 // Redirect to login page if the user is not logged in
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');

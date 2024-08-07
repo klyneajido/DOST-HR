@@ -13,7 +13,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $job_id = isset($_GET['job_id']) ? (int)$_GET['job_id'] : 0;
 
 if ($job_id === 0) {
-    header('Location: viewJob.php');
+    header('Location: view_jobs.php');
     exit();
 }
 
@@ -25,7 +25,7 @@ $result = $stmt->get_result();
 $job = $result->fetch_assoc();
 
 if (!$job) {
-    header('Location: viewJob.php');
+    header('Location: view_jobs.php');
     exit();
 }
 
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param('ssidsssssssi', $job_title, $position, $department_id, $monthly_salary, $status, $description, $educationrequirement, $experienceortraining, $dutiesandresponsibilities, $placeofassignment, $deadline, $job_id);
 
         if ($stmt->execute()) {
-            header('Location: viewJob.php?success=Job updated successfully');
+            header('Location: view_jobs.php?success=Job updated successfully');
             exit();
         } else {
             $errors['database'] = "Error updating job: " . $mysqli->error;

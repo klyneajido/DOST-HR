@@ -1,12 +1,10 @@
 <?php
-include("PHP_Connections/checkUser.php");
+include("PHP_Connections/check_user.php");
 
 // Retrieve error messages from query string
 $errors = isset($_GET['errors']) ? json_decode($_GET['errors'], true) : [];
 $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : '';
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,24 +16,11 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/announcement.css">
-    <style>
-        .password-cover {
-            -webkit-text-security: disc;
-        }
-        .form-control[disabled] {
-            background-color: #e9ecef;
-            cursor: not-allowed;
-        }
-        .error-message {
-            color: red;
-            font-size: 0.875em;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/accounts.css">
 </head>
 
 <body class="scrollbar" id="style-5">
-    <?php include("logout_modal.php") ?>
+    <?php include("modal_logout.php") ?>
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -75,7 +60,7 @@ $success_message = isset($_GET['success_message']) ? $_GET['success_message'] : 
                             die("No admin ID provided.");
                         }
 ?>
-                        <form id="updateForm" action="PHP_Connections/updateAccount.php" method="POST">
+                        <form id="updateForm" action="PHP_Connections/update_account.php" method="POST">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">

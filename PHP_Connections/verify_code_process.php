@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($stored_email)) {
         // No email stored in session, redirect to forgot password
-        header('Location: ../forgotPassword.php?errors=' . urlencode('Session expired or invalid.'));
+        header('Location: ../forgot_password.php?errors=' . urlencode('Session expired or invalid.'));
         exit();
     }
 
@@ -30,22 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Validate the verification code
         if ($input_code === $stored_code) {
             // Verification successful, redirect to reset password page
-            header('Location: ../resetPassword.php');
+            header('Location: ../reset_password.php');
             exit();
         } else {
             // Verification failed
             $error_message = 'Invalid verification code';
-            header('Location: ../verifyCode.php?errors=' . urlencode($error_message));
+            header('Location: ../verify_code.php?errors=' . urlencode($error_message));
             exit();
         }
     } else {
         // No valid verification code found or it has expired
         $error_message = 'Verification code expired or not found';
-        header('Location: ../verifyCode.php?errors=' . urlencode($error_message));
+        header('Location: ../verify_code.php?errors=' . urlencode($error_message));
         exit();
     }
 } else {
     // If not POST request, redirect to the verify code page
-    header('Location: ../verifyCode.php');
+    header('Location: ../verify_code.php');
     exit();
 }
