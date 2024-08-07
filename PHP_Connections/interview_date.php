@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bind_param('si', $interview_date, $applicant_id);
             if ($stmt->execute()) {
                 // Redirect back to the page after successful update
-                header('Location: ../applicants.php'); // Change 'applicants.php' to the page you want to redirect to
+                header('Location: ../view_applicants.php'); // Change 'applicants.php' to the page you want to redirect to
                 exit();
             } else {
                 echo "Error updating record: " . $mysqli->error;

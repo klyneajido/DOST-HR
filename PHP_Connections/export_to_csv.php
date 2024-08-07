@@ -58,7 +58,7 @@ $sql = "SELECT
             a.lastname, a.firstname, a.middlename, a.sex, a.address, a.email, a.contact_number, 
             a.course, a.years_of_experience, a.hours_of_training, a.eligibility, a.list_of_awards, a.application_date, a.status
         FROM applicants a 
-        JOIN job j ON a.job_id = j.job_id
+        LEFT JOIN job j ON a.job_id = j.job_id
         WHERE (a.lastname LIKE ? OR 
                a.firstname LIKE ? OR 
                a.email LIKE ? OR

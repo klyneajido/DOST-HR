@@ -6500,14 +6500,14 @@ padding: 10px;
 }
 
 .header_1 .export .button__text {
-  transform: translateX(10px);
+  transform: translateX(2px);
   color: #fff;
   font-weight: 600;
 }
 
 .header_1 .export .button__icon {
   position: absolute;
-  transform: translateX(72px);
+  transform: translateX(66px);
   height: 100%;
   width: 40px;
   background-color: #17795E;
@@ -6532,7 +6532,7 @@ padding: 10px;
 
 .header_1 .export:hover .button__icon {
   width: 105px;
-  transform: translateX(0);
+  transform: translateX(-5px);
 }
 
 .header_1 .export:active .button__icon {

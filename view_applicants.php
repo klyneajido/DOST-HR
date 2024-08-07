@@ -16,15 +16,11 @@
     <script src="https://kit.fontawesome.com/0dcd39d035.js" crossorigin="anonymous"></script>
 
 </head>
-
 <body class="scrollbar" id="style-5">
-
     <?php include("modal_logout.php")?>
     <div class="main-wrapper">
-
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
-
             <div class="container-fluid">
                 <!-- Breadcrumb section -->
                 <div class="breadcrumb-path mb-4 my-4">
@@ -77,7 +73,6 @@
                             </div>
                             <!-- END EXPORT BUTTON -->
                         </div>
-
                         <div class="header_2 card-header d-flex justify-content-between  ">
                             <!-- START SEARCH -->
                             <div class="top-nav-search  ">
@@ -274,7 +269,7 @@
                                                     <!-- The form will be inserted here dynamically by jQuery -->
                                                     <?php if ($applicant['status'] === 'Interview') : ?>
                                                     <form id="interviewForm<?php echo $applicant['id']; ?>"
-                                                        method="POST" action="PHP_Connections/interviewDate.php"
+                                                        method="POST" action="PHP_Connections/interview_date.php"
                                                         class="d-flex align-items-center w-100">
                                                         <input type="hidden" name="applicant_id"
                                                             value="<?php echo $applicant['id']; ?>">
@@ -402,8 +397,6 @@ if ($end < $total_pages) {
                 </div>
             </div>
         </div>
-
-
         <!-- Modal HTML -->
         <div class="modal fade" id="archiveModal" aria-hidden="true">
             <div class="modal-dialog">
