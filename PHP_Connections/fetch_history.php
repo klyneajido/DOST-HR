@@ -14,6 +14,7 @@ function formatDate($date)
 {
     return date("F j, Y, g:i A", strtotime($date));
 }
+
 $user_name = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
 $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_image'] : 'assets/img/profiles/default-profile.png';
 $username = $_SESSION['username'];
@@ -36,15 +37,25 @@ if ($result->num_rows == 1) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $profile_image = $admin['profile_image'];
+
     if (!empty($_FILES['profile_image']['name'])) {
-        $profile_image = addslashes(file_get_contents($_FILES['profile_image']['tmp_name']));
-    } else {
-        $profile_image = $admin['profile_image'];
+        $file_tmp = $_FILES['profile_image']['tmp_name'];
+        $file_type = $_FILES['profile_image']['type'];
+        $allowed_types = ['image/jpeg', 'image/png', 'image/gif'];
+
+        if (in_array($file_type, $allowed_types)) {
+            $profile_image = file_get_contents($file_tmp);
+        } else {
+            echo "Invalid file type.";
+            exit();
+        }
     }
 
     $update_query = "UPDATE admins SET name = ?, email = ?, profile_image = ? WHERE username = ?";
     $update_stmt = $mysqli->prepare($update_query);
     $update_stmt->bind_param('ssss', $name, $email, $profile_image, $username);
+
     if ($update_stmt->execute()) {
         $_SESSION['name'] = $name;
         $_SESSION['email'] = $email;
@@ -68,51 +79,58 @@ $search_term = isset($_GET['search']) ? $mysqli->real_escape_string($_GET['searc
 $admin_id = isset($_GET['admin_id']) ? intval($_GET['admin_id']) : 0;
 $action_filter = isset($_GET['action']) ? $mysqli->real_escape_string($_GET['action']) : '';
 
-// Prepare SQL query with filters
+// Prepare search filter
+$search_like = '%' . $search_term . '%';
+
+// Prepare history query
 $history_query = "SELECT h.*, a.name AS admin_name 
                   FROM history h 
                   JOIN admins a ON h.user_id = a.admin_id 
                   WHERE h.action LIKE ? ";
+$params = [$search_like];
+$param_types = 's';
+
 if ($admin_id > 0) {
     $history_query .= "AND h.user_id = ? ";
+    $params[] = $admin_id;
+    $param_types .= 'i'; // Integer type
 }
+
 if (!empty($action_filter)) {
     $history_query .= "AND h.action = ? ";
+    $params[] = $action_filter;
+    $param_types .= 's'; // String type
 }
+
 $history_query .= "ORDER BY h.date $sort_order 
                   LIMIT $items_per_page OFFSET $offset";
 
 $stmt = $mysqli->prepare($history_query);
-$search_like = '%' . $search_term . '%';
-$params = [$search_like];
-if ($admin_id > 0) {
-    $params[] = $admin_id;
-}
-if (!empty($action_filter)) {
-    $params[] = $action_filter;
-}
-$stmt->bind_param(str_repeat('s', count($params)), ...$params);
+$stmt->bind_param($param_types, ...$params);
 $stmt->execute();
 $history_result = $stmt->get_result();
 
 // Count total records for pagination
 $count_query = "SELECT COUNT(*) AS total FROM history WHERE action LIKE ? ";
+$params = [$search_like];
+$param_types = 's';
+
 if ($admin_id > 0) {
     $count_query .= "AND user_id = ? ";
+    $params[] = $admin_id;
+    $param_types .= 'i'; // Integer type
 }
+
 if (!empty($action_filter)) {
     $count_query .= "AND action = ? ";
-}
-$stmt = $mysqli->prepare($count_query);
-$params = [$search_like];
-if ($admin_id > 0) {
-    $params[] = $admin_id;
-}
-if (!empty($action_filter)) {
     $params[] = $action_filter;
+    $param_types .= 's'; // String type
 }
-$stmt->bind_param(str_repeat('s', count($params)), ...$params);
+
+$stmt = $mysqli->prepare($count_query);
+$stmt->bind_param($param_types, ...$params);
 $stmt->execute();
 $count_result = $stmt->get_result();
 $total_rows = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_rows / $items_per_page);
+?>

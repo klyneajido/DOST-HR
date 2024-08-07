@@ -99,7 +99,7 @@ include_once 'PHP_Connections/fetch_history.php';?>
                 <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="history.php"><img src="assets/img/dash.png" class="mr-2"
+                            <a href="view_history.php"><img src="assets/img/dash.png" class="mr-2"
                                     alt="breadcrumb" />History</a>
                         </li>
                         <li class="breadcrumb-item active"></li>
@@ -108,9 +108,11 @@ include_once 'PHP_Connections/fetch_history.php';?>
                 </div>
 
                 <!-- Card Section -->
-                <div class="card">
+                <div class="card mb-5">
                     <div class="card-header">
+                        <strong>
                         History Records
+                        </strong>
                     </div>
                     <div class="card-body">
                         <div class="filter-container d-flex">
@@ -245,10 +247,10 @@ while ($admin = $admins_result->fetch_assoc()) {
                             <ul class="pagination justify-content-center">
                                 <?php if ($page > 1) : ?>
                                 <li class="page-item"><a class="page-link"
-                                        href="history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">First</a>
+                                        href="view_history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">First</a>
                                 </li>
                                 <li class="page-item"><a class="page-link"
-                                        href="history.php?page=<?php echo $page - 1; ?>&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">Previous</a>
+                                        href="view_history.php?page=<?php echo $page - 1; ?>&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>">Previous</a>
                                 </li>
                                 <?php endif; ?>
 
@@ -258,26 +260,26 @@ while ($admin = $admins_result->fetch_assoc()) {
 $end_page = min($total_pages, $page + 1);
 
 if ($start_page > 1) {
-    echo '<li class="page-item"><a class="page-link" href="history.php?page=1&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">1</a></li>';
+    echo '<li class="page-item"><a class="page-link" href="view_history.php?page=1&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">1</a></li>';
     if ($start_page > 2) {
         echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
     }
 }
 
 for ($i = $start_page; $i <= $end_page; $i++) {
-    echo '<li class="page-item' . ($i === $page ? ' active' : '') . '"><a class="page-link" href="history.php?page=' . $i . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $i . '</a></li>';
+    echo '<li class="page-item' . ($i === $page ? ' active' : '') . '"><a class="page-link" href="view_history.php?page=' . $i . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $i . '</a></li>';
 }
 
 if ($end_page < $total_pages) {
     if ($end_page < $total_pages - 1) {
         echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
     }
-    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $total_pages . '</a></li>';
+    echo '<li class="page-item"><a class="page-link" href="view_history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">' . $total_pages . '</a></li>';
 }
 
 if ($page < $total_pages) {
-    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . ($page + 1) . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Next</a></li>';
-    echo '<li class="page-item"><a class="page-link" href="history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Last</a></li>';
+    echo '<li class="page-item"><a class="page-link" href="view_history.php?page=' . ($page + 1) . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Next</a></li>';
+    echo '<li class="page-item"><a class="page-link" href="view_history.php?page=' . $total_pages . '&sort=' . htmlspecialchars($sort_order) . '&search=' . htmlspecialchars($search_term) . '&admin_id=' . htmlspecialchars($admin_id) . '&action=' . htmlspecialchars($action_filter) . '">Last</a></li>';
 }
 ?>
                             </ul>
@@ -297,134 +299,8 @@ if ($page < $total_pages) {
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/js/script.js"></script>
-    
+    <script src="assets/js/history.js"></script>
      <script>
-    $(function() {
-        const passwordModal = new bootstrap.Modal(document.getElementById('passwordModal'));
-        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-
-        document.querySelectorAll('.delete-history-btn').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                const historyId = this.dataset.id;
-                document.getElementById('deleteHistoryId').value = historyId;
-                passwordModal.show(); // Show the password modal
-            });
-        });
-
-        document.getElementById('passwordForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const historyId = document.getElementById('deleteHistoryId').value;
-            const adminPassword = document.getElementById('adminPassword').value;
-
-            fetch('PHP_Connections/deleteHistory.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: historyId,
-                    password: adminPassword
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    passwordModal.hide(); 
-                    successModal.show();
-                    setTimeout(() => window.location.reload(), 2000);
-                } else {
-                    alert('Invalid password.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    });
-    </script>
-
-    <!-- Separate script for clear history -->
-    <script>
-   document.addEventListener('DOMContentLoaded', () => {
-    const clearHistoryModal = new bootstrap.Modal(document.getElementById('clearHistoryModal'));
-    const clearHistorySuccessModal = new bootstrap.Modal(document.getElementById('clearHistorySuccessModal'));
-
-    document.getElementById('clearHistoryBtn').addEventListener('click', function() {
-        clearHistoryModal.show(); // Show the clear history modal
-    });
-
-    document.getElementById('clearHistoryForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const adminPasswordClear = document.getElementById('adminPasswordClear').value;
-
-        fetch('PHP_Connections/clearHistory.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                password: adminPasswordClear
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                clearHistoryModal.hide(); 
-                clearHistorySuccessModal.show();
-                setTimeout(() => window.location.reload(), 2000); // Optional: Reload after a delay
-            } else {
-                alert('Invalid password.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    });
-});
-    </script>
-
-    <script>
-    // Initialize Bootstrap tooltips
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-
-    document.getElementById('sortAsc').addEventListener('click', function() {
-        window.location.href = 'history.php?sort=asc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
-    });
-
-    document.getElementById('sortDesc').addEventListener('click', function() {
-        window.location.href = 'history.php?sort=desc&page=<?php echo $page; ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=<?php echo htmlspecialchars($admin_id); ?>&action=<?php echo htmlspecialchars($action_filter); ?>';
-    });
-
-    document.getElementById('filterAction').addEventListener('change', function() {
-        const action = this.value;
-        const adminId = document.getElementById('filterAdmin').value;
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
-    });
-
-    document.getElementById('filterAdmin').addEventListener('change', function() {
-        const action = document.getElementById('filterAction').value;
-        const adminId = this.value;
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>&search=<?php echo htmlspecialchars($search_term); ?>&admin_id=' + encodeURIComponent(adminId) + '&action=' + encodeURIComponent(action);
-    });
-
-    document.getElementById('resetFilters').addEventListener('click', function() {
-        window.location.href = 'history.php?page=1&sort=<?php echo htmlspecialchars($sort_order); ?>';
-    });
-    </script>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-        var scrollpos = localStorage.getItem('scrollpos');
-        if (scrollpos) window.scrollTo(0, scrollpos);
-    });
-
-    window.onbeforeunload = function(e) {
-        localStorage.setItem('scrollpos', window.scrollY);
-    };
-    </script>
 </body>
 
 </html>
