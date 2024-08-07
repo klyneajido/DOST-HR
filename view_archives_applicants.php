@@ -1,5 +1,4 @@
-<?php include("PHP_Connections/fetch_archives.php")?>
-
+<?php include("PHP_Connections/fetch_archives_applicants.php")?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,21 +35,15 @@
                             <div class="card-header">
                                 <h4 class="card-title">Archived Applicants</h4>
                                 <div class="search-container d-inline float-right" style="margin-left: 20px;">
-                                    <form action="view_archives.php" method="get" class="d-flex flex-wrap">
-                                        <input type="text" name="search_applicant" class="form-control mr-2"
-                                            placeholder="Search Applicants"
-                                            style="flex: 1; min-width: 400px; border-radius: 30px;"
-                                            value="<?php echo htmlspecialchars($search_applicant); ?>">
-                                        <button class="btn" type="submit"
-                                            style="background: none; border: none; padding: 0;">
-                                            <i class="fas fa-search" style="color: #000;"></i>
-                                        </button>
-                                    </form>
+                                    <input type="text" id="searchInput" class="form-control mr-2"
+                                        placeholder="Search Applicants"
+                                        style="flex: 1; min-width: 400px; border-radius: 30px;">
                                 </div>
+
                             </div>
-                            <div class="card-body">
+                            <div>
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table id="applicantsTable" class="table table-striped">
                                         <thead class="text-center">
                                             <tr>
                                                 <th>Job Title</th>
@@ -70,23 +63,34 @@
                                             <tr>
                                                 <td><?php echo htmlspecialchars($applicant['job_title']); ?></td>
                                                 <td><?php echo htmlspecialchars($applicant['position_or_unit']); ?></td>
-                                                <td><?php echo isset($applicant['plantilla']) && !empty($applicant['plantilla']) ? htmlspecialchars($applicant['plantilla']) : 'N/A'; ?>
+                                                <td>
+                                                    <?php 
+                                                echo isset($applicant['plantilla']) && !empty($applicant['plantilla']) 
+                                                    ? htmlspecialchars($applicant['plantilla']) 
+                                                    : '<span class="font-italic">N/A</span>'; 
+                                                ?>
                                                 </td>
+
                                                 <td><?php echo htmlspecialchars($applicant['firstname']) . ' ' . htmlspecialchars($applicant['lastname']); ?>
                                                 </td>
                                                 <td><?php echo htmlspecialchars($applicant['email']); ?></td>
                                                 <td><?php echo htmlspecialchars($applicant['contact_number']); ?></td>
                                                 <td><?php echo isset($applicant['application_date']) ? formatDate($applicant['application_date']) : 'N/A'; ?>
                                                 </td>
-                                                <td><?php echo isset($applicant['interview_date']) ? formatDate($applicant['interview_date']) : 'N/A'; ?>
+                                                <td>
+                                                    <?php 
+                                                echo isset($applicant['interview_date']) && !empty($applicant['interview_date']) 
+                                                    ? htmlspecialchars(formatDate($applicant['interview_date']))
+                                                    : '<span class="font-italic">N/A</span>'; 
+                                                ?>
                                                 </td>
                                                 <td>
-                                                    <a href="PHP_Connections/deleteApplicant.php?id=<?php echo htmlspecialchars($applicant['applicantarchive_id']); ?>"
-                                                        class="btn btn-danger btn-sm delete-applicant-button"
+                                                    <a href="#" class="btn btn-danger btn-sm delete-applicant-button"
                                                         data-id="<?php echo htmlspecialchars($applicant['applicantarchive_id'], ENT_QUOTES, 'UTF-8'); ?>">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                 </td>
+
                                             </tr>
                                             <?php endwhile; ?>
                                             <?php else: ?>
@@ -100,7 +104,7 @@
 
 
                                 <nav aria-label="Page navigation">
-                                    <ul class="pagination justify-content-center mt-3">
+                                    <ul class="pagination justify-content-center my-3">
                                         <li class="page-item <?php if ($applicants_page <= 1) {
                     echo 'disabled';
                 } ?>">
@@ -163,7 +167,7 @@ if ($applicants_end < $total_pages_applicants) {
         <script src="assets/js/feather.min.js"></script>
         <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="assets/js/script.js"></script>
-        <script src="assets/js/archive.js"></script>
+        <script src="assets/js/archives_applicants.js"></script>
         <?php
         if (isset($_GET['restored']) && $_GET['restored'] == 1) {
             echo "<div class='alert alert-success'>Announcement restored successfully!</div>";

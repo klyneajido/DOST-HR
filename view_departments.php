@@ -143,8 +143,6 @@ if (!empty($departments)) :
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
     <script src="assets/js/script.js"></script>
     <script>
         // Script to pass department_id to delete modal
