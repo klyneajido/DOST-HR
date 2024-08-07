@@ -15,12 +15,9 @@
 </head>
 
 <body class="scrollbar" id="style-5">
-    <?php include("logout_modal.php") ?>
-
-
+    <?php include("modal_logout.php") ?>
     <div class="main-wrapper">
         <?php include("navbar.php")?>
-
         <div class="page-wrapper">
             <div class="row">
                 <div class="col-md-9 mx-auto my-5">
@@ -45,7 +42,7 @@
                             </div>
                             <?php endif; ?>
                             <div class="container">
-                                <form method="POST" id="editJobForm" action="editJob.php?job_id=<?php echo $job_id; ?>"
+                                <form method="POST" id="editJobForm" action="edit_job.php?job_id=<?php echo $job_id; ?>"
                                     class="needs-validation" novalidate>
                                     <div class="row py-2">
                                         <div class="form-group col-md-6 ">
@@ -106,8 +103,8 @@
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="experience[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
-                                                    placeholder="Enter experience requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter experience requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button"
                                                     class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
                                                     onclick="<?php echo $index === 0 ? 'addField(\'experience\')' : 'removeField(this)'; ?>">
@@ -118,8 +115,8 @@
                                             <?php if (empty($requirements['experience'])) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="experience[]" class="form-control"
-                                                    placeholder="Enter experience requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter experience requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('experience')">+</button>
                                             </div>
@@ -134,8 +131,8 @@
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="training[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
-                                                    placeholder="Enter training requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter training requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button"
                                                     class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
                                                     onclick="<?php echo $index === 0 ? 'addField(\'training\')' : 'removeField(this)'; ?>">
@@ -146,8 +143,8 @@
                                             <?php if (empty($requirements['training'])) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="training[]" class="form-control"
-                                                    placeholder="Enter training requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter training requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('training')">+</button>
                                             </div>
@@ -162,8 +159,8 @@
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="eligibility[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
-                                                    placeholder="Enter eligibility requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter eligibility requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button"
                                                     class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
                                                     onclick="<?php echo $index === 0 ? 'addField(\'eligibility\')' : 'removeField(this)'; ?>">
@@ -174,15 +171,15 @@
                                             <?php if (empty($requirements['eligibility'])) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="eligibility[]" class="form-control"
-                                                    placeholder="Enter eligibility requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter eligibility requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('eligibility')">+</button>
                                             </div>
                                             <?php endif; ?>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="dutiesandresponsibilities">Duties and Responsibilities</label>
                                         <div id="dutiesandresponsibilities-container" class="d-flex flex-column">
@@ -218,8 +215,8 @@
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="competencies[]" class="form-control"
                                                     value="<?php echo htmlspecialchars($req); ?>"
-                                                    placeholder="Enter competencies requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter competencies requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button"
                                                     class="btn btn-outline-<?php echo $index === 0 ? 'secondary' : 'danger'; ?> ml-2"
                                                     onclick="<?php echo $index === 0 ? 'addField(\'competencies\')' : 'removeField(this)'; ?>">
@@ -230,8 +227,8 @@
                                             <?php if (empty($requirements['competencies'])) : ?>
                                             <div class="d-flex mb-2">
                                                 <input type="text" name="competencies[]" class="form-control"
-                                                    placeholder="Enter competencies requirement"
-                                                    autocomplete="off" required>
+                                                    placeholder="Enter competencies requirement" autocomplete="off"
+                                                    required>
                                                 <button type="button" class="btn btn-outline-secondary ml-2"
                                                     onclick="addField('competencies')">+</button>
                                             </div>
@@ -289,20 +286,19 @@
                                     <div class="d-flex justify-content-between mx-1">
                                         <button class="col-md-5 btn btn-primary" type="button" data-toggle="modal"
                                             data-target="#confirmModal">Update</button>
-                                        <a href="viewJob.php" class="col-md-5 btn btn-danger">Cancel</a>
+                                        <a href="job_details.php?job_id=<?php echo $job_id; ?>"
+                                            class="col-md-5 btn btn-danger">Cancel</a>
                                     </div>
+
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
-
+    <!-- MODAL Confirmation for Update -->
     <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -330,8 +326,7 @@
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="assets/plugins/select2/js/select2.min.js"></script>
     <script src="assets/js/script.js"></script>
-    <script src="assets/js/editJob.js"></script>
-
+    <script src="assets/js/edit_job.js"></script>
     <script>
     </script>
 </body>

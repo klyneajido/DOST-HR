@@ -41,7 +41,8 @@
                 <div class="breadcrumb-path mb-4 my-4">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a href="viewJob.php"><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
+                            <a href="view_jobs.php"><img src="assets/img/dash.png" class="mr-2"
+                                    alt="breadcrumb" />Jobs</a>
                         </li>
                         <li class="breadcrumb-item active">Details</li>
                     </ul>
@@ -52,7 +53,9 @@
                         <div class="col-lg-8 col-md-12 mb-4">
                             <div class="card h-100">
                                 <div class="card-header d-flex">
-                                    <h4 class="pt-2"><strong><?php echo htmlspecialchars($job['job_title'] ." ". $job['position_or_unit']); ?></strong></h4>
+                                    <h4 class="pt-2">
+                                        <strong><?php echo htmlspecialchars($job['job_title'] ." ". $job['position_or_unit']); ?></strong>
+                                    </h4>
                                 </div>
                                 <div class="card-body">
                                     <div class="col-md-12 mb-3">
@@ -98,6 +101,20 @@
                                                     <?php endif; ?>
                                                 </ul>
                                             </div>
+
+                                            <!-- Preferred competencies -->
+                                            <div class="mb-3">
+                                                <h6><strong>Preferred Competencies</strong></h6>
+                                                <ul>
+                                                    <?php if (isset($requirements['competencies'])): ?>
+                                                    <?php foreach ($requirements['competencies'] as $requirement): ?>
+                                                    <li><?php echo htmlspecialchars($requirement); ?></li>
+                                                    <?php endforeach; ?>
+                                                    <?php else: ?>
+                                                    <li>No Preferred Competency listed.</li>
+                                                    <?php endif; ?>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +124,10 @@
                             <div class="card h-100">
                                 <div class="card-header d-flex border-0">
                                     <div class="col-md-12">
-                                        <a href="editJob.php?job_id=<?php echo $job['job_id']; ?>" class="col-md-12 btn btn-primary py-3">Edit</a>
+                                        <a href="edit_job.php?job_id=<?php echo $job['job_id']; ?>"
+                                            class="col-md-12 btn btn-primary py-3">
+                                            <h5 class="text-light font-weight-light">Edit</h5>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="card-body pl-2">
@@ -120,21 +140,24 @@
                                         <p><?php echo nl2br(htmlspecialchars($job['place_of_assignment'])); ?></p>
                                     </div>
                                     <div class="pl-4 mb-2">
+                                    <h6><strong>Salary</strong></h6>
                                         <?php if ("COS" == ($job['status'])) : ?>
                                         <div class="mb-2">
-                                            <h6><strong>Daily Salary</strong></h6>
-                                            <p>₱<?php echo number_format($job['salary'], 2); ?></p>
+                                            <p>₱<?php echo number_format($job['salary'], 2); ?>/day</p>
                                         </div>
                                         <?php else : ?>
                                         <div class="mb-2">
-                                            <h6><strong>Monthly Salary</strong></h6>
-                                            <p>₱<?php echo number_format($job['salary'], 2); ?></p>
+                                            <p>₱<?php echo number_format($job['salary'], 2); ?>/month</p>
                                         </div>
                                         <?php endif; ?>
                                     </div>
                                     <div class="pl-4 mb-3">
                                         <h6><strong>Status</strong></h6>
-                                        <p><?php echo htmlspecialchars($job['status']); ?></p>
+                                        <?php if ("COS" == ($job['status'])) : ?>
+                                        <p>Contract of Service (COS)</p>
+                                        <?php else : ?>
+                                            <p>Permanent</p>
+                                        <?php endif; ?>
                                     </div>
                                     <div class="pl-4 mb-2">
                                         <h6><strong>Created</strong></h6>

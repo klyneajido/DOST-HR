@@ -22,14 +22,14 @@ if ($result_user->num_rows > 0) {
     $user = $result_user->fetch_assoc();
     $user_id = $user['admin_id'];
 } else {
-    header('Location: viewJob.php?error=User not found.');
+    header('Location: view_jobs.php?error=User not found.');
     exit();
 }
 
 $job_id = isset($_GET['job_id']) ? (int)$_GET['job_id'] : 0;
 
 if ($job_id === 0) {
-    header('Location: viewJob.php');
+    header('Location: view_jobs.php');
     exit();
 }
 
@@ -47,9 +47,10 @@ $result_job = $stmt_job->get_result();
 if ($result_job->num_rows === 1) {
     $job = $result_job->fetch_assoc();
 } else {
-    header('Location: viewJob.php?error=Job not found.');
+    header('Location: view_jobs.php?error=Job not found.');
     exit();
 }
+
 // Get departments for the dropdown
 $sql = "SELECT department_id, name FROM department";
 $result = $mysqli->query($sql);
@@ -220,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $history_stmt->close();
 
             $success = "Job updated successfully with requirements.";
-            header('Location: viewJob.php');
+            header('Location: job_details.php?job_id=' . $job_id);
             exit();
         } else {
             $errors['database'] = "Error updating job: " . $stmt->error;
@@ -231,3 +232,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $mysqli->close();
+?>

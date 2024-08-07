@@ -342,31 +342,31 @@
 
                                 <?php
                                 $start = max(1, $page - 1);
-$end = min($total_pages, $page + 1);
+                                $end = min($total_pages, $page + 1);
 
-if ($start > 1) {
-    echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">1</a></li>';
-    if ($start > 2) {
-        echo '<li class="page-item"><span class="page-link">...</span></li>';
-    }
-}
+                                if ($start > 1) {
+                                    echo '<li class="page-item"><a class="page-link" href="?applicants_page=1&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">1</a></li>';
+                                    if ($start > 2) {
+                                        echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                    }
+                                }
 
-for ($i = $start; $i <= $end; $i++) : ?>
-                                <li class="page-item <?php if ($page == $i) {
-                                    echo 'active';
-                                } ?>">
-                                    <a class="page-link"
-                                        href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"><?php echo $i; ?></a>
-                                </li>
-                                <?php endfor;
+                                    for ($i = $start; $i <= $end; $i++) : ?>
+                                                                    <li class="page-item <?php if ($page == $i) {
+                                                                        echo 'active';
+                                                                    } ?>">
+                                                                        <a class="page-link"
+                                                                            href="?applicants_page=<?php echo $i; ?>&rows_per_page=<?php echo $rows_per_page; ?>&search=<?php echo urlencode($search_query); ?>&job_title=<?php echo urlencode($job_title_filter); ?>&position=<?php echo urlencode($position_filter); ?>&status=<?php echo urlencode($status_filter); ?>"><?php echo $i; ?></a>
+                                                                    </li>
+                                                                    <?php endfor;
 
-if ($end < $total_pages) {
-    if ($end < $total_pages - 1) {
-        echo '<li class="page-item"><span class="page-link">...</span></li>';
-    }
-    echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">' . $total_pages . '</a></li>';
-}
-?>
+                                    if ($end < $total_pages) {
+                                        if ($end < $total_pages - 1) {
+                                            echo '<li class="page-item"><span class="page-link">...</span></li>';
+                                        }
+                                        echo '<li class="page-item"><a class="page-link" href="?applicants_page=' . $total_pages . '&rows_per_page=' . $rows_per_page . '&search=' . urlencode($search_query) . '&job_title=' . urlencode($job_title_filter) . '&position=' . urlencode($position_filter) . '&status=' . urlencode($status_filter) . '">' . $total_pages . '</a></li>';
+                                    }
+                                    ?>
 
                                 <li class="page-item <?php if ($page >= $total_pages) {
                                     echo 'disabled';
@@ -418,9 +418,7 @@ if ($end < $total_pages) {
                 </div>
             </div>
         </div>
-
 </body>
-
 <script src="assets/js/date.js"></script>
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 <script src="assets/js/applicant.js"></script>

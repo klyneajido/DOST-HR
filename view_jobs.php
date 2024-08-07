@@ -17,7 +17,6 @@
 
 <body class="scrollbar" id="style-5">
     <?php include("modal_logout.php") ?>
-
     <div class="main-wrapper">
         <?php include("navbar.php") ?>
         <div class="page-wrapper">
@@ -27,7 +26,7 @@
                         <li class="breadcrumb-item">
                             <a href=""><img src="assets/img/dash.png" class="mr-2" alt="breadcrumb" />Jobs</a>
                         </li>
-                        <li class="breadcrumb-item active">Position</li>
+                        <li class="breadcrumb-item active">List</li>
                     </ul>
 
                     <!-- Status Dropdown -->
@@ -95,7 +94,7 @@
                                                 data-target="#confirmArchiveModal"
                                                 data-job-id="<?php echo $job['job_id']; ?>">Archive</a>
                                             <a class="dropdown-item"
-                                                href="job_details.php?job_id=<?php echo $job['job_id']; ?>">Edit</a>
+                                                href="job_details.php?job_id=<?php echo $job['job_id']; ?>">View</a>
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +228,6 @@ if ($end < $total_pages) {
         </div>
     </div>
 </div>
-
     <script src="assets/js/date.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
