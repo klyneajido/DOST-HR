@@ -10,6 +10,8 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
+$user_name = $_SESSION['username'];  // Get username from session
+
 // Initialize error message variable
 $errorMsg = '';
 
@@ -28,6 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($stmt->execute()) {
                 // File uploaded successfully
+
+                // Record action in the history table
+                $history_stmt = $mysqli->prepare("
+                    INSERT INTO history (action, details, user_id, date) 
+                    VALUES (?, ?, (SELECT admin_id FROM admins WHERE username = ?), NOW())
+                ");
+                $action = "Uploaded Document";
+                $details = "Document Name: $fileName";
+                $history_stmt->bind_param("sss", $action, $details, $user_name);
+                $history_stmt->execute();
+                $history_stmt->close();
+
                 header('Location: ../view_transparency.php?upload_status=success');
                 exit();
             } else {
@@ -46,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Invalid request method
     $errorMsg = 'Invalid request method.';
 }
-
-// Redirect back to transparency.php with error message as query parameter
+// Redirect back to view_transparency.php with error message as query parameter
 header('Location: ../view_transparency.php?upload_status=failed&error=' . urlencode($errorMsg));
 exit();
+?>
