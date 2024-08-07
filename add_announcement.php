@@ -7,16 +7,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
     <title>DOST-HRMO</title>
-
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="assets/plugins/select2/css/select2.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css" />
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="assets/css/jobs.css" />
-
 </head>
-
 <body class="scrollbar" id="style-5">
     <?php include("modal_logout.php")?>
     <div class="main-wrapper">
@@ -46,7 +43,6 @@
                             <!-- START FORM -->
                             <form method="POST" action="add_announcement.php" enctype="multipart/form-data"
                                 class="needs-validation" novalidate>
-
                                 <div class="row mb-4">
                                     <div class="form-group col-md-12 ">
                                         <label for="title">Title</label>
@@ -54,7 +50,6 @@
                                             autocomplete="off" required>
                                         <div class="invalid-feedback">Required</div>
                                     </div>
-
                                     <div class="form-group col-md-12 py-1">
                                         <label for="description">Description</label>
                                         <textarea name="description" id="description" class="form-control" rows="5"
@@ -99,8 +94,7 @@
         <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
         <script src="assets/plugins/select2/js/select2.min.js"></script>
         <script src="assets/js/script.js"></script>
-        <script src="assets/js/addAnnouncement.js"></script>
-
+        <script src="assets/js/add_announcement.js"></script>
 </body>
 
 </html>

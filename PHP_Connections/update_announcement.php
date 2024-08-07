@@ -14,7 +14,7 @@ $profile_image_path = isset($_SESSION['profile_image']) ? $_SESSION['profile_ima
 $announcement_id = isset($_GET['announcement_id']) ? (int)$_GET['announcement_id'] : 0;
 
 if ($announcement_id === 0) {
-    header('Location: view_view_announcements.php');
+    header('Location: view_announcements.php');
     exit();
 }
 

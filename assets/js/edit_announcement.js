@@ -20,3 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize character count on page load
     descriptionCount.textContent = descriptionTextarea.value.length;
 });
+
+$(document).ready(function() {
+    $('#confirmUpdate').click(function() {
+        $('#announcementForm').submit();
+    });
+});
