@@ -108,7 +108,7 @@ if (isset($_GET['id'])) {
                     if ($stmt_req_delete->execute()) {
                         // Commit transaction
                         $mysqli->commit();
-                        header('Location: ../archive.php?tab=jobs&msg=restored');
+                        header('Location: ../view_archives_jobs.php?tab=jobs&msg=restored');
                         exit();
                     } else {
                         throw new Exception("Error deleting archived job requirements: " . $stmt_req_delete->error);
@@ -126,11 +126,11 @@ if (isset($_GET['id'])) {
         // Rollback transaction if any error occurs
         $mysqli->rollback();
         $_SESSION['error'] = $e->getMessage();
-        header('Location: ../archive.php?tab=jobs&msg=error');
+        header('Location: ../view_archives_jobs.php?tab=jobs&msg=error');
         exit();
     }
 } else {
     $_SESSION['error'] = "ID parameter is missing.";
-    header('Location: ../archive.php?tab=jobs&msg=error');
+    header('Location: ../view_archives_jobs.php?tab=jobs&msg=error');
     exit();
 }

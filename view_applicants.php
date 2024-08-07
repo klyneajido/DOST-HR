@@ -6,15 +6,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
     <title>HRMO Admin</title>
-
     <link rel="shortcut icon" href="assets/img/dost_logo.png">
-
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/applicant.css">
     <script src="https://kit.fontawesome.com/0dcd39d035.js" crossorigin="anonymous"></script>
-
 </head>
 <body class="scrollbar" id="style-5">
     <?php include("modal_logout.php")?>

@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(event) {
             event.preventDefault();
             var jobId = this.getAttribute('data-id');
-            confirmRestoreLink.setAttribute('href', 'PHP_Connections/restoreJob.php?id=' + jobId);
+            confirmRestoreLink.setAttribute('href', 'PHP_Connections/restore_job.php?id=' + jobId);
             restoreJobModal.show();
         });
     });
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(event) {
             event.preventDefault();
             var announcementId = this.getAttribute('data-id');
-            confirmAnnouncementRestoreLink.setAttribute('href', 'PHP_Connections/restoreAnnouncement.php?id=' + announcementId);
+            confirmAnnouncementRestoreLink.setAttribute('href', 'PHP_Connections/restore_announcement.php?id=' + announcementId);
             restoreAnnouncementModal.show();
         });
     });
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const password = document.getElementById('adminPassword').value;
 
-        fetch('PHP_Connections/deleteJob.php', {
+        fetch('PHP_Connections/delete_job.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const adminPassword = document.getElementById('adminPasswordAnnouncement').value;
 
-        fetch('PHP_Connections/deleteAnnouncement.php', {
+        fetch('PHP_Connections/delete_announcement.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         const adminPassword = document.getElementById('adminPasswordApplicant').value;
 
-        fetch('PHP_Connections/deleteApplicant.php', {
+        fetch('PHP_Connections/delete_applicant.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
