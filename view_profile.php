@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <?php include("modal_logout.php")?>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
@@ -13,7 +12,6 @@
     <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="assets/css/profile.css">
 </head>
-
 <body>
     <div class="main-wrapper">
         <?php include("navbar.php")?>
@@ -87,57 +85,34 @@
         </div>
     </div>
 
-    <!-- Confirmation Modal -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Update</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to update your profile?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="update-btn-2" id="confirmUpdate">Yes, Update</button>
-                    <button type="button" class="cancel-btn" data-dismiss="modal">Cancel</button>
-                </div>
+   <!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmationModalLabel">Confirm Update</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to update your profile?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="update-btn-2" id="confirmUpdate">Update</button>
+                <button type="button" class="cancel-btn" data-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="successModalLabel">Success</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Your profile has been updated successfully.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="update-btn-2" data-dismiss="modal">OK</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/feather.min.js"></script>
     <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="assets/plugins/apexchart/apexcharts.min.js"></script>
-    <script src="assets/plugins/apexchart/chart-data.js"></script>
-    <script src="assets/js/profile.js"></script>
     <script src="assets/js/script.js"></script>
+    <script src="assets/js/profile.js"></script>
 </body>
 
 </html>

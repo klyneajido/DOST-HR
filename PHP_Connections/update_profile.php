@@ -1,13 +1,12 @@
 <?php
-
 // Start session
 session_start();
-include_once 'PHP_Connections/db_connection.php';
+include_once 'db_connection.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['username'])) {
     // Redirect to login page if not logged in
-    header('Location: login.php');
+    header('Location: ../login.php');
     exit();
 }
 
@@ -27,7 +26,7 @@ $result = $stmt->get_result();
 if ($result->num_rows == 1) {
     $admin = $result->fetch_assoc();
 } else {
-    echo "User not found.";
+    echo json_encode(['success' => false, 'error' => 'User not found.']);
     exit();
 }
 
@@ -49,8 +48,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['name'] = $name;
         $_SESSION['email'] = $email;
         $_SESSION['profile_image'] = $profile_image;
-        echo "<script>window.addEventListener('load', function() { $('#successModal').modal('show'); });</script>";
+        echo json_encode(['success' => true]);
     } else {
-        echo "Error updating profile.";
+        echo json_encode(['success' => false, 'error' => 'Error updating profile.']);
     }
 }
+?>

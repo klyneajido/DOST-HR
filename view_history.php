@@ -102,7 +102,7 @@ include_once 'PHP_Connections/fetch_history.php';?>
                             <a href="view_history.php"><img src="assets/img/dash.png" class="mr-2"
                                     alt="breadcrumb" />History</a>
                         </li>
-                        <li class="breadcrumb-item active"></li>
+                        <li class="breadcrumb-item active">Recent Activities</li>
                     </ul>
 
                 </div>
